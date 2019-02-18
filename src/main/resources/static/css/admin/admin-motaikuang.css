@@ -1,0 +1,31 @@
+
+/*模态框 css*/
+ .hide{
+    display:none;
+}
+.myModal{
+    position:fixed;
+    padding-top: 10px;
+    left:50%;
+    top:50%;
+    width:400px;
+    min-height: 80px;
+    margin-left:-200px;
+    margin-top:-250px;
+    z-index:10;
+    background-color:white;
+    border-radius:15px;
+}
+.shade{
+    position:fixed;
+    left:0;
+    right:0;
+    top:0;
+    bottom:0;
+    opacity:0.6;
+    background-color:black;
+    z-index:9;
+}
+.p{
+	padding-left: 100px;
+}

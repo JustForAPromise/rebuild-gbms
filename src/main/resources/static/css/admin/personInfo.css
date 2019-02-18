@@ -1,0 +1,26 @@
+.search{
+	background-color:black;
+	padding-top: 5px;
+	padding-left: 30px;
+	min-width: 500px;
+	min-height: 30px;
+	color: white
+}
+
+.data input[type=submit]{
+	border-radius: 5px;
+}
+.data{
+	padding-top: 30px;
+	margin-top: 10px;
+}
+.data table{
+	min-width: 750px;
+	margin-left: 100px;
+	align-content: center;
+	cellpadding:0;
+}
+.data table tbody tr{ text-align: center; 	height:30px;}
+.data table tbody tr:nth-of-type(odd){ background:#EEE9E9 ;}/**奇数行**/ 
+.data table tbody tr:nth-of-type(even){ background:#F8F8FF ;}/**偶数行**/
+

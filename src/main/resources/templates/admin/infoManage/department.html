@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>系别信息管理</title>
+
+    <link rel="stylesheet" type="text/css" href="/css/admin/admin-motaikuang.css">
+    <link rel="stylesheet" type="text/css" href="/css/admin/admin-info-department.css">
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="/css/swiper.min.css">
+
+    <script type="text/javascript" src="/js/jquery.js"></script>
+    <script type="text/javascript" src="/js/bootstrap.js"></script>
+</head>
+<body>
+<div class="body">
+    <div class="function">
+        <div>
+            <!-- 搜索功能 -->
+            <label>系名：</label>
+            <input type="text" name="" class="selectWord">
+            <input type="button" name="" value="搜索">
+
+            <!-- 添加系别功能 -->
+            <input type="button" value="添加">
+        </div>
+        <!-- 模态框开始 -->
+        <div class="myModal hide">
+            <p class="p" style="display: none">id：<input type="text"></p>
+            <p class="p">系名：<input type="text"></p>
+            <p class="p"><input type="button" value="确定">&nbsp<input type="button" value="取消"></p>
+        </div>
+        <div class="shade hide"></div>
+        <!-- 模态框结束 -->
+    </div>
+    <!-- 展示内容 -->
+    <div class="data">
+        <table>
+            <thead>
+            <tr>
+                <th width="50px">编号</th>
+                <th width="130px">系名</th>
+                <th width="80px"></th>
+            </tr>
+            </thead>
+            <tbody id="dataList">
+            </tbody>
+        </table>
+    </div>
+</div>
+<!-- 内容展示结束 -->
+
+<!-- 内容按钮功能 -->
+<!-- jq代码 -->
+<script>
+    //ajax 获取所有系别信息
+    function getDepartmentList() {
+        $.ajax({
+            url: '/department/list',
+            type: 'GET',
+            dataType: 'json',
+            success: function (data) {
+                var dataList = $("#dataList");
+                dataList.html("");
+                var head = "<tr><td>";
+                var index = "</td> <td style='display: none'>";
+                var id = "</td><td>";
+                var end = "</td> <td><input type='button' value='编辑'><input type='button' value='删除'>" +
+                    "<input type='button' value='专业浏览'> </td> </tr>"
+
+                for (i = 0; i < data.data.length ; i++){
+                    var str = head +(i +1)+ index + data.data[i].id + id + data.data[i].department + end;
+                    dataList.append(str)
+                }
+            }
+        });
+    }
+    var getList = getDepartmentList();
+
+    $(document).ready(function () {
+
+        //添加按钮 显示模态框
+        $('input[value="添加"]').click(function () {
+            $('.hide').removeClass('hide');
+        })
+
+        //搜索按钮
+        $('.function input[value="搜索"]').click(function () {
+            var departmentName = $('.selectWord').val();
+            select(departmentName)
+        })
+
+        //确定按钮 添加ajax
+        $('input[value="确定"]').click(function () {
+            var text = $('.myModal input[type="text"]')
+            //信息获取
+            var id = $(text[0]).val();
+            var departmentName = $(text[1]).val();
+
+            //界面处理
+            $(text[0]).val("");
+            $(text[1]).val("");
+            $('.myModal,.shade').addClass('hide');
+
+            if (id == null || id == ""){
+                add(departmentName)
+            }else{
+                update(id, departmentName)
+            }
+        })
+
+        //取消按钮
+        $('input[value="取消"]').click(function () {
+            $('input[type="text"]').val('');
+            $('.myModal,.shade').addClass('hide');
+        })
+
+        //编辑按钮
+        $('input[value="编辑"]').click(function () {
+            $('.hide').removeClass('hide');
+            var tds = $(this).parent().prevAll();
+            //jquery对象加上索引是dom对象
+            $($('.myModal input')[0]).val($(tds[1]).text());
+        })
+
+        //删除按钮
+        $('input[value="删除"]').click(function () {
+        })
+    });
+
+    function add(departmentName) {
+        $.ajax({
+            url: '/department/add',
+            type: 'POST',
+            data : {
+                departmentName : departmentName
+            },
+            dataType: 'json',
+            success: function (data) {
+                if (data.code == -1){
+                    alert(data.msg)
+                } else {
+                    getDepartmentList();
+                    alert(data.msg)
+                }
+            }
+        });
+    }
+
+    function update(id, departmentName) {
+        $.ajax({
+            url: '/department/update',
+            type: 'POST',
+            data : {
+                id : id,
+                departmentName : departmentName
+            },
+            dataType: 'json',
+            success: function (data) {
+                if (data.code == -1){
+                    alert(data.msg)
+                } else {
+                    getDepartmentList();
+                    alert(data.msg)
+                }
+            }
+        });
+    }
+
+    function select(departmentName) {
+        $.ajax({
+            url: '/department/findByName',
+            type: 'GET',
+            data : {
+                departmentName : departmentName
+            },
+            dataType: 'json',
+            success: function (data) {
+                var dataList = $("#dataList");
+                dataList.html("");
+
+                var head = "<tr> <td>";
+                var index = "</td> <td style='display: none'>";
+                var id = "</td><td>";
+                var end = "</td> <td><input type='button' value='编辑'><input type='button' value='删除'>" +
+                    "<input type='button' value='专业浏览'> </td> </tr>"
+
+                for (i = 0; i < data.data.length ; i++){
+                    var str = head +(i +1)+ index + data.data[i].id + id + data.data[i].department + end;
+                    dataList.append(str)
+                }
+            }
+        });
+    }
+</script>
+</body>
+</html>

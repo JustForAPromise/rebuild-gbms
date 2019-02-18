@@ -1,0 +1,19 @@
+.nav-list > li{
+	float: left;
+	height: 20px;
+	width: 30px;
+	list-style: none;
+	background-color: green;
+	margin-right: 5px;
+}
+
+.second-list{
+	display: none;
+	clear: both;
+	list-style: none;
+	padding: 0;
+	width: 30px;
+	height:60px;
+	margin-top: 25px;
+	background-color: red;
+}

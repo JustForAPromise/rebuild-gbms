@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>专业信息管理</title>
+
+	<link rel="stylesheet" type="text/css" href="/css/admin/admin-power-major.css">
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="/css/swiper.min.css">
+
+    <script type="text/javascript" src="/js/jquery.js"></script>
+    <script type="text/javascript" src="/js/bootstrap.js"></script>
+    <script type="text/javascript" src="/js/swiper.jquery.min.js"></script>
+</head>
+<body>
+	<div class="body">
+ 		<div class="function">
+			<!-- 按钮触发模态框 -->
+			<button class="btn btn-primary btn-xs" data-toggle="modal" data-target="#myModal">
+				<a>添加专业</a>
+			</button>
+			<!-- 模态框（Modal） -->
+			<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal" 
+									aria-hidden="true">×
+							</button>
+							<h4 class="modal-title" id="myModalLabel">
+								信息添加
+							</h4>
+						</div>
+						<div class="modal-body">
+							<div class="form-div">
+								<table>
+									<tr>
+										<td>专业名称：</td>
+										<td><input type="text" name=""></td>
+									</tr>
+									<tr>
+										<td>简介：</td>
+										<td><textarea></textarea></td>
+									</tr>
+									<tr>
+										<td></td>
+										<td></td>
+									</tr>
+								</table>
+							</div>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-default" 
+									data-dismiss="modal">关闭
+							</button>
+							<button type="button" class="btn btn-primary">
+								提交
+							</button>
+						</div>
+					</div><!-- /.modal-content -->
+				</div><!-- /.modal-dialog -->
+			</div><!-- /.modal -->
+		</div>
+		<div class="data">
+			<table>
+				<thead>
+					<tr>
+						<th width="50px">编号</th>
+						<th width="150px">专业</th>
+						<th style="min-width: 130px; max-width: 250px">简介</th>
+						<th style="min-width: 130px; max-width: 250px"></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<form action="">
+							<td>1</td>
+							<td>1</td>
+							<td>1</td>
+							<td><input type="button" value="详细"><input type="button" value="修改"><input type="button" value="删除"></td>
+						</form>
+					</tr>
+					<tr>
+						<form action="">
+							<td>1</td>
+							<td>1</td>
+							<td>1</td>
+							<td><input type="button" value="详细"><input type="button" value="修改"><input type="button" value="删除"></td>
+						</form>
+					</tr>
+				</tbody>
+				<tfoot>
+					<tr>
+						<td>1</td>
+						<td>1</td>
+						<td>1</td>
+						<td>1</td>
+					</tr>
+				</tfoot>
+			</table>
+		</div>	
+	</div>
+</body>
+</html>

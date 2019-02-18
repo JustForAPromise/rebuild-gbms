@@ -1,0 +1,41 @@
+/*功能区 css*/
+.function{
+	padding-top: 10px;
+	min-width: 500px;
+	min-height: 20px;
+	align-content: left;
+	padding-left: 200px;
+}
+.function div input[type=text]{
+	margin-right:15px;
+	border-radius: 4px;
+	border-style: 1px white outset;
+}
+
+/* 内容 css*/
+.form-div{
+	width: 900%;
+	padding-left:100px;
+}
+.data{
+	margin-top: 10px;
+}
+.data table{
+	min-width: 750px;
+	margin-left: 100px;
+	align-content: center;
+}
+.data table thead tr th{
+	text-align: center;
+}
+.data table tbody tr{ text-align: center; 	height:30px;}
+.data table tbody tr:nth-of-type(odd){ background:#EEE9E9 ;} /*奇数行*/ 
+.data table tbody tr:nth-of-type(even){ background:#FCFCFC ;}/*偶数行*/
+
+.data tbody tr input[type=submit]{
+	border-radius: 7px;
+}
+.form-div table tr:first-of-type input{
+	height:90%;
+	margin-bottom: 2px;
+}

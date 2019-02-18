@@ -1,0 +1,34 @@
+/* CSS Document */
+
+*{
+	color:rgb(0, 102, 102);	
+}
+b{
+	font-size:medium;
+	}
+.loginDiv{
+	width: 250px;
+    margin: 100px auto auto auto;
+	}
+.loginDiv table{
+	width:100%;
+}
+.loginDiv table tr:first-child *{
+	text-align:center;
+	}
+.loginDiv table tr:nth-child(n+2),:nth-child(-n+4) td:first-child{
+	text-align:right;
+	padding-right:5px;
+	}
+.loginDiv table tr:nth-child(n+2),:nth-child(-n+4) td:nth-child(2){
+	text-align:left;
+	padding-left:10px;
+	}
+.loginDiv table input, select{
+	border:#CCC 1px inset;
+	border-radius:5px;
+	}
+.loginDiv table tr:last-child td{
+	text-align:center;
+	padding-top:5px;
+	}
