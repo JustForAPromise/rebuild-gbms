@@ -51,7 +51,6 @@
 </div>
 <!-- 内容展示结束 -->
 
-<!-- 内容按钮功能 -->
 <!-- jq代码 -->
 <script>
     //ajax 获取所有系别信息
@@ -79,7 +78,6 @@
     var getList = getDepartmentList();
 
     $(document).ready(function () {
-
         //添加按钮 显示模态框
         $('input[value="添加"]').click(function () {
             $('.hide').removeClass('hide');
@@ -103,9 +101,9 @@
             $(text[1]).val("");
             $('.myModal,.shade').addClass('hide');
 
-            if (id == null || id == ""){
+            if (id == null || id == "") {
                 add(departmentName)
-            }else{
+            } else {
                 update(id, departmentName)
             }
         })
@@ -117,32 +115,60 @@
         })
 
         //编辑按钮
-        $('input[value="编辑"]').click(function () {
+        $(".data").on("click", "input[value='编辑']", function () {
             $('.hide').removeClass('hide');
             var tds = $(this).parent().prevAll();
             //jquery对象加上索引是dom对象
             $($('.myModal input')[0]).val($(tds[1]).text());
+            $($('.myModal input')[1]).val($(tds[0]).text());
         })
 
         //删除按钮
-        $('input[value="删除"]').click(function () {
+        $(".data").on("click", "input[value='删除']", function () {
+            var tds = $(this).parent().prevAll();
+            //jquery对象加上索引是dom对象
+            var id = $(tds[1]).text()
+            deleteById(id);
+        })
+
+        //专业浏览按钮
+        $(".data").on("click", "input[value='专业浏览']", function () {
+            var tds = $(this).parent().prevAll();
+            window.location.href="/major/initPage?departmentId="+$(tds[1]).text();
         })
     });
+
+    function deleteById(id) {
+        $.ajax({
+            url: '/department/deleteById',
+            type: 'DELETE',
+            data: {
+                id: id
+            },
+            dataType: 'json',
+            success: function (data) {
+                if (data.code == -1) {
+                    alert(data.msg)
+                } else {
+                    getDepartmentList();
+                }
+            }
+        });
+    }
 
     function add(departmentName) {
         $.ajax({
             url: '/department/add',
             type: 'POST',
-            data : {
-                departmentName : departmentName
+            data: {
+                departmentName: departmentName
             },
             dataType: 'json',
             success: function (data) {
-                if (data.code == -1){
+                if (data.code == -1) {
                     alert(data.msg)
                 } else {
                     getDepartmentList();
-                    alert(data.msg)
                 }
             }
         });
@@ -152,13 +178,13 @@
         $.ajax({
             url: '/department/update',
             type: 'POST',
-            data : {
-                id : id,
-                departmentName : departmentName
+            data: {
+                id: id,
+                departmentName: departmentName
             },
             dataType: 'json',
             success: function (data) {
-                if (data.code == -1){
+                if (data.code == -1) {
                     alert(data.msg)
                 } else {
                     getDepartmentList();
@@ -172,8 +198,8 @@
         $.ajax({
             url: '/department/findByName',
             type: 'GET',
-            data : {
-                departmentName : departmentName
+            data: {
+                departmentName: departmentName
             },
             dataType: 'json',
             success: function (data) {
@@ -186,8 +212,8 @@
                 var end = "</td> <td><input type='button' value='编辑'><input type='button' value='删除'>" +
                     "<input type='button' value='专业浏览'> </td> </tr>"
 
-                for (i = 0; i < data.data.length ; i++){
-                    var str = head +(i +1)+ index + data.data[i].id + id + data.data[i].department + end;
+                for (i = 0; i < data.data.length; i++) {
+                    var str = head + (i + 1) + index + data.data[i].id + id + data.data[i].department + end;
                     dataList.append(str)
                 }
             }

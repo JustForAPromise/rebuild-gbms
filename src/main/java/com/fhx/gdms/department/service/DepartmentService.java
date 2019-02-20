@@ -59,4 +59,10 @@ public interface DepartmentService {
      * @return
      */
     DepartmentModel findOneByName(DepartmentModel model);
+
+    /**
+     * 删除
+     * @param id
+     */
+    void deleteById(Integer id);
 }

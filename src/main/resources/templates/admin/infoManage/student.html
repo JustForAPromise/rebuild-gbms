@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8">
-	<title>学生信息管理</title>
+    <meta charset="UTF-8">
+    <title>学生信息管理</title>
 
     <link rel="stylesheet" type="text/css" href="/css/admin/admin-info-student.css">
+    <link rel="stylesheet" type="text/css" href="/css/admin/admin-motaikuang.css">
     <link rel="stylesheet" type="text/css" href="/css/bootstrap-theme.min.css">
     <link rel="stylesheet" type="text/css" href="/css/bootstrap.css">
     <link rel="stylesheet" type="text/css" href="/css/swiper.min.css">
@@ -14,129 +15,130 @@
     <script type="text/javascript" src="/js/swiper.jquery.min.js"></script>
 </head>
 <body>
-	<div class="body">
-		<div class="function">
-			<!-- 按钮触发模态框 -->
-			<button class="btn btn-primary btn-xs" data-toggle="modal" data-target="#myModal">
-				<a>添加</a>
-			</button>
-			<button class="btn btn-primary btn-xs">
-				<a>批量导入</a>
-			</button>
-			<button class="btn btn-primary btn-xs">
-				<a>Excel模板导出</a>
-			</button>
-			<!-- 模态框（Modal） -->
-			<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-				<div class="modal-dialog">
-					<div class="modal-content">
-						<div class="modal-header">
-							<button type="button" class="close" data-dismiss="modal" 
-									aria-hidden="true">×
-							</button>
-							<h4 class="modal-title" id="myModalLabel">
-								学生信息添加
-							</h4>
-						</div>
-						<div class="modal-body">
-							<div class="form-div">
-								<label>学号：</label><input type="text" name=""><br>
-								<label>姓名：</label><input type="text" name=""><br>
-								<label>性别：</label>
-								<select>
-									<option>男</option>
-									<option>女</option>
-								</select><br>
-								<label>系别：</label>
-								<select>
-									<option></option>
-									<option></option>
-									<option></option>
-								</select>
-								<br>
-								<label>专业：</label>
-								<select>
-									<option></option>
-									<option></option>
-									<option></option>
-								</select><br>
-							</div>
-						</div>
-						<div class="modal-footer">
-							<button type="button" class="btn btn-default" 
-									data-dismiss="modal">关闭
-							</button>
-							<button type="button" class="btn btn-primary">
-								提交
-							</button>
-						</div>
-					</div><!-- /.modal-content -->
-				</div><!-- /.modal-dialog -->
-			</div><!-- /.modal -->
+<div class="body">
+    <div class="function">
 
-		</div>
-		<div class="search">
-			<form>
-				<label>系别：</label>
-				<select>
-					<option>计算机系</option>
-					<option>软件系</option>
-				</select>
+        <button class="btn btn-primary btn-xs">
+            <a>批量导入</a>
+        </button>
+        <button class="btn btn-primary btn-xs">
+            <a>Excel模板导出</a>
+        </button>
 
-				<label>专业：</label>
-				<select>
-					<option>计算机科学与技术</option>
-					<option>物联网</option>
-				</select>
-				<br>
-				<input type="text" name="" placeholder="学号">
-				<input type="text" name="" placeholder="姓名">
-				<input type="button" name="" value="search" onclick="show()">
-			</form>	
-		</div>
-		<div class="data">
-			<table>
-				<thead>
-					<tr>
-						<th width="50px">编号</th>
-						<th width="130px">学号</th>
-						<th width="130px">姓名</th>
-						<th width="130px">系别</th>
-						<th width="130px">专业</th>
-						<th width="130px">联系电话</th>
-						<th width="150px"></th>
-					</tr>
-				</thead>
-				<tbody style="display: none">
-					<tr>
-						<td>1</td>
-						<td>1540406137</td>
-						<td>范韩习</td>
-						<td>计算机系</td>
-						<td>计算机科学与技术</td>
-						<td>13414105154</td>
-						<td><input type="button" name="" value="查看详情"></td>
-					</tr>
-				</tbody>
-				<tfoot>
-					<tr>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-					</tr>
-				</tfoot>
-			</table>
-		</div>	
-	</div>
-	<script type="text/javascript">
-		function show(){
-			$(".data table tbody").css('display','')
-		}
-	</script>
+        <!-- 添加专业功能 -->
+        <input type="button" value="添加">
+        <!-- 模态框开始 -->
+        <div class="myModal hide">
+            <h4 style="text-align: center;">学生信息添加</h4>
+            <p class="p"><label>学号：</label><input type="text" name=""></p>
+            <p class="p"><label>姓名：</label><input type="text" name=""></p>
+            <p class="p">
+                <label>性别：</label>
+                <select>
+                    <option>男</option>
+                    <option>女</option>
+                </select>
+            </p>
+            <p class="p">
+                <label>系别：</label>
+                <select class="department">
+                    <option></option>
+                    <option></option>
+                    <option></option>
+                </select>
+            </p>
+            <p class="p">
+                <label>专业：</label>
+                <select class="major">
+                    <option></option>
+                    <option></option>
+                    <option></option>
+                </select>
+            </p>
+            <p class="p"><input type="button" value="确定">&nbsp<input type="button" value="取消"></p>
+        </div>
+        <div class="shade hide"></div>
+        <!-- 模态框结束 -->
+    </div>
+    <div class="search">
+        <form>
+            <label>系别：</label>
+            <select class="department">
+                <option>计算机系</option>
+                <option>软件系</option>
+            </select>
+
+            <label>专业：</label>
+            <select class="major">
+                <option>计算机科学与技术</option>
+                <option>物联网</option>
+            </select>
+            <br>
+            <input type="text" name="" placeholder="学号">
+            <input type="text" name="" placeholder="姓名">
+            <input type="button" name="" value="search" onclick="show()">
+        </form>
+    </div>
+    <div class="data">
+        <table>
+            <thead>
+            <tr>
+                <th width="50px">编号</th>
+                <th width="130px">学号</th>
+                <th width="130px">姓名</th>
+                <th width="130px">系别</th>
+                <th width="130px">专业</th>
+                <th width="130px">联系电话</th>
+                <th width="150px"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>1</td>
+                <td>1540406137</td>
+                <td>范韩习</td>
+                <td>计算机系</td>
+                <td>计算机科学与技术</td>
+                <td>13414105154</td>
+                <td><input type="button" value="编辑"><input type="button" value="删除"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<!-- 内容按钮功能 -->
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        //添加按钮
+        $('input[value="添加"]').click(function () {
+            $('.hide').removeClass('hide');
+        });
+        //取消按钮
+        $('.function input[value="取消"]').click(function () {
+            $('input[type="text"]').val('');
+            $('.myModal,.shade').addClass('hide');
+        });
+        //确定按钮 添加ajax
+        $('.function input[value="确定"]').click(function () {
+            $('input[type="text"]').val('');
+            $('.myModal,.shade').addClass('hide');
+        });
+
+        //编辑按钮
+        $('input[value="编辑"]').click(function () {
+            $('.hide').removeClass('hide');
+            var tds = $(this).parent().prevAll();
+            //jquery对象加上索引是dom对象
+            $($('.myModel input')[0]).val($(tds[1]).text());
+            $($('.myModel textarea')).val($(tds[0]).text());
+
+        });
+        //删除按钮
+        $('input[value="删除"]').click(function () {
+        });
+    })
+</script>
 
 </body>
 </html>

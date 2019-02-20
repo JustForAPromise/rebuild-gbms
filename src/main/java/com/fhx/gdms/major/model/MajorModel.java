@@ -22,10 +22,15 @@ public class MajorModel {
     /**
      * 创建时间
      */
-    Date create_time;
+    Date createTime;
+
+    /**
+     * 更新时间
+     */
+    Date updateTime;
 
     /**
      * 系别id
      */
-    Integer department_id;
+    Integer departmentId;
 }

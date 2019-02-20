@@ -33,11 +33,14 @@ public interface DepartmentRepository {
     @ResultMap(value = "departmentMap")
     List<DepartmentModel> findByName(@Param("departmentName") String departmentName);
 
-    @Update("UPDATE tb_department SET department = #{department} WHERE id = #{id}")
+    @Update("UPDATE tb_department SET department = #{department}, update_time = now() WHERE id = #{id}")
     @ResultMap(value = "departmentMap")
-    DepartmentModel update(DepartmentModel model);
+    void update(DepartmentModel model);
 
-    @Select("SELECT * FROM tb_department where department = #{departmentName} ORDER BY create_time DESC LIMIT 1")
+    @Select("SELECT * FROM tb_department where department = #{department} ORDER BY create_time DESC LIMIT 1")
     @ResultMap(value = "departmentMap")
     DepartmentModel findOneByName(DepartmentModel model);
+
+    @Delete("DELETE FROM tb_department WHERE id = #{id}")
+    void deleteById(@Param("id") Integer id);
 }

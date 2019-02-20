@@ -18,7 +18,7 @@ public class DepartmentServiceImpl implements DepartmentService {
 
     @Override
     public DepartmentModel save(DepartmentModel model) {
-        int id = departmentRepository.save(model);
+        departmentRepository.save(model);
 
         return this.findById(model.getId());
     }
@@ -35,7 +35,6 @@ public class DepartmentServiceImpl implements DepartmentService {
 
     @Override
     public DepartmentModel saveDepartment(DepartmentModel model) {
-
         DepartmentModel existModel = this.findOneByName(model);
         if (existModel != null){
             return null;
@@ -66,7 +65,7 @@ public class DepartmentServiceImpl implements DepartmentService {
 
     @Override
     public DepartmentModel update(DepartmentModel model) {
-        model = departmentRepository.update(model);
+        departmentRepository.update(model);
 
         return this.findById(model.getId());
     }
@@ -74,5 +73,10 @@ public class DepartmentServiceImpl implements DepartmentService {
     @Override
     public DepartmentModel findOneByName(DepartmentModel model) {
         return departmentRepository.findOneByName(model);
+    }
+
+    @Override
+    public void deleteById(Integer id) {
+        departmentRepository.deleteById(id);
     }
 }

@@ -85,4 +85,16 @@ public class DepartmentController {
 
         return apiResult;
     }
+
+    @RequestMapping(value = "/deleteById", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ResponseBody
+    ApiResult deleteById(Integer id){
+        ApiResult apiResult = new ApiResult();
+
+        departmentService.deleteById(id);
+
+        apiResult.setCode(0);
+        apiResult.setMsg("已删除");
+        return apiResult;
+    }
 }
