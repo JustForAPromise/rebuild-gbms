@@ -41,15 +41,13 @@
             </p>
             <p class="p">
                 <label>系别：</label>
-                <select class="department">
-                    <option></option>
-                    <option></option>
-                    <option></option>
+                <select class="department departmentSelect">
+
                 </select>
             </p>
             <p class="p">
                 <label>专业：</label>
-                <select class="major">
+                <select class="major majorSelect">
                     <option></option>
                     <option></option>
                     <option></option>
@@ -63,13 +61,12 @@
     <div class="search">
         <form>
             <label>系别：</label>
-            <select class="department">
-                <option>计算机系</option>
-                <option>软件系</option>
+            <select class="department departmentSelect">
+
             </select>
 
             <label>专业：</label>
-            <select class="major">
+            <select class="major majorSelect">
                 <option>计算机科学与技术</option>
                 <option>物联网</option>
             </select>
@@ -108,8 +105,14 @@
 </div>
 <!-- 内容按钮功能 -->
 <script type="text/javascript">
-
     $(document).ready(function () {
+        getAllDepartment();
+
+        $(".departmentSelect").change(function () {
+            var departmentId = $(this).children('option:selected').val()
+            var index = $(".departmentSelect").index($(this))
+            findMajorByDepartmentId(departmentId, index)
+        })
         //添加按钮
         $('input[value="添加"]').click(function () {
             $('.hide').removeClass('hide');
@@ -132,12 +135,54 @@
             //jquery对象加上索引是dom对象
             $($('.myModel input')[0]).val($(tds[1]).text());
             $($('.myModel textarea')).val($(tds[0]).text());
-
         });
         //删除按钮
         $('input[value="删除"]').click(function () {
         });
     })
+
+    function getAllDepartment(){
+        $.ajax({
+            url: '/department/list',
+            type: 'GET',
+            dataType: 'json',
+            success: function (data) {
+                var dataList = $(".departmentSelect");
+                dataList.html("");
+
+                var head = "<option value = \"";
+                var second = "\">";
+                var end = "</option>";
+                for (i = 0; i < data.data.length ; i++){
+                    var str = head + data.data[i].id + second + data.data[i].department + end;
+                    dataList.append(str)
+                }
+            }
+        });
+    }
+    function findMajorByDepartmentId(departmentId, index) {
+        $.ajax({
+            url: '/major/findByDepartmentId',
+            type: 'GET',
+            data: {
+                departmentId: departmentId
+            },
+            dataType: 'json',
+            success: function (data) {
+                var dataList = $($(".majorSelect")[index]);
+                dataList.html("");
+
+                var head = "<option value = \"";
+                var second = "\">";
+                var end = "</option>";
+
+                for (i = 0; i < data.data.length; i++) {
+                    var str = head + data.data[i].id + second + data.data[i].major + end;
+                    dataList.append(str)
+                }
+            }
+        });
+    }
 </script>
 
 </body>
