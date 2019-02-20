@@ -6,6 +6,8 @@ import com.fhx.gdms.teacher.service.TeacherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class TeacherServiceImpl implements TeacherService {
     @Autowired
@@ -20,5 +22,35 @@ public class TeacherServiceImpl implements TeacherService {
         model = teachjerRepository.findByNameAndPassword(model);
 
         return model;
+    }
+
+    @Override
+    public TeacherModel save(TeacherModel model) {
+        return null;
+    }
+
+    @Override
+    public TeacherModel update(TeacherModel model) {
+        return null;
+    }
+
+    @Override
+    public TeacherModel saveTeacher(TeacherModel model) {
+        return null;
+    }
+
+    @Override
+    public TeacherModel updateTeacher(TeacherModel model) {
+        return null;
+    }
+
+    @Override
+    public List<TeacherModel> findAll() {
+        return null;
+    }
+
+    @Override
+    public List<TeacherModel> findTeacher(TeacherModel model) {
+        return null;
     }
 }
