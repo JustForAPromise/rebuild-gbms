@@ -20,11 +20,10 @@ public class StudentController {
 
     @RequestMapping(value = "/add", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
-    ApiResult save(String name){
+    ApiResult save(StudentModel model){
         ApiResult apiResult = new ApiResult();
 
-        StudentModel model = new StudentModel();
-        model.setName(name);
+        String no = model.getNo();
 
         model = studentService.saveStudent(model);
 
@@ -34,7 +33,7 @@ public class StudentController {
             apiResult.setData(model);
         }else{
             apiResult.setCode(-1);
-            apiResult.setMsg("该系名已存在");
+            apiResult.setMsg(no+" 已存在");
         }
         return apiResult;
     }
@@ -80,6 +79,19 @@ public class StudentController {
 
         model.setName("%"+ model.getName() +"%");;
         List<StudentModel> departmentModelList = studentService.findStudent(model);
+
+        apiResult.setData(departmentModelList);
+
+        return apiResult;
+    }
+
+
+    @RequestMapping(value = "/findByMajorIdAndDepartmentId", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ResponseBody
+    ApiResult findByMajorIdAndDepartmentId(Integer departmentId, Integer majorId){
+        ApiResult apiResult = new ApiResult();
+
+        List<StudentModel> departmentModelList = studentService.findByMajorIdAndDepartmentId(departmentId, majorId );
 
         apiResult.setData(departmentModelList);
 

@@ -1,7 +1,7 @@
 package com.fhx.gdms.teacher.service.impl;
 
 import com.fhx.gdms.teacher.model.TeacherModel;
-import com.fhx.gdms.teacher.repository.TeachjerRepository;
+import com.fhx.gdms.teacher.repository.TeacherRepository;
 import com.fhx.gdms.teacher.service.TeacherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,7 +11,7 @@ import java.util.List;
 @Service
 public class TeacherServiceImpl implements TeacherService {
     @Autowired
-    private TeachjerRepository teachjerRepository;
+    private TeacherRepository teacherRepository;
 
     @Override
     public TeacherModel findByNameAndPassword(String name, String password) {
@@ -19,7 +19,7 @@ public class TeacherServiceImpl implements TeacherService {
         model.setName(name);
         model.setPassword(password);
 
-        model = teachjerRepository.findByNameAndPassword(model);
+        model = teacherRepository.findByNameAndPassword(model);
 
         return model;
     }
@@ -52,5 +52,10 @@ public class TeacherServiceImpl implements TeacherService {
     @Override
     public List<TeacherModel> findTeacher(TeacherModel model) {
         return null;
+    }
+
+    @Override
+    public TeacherModel findById(Integer id) {
+        return teacherRepository.findById(id);
     }
 }

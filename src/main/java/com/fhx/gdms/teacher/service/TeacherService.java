@@ -53,4 +53,11 @@ public interface TeacherService {
      * @return
      */
     List<TeacherModel> findTeacher(TeacherModel model);
+
+    /**
+     * id查询
+     * @param id
+     * @return
+     */
+    TeacherModel findById(Integer id );
 }

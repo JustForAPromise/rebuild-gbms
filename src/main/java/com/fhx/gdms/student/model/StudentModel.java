@@ -1,5 +1,8 @@
 package com.fhx.gdms.student.model;
 
+import com.fhx.gdms.department.model.DepartmentModel;
+import com.fhx.gdms.major.model.MajorModel;
+import com.fhx.gdms.teacher.model.TeacherModel;
 import lombok.Data;
 
 import java.util.Date;
@@ -7,68 +10,74 @@ import java.util.Date;
 @Data
 public class StudentModel {
 
-    Integer id;
+    private Integer id;
 
     /**
      * 学号
      */
-    String no;
+    private String no;
 
     /**
      * 姓名
      */
-    String name;
+    private String name;
 
     /**
      * 性别
      */
-    Integer gender;
+    private Integer gender;
 
     /**
      * 相片
      */
-    String image;
+    private String image;
 
     /**
      *
      */
-    String identify;
+    private String identify;
 
     /**
      * 简介
      */
-    String introduce;
+    private String introduce;
 
     /**
      * 备注
      */
-    String remark;
+    private String remark;
     /**
      * 密码
      */
-    String password;
+    private String password;
     /**
      * 创建时间
      */
-    Date createTime;
+    private Date createTime;
 
     /**
      * 更新时间
      */
-    Date updateTime;
+    private Date updateTime;
 
     /**
      * 系别id
      */
-    Integer departmentId;
+    private Integer departmentId;
 
     /**
      * 专业id
      */
-    Integer majorId;
+    private Integer majorId;
 
     /**
      * 指导教师id
      */
-    Integer teacherId;
+    private Integer teacherId;
+
+    private DepartmentModel departmentModel;
+
+    private MajorModel majorModel;
+
+    private TeacherModel teacherModel;
 }

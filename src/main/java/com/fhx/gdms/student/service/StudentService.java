@@ -53,4 +53,26 @@ public interface StudentService {
      * @return
      */
     List<StudentModel> findStudent(StudentModel model);
+
+    /**
+     * 学号查询
+     * @param no
+     * @return
+     */
+    StudentModel findByNo(String no);
+
+    /**
+     * id查询
+     * @param id
+     * @return
+     */
+    StudentModel findById(Integer id);
+
+    /**
+     * 系id + 专业id 查询
+     * @param departmentId
+     * @param majorId
+     * @return
+     */
+    List<StudentModel> findByMajorIdAndDepartmentId(Integer departmentId, Integer majorId);
 }

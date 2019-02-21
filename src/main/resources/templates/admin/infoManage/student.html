@@ -30,29 +30,30 @@
         <!-- 模态框开始 -->
         <div class="myModal hide">
             <h4 style="text-align: center;">学生信息添加</h4>
-            <p class="p"><label>学号：</label><input type="text" name=""></p>
-            <p class="p"><label>姓名：</label><input type="text" name=""></p>
-            <p class="p">
-                <label>性别：</label>
-                <select>
-                    <option>男</option>
-                    <option>女</option>
-                </select>
-            </p>
-            <p class="p">
-                <label>系别：</label>
-                <select class="department departmentSelect">
+            <form id="form-data">
+                <p class="p" style="display: none"><label>id：</label><input type="text" name="id"></p>
+                <p class="p"><label>学号：</label><input type="text" name="no" required></p>
+                <p class="p"><label>姓名：</label><input type="text" name="name"></p>
+                <p class="p">
+                    <label>性别：</label>
+                    <select name="gender">
+                        <option value="1">男</option>
+                        <option value="2">女</option>
+                    </select>
+                </p>
+                <p class="p">
+                    <label>系别：</label>
+                    <select class="department departmentSelect" name="departmentId">
 
-                </select>
-            </p>
-            <p class="p">
-                <label>专业：</label>
-                <select class="major majorSelect">
-                    <option></option>
-                    <option></option>
-                    <option></option>
-                </select>
-            </p>
+                    </select>
+                </p>
+                <p class="p">
+                    <label>专业：</label>
+                    <select class="major majorSelect" name="majorId">
+
+                    </select>
+                </p>
+            </form>
             <p class="p"><input type="button" value="确定">&nbsp<input type="button" value="取消"></p>
         </div>
         <div class="shade hide"></div>
@@ -67,7 +68,7 @@
 
             <label>专业：</label>
             <select class="major majorSelect">
-                <option>计算机科学与技术</option>
+                <option >计算机科学与技术</option>
                 <option>物联网</option>
             </select>
             <br>
@@ -81,24 +82,16 @@
             <thead>
             <tr>
                 <th width="50px">编号</th>
+                <th width="50px" style="display: none">id</th>
                 <th width="130px">学号</th>
                 <th width="130px">姓名</th>
                 <th width="130px">系别</th>
                 <th width="130px">专业</th>
-                <th width="130px">联系电话</th>
                 <th width="150px"></th>
             </tr>
             </thead>
-            <tbody>
-            <tr>
-                <td>1</td>
-                <td>1540406137</td>
-                <td>范韩习</td>
-                <td>计算机系</td>
-                <td>计算机科学与技术</td>
-                <td>13414105154</td>
-                <td><input type="button" value="编辑"><input type="button" value="删除"></td>
-            </tr>
+            <tbody id="dataList">
+
             </tbody>
         </table>
     </div>
@@ -124,8 +117,17 @@
         });
         //确定按钮 添加ajax
         $('.function input[value="确定"]').click(function () {
-            $('input[type="text"]').val('');
+            var forms  = $("#form-data")
+
+            $("#form-data").reset;
             $('.myModal,.shade').addClass('hide');
+
+            var temp = new FormData(forms)
+            if (temp.get("id") == null || temp.get("id") == ""){
+                add(forms)
+            }else{
+                update(forms)
+            }
         });
 
         //编辑按钮
@@ -141,7 +143,68 @@
         });
     })
 
-    function getAllDepartment(){
+
+    function deleteById(id) {
+        $.ajax({
+            url: '/student/deleteById',
+            type: 'DELETE',
+            data: {
+                id: id
+            },
+            dataType: 'json',
+            success: function (data) {
+                if (data.code == -1) {
+                    alert(data.msg)
+                } else {
+                    getDepartmentList();
+                }
+            }
+        });
+    }
+
+    function add(formData) {
+        $.ajax({
+            url: '/student/add',
+            type: 'POST',
+            data: formData.serialize(),
+            dataType: 'json',
+            success: function (data) {
+                if (data.code == -1) {
+                    alert(data.msg)
+                } else {
+                    var departmentId = formData.find("p select[name=departmentId]").val();
+                    var majorId = formData.find("p select[name=majorId]").val();
+                    alert(departmentId +" "+ majorId)
+
+                    findByMajorIdAndDepartmentId(departmentId, majorId);
+                }
+            }
+        });
+    }
+
+    function update(formData) {
+        $.ajax({
+            url: '/student/update',
+            type: 'POST',
+            data: formData.serialize(),
+            dataType: 'json',
+            success: function (data) {
+                if (data.code == -1) {
+                    alert(data.msg)
+                } else {
+                    var departmentId = formData.find("input[type=departmentId]").val();
+                    var majorId = formData.find("input[type=majorId]").val();
+
+                    findByMajorIdAndDepartmentId(departmentId, majorId);
+                    alert(data.msg)
+                }
+            }
+        });
+    }
+
+
+
+    function getAllDepartment() {
         $.ajax({
             url: '/department/list',
             type: 'GET',
@@ -153,13 +216,15 @@
                 var head = "<option value = \"";
                 var second = "\">";
                 var end = "</option>";
-                for (i = 0; i < data.data.length ; i++){
+                for (i = 0; i < data.data.length; i++) {
                     var str = head + data.data[i].id + second + data.data[i].department + end;
                     dataList.append(str)
                 }
+                findMajorByDepartmentId(data.data[0].id, 3)
             }
         });
     }
+
     function findMajorByDepartmentId(departmentId, index) {
         $.ajax({
             url: '/major/findByDepartmentId',
@@ -169,8 +234,14 @@
             },
             dataType: 'json',
             success: function (data) {
-                var dataList = $($(".majorSelect")[index]);
-                dataList.html("");
+                var dataList;
+                if (index = 3){
+                    dataList = $(".majorSelect");
+                    dataList.html("");
+                } else{
+                    dataList = $($(".majorSelect")[index]);
+                    dataList.html("");
+                }
 
                 var head = "<option value = \"";
                 var second = "\">";
@@ -178,6 +249,36 @@
 
                 for (i = 0; i < data.data.length; i++) {
                     var str = head + data.data[i].id + second + data.data[i].major + end;
+                    dataList.append(str)
+                }
+            }
+        });
+    }
+
+    function findByMajorIdAndDepartmentId(departmentId, majorId) {
+        $.ajax({
+            url: '/student/findByMajorIdAndDepartmentId',
+            type: 'GET',
+            data: {
+                majorId: majorId,
+                departmentId: departmentId
+            },
+            dataType: 'json',
+            success: function (data) {
+                var dataList = $("#dataList");
+                dataList.html("");
+
+                var head = "<tr><td>";
+                var second = "</td><td style=\"display: none\">";
+                var rep = "</td><td>";
+                var end = "</td><td><input type=\"button\" value=\"编辑\"><input type=\"button\" value=\"删除\"></td></tr>";
+
+                for (i = 0; i < data.data.length; i++) {
+                    var str = head + (i+1) + second + data.data[i].id
+                        + rep + data.data[i].no
+                        + rep + data.data[i].name
+                        + rep + data.data[i].departmentModel.name
+                        + rep + data.data[i].majorModel.name;
                     dataList.append(str)
                 }
             }

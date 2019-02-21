@@ -10,7 +10,7 @@ import java.util.List;
 
 @Mapper
 @Component
-public interface TeachjerRepository {
+public interface TeacherRepository {
 
     @Select("SELECT * FROM tb_teacher WHERE name = #{name} AND password = #{password}")
     @Results(id = "teacherMap", value = {
@@ -24,21 +24,7 @@ public interface TeachjerRepository {
     })
     TeacherModel findByNameAndPassword(TeacherModel model);
 
-
-//    @Insert("INSERT INTO tb_department(id, department, create_time, update_time) VALUES(#{id}, #{department}, #{createTime}, #{updateTime});")
-//    @Options(useGeneratedKeys = true, keyProperty = "id")
-//    int save(DepartmentModel model);
-//
-//    @Select("SELECT * FROM tb_department where id = #{id}")
-//    @Results(id = "departmentMap", value = {
-//            @Result(column = "id", property = "id", javaType = Integer.class),
-//            @Result(column = "department", property = "department", javaType = String.class),
-//            @Result(column = "create_time", property = "createTime", javaType = Date.class),
-//            @Result(column = "update_time", property = "updateTime", javaType = Date.class)
-//    })
-//    DepartmentModel findById(DepartmentModel model);
-//
-//    @Select("SELECT * FROM tb_department")
-//    @ResultMap(value = "departmentMap")
-//    List<DepartmentModel> findAll();
+    @Select("SELECT * FROM tb_teacher where id = #{id}")
+    @ResultMap(value = "teacherMap")
+    TeacherModel findById(Integer id);
 }
