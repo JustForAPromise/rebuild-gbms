@@ -20,7 +20,10 @@ public interface StudentRepository {
             @Result(column = "gender", property = "gender", javaType = Integer.class),
             @Result(column = "password", property = "password", javaType = String.class),
             @Result(column = "create_time", property = "createTime", javaType = Date.class),
-            @Result(column = "update_time", property = "updateTime", javaType = Date.class)
+            @Result(column = "update_time", property = "updateTime", javaType = Date.class),
+            @Result(column = "department_id", property = "departmentId", javaType = Integer.class),
+            @Result(column = "major_id", property = "majorId", javaType = Integer.class),
+            @Result(column = "teacher_id", property = "teacherId", javaType = Integer.class)
     })
     StudentModel findByNameAndPassword(StudentModel model);
 
@@ -82,6 +85,37 @@ public interface StudentRepository {
             sql.VALUES("update_time", "now()");
             sql.VALUES("create_time", "now()");
 
+            return sql.toString();
+        }
+
+        public String findListByModel(StudentModel model) {
+            SQL sql =  new SQL();
+            sql.SELECT("*");
+            sql.FROM("tb_student");
+            if (model.getNo() != null && !"".equals(model.getNo())){
+                sql.WHERE("no = #{no}");
+            }
+            if (model.getName() != null && !"".equals(model.getName())){
+                sql. WHERE("name like #{name}");
+            }
+            if (model.getGender() != null && !"".equals(model.getGender())){
+                sql. WHERE("gender = #{gender}");
+            }
+            if (model.getIdentify() != null && !"".equals(model.getIdentify())){
+                sql. WHERE("identify like #{identify}");
+            }
+            if (model.getPassword() != null && !"".equals(model.getPassword())){
+                sql. WHERE("password = #{password}");
+            }
+            if (model.getDepartmentId() != null && !"".equals(model.getDepartmentId())){
+                sql. WHERE("department_id = #{departmentId}");
+            }
+            if (model.getMajorId() != null && !"".equals(model.getMajorId())){
+                sql. WHERE("major_id = #{majorId}");
+            }
+            if (model.getTeacherId() != null && !"".equals(model.getTeacherId())){
+                sql. WHERE("teacher_id = #{teacherId}");
+            }
             return sql.toString();
         }
     }

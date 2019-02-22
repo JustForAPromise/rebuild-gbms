@@ -24,6 +24,10 @@ public class StudentController {
         ApiResult apiResult = new ApiResult();
 
         String no = model.getNo();
+        if (no == null || "".equals(no)){
+            apiResult.setCode(-1);
+            apiResult.setMsg("学号不能为空");
+        }
 
         model = studentService.saveStudent(model);
 
@@ -40,12 +44,8 @@ public class StudentController {
 
     @RequestMapping(value = "/update", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
-    ApiResult update(Integer id, String name){
+    ApiResult update(StudentModel model){
         ApiResult apiResult = new ApiResult();
-
-        StudentModel model = new StudentModel();
-        model.setId(id);
-        model.setName(name);
 
         model = studentService.updateStudent(model);
 
