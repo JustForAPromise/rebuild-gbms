@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8">
-	<title>权限管理</title>
+    <meta charset="UTF-8">
+    <title>权限管理</title>
 
-	<link rel="stylesheet" type="text/css" href="/css/admin/admin-power-teacher.css">
+    <link rel="stylesheet" type="text/css" href="/css/admin/admin-power-teacher.css">
+    <link rel="stylesheet" type="text/css" href="/css/admin/admin-motaikuang.css">
     <link rel="stylesheet" type="text/css" href="/css/bootstrap-theme.min.css">
     <link rel="stylesheet" type="text/css" href="/css/bootstrap.css">
     <link rel="stylesheet" type="text/css" href="/css/swiper.min.css">
@@ -14,120 +15,298 @@
     <script type="text/javascript" src="/js/swiper.jquery.min.js"></script>
 </head>
 <body>
-	<div class="body">
- 		<div class="function">
-			<!-- 按钮触发模态框 -->
-			<button class="btn btn-primary btn-xs" data-toggle="modal" data-target="#myModal">
-				<a>添加</a>
-			</button>
-			<!-- 模态框（Modal） -->
-			<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-				<div class="modal-dialog">
-					<div class="modal-content">
-						<div class="modal-header">
-							<button type="button" class="close" data-dismiss="modal" 
-									aria-hidden="true">×
-							</button>
-							<h4 class="modal-title" id="myModalLabel">
-								信息添加
-							</h4>
-						</div>
-						<div class="modal-body">
-							<div class="form-div">
-								<label>学工号：</label><input type="text" name=""><br>
-								<label>身份:</label>
-								<select>
-									<option>学生</option>
-									<option>教师</option>
-								</select>
-							</div>
-						</div>
-						<div class="modal-footer">
-							<button type="button" class="btn btn-default" 
-									data-dismiss="modal">关闭
-							</button>
-							<button type="button" class="btn btn-primary">
-								提交
-							</button>
-						</div>
-					</div><!-- /.modal-content -->
-				</div><!-- /.modal-dialog -->
-			</div><!-- /.modal -->
-		</div>
-		<div class="search">
-			<form>
-				<label>系别：</label>
-				<select>
-					<option>123</option>
-					<option>123</option>
-					<option>123</option>
-					<option>123</option>
-				</select>
-				<input type="submit" name="" value="search">
-			</form>	
-		</div>
-		<div class="data">
-			<table>
-				<thead>
-					<tr>
-						<th width="50px">编号</th>
-						<th width="130px">学工号</th>
-						<th width="130px">姓名</th>
-						<th width="130px">身份</th>
-						<th width="80px">系负责人</th>
-						<th width="80px">教务员</th>
-						<th width="80px">课题审核员</th>
-						<th width="80px">答辩审核员</th>
-						<th width="80px">系统管理员</th>
-						<th width="80px"></th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<form action="">
-							<td>1</td>
-							<td>1</td>
-							<td>1</td>
-							<td>1</td>
-							<td><input type="checkbox"></td>
-							<td><input type="checkbox"></td>
-							<td><input type="checkbox"></td>
-							<td><input type="checkbox"></td>
-							<td><input type="checkbox"></td>
-							<td><input type="submit" value="确定"></td>
-						</form>
-					</tr>
-					<tr>
-						<form action="">
-							<td>1</td>
-							<td>1</td>
-							<td>1</td>
-							<td>1</td>
-							<td><input type="checkbox"></td>
-							<td><input type="checkbox"></td>
-							<td><input type="checkbox"></td>
-							<td><input type="checkbox"></td>
-							<td><input type="checkbox"></td>
-							<td><input type="submit" value="确定"></td>
-						</form>
-					</tr>
-				</tbody>
-				<tfoot>
-					<tr>
-						<td>1</td>
-						<td>1</td>
-						<td>1</td>
-						<td>1</td>
-						<td>1</td>
-						<td>1</td>
-						<td>1</td>
-						<td>1</td>
-						<td>1</td>
-						<td>1</td>
-					</tr>
-				</tfoot>
-			</table>
-		</div>	
-	</div>
+<div class="body">
+    <div class="function">
+        <!-- 添加专业功能 -->
+        <input type="button" value="添加">
+        <!-- 模态框开始 -->
+        <div class="myModal hide">
+
+            <h4 style="text-align: center;">用户信息</h4>
+            <form id="form-data">
+                <p class="p" style="display: none"><label>id：</label><input type="text" name="id"></p>
+                <p class="p"><label>学工号：</label><input type="text" name="no"></p>
+                <p class="p">
+                    <label>身份：</label>
+                    <select class="department" name="identify">
+                        <option value="2">学生</option>
+                        <option value="1" selected>教师</option>
+                    </select>
+                </p>
+                <p class="p">
+                    <label>系别：</label>
+                    <select class="department departmentSelect" name="departmentId">
+
+                    </select>
+                </p>
+            </form>
+            <p class="p"><input type="button" value="添加">&nbsp<input type="button" value="取消"></p>
+        </div>
+        <div class="shade hide"></div>
+        <!-- 模态框结束 -->
+    </div>
+    <div class="search">
+        <label>系别：</label>
+        <select class="departmentSelect">
+        </select>
+        <input type="button" name="" value="搜索">
+    </div>
+    <div class="data">
+        <table>
+            <thead>
+            <tr>
+                <th width="50px">编号</th>
+                <th width="130px">学工号</th>
+                <th width="130px">姓名</th>
+                <th width="130px">身份</th>
+                <th width="80px">系负责人</th>
+                <th width="80px">教务员</th>
+                <th width="80px">课题审核员</th>
+                <th width="80px">答辩审核员</th>
+                <th width="80px">系统管理员</th>
+                <th width="160px"></th>
+            </tr>
+            </thead>
+            <tbody id="dataList">
+
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- 内容按钮功能 -->
+<script type="text/javascript">
+    $(document).ready(function () {
+        /****初始化下拉列表***/
+        getAllDepartment();
+
+        //搜索按钮
+        $('.search input[value="搜索"]').click(function () {
+            var departmentId = $(".search .departmentSelect").val();
+
+            findByDepartmentId(departmentId);
+        });
+
+        //添加按钮
+        $('input[value="添加"]').click(function () {
+            $('.hide').removeClass('hide');
+        });
+        //取消按钮
+        $('.function input[value="取消"]').click(function () {
+            $("#form-data input").val("");
+            $('.myModal,.shade').addClass('hide');
+        });
+
+        //模态框内部 添加按钮 添加ajax
+        $('.myModal input[value="添加"]').click(function () {
+            var forms = $("#form-data")
+
+            add(forms)
+
+            $("#form-data input").val("");
+            $('.myModal,.shade').addClass('hide');
+        });
+
+        //确定按钮
+        $(".data").on("click", "#dataList input[value='确定']", function () {
+            var tds = $(this).parent().prevAll();
+            var id = $(tds[8]).attr("store")
+
+            var departmentLeader
+            var senateMembers
+            var projectAuditor
+            var answerAuditor
+            var systemAdministrator
+
+            var checkBoxs = $(this).parent().parent().find("input[type=checkbox]")
+
+            if ($(checkBoxs[0]).attr('checked')) {
+                departmentLeader = true
+            } else {
+                departmentLeader = false;
+            }
+            if ($(checkBoxs[1]).attr('checked')) {
+                senateMembers = true
+            } else {
+                senateMembers = false;
+            }
+            if ($(checkBoxs[2]).attr('checked')) {
+                projectAuditor = true
+            } else {
+                projectAuditor = false;
+            }
+            if ($(checkBoxs[3]).attr('checked')) {
+                answerAuditor = true
+            } else {
+                answerAuditor = false;
+            }
+            if ($(checkBoxs[4]).attr('checked')) {
+                systemAdministrator = true
+            } else {
+                systemAdministrator = false;
+            }
+
+            update(id, departmentLeader, senateMembers, projectAuditor, answerAuditor, systemAdministrator)
+        })
+
+        //删除按钮
+        $(".data").on("click", "input[value='删除']", function () {
+            var tds = $(this).parent().prevAll();
+
+            var id = $(tds[8]).attr("store")
+
+            deleteById(id);
+        })
+
+        //checkbox
+        $(".data").on("click", "input[type='checkbox']", function () {
+            if ($(this).attr('checked')){
+                $(this).attr("checked","false")
+            } else {
+                $(this).attr("checked","true")
+            }
+
+        })
+    })
+
+    function add(formData) {
+        $.ajax({
+            url: '/power/add',
+            type: 'POST',
+            data: formData.serialize(),
+            dataType: 'json',
+            success: function (data) {
+                if (data.code == -1) {
+                    alert(data.msg)
+                } else {
+                    findByDepartmentId(data.data.departmentId)
+                }
+            }
+        });
+    }
+
+    function update(id, departmentLeader, senateMembers, projectAuditor, answerAuditor, systemAdministrator) {
+        $.ajax({
+            url: '/power/update',
+            type: 'POST',
+            data: {
+                id: id,
+                departmentLeader: departmentLeader,
+                senateMembers: senateMembers,
+                projectAuditor: projectAuditor,
+                answerAuditor: answerAuditor,
+                systemAdministrator: systemAdministrator
+            },
+            dataType: 'json',
+            success: function (data) {
+                if (data.code == -1) {
+                    alert(data.msg)
+                } else {
+                    findByDepartmentId(data.data.departmentId)
+                }
+            }
+        });
+    }
+
+    function deleteById(id) {
+        $.ajax({
+            url: '/power/deleteById',
+            type: 'DELETE',
+            async: false,
+            data: {
+                id: id
+            },
+            dataType: 'json',
+            success: function (data) {
+                findByDepartmentId(data.data.departmentId)
+            }
+        });
+    }
+
+    function getAllDepartment() {
+        $.ajax({
+            url: '/department/list',
+            type: 'GET',
+            dataType: 'json',
+            success: function (data) {
+                var dataList = $(".departmentSelect");
+                dataList.html("");
+
+                var head = "<option value = \"";
+                var second = "\">";
+                var end = "</option>";
+                for (i = 0; i < data.data.length; i++) {
+                    var str = head + data.data[i].id + second + data.data[i].department + end;
+                    dataList.append(str)
+                }
+            }
+        });
+    }
+
+    function findByDepartmentId(departmentId) {
+        $.ajax({
+            url: '/power/findByDepartmentId',
+            type: 'GET',
+            data: {
+                departmentId: departmentId
+            },
+            dataType: 'json',
+            success: function (data) {
+                var dataList = $("#dataList");
+                dataList.html("");
+
+
+                for (i = 0; i < data.data.length; i++) {
+                    var str = "<tr><td store=\"" + data.data[i].id + "\">" + (i + 1) + "</td><td>" + data.data[i].userModel.no + "</td>"
+                        + "<td>" + data.data[i].userModel.name + "</td>";
+                    if (data.data[i].userModel.identify == 1) {
+                        str = str + "<td>教师</td>"
+
+                        if (data.data[i].departmentLeader) {
+                            str = str + "<td><input type=\"checkbox\" name=\"departmentLeader\" checked='true'></td>"
+                        } else {
+                            str = str + "<td><input type=\"checkbox\" name=\"departmentLeader\"></td>"
+                        }
+                        if (data.data[i].senateMembers) {
+                            str = str + "<td><input type=\"checkbox\" name=\"senateMembers\" checked='true'></td>"
+                        } else {
+                            str = str + "<td><input type=\"checkbox\" name=\"senateMembers\"></td>"
+                        }
+                        if (data.data[i].projectAuditor) {
+                            str = str + "<td><input type=\"checkbox\" name=\"projectAuditor\" checked='true'></td>"
+                        } else {
+                            str = str + "<td><input type=\"checkbox\" name=\"projectAuditor\"></td>"
+                        }
+                        if (data.data[i].answerAuditor) {
+                            str = str + "<td><input type=\"checkbox\" name=\"answerAuditor\" checked='true'></td>"
+                        } else {
+                            str = str + "<td><input type=\"checkbox\" name=\"answerAuditor\"></td>"
+                        }
+                        if (data.data[i].systemAdministrator) {
+                            str = str + "<td><input type=\"checkbox\" name=\"systemAdministrator\" checked='true'></td>"
+                        } else {
+                            str = str + "<td><input type=\"checkbox\" name=\"systemAdministrator\"></td>"
+                        }
+                    } else {
+                        str = str + "<td>学生</td>" + "<td><input type=\"checkbox\" name=\"departmentLeader\" disabled></td>"
+
+                        if (data.data[i].senateMembers) {
+                            str = str + "<td><input type=\"checkbox\" name=\"senateMembers\" checked='true'></td>"
+                        } else {
+                            str = str + "<td><input type=\"checkbox\" name=\"senateMembers\" ></td>"
+                        }
+
+                        str = str + "<td><input type=\"checkbox\" name=\"projectAuditor\" disabled></td>"
+                            + "<td><input type=\"checkbox\" name=\"answerAuditor\" disabled></td>"
+                            + "<td><input type=\"checkbox\" name=\"systemAdministrator\" disabled></td>"
+                    }
+
+                    str = str + "<td><input type=\"button\" value=\"确定\"><input type=\"button\" value=\"删除\"></td></tr>"
+                    dataList.append(str)
+                }
+            }
+        });
+    }
+</script>
 </body>
 </html>

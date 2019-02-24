@@ -23,6 +23,11 @@ public class ViewControllerConfig extends WebMvcConfigurerAdapter {
         registry.addViewController("admin/power").setViewName("/admin/powerManage/power.html");
 
 
+        registry.addViewController("student/personInfo").setViewName("/student/personInfo/personInfo.html");
+        registry.addViewController("student/projection").setViewName("/student/info/projection.html");
+        registry.addViewController("student/projectionInfo").setViewName("/student/info/projectionInfo.html");
+        registry.addViewController("student/contactTeacher").setViewName("/student/info/contactTeacher.html");
+        registry.addViewController("student/score").setViewName("/student/info/score.html");
 
         super.addViewControllers(registry);
     }

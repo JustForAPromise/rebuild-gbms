@@ -15,10 +15,9 @@ import java.util.List;
 @Controller
 @RequestMapping("/defence")
 public class DefenceController {
-
     @Autowired
     private DefenceService defenceService;
-
+    
     @RequestMapping(value = "/add", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
     ApiResult save(String departmentName){

@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8">
-	<title>教师信息管理</title>
+    <meta charset="UTF-8">
+    <title>教师信息管理</title>
 
     <link rel="stylesheet" type="text/css" href="/css/admin/admin-info-teacher.css">
+    <link rel="stylesheet" type="text/css" href="/css/admin/admin-motaikuang.css">
     <link rel="stylesheet" type="text/css" href="/css/bootstrap-theme.min.css">
     <link rel="stylesheet" type="text/css" href="/css/bootstrap.css">
     <link rel="stylesheet" type="text/css" href="/css/swiper.min.css">
@@ -14,102 +15,277 @@
     <script type="text/javascript" src="/js/swiper.jquery.min.js"></script>
 </head>
 <body>
-	<div class="body">
-		<div class="function">
-			<!-- 按钮触发模态框 -->
-			<button class="btn btn-primary btn-xs" data-toggle="modal" data-target="#myModal">
-				<a>添加</a>
-			</button>
-			<button class="btn btn-primary btn-xs">
-				<a>批量导入</a>
-			</button>
-			<button class="btn btn-primary btn-xs">
-				<a>Excel模板导出</a>
-			</button>
-			<!-- 模态框（Modal） -->
-			<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-				<div class="modal-dialog">
-					<div class="modal-content">
-						<div class="modal-header">
-							<button type="button" class="close" data-dismiss="modal" 
-									aria-hidden="true">×
-							</button>
-							<h4 class="modal-title" id="myModalLabel">
-								教师信息添加
-							</h4>
-						</div>
-						<div class="modal-body">
-							<div class="form-div">
-								<label>工号：</label><input type="text" name=""><br>
-								<label>姓名：</label><input type="text" name=""><br>
-								<label>系别：</label><input type="text" name=""><br>
-								<label>性别：</label>
-								<select>
-									<option>男</option>
-									<option>女</option>
-								</select><br>
-							</div>
-						</div>
-						<div class="modal-footer">
-							<button type="button" class="btn btn-default" 
-									data-dismiss="modal">关闭
-							</button>
-							<button type="button" class="btn btn-primary">
-								提交
-							</button>
-						</div>
-					</div><!-- /.modal-content -->
-				</div><!-- /.modal-dialog -->
-			</div><!-- /.modal -->
-			
-		</div>
-		<div class="search">
-			<form>
-				<label>系别：</label>
-				<select>
-					<option>计算机系</option>
-					<option>软件系</option>
-				</select>
-				<input type="text" name="" placeholder="工号">
-				<input type="text" name="" placeholder="姓名">
-				<input type="submit" name="" value="search">
-			</form>	
-		</div>
-		<div class="data">
-			<table>
-				<thead>
-					<tr>
-						<th width="50px">编号</th>
-						<th width="130px">工号</th>
-						<th width="130px">姓名</th>
-						<th width="130px">系别</th>
-						<th width="130px">联系电话</th>
-						<th width="150px"></th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<td>1</td>
-						<td>1562</td>
-						<td>刘海</td>
-						<td>计算机系</td>
-						<td>15362013652</td>
-						<td><input type="button" name="" value="查看详情"></td>
-					</tr>
-				</tbody>
-				<tfoot>
-					<tr>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-					</tr>
-				</tfoot>
-			</table>
-		</div>	
-	</div>
+<div class="body">
+    <div class="function">
+        <button class="btn btn-primary btn-xs">
+            <a>批量导入</a>
+        </button>
+        <button class="btn btn-primary btn-xs">
+            <a>Excel模板导出</a>
+        </button>
+
+        <input type="button" value="添加">
+        <!-- 模态框开始 -->
+        <div class="myModal hide">
+            <h4 style="text-align: center;">教师信息</h4>
+            <form id="form-data">
+                <p class="p" style="display: none"><label>id：</label><input type="text" name="id"></p>
+                <p class="p"><label>工号：</label><input type="text" name="no"></p>
+                <p class="p"><label>姓名：</label><input type="text" name="name"></p>
+                <p class="p">
+                    <label>性别：</label>
+                    <select name="gender">
+                        <option value="1">男</option>
+                        <option value="2">女</option>
+                    </select>
+                </p>
+                <p class="p">
+                    <label>系别：</label>
+                    <select class="department departmentSelect" name="departmentId">
+
+                    </select>
+                </p>
+                <p class="p"><label>联系电话：</label><input type="text" name="phone"></p>
+            </form>
+            <p class="p"><input type="button" value="确定">&nbsp<input type="button" value="取消"></p>
+        </div>
+        <div class="shade hide"></div>
+        <!-- 模态框结束 -->
+
+    </div>
+    <div class="search">
+        <label>系别：</label>
+        <select class="departmentSelect">
+            <option>计算机系</option>
+            <option>软件系</option>
+        </select>
+        <input type="text" name="no" placeholder="工号">
+        <input type="text" name="name" placeholder="姓名">
+        <input type="button" name="" value="搜索">
+    </div>
+    <div class="data">
+        <table>
+            <thead>
+
+            <tr>
+                <th width="50px">编号</th>
+                <th width="50px" style="display: none">id</th>
+                <th width="130px">工号</th>
+                <th width="130px">姓名</th>
+                <th width="130px">系别</th>
+                <th width="130px">联系电话</th>
+                <th width="150px"></th>
+            </tr>
+            </thead>
+            <tbody id="dataList">
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+<!-- 内容按钮功能 -->
+<script type="text/javascript">
+    $(document).ready(function () {
+        /****初始化下拉列表***/
+        getAllDepartment();
+        $(".departmentSelect").change(function () {
+            var departmentId = $(this).children('option:selected').val()
+        })
+
+        //搜索按钮
+        $('.search input[value="搜索"]').click(function () {
+            var departmentId = $(".search .departmentSelect").val();
+            var no = $(".search input[name=no]").val()
+            var name = $(".search input[name=name]").val()
+
+            findList(departmentId, no, name);
+        });
+
+        //添加按钮
+        $('input[value="添加"]').click(function () {
+            $('.hide').removeClass('hide');
+        });
+        //取消按钮
+        $('.function input[value="取消"]').click(function () {
+            $("#form-data input").val("");
+            $('.myModal,.shade').addClass('hide');
+        });
+
+        //确定按钮 添加ajax
+        $('.function input[value="确定"]').click(function () {
+            var forms = $("#form-data")
+
+            if (forms.find("input[name=id]").val() == null || forms.find("input[name=id]").val() == "") {
+                add(forms)
+            } else {
+                update(forms)
+            }
+
+            $("#form-data input").val("");
+            $('.myModal,.shade').addClass('hide');
+        });
+
+        //编辑按钮
+        $(".data").on("click", "input[value='编辑']", function () {
+            $('.hide').removeClass('hide');
+            var tds = $(this).parent().prevAll();
+            var id = $(tds[4]).text()
+
+
+            findById(id)
+        })
+
+        //删除按钮
+        $(".data").on("click", "input[value='删除']", function () {
+            var tds = $(this).parent().prevAll();
+
+            var id = $(tds[4]).text()
+            var departmentId = $(tds[1]).attr("store")
+
+            deleteById(id)
+            findByDepartmentId(departmentId)
+        })
+    })
+
+    function add(formData) {
+        $.ajax({
+            url: '/teacher/add',
+            type: 'POST',
+            data: formData.serialize(),
+            dataType: 'json',
+            success: function (data) {
+                if (data.code == -1) {
+                    alert(data.msg)
+                } else {
+                    findByDepartmentId(data.data.departmentId);
+
+                }
+            }
+        });
+    }
+
+    function update(formData) {
+        $.ajax({
+            url: '/teacher/update',
+            type: 'POST',
+            data: formData.serialize(),
+            dataType: 'json',
+            success: function (data) {
+                if (data.code == -1) {
+                    alert(data.msg)
+                } else {
+                    findByDepartmentId(data.data.departmentId);
+                    alert(data.msg)
+                }
+            }
+        });
+    }
+
+
+    function findList(departmentId, no, name) {
+        $.ajax({
+            url: '/teacher/findTeacher',
+            type: 'GET',
+            data: {
+                departmentId: departmentId,
+                no: no,
+                name: name
+            },
+            dataType: 'json',
+            success: function (data) {
+                var dataList = $("#dataList");
+                dataList.html("");
+
+                for (i = 0; i < data.data.length; i++) {
+                    var str = "<tr><td>" + (i + 1) + "</td><td style=\"display: none\">" + data.data[i].id + "</td>"
+                        + "<td>" + data.data[i].no + "</td><td>" + data.data[i].name + "</td>"
+                        + "<td store = " + data.data[i].departmentModel.id + ">" + data.data[i].departmentModel.department + "</td>"
+                        + "<td>" + data.data[i].phone + "</td>"
+                        + "<td><input type=\"button\" value=\"编辑\"><input type=\"button\" value=\"删除\"></td></tr>"
+                    dataList.append(str)
+                }
+            }
+        });
+    }
+
+    function findById(id) {
+        $.ajax({
+            url: '/teacher/findById',
+            type: 'GET',
+            data: {
+                id: id
+            },
+            dataType: 'json',
+            success: function (data) {
+                $("#form-data input[name=id]").val(data.data.id)
+                $("#form-data input[name=no]").val(data.data.no)
+                $("#form-data input[name=name]").val(data.data.name)
+                $("#form-data select[name=gender]").val(data.data.gender)
+                $("#form-data input[name=departmentId]").val(data.data.departmentId)
+                $("#form-data input[name=phone]").val(data.data.phone)
+            }
+        });
+    }
+
+    function deleteById(id) {
+        $.ajax({
+            url: '/teacher/deleteById',
+            type: 'DELETE',
+            data: {
+                id: id
+            },
+            async: false,
+            success: function (data) {
+            }
+        });
+    }
+
+    function findByDepartmentId(departmentId) {
+        $.ajax({
+            url: '/teacher/findByDepartmentId',
+            type: 'GET',
+            data: {
+                departmentId: departmentId
+            },
+            async: false,
+            dataType: 'json',
+            success: function (data) {
+                var dataList = $("#dataList");
+                dataList.html("");
+
+                for (i = 0; i < data.data.length; i++) {
+                    var str = "<tr><td>" + (i + 1) + "</td><td style=\"display: none\">" + data.data[i].id + "</td>"
+                        + "<td>" + data.data[i].no + "</td><td>" + data.data[i].name + "</td>"
+                        + "<td store = " + data.data[i].departmentModel.id + ">" + data.data[i].departmentModel.department + "</td>"
+                        + "<td>" + data.data[i].phone + "</td>"
+                        + "<td><input type=\"button\" value=\"编辑\"><input type=\"button\" value=\"删除\"></td></tr>"
+                    dataList.append(str)
+                }
+            }
+        });
+    }
+
+    /********************** 初始化下拉列表 ***************************/
+    function getAllDepartment() {
+        $.ajax({
+            url: '/department/list',
+            type: 'GET',
+            dataType: 'json',
+            success: function (data) {
+                var dataList = $(".departmentSelect");
+                dataList.html("");
+
+                var head = "<option value = \"";
+                var second = "\">";
+                var end = "</option>";
+                for (i = 0; i < data.data.length; i++) {
+                    var str = head + data.data[i].id + second + data.data[i].department + end;
+                    dataList.append(str)
+                }
+            }
+        });
+    }
+</script>
 </body>
 </html>

@@ -1,11 +1,10 @@
 package com.fhx.gdms.login.web;
 
-import com.fhx.gdms.admin.model.AdminModel;
-import com.fhx.gdms.admin.service.AdminService;
-import com.fhx.gdms.student.model.StudentModel;
-import com.fhx.gdms.student.service.StudentService;
-import com.fhx.gdms.teacher.model.TeacherModel;
-import com.fhx.gdms.teacher.service.TeacherService;
+import com.fhx.gdms.user.service.AdminService;
+import com.fhx.gdms.user.service.HelperService;
+import com.fhx.gdms.user.service.StudentService;
+import com.fhx.gdms.user.model.UserModel;
+import com.fhx.gdms.user.service.TeacherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
@@ -25,6 +24,9 @@ public class LoginController {
     private AdminService adminService;
 
     @Autowired
+    private HelperService helperService;
+
+    @Autowired
     private TeacherService teacherService;
 
     @Autowired
@@ -32,9 +34,9 @@ public class LoginController {
 
     @RequestMapping(value = "/login", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     ModelAndView login(Integer identify, String name, String password) {
-
+        System.out.println(identify);
         if (identify == 1) {
-            AdminModel adminModel = adminService.findByNameAndPassword(name, password);
+            UserModel adminModel = adminService.findByNameAndPassword(name, password);
             if (adminModel != null) {
                 ModelAndView modelAndView = new ModelAndView("/admin/index.html");
                 session.setAttribute("userInfo", adminModel);
@@ -42,7 +44,7 @@ public class LoginController {
             }
 
         } else if (identify == 2) {
-            TeacherModel teacherModel = teacherService.findByNameAndPassword(name, password);
+            UserModel teacherModel = teacherService.findByNameAndPassword(name, password);
             if (teacherModel != null) {
                 ModelAndView modelAndView = new ModelAndView("/teacher/index.html");
                 session.setAttribute("userInfo", teacherModel);
@@ -50,15 +52,15 @@ public class LoginController {
             }
 
         } else if (identify == 3) {
-            StudentModel studentModel = studentService.findByNameAndPassword(name, password);
-            if (studentModel != null) {
+            UserModel helperModel = helperService.findByNameAndPassword(name, password);
+            if (helperModel != null) {
                 ModelAndView modelAndView = new ModelAndView("/helper/index.html");
-                session.setAttribute("userInfo", studentModel);
+                session.setAttribute("userInfo", helperModel);
                 return modelAndView;
             }
 
         } else if (identify == 4) {
-            StudentModel studentModel = studentService.findByNameAndPassword(name, password);
+            UserModel studentModel = studentService.findByNameAndPassword(name, password);
             if (studentModel != null) {
                 ModelAndView modelAndView = new ModelAndView("/student/index.html");
                 session.setAttribute("userInfo", studentModel);
@@ -67,7 +69,7 @@ public class LoginController {
         }
 
         ModelAndView loginFailView = new ModelAndView("/login.html");
-        loginFailView.addObject("tip","密码或用户名错误！");
+        loginFailView.addObject("tip", "密码或用户名错误！");
         return loginFailView;
     }
 }
