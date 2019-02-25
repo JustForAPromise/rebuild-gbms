@@ -42,16 +42,15 @@
                     <li><a target="function" href="infoManage/teacher.html">教师</a></li>
                 </ul>
             </li>
-            <!--<li>-->
-            	<!--<a><span>权限管理</span></a>-->
-            	<!--<ul class="childrenNav">-->
-                	<!--<li><a target="function" href="powerManage/power.html">权限分配</a></li>-->
-                <!--</ul>-->
-            <!--</li>-->
+            <li th:if="#{session.userInfo.powerModel.departmentLeader == true}">
+            	<a><span>权限管理</span></a>
+            	<ul class="childrenNav">
+                	<li><a target="function" href="powerManage/power.html">权限分配</a></li>
+                </ul>
+            </li>
             <li>
             	<a><span>系统相关</span></a>
                 <ul class="childrenNav">
-                	<!--<li><a target="function" href="#">参数设置</a></li>-->
                     <li><a target="function" href="#">安全退出</a></li>
                 </ul>
             </li>

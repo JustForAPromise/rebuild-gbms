@@ -1,5 +1,6 @@
 package com.fhx.gdms.login.web;
 
+import com.fhx.gdms.power.service.PowerService;
 import com.fhx.gdms.user.service.AdminService;
 import com.fhx.gdms.user.service.HelperService;
 import com.fhx.gdms.user.service.StudentService;
@@ -32,41 +33,44 @@ public class LoginController {
     @Autowired
     private StudentService studentService;
 
+    @Autowired
+    private PowerService powerService;
+
     @RequestMapping(value = "/login", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     ModelAndView login(Integer identify, String name, String password) {
-        System.out.println(identify);
+        UserModel userModel = new UserModel();
+
         if (identify == 1) {
-            UserModel adminModel = adminService.findByNameAndPassword(name, password);
-            if (adminModel != null) {
+            userModel = adminService.findByNameAndPassword(name, password);
+            if (userModel != null) {
                 ModelAndView modelAndView = new ModelAndView("/admin/index.html");
-                session.setAttribute("userInfo", adminModel);
                 return modelAndView;
             }
 
         } else if (identify == 2) {
-            UserModel teacherModel = teacherService.findByNameAndPassword(name, password);
-            if (teacherModel != null) {
+            userModel = teacherService.findByNameAndPassword(name, password);
+            if (userModel != null) {
                 ModelAndView modelAndView = new ModelAndView("/teacher/index.html");
-                session.setAttribute("userInfo", teacherModel);
                 return modelAndView;
             }
 
         } else if (identify == 3) {
-            UserModel helperModel = helperService.findByNameAndPassword(name, password);
-            if (helperModel != null) {
+            userModel = helperService.findByNameAndPassword(name, password);
+            if (userModel != null) {
                 ModelAndView modelAndView = new ModelAndView("/helper/index.html");
-                session.setAttribute("userInfo", helperModel);
                 return modelAndView;
             }
 
         } else if (identify == 4) {
-            UserModel studentModel = studentService.findByNameAndPassword(name, password);
-            if (studentModel != null) {
+            userModel = studentService.findByNameAndPassword(name, password);
+            if (userModel != null) {
                 ModelAndView modelAndView = new ModelAndView("/student/index.html");
-                session.setAttribute("userInfo", studentModel);
                 return modelAndView;
             }
         }
+
+        userModel.setPowerModel(powerService.findByUserId(userModel.getId()));
+        session.setAttribute("userInfo", userModel);
 
         ModelAndView loginFailView = new ModelAndView("/login.html");
         loginFailView.addObject("tip", "密码或用户名错误！");
