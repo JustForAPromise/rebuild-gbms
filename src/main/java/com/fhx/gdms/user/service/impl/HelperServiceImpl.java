@@ -24,4 +24,16 @@ public class HelperServiceImpl implements HelperService {
 
         return model;
     }
+
+    @Override
+    public UserModel findByNoAndPasswd(String no, String password) {
+        UserModel model = new UserModel();
+        model.setNo(no);
+        model.setPassword(password);
+        model.setSenateMembers(true);
+
+        model = helperRepository.findByNoAndPassword(model);
+
+        return model;
+    }
 }

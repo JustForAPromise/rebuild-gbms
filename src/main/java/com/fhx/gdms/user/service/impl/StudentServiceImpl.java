@@ -26,6 +26,18 @@ public class StudentServiceImpl implements StudentService {
     private TeacherService teacherService;
 
     @Override
+    public UserModel findByNoAndPasswd(String no, String password) {
+        UserModel model = new UserModel();
+        model.setNo(no);
+        model.setPassword(password);
+        model.setOrdinaryStudent(true);
+
+        model = studentRepository.findByNoAndPassword(model);
+
+        return model;
+    }
+
+    @Override
     public UserModel findByNameAndPassword(String name, String password) {
         UserModel model = new UserModel();
         model.setName(name);
@@ -104,7 +116,11 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public UserModel findById(Integer id) {
-        return studentRepository.findById(id);
+        UserModel model =  studentRepository.findById(id);
+
+        model.setMajorModel(majorService.findById(model.getMajorId()));
+
+        return model;
     }
 
     @Override

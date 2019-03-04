@@ -10,7 +10,7 @@ import java.util.Date;
 @Component
 public interface AdminRepository {
 
-    @Select("SELECT * FROM tb_user WHERE name = #{name} AND password = #{password} AND system_administrator = #{systemAdministrator}")
+    @Select("SELECT * FROM tb_user WHERE id = #{id}")
     @Results(id = "adminMap", value = {
             @Result(column = "id", property = "id", javaType = Integer.class),
             @Result(column = "no", property = "no", javaType = String.class),
@@ -33,8 +33,13 @@ public interface AdminRepository {
             @Result(column = "teacher_id", property = "teacherId", javaType = Integer.class),
             @Result(column = "power_id", property = "powerId", javaType = Integer.class)
     })
+    UserModel findById(@Param("id") Integer id);
+
+    @Select("SELECT * FROM tb_user WHERE name = #{name} AND password = #{password} AND system_administrator = #{systemAdministrator}")
+    @ResultMap("adminMap")
     UserModel findByNameAndPassword(UserModel model);
 
-    @Select("SELECT * FROM tb_user WHERE id = #{id}")
-    UserModel findById(@Param("id") Integer id);
+    @Select("SELECT * FROM tb_user WHERE no = #{no} AND password = #{password} AND system_administrator = #{systemAdministrator}")
+    @ResultMap("adminMap")
+    UserModel findByNoAndPassword(UserModel model);
 }

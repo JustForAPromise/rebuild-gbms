@@ -76,4 +76,12 @@ public interface StudentService {
      * @param id
      */
     void deleteById(Integer id);
+
+    /**
+     * 登录（学工号 + 密码）
+     * @param no
+     * @param password
+     * @return
+     */
+    UserModel findByNoAndPasswd(String no, String password);
 }

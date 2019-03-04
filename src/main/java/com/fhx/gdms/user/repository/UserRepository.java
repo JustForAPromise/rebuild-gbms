@@ -12,7 +12,7 @@ import java.util.Date;
 @Component
 public interface UserRepository {
 
-    @Select("SELECT * FROM tb_user WHERE no = #{no} AND department_id = #{departmentId}")
+    @Select("SELECT * FROM tb_user WHERE id = #{id}")
     @Results(id = "userMap", value = {
             @Result(column = "id", property = "id", javaType = Integer.class),
             @Result(column = "no", property = "no", javaType = String.class),
@@ -35,16 +35,19 @@ public interface UserRepository {
             @Result(column = "teacher_id", property = "teacherId", javaType = Integer.class),
             @Result(column = "power_id", property = "powerId", javaType = Integer.class)
     })
+    UserModel findById(@Param("id") Integer id);
+
+    @Select("SELECT * FROM tb_user WHERE no = #{no} AND department_id = #{departmentId}")
+    @ResultMap(value = "userMap")
     UserModel findByNoAndDepartmentId(UserModel model);
 
-
-    @Select("SELECT * FROM tb_user WHERE id = #{id}")
-    @ResultMap(value = "userMap")
-    UserModel findById(@Param("id") Integer id);
 
     @SelectProvider(type = UserProvider.class, method = "findOne")
     @ResultMap(value = "userMap")
     UserModel findOne(UserModel model);
+
+    @Update("update tb_user set power_id = #{powerId} where id = #{id}")
+    void updatePowerById(@Param("id") Integer id, @Param("powerId") Integer powerId);
 
     /********** 内部类 *********/
     class UserProvider {

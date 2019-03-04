@@ -12,7 +12,7 @@ import java.util.List;
 @Component
 public interface TeacherRepository {
 
-    @Select("SELECT * FROM tb_user WHERE name = #{name} AND password = #{password} AND ordinary_teacher = #{ordinaryTeacher} AND identify = 1")
+    @Select("SELECT * FROM tb_user where id = #{id}")
     @Results(id = "teacherMap", value = {
             @Result(column = "id", property = "id", javaType = Integer.class),
             @Result(column = "no", property = "no", javaType = String.class),
@@ -35,11 +35,15 @@ public interface TeacherRepository {
             @Result(column = "teacher_id", property = "teacherId", javaType = Integer.class),
             @Result(column = "power_id", property = "powerId", javaType = Integer.class)
     })
-    UserModel findByNameAndPassword(UserModel model);
-
-    @Select("SELECT * FROM tb_user where id = #{id}")
-    @ResultMap(value = "teacherMap")
     UserModel findById(Integer id);
+
+    @Select("SELECT * FROM tb_user WHERE no = #{no} AND password = #{password} AND ordinary_teacher = #{ordinaryTeacher} AND identify = 1")
+    @ResultMap(value = "teacherMap")
+    UserModel findByNoAndPassword(UserModel model);
+
+    @Select("SELECT * FROM tb_user WHERE name = #{name} AND password = #{password} AND ordinary_teacher = #{ordinaryTeacher} AND identify = 1")
+    @ResultMap(value = "teacherMap")
+    UserModel findByNameAndPassword(UserModel model);
 
 
     @InsertProvider(type = TeacherProvider.class, method = "save")
@@ -63,6 +67,7 @@ public interface TeacherRepository {
 
     @Delete("DELETE FROM tb_user WHERE id = #{id}")
     void deleteById(Integer id);
+
 
     /********** 内部类 *********/
     class TeacherProvider {

@@ -19,7 +19,7 @@ public interface StudentRepository {
     @UpdateProvider(type = StudentProvider.class, method = "updateModel")
     void update(UserModel model);
 
-    @Select("SELECT * FROM tb_user WHERE name = #{name} AND password = #{password} AND ordinary_student = #{ordinaryStudent} AND identify = 2")
+    @Select("SELECT * FROM tb_user WHERE id = #{id} AND identify = 2")
     @Results(id = "studentMap", value = {
             @Result(column = "id", property = "id", javaType = Integer.class),
             @Result(column = "no", property = "no", javaType = String.class),
@@ -42,6 +42,14 @@ public interface StudentRepository {
             @Result(column = "teacher_id", property = "teacherId", javaType = Integer.class),
             @Result(column = "power_id", property = "powerId", javaType = Integer.class)
     })
+    UserModel findById(@Param("id") Integer id);
+
+    @Select("SELECT * FROM tb_user WHERE no = #{no} AND password = #{password} AND ordinary_student = #{ordinaryStudent} AND identify = 2")
+    @ResultMap(value = "studentMap")
+    UserModel findByNoAndPassword(UserModel model);
+
+    @Select("SELECT * FROM tb_user WHERE name = #{name} AND password = #{password} AND ordinary_student = #{ordinaryStudent} AND identify = 2")
+    @ResultMap(value = "studentMap")
     UserModel findByNameAndPassword(UserModel model);
 
     @SelectProvider(type = StudentProvider.class, method = "findListByModel")
@@ -51,10 +59,6 @@ public interface StudentRepository {
     @Select("SELECT * FROM tb_user WHERE no = #{no}")
     @ResultMap(value = "studentMap")
     UserModel findByNo(@Param("no") String no);
-
-    @Select("SELECT * FROM tb_user WHERE id = #{id} AND identify = 2")
-    @ResultMap(value = "studentMap")
-    UserModel findById(@Param("id") Integer id);
 
 
     @Select("SELECT * FROM tb_user WHERE department_id = #{departmentId} AND major_id = #{majorId} AND identify = 2")

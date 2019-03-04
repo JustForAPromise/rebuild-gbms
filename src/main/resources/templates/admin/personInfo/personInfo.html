@@ -23,27 +23,27 @@
 				<table>
 					<tr>
 						<td width="85px">工号</td>
-						<td th:text="${userInfo.no}"></td>
+						<td th:text="${session.userInfo.no}"></td>
 					</tr>
 					<tr>
 						<td>姓名</td>
-						<td th:text="${userInfo.name}"></td>
+						<td th:text="${session.userInfo.name}"></td>
 					</tr>
 					<tr>
 						<td>相片</td>
-						<td th:text="${userInfo.image}"></td>
+						<td th:text="${session.userInfo.image}"></td>
 					</tr>
 					<tr>
 						<td>性别</td>
-						<td th:text="${userInfo.gender}"></td>
+						<td th:text="${session.userInfo.gender}"></td>
 					</tr>
 					<tr>
 						<td>账号密码</td>
-						<td th:text="${userInfo.password}"></td>
+						<td th:text="${session.userInfo.password}"></td>
 					</tr>
 					<tr>
 						<td>再次确认密码</td>
-						<td th:text="${userInfo.password}"></td>
+						<td th:text="${session.userInfo.password}"></td>
 					</tr>
 					<tr style="background-color: white">
 						<td colspan="2"><input type="submit" value="修改"></td>

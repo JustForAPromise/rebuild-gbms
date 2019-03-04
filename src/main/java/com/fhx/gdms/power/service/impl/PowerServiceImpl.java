@@ -52,6 +52,14 @@ public class PowerServiceImpl implements PowerService {
     }
 
     @Override
+    public PowerModel createPower(Integer id, Integer departmentId) {
+        PowerModel model = new PowerModel();
+        model.setUserId(id);
+        model.setDepartmentId(departmentId);
+        return this.save(model);
+    }
+
+    @Override
     public List<PowerModel> findByDepartmentId(Integer departmentId) {
         List<PowerModel> results = powerRepository.findByDepartmentId(departmentId);
 
@@ -81,8 +89,11 @@ public class PowerServiceImpl implements PowerService {
             PowerModel temp = new PowerModel();
             temp.setUserId(model.getId());
             temp.setDepartmentId(model.getDepartmentId());
+            temp =  this.save(temp);
 
-            return this.save(temp);
+            userService.updatePowerById(temp.getUserId(), temp.getId());
+
+            return temp;
         }
     }
 

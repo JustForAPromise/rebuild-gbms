@@ -63,7 +63,7 @@ public interface PowerRepository {
                 sql.SET("project_auditor = #{projectAuditor}");
             }
             if (model.getSenateMembers() != null && !"".equals(model.getSenateMembers())) {
-                sql.VALUES("senate_members", "#{senateMembers}");
+                sql.SET("senate_members = #{senateMembers}");
             }
             if (model.getSystemAdministrator() != null && !"".equals(model.getSystemAdministrator())) {
                 sql.SET("system_administrator = #{systemAdministrator}");

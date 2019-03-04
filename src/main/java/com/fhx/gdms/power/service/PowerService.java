@@ -54,4 +54,12 @@ public interface PowerService {
      * @return
      */
     PowerModel findByUserId(Integer userId);
+
+    /**
+     * 创建记录
+     * @param id
+     * @param departmentId
+     * @return
+     */
+    PowerModel createPower(Integer id, Integer departmentId);
 }

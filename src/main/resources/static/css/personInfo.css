@@ -6,20 +6,70 @@
 	min-height: 30px;
 	color: white
 }
+.search input[type=button]{
+	color: #000000;
+	background-color: #FFFFFF;;
+	border-radius: 2px;
+}
+.search input[type=text]{
+	color: #000000;
+	background-color: #FFFFFF;;
+	border-radius: 2px;
+}
+.search .teacherSelect{
+	color: #000000;
+	background-color: #FFFFFF;
+	border-radius: 2px;
+	min-width: 60px;
+}
 
+.data{
+	min-width: 800px;
+}
 .data input[type=submit]{
 	border-radius: 5px;
 }
-.data{
+.data table{
 	padding-top: 30px;
 	margin-top: 10px;
 }
-.data table{
-	min-width: 750px;
-	margin-left: 100px;
-	align-content: center;
+.data table th, .data table td{
+	text-align: center;
 }
 .data table tbody tr{ text-align: center; 	height:30px;}
 .data table tbody tr:nth-of-type(odd){ background:#EEE9E9 ;}/**奇数行**/ 
 .data table tbody tr:nth-of-type(even){ background:#F8F8FF ;}/**偶数行**/
+
+.studentInfo{
+	float: left;
+	margin-bottom: 60px;
+}
+.studentInfo h5, .studentInfo table{
+	margin-left: 100px;
+}
+.studentInfo table{
+	width: 350px;
+}
+
+.teacherInfo{
+	float: left;
+	margin-left: 20px;
+}
+.teacherInfo h5, .teacherInfo table{
+	margin-left: 20px;
+}
+.teacherInfo table{
+	width: 350px;
+}
+
+.projectionInfo{
+	clear: both;
+}
+.projectionInfo h5, .projectionInfo table{
+	margin-left: 100px;
+}
+.projectionInfo table{
+	width: 600px;
+}
+
 

@@ -161,7 +161,7 @@
         //checkbox
         $(".data").on("click", "input[type='checkbox']", function () {
             if ($(this).attr('checked')){
-                $(this).attr("checked","false")
+                $(this).removeAttr("checked")
             } else {
                 $(this).attr("checked","true")
             }

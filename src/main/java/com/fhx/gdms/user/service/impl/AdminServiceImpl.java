@@ -27,4 +27,16 @@ public class AdminServiceImpl implements AdminService {
     public UserModel findById(Integer id) {
         return adminRepository.findById(id);
     }
+
+    @Override
+    public UserModel findByNoAndPasswd(String no, String password) {
+        UserModel model = new UserModel();
+        model.setNo(no);
+        model.setPassword(password);
+        model.setSystemAdministrator(true);
+
+        model = adminRepository.findByNoAndPassword(model);
+
+        return model;
+    }
 }

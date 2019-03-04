@@ -3,6 +3,9 @@ package com.fhx.gdms.projections.service.impl;
 import com.fhx.gdms.projections.model.ProjectionModel;
 import com.fhx.gdms.projections.repository.ProjectionRepository;
 import com.fhx.gdms.projections.service.ProjectionService;
+import com.fhx.gdms.selectRecord.service.SelectRecordService;
+import com.fhx.gdms.user.model.UserModel;
+import com.fhx.gdms.user.service.TeacherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,24 +16,24 @@ public class ProjectionServiceImpl implements ProjectionService {
     @Autowired
     private ProjectionRepository projectionRepository;
 
+    @Autowired
+    private TeacherService teacherService;
+
+    @Autowired
+    private SelectRecordService selectRecordService;
+
     @Override
     public ProjectionModel save(ProjectionModel model) {
-        return null;
+        projectionRepository.save(model);
+
+        return this.findById(model.getId());
     }
 
     @Override
     public ProjectionModel update(ProjectionModel model) {
-        return null;
-    }
+        projectionRepository.update(model);
 
-    @Override
-    public ProjectionModel saveTeacher(ProjectionModel model) {
-        return null;
-    }
-
-    @Override
-    public ProjectionModel updateTeacher(ProjectionModel model) {
-        return null;
+        return this.findById(model.getId());
     }
 
     @Override
@@ -39,7 +42,73 @@ public class ProjectionServiceImpl implements ProjectionService {
     }
 
     @Override
-    public List<ProjectionModel> findTeacher(ProjectionModel model) {
+    public ProjectionModel findById(Integer id) {
+        ProjectionModel model = projectionRepository.findById(id);
+
+        return model;
+    }
+
+    @Override
+    public ProjectionModel updateProjection(ProjectionModel model) {
+        model = this.update(model);
+
+        return model;
+    }
+
+    @Override
+    public void deleteById(Integer id) {
+        projectionRepository.deleteById(id);
+    }
+
+    @Override
+    public List<ProjectionModel> findByTitle(String title) {
         return null;
+    }
+
+    @Override
+    public ProjectionModel saveProjection(ProjectionModel model, UserModel userInfo) {
+        model.setTeacherId(userInfo.getId());
+        model.setDepartmentId(userInfo.getDepartmentId());
+
+        return this.save(model);
+    }
+
+    @Override
+    public List<ProjectionModel> findList(ProjectionModel model) {
+
+        List<ProjectionModel>  modelList = projectionRepository.findList(model);
+        modelList.stream().forEach(data->{
+            data.setTeacherModel(teacherService.findById(data.getTeacherId()));
+        });
+
+        return modelList;
+    }
+
+    @Override
+    public List<ProjectionModel> listAllProjection(ProjectionModel model) {
+        List<ProjectionModel> modelList = projectionRepository.listAllProjection(model);
+        modelList.stream().forEach(data->{
+            data.setTeacherModel(teacherService.findById(data.getTeacherId()));
+        });
+
+        return modelList;
+    }
+
+    @Override
+    public List<ProjectionModel> listProjectionToStudent(ProjectionModel projectionModel, UserModel student, Integer status) {
+        //学生已选课题id
+        List<Integer> projectionIds = selectRecordService.findByUserId(student.getId());
+
+        if (status == 1) {
+            projectionModel.setProjectionIdIn(projectionIds);
+        }else if (status == 0){
+            projectionModel.setProjectionIdNotIn(projectionIds);
+        }
+        List<ProjectionModel> modelList = projectionRepository.findList(projectionModel);
+        modelList.stream().forEach(data->{
+            data.setTeacherModel(teacherService.findById(data.getTeacherId()));
+        });
+
+        return modelList;
     }
 }

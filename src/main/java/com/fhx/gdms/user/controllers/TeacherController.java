@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Controller
@@ -17,6 +18,9 @@ import java.util.List;
 public class TeacherController {
     @Autowired
     private TeacherService teacherService;
+
+    @Autowired
+    private HttpSession session;
 
     @RequestMapping(value = "/add", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
@@ -89,6 +93,20 @@ public class TeacherController {
         model.setNo("%"+ model.getNo() +"%");
 
         List<UserModel> UserModelList = teacherService.findTeacher(model);
+
+        apiResult.setData(UserModelList);
+
+        return apiResult;
+    }
+
+    @RequestMapping(value = "/listTeacher", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ResponseBody
+    ApiResult listTeacher(){
+        ApiResult apiResult = new ApiResult();
+
+       UserModel userInfo = (UserModel)session.getAttribute("userInfo");
+
+        List<UserModel> UserModelList = teacherService.findByDepartmentId(userInfo.getDepartmentId());
 
         apiResult.setData(UserModelList);
 

@@ -19,6 +19,18 @@ public class TeacherServiceImpl implements TeacherService {
     private DepartmentService departmentService;
 
     @Override
+    public UserModel findByNoAndPasswd(String no, String password) {
+        UserModel model = new UserModel();
+        model.setNo(no);
+        model.setPassword(password);
+        model.setOrdinaryTeacher(true);
+
+        model = teacherRepository.findByNoAndPassword(model);
+
+        return model;
+    }
+
+    @Override
     public UserModel findByNameAndPassword(String name, String password) {
         UserModel model = new UserModel();
         model.setName(name);

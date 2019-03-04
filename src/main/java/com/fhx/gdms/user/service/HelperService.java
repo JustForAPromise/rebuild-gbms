@@ -10,4 +10,12 @@ public interface HelperService {
      * @return
      */
     UserModel findByNameAndPassword(String name, String password);
+
+    /**
+     * 登录（学工号 + 密码）
+     * @param no
+     * @param password
+     * @return
+     */
+    UserModel findByNoAndPasswd(String no, String password);
 }

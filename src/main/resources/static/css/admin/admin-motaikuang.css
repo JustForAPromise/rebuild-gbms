@@ -8,7 +8,7 @@
     padding-top: 10px;
     left:50%;
     top:50%;
-    width:400px;
+    min-width:400px;
     min-height: 80px;
     margin-left:-200px;
     margin-top:-250px;

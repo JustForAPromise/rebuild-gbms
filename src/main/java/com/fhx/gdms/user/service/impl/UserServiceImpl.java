@@ -29,4 +29,9 @@ public class UserServiceImpl implements UserService {
     public UserModel findOne(UserModel model) {
         return userRepository.findOne(model);
     }
+
+    @Override
+    public void updatePowerById(Integer id, Integer powerId) {
+        userRepository.updatePowerById(id, powerId);
+    }
 }

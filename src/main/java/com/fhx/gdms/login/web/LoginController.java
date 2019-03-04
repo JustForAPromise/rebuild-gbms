@@ -1,6 +1,13 @@
 package com.fhx.gdms.login.web;
 
+import com.fhx.gdms.department.service.DepartmentService;
+import com.fhx.gdms.major.service.MajorService;
+import com.fhx.gdms.power.model.PowerModel;
 import com.fhx.gdms.power.service.PowerService;
+import com.fhx.gdms.projections.model.ProjectionModel;
+import com.fhx.gdms.projections.service.ProjectionService;
+import com.fhx.gdms.selectRecord.model.SelectRecordModel;
+import com.fhx.gdms.selectRecord.service.SelectRecordService;
 import com.fhx.gdms.user.service.AdminService;
 import com.fhx.gdms.user.service.HelperService;
 import com.fhx.gdms.user.service.StudentService;
@@ -36,44 +43,76 @@ public class LoginController {
     @Autowired
     private PowerService powerService;
 
+    @Autowired
+    private DepartmentService departmentService;
+
+    @Autowired
+    private MajorService majorService;
+
+    @Autowired
+    private SelectRecordService selectRecordService;
+
+    @Autowired
+    private ProjectionService projectionService;
+
     @RequestMapping(value = "/login", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    ModelAndView login(Integer identify, String name, String password) {
+    ModelAndView login(Integer identify, String no, String password) {
         UserModel userModel = new UserModel();
+        ModelAndView modelAndView =  null;
 
         if (identify == 1) {
-            userModel = adminService.findByNameAndPassword(name, password);
+            userModel = adminService.findByNoAndPasswd(no, password);
+
             if (userModel != null) {
-                ModelAndView modelAndView = new ModelAndView("/admin/index.html");
-                return modelAndView;
+                 modelAndView = new ModelAndView("/admin/index.html");
             }
 
         } else if (identify == 2) {
-            userModel = teacherService.findByNameAndPassword(name, password);
+            userModel = teacherService.findByNoAndPasswd(no, password);
             if (userModel != null) {
-                ModelAndView modelAndView = new ModelAndView("/teacher/index.html");
-                return modelAndView;
+                 modelAndView = new ModelAndView("/teacher/index.html");
             }
 
         } else if (identify == 3) {
-            userModel = helperService.findByNameAndPassword(name, password);
+            userModel = helperService.findByNoAndPasswd(no, password);
             if (userModel != null) {
-                ModelAndView modelAndView = new ModelAndView("/helper/index.html");
-                return modelAndView;
+                 modelAndView = new ModelAndView("/helper/index.html");
             }
 
         } else if (identify == 4) {
-            userModel = studentService.findByNameAndPassword(name, password);
+            userModel = studentService.findByNoAndPasswd(no, password);
             if (userModel != null) {
-                ModelAndView modelAndView = new ModelAndView("/student/index.html");
-                return modelAndView;
+                 modelAndView = new ModelAndView("/student/index.html");
             }
         }
 
-        userModel.setPowerModel(powerService.findByUserId(userModel.getId()));
-        session.setAttribute("userInfo", userModel);
 
-        ModelAndView loginFailView = new ModelAndView("/login.html");
-        loginFailView.addObject("tip", "密码或用户名错误！");
-        return loginFailView;
+        if (userModel == null){
+            modelAndView = new ModelAndView("/login.html");
+            modelAndView.addObject("tip", "密码或用户名错误！");
+            return modelAndView;
+        }else{
+            if (userModel.getPowerId() != null){
+                userModel.setPowerModel(powerService.findById(userModel.getPowerId()));
+            }
+            if (userModel.getTeacherId() != null){
+                userModel.setTeacherModel(teacherService.findById(userModel.getTeacherId()));
+            }
+            if (userModel.getDepartmentId() != null){
+                userModel.setDepartmentModel(departmentService.findById(userModel.getDepartmentId()));
+            }
+            if (userModel.getMajorId() != null){
+                userModel.setMajorModel(majorService.findById(userModel.getMajorId()));
+            }
+            if (userModel.getIdentify() == 2){
+                SelectRecordModel selectRecordModel =  selectRecordService.findHavedSelectedRecordByStudentId(userModel.getId());
+                if (selectRecordModel != null){
+                    ProjectionModel projectionModel = projectionService.findById(selectRecordModel.getProjectionId());
+                    userModel.setProjectionModel(projectionModel);
+                }
+            }
+            session.setAttribute("userInfo", userModel);
+            return modelAndView;
+        }
     }
 }

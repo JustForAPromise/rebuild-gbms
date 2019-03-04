@@ -12,7 +12,7 @@ import java.util.List;
 @Component
 public interface HelperRepository {
 
-    @Select("SELECT * FROM tb_user WHERE name = #{name} AND password = #{password} AND senate_members = #{senateMembers}")
+    @Select("SELECT * FROM tb_user where id = #{id}")
     @Results(id = "teacherMap", value = {
             @Result(column = "id", property = "id", javaType = Integer.class),
             @Result(column = "no", property = "no", javaType = String.class),
@@ -35,12 +35,15 @@ public interface HelperRepository {
             @Result(column = "teacher_id", property = "teacherId", javaType = Integer.class),
             @Result(column = "power_id", property = "powerId", javaType = Integer.class)
     })
-    UserModel findByNameAndPassword(UserModel model);
-
-    @Select("SELECT * FROM tb_user where id = #{id}")
-    @ResultMap(value = "teacherMap")
     UserModel findById(Integer id);
 
+    @Select("SELECT * FROM tb_user WHERE name = #{name} AND password = #{password} AND senate_members = #{senateMembers}")
+    @ResultMap(value = "teacherMap")
+    UserModel findByNameAndPassword(UserModel model);
+
+    @Select("SELECT * FROM tb_user WHERE no = #{no} AND password = #{password} AND system_administrator = #{ordinaryTeacher}")
+    @ResultMap("teacherMap")
+    UserModel findByNoAndPassword(UserModel model);
 
     @InsertProvider(type = TeacherProvider.class, method = "save")
     @Options(useGeneratedKeys = true, keyProperty = "id")

@@ -1,36 +1,21 @@
-package com.fhx.gdms.projections.model;
+package com.fhx.gdms.selectRecord.model;
 
 import com.fhx.gdms.department.model.DepartmentModel;
+import com.fhx.gdms.projections.model.ProjectionModel;
 import com.fhx.gdms.user.model.UserModel;
 import lombok.Data;
 
 import java.util.Date;
-import java.util.List;
 
 @Data
-public class ProjectionModel {
+public class SelectRecordModel {
 
     private Integer id;
 
     /**
-     * 标题
-     */
-    private String title;
-
-    /**
-     * 简介
-     */
-    private String introduce;
-
-    /**
-     * 审核状态 0未审核 1通过 2未通过
+     * 0未处理 1通过 2拒绝
      */
     private Integer auditStatus;
-
-    /**
-     * 要求
-     */
-    private String demand;
 
     /**
      * 创建时间
@@ -55,15 +40,11 @@ public class ProjectionModel {
     /**
      * 系别id
      */
-    private Integer departmentId;
+    private Integer projectionId;
 
     private UserModel teacherModel;
 
     private UserModel studentModel;
 
-    private DepartmentModel departmentModel;
-
-    /******** 辅助参数 ******************/
-    private List<Integer> projectionIdNotIn;
-    private List<Integer> projectionIdIn;
+    private ProjectionModel projectionModel;
 }

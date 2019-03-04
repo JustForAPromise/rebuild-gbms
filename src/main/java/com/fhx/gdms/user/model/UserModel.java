@@ -3,6 +3,7 @@ package com.fhx.gdms.user.model;
 import com.fhx.gdms.department.model.DepartmentModel;
 import com.fhx.gdms.major.model.MajorModel;
 import com.fhx.gdms.power.model.PowerModel;
+import com.fhx.gdms.projections.model.ProjectionModel;
 import lombok.Data;
 
 import java.util.Date;
@@ -28,7 +29,7 @@ public class UserModel {
     String image;
 
     /**
-     * 性别
+     * 性别 1男 2女
      */
     Integer gender;
 
@@ -114,4 +115,6 @@ public class UserModel {
     private UserModel teacherModel;
 
     private PowerModel powerModel;
+
+    private ProjectionModel projectionModel;
 }

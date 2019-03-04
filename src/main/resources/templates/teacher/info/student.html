@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>学生信息管理</title>
+
+    <link rel="stylesheet" type="text/css" href="/css/admin/admin-motaikuang.css">
+    <link rel="stylesheet" type="text/css" href="/css/personInfo.css">
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="/css/swiper.min.css">
+
+    <script type="text/javascript" src="/js/jquery.js"></script>
+    <script type="text/javascript" src="/js/bootstrap.js"></script>
+    <script type="text/javascript" src="/js/swiper.jquery.min.js"></script>
+</head>
+<body>
+<div class="body">
+    <input type="button" value="刷新">
+
+    <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+
+    <input type="button" value="已接收">
+</div>
+<div class="data">
+    <table>
+        <thead>
+        <tr>
+            <th style="min-width:50px " store="">序号</th>
+            <th style="min-width:130px ">学号</th>
+            <th style="min-width:130px ">姓名</th>
+            <th style="min-width:130px ">专业</th>
+            <th style="min-width:80px ">选择课题</th>
+            <th style="min-width:80px ">处理状态</th>
+            <th style="min-width:100px "></th>
+        </tr>
+        </thead>
+        <tbody id="dataList">
+
+        </tbody>
+    </table>
+</div>
+</div>
+
+
+<!-- jq代码 -->
+<script>
+    $(document).ready(function () {
+        var students = listStudent()
+
+        $('input[value="刷新"]').click(function () {
+            listStudent()
+        })
+
+        //接收按钮
+        $(".data").on("click", "input[value='接收']", function () {
+            var tds = $(this).parent().prevAll();
+
+            var id = $(tds[5]).attr("store")
+
+            receiveStudent(id);
+        })
+
+        //拒绝按钮
+        $(".data").on("click", "input[value='拒绝']", function () {
+            var tds = $(this).parent().prevAll();
+            //jquery对象加上索引是dom对象
+            var id = $(tds[5]).attr("store");
+
+            refuceStudent(id);
+        })
+
+
+        $('input[value="已接收"]').click(function () {
+            listReceiveStudent()
+        })
+
+    });
+
+    function receiveStudent(id) {
+        $.ajax({
+            url: '/selectRecord/receiveStudent',
+            type: 'POST',
+            data: {
+                id: id
+            },
+            dataType: 'json',
+            success: function (data) {
+                if (data.code == -1) {
+                    alert(data.msg)
+                } else {
+                    listStudent()
+                }
+            }
+        });
+    }
+
+    function refuceStudent(id) {
+        $.ajax({
+            url: '/selectRecord/refuceStudent',
+            type: 'POST',
+            data: {
+                id: id
+            },
+            dataType: 'json',
+            success: function (data) {
+                if (data.code == -1) {
+                    alert(data.msg)
+                } else {
+                    listStudent()
+                }
+            }
+        });
+    }
+
+    function listStudent(auditStatus) {
+        $.ajax({
+            url: '/selectRecord/listStudent',
+            type: 'GET',
+            dataType: 'json',
+            success: function (data) {
+                var dataList = $("#dataList");
+                dataList.html("");
+
+                for (i = 0; i < data.data.length; i++) {
+                    var str = "<tr><td store=\"" + data.data[i].id + "\">" + (i + 1) + "</td> "
+                        + "<td>" + data.data[i].studentModel.no + "</td> "
+                        + "<td>" + data.data[i].studentModel.name + "</td>"
+                        + "<td>" + data.data[i].studentModel.majorModel.major + "</td>"
+                        + "<td>" + data.data[i].projectionModel.title + "</td>"
+                    if (data.data[i].auditStatus == 0) {
+                        str = str + "<td>未处理</td>" + "<td><input type=\"button\" name=\"\" value=\"接收\"><input type=\"button\" name=\"\" value=\"拒绝\"></td> </tr>";
+
+                    } else if (data.data[i].auditStatus == 1) {
+                        str = str + "<td style='color: darkorange'>已接收</td><td></td>"
+
+                    } else if (data.data[i].auditStatus == 2) {
+                        str = str + "<td style='color: red'>已拒绝</td><td></td>"
+                    }
+                    dataList.append(str)
+                }
+            }
+        });
+    }
+
+
+    function listReceiveStudent() {
+        $.ajax({
+            url: '/selectRecord/listReceiveStudent',
+            type: 'GET',
+            dataType: 'json',
+            success: function (data) {
+                var dataList = $("#dataList");
+                dataList.html("");
+
+                for (i = 0; i < data.data.length; i++) {
+                    var str = "<tr><td store=\"" + data.data[i].id + "\">" + (i + 1) + "</td> "
+                        + "<td>" + data.data[i].studentModel.no + "</td> "
+                        + "<td>" + data.data[i].studentModel.name + "</td>"
+                        + "<td>" + data.data[i].studentModel.majorModel.major + "</td>"
+                        + "<td>" + data.data[i].projectionModel.title + "</td>"
+                    if (data.data[i].auditStatus == 1) {
+                        str = str + "<td style='color: darkorange'>已接收</td><td></td>"
+
+                    } else if (data.data[i].auditStatus == 2) {
+                        str = str + "<td style='color: red'>已拒绝</td><td></td>"
+                    }
+                    dataList.append(str)
+                }
+            }
+        });
+    }
+
+</script>
+</body>
+</html>
