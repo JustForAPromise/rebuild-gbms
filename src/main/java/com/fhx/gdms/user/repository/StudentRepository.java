@@ -29,11 +29,6 @@ public interface StudentRepository {
             @Result(column = "password", property = "password", javaType = String.class),
             @Result(column = "identify", property = "identify", javaType = Integer.class),
 
-            @Result(column = "ordinary_teacher", property = "ordinaryTeacher", javaType = Boolean.class),
-            @Result(column = "ordinary_student", property = "ordinaryStudent", javaType = Boolean.class),
-            @Result(column = "senate_members", property = "senateMembers", javaType = Boolean.class),
-            @Result(column = "system_administrator", property = "systemAdministrator", javaType = Boolean.class),
-
             @Result(column = "create_time", property = "createTime", javaType = Date.class),
             @Result(column = "update_time", property = "updateTime", javaType = Date.class),
 
@@ -44,11 +39,11 @@ public interface StudentRepository {
     })
     UserModel findById(@Param("id") Integer id);
 
-    @Select("SELECT * FROM tb_user WHERE no = #{no} AND password = #{password} AND ordinary_student = #{ordinaryStudent} AND identify = 2")
+    @Select("SELECT * FROM tb_user WHERE no = #{no} AND password = #{password} AND identify = 2")
     @ResultMap(value = "studentMap")
     UserModel findByNoAndPassword(UserModel model);
 
-    @Select("SELECT * FROM tb_user WHERE name = #{name} AND password = #{password} AND ordinary_student = #{ordinaryStudent} AND identify = 2")
+    @Select("SELECT * FROM tb_user WHERE name = #{name} AND password = #{password} AND identify = 2")
     @ResultMap(value = "studentMap")
     UserModel findByNameAndPassword(UserModel model);
 
@@ -68,6 +63,8 @@ public interface StudentRepository {
     @Delete("DELETE FROM tb_user WHERE id = #{id}")
     void deleteById(Integer id);
 
+    @Update("update tb_user set teacher_id = #{teacherId} where id = #{studentId} AND identify = 2")
+    void updateTeacherId(@Param("studentId")Integer studentId, @Param("teacherId")Integer teacherId);
 
 
     /********** 内部类 *********/
@@ -90,9 +87,6 @@ public interface StudentRepository {
             }
             if (model.getIntroduce() != null && !"".equals(model.getIntroduce())) {
                 sql.VALUES("introduce", "#{introduce}");
-            }
-            if (model.getOrdinaryStudent() != null && !"".equals(model.getOrdinaryStudent())) {
-                sql.VALUES("ordinary_student", "#{ordinaryStudent}");
             }
             if (model.getPassword() != null && !"".equals(model.getPassword())) {
                 sql.VALUES("password", "#{password}");

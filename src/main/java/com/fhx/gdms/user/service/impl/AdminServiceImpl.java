@@ -16,8 +16,6 @@ public class AdminServiceImpl implements AdminService {
         UserModel model = new UserModel();
         model.setName(name);
         model.setPassword(password);
-        model.setSystemAdministrator(true);
-
         model = adminRepository.findByNameAndPassword(model);
 
         return model;
@@ -33,8 +31,6 @@ public class AdminServiceImpl implements AdminService {
         UserModel model = new UserModel();
         model.setNo(no);
         model.setPassword(password);
-        model.setSystemAdministrator(true);
-
         model = adminRepository.findByNoAndPassword(model);
 
         return model;

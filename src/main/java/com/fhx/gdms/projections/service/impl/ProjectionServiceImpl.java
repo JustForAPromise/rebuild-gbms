@@ -100,15 +100,24 @@ public class ProjectionServiceImpl implements ProjectionService {
         List<Integer> projectionIds = selectRecordService.findByUserId(student.getId());
 
         if (status == 1) {
+            if (projectionIds.size() <= 0){
+                return null;
+            }
             projectionModel.setProjectionIdIn(projectionIds);
         }else if (status == 0){
             projectionModel.setProjectionIdNotIn(projectionIds);
         }
+        projectionModel.setAuditStatus(1);
         List<ProjectionModel> modelList = projectionRepository.findList(projectionModel);
         modelList.stream().forEach(data->{
             data.setTeacherModel(teacherService.findById(data.getTeacherId()));
         });
 
         return modelList;
+    }
+
+    @Override
+    public void updateStudentId(Integer projectionId, Integer studentId) {
+        projectionRepository.updateStudentId(projectionId, studentId);
     }
 }

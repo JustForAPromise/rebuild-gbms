@@ -84,4 +84,11 @@ public interface StudentService {
      * @return
      */
     UserModel findByNoAndPasswd(String no, String password);
+
+    /**
+     * 更新教师id
+     * @param studentId
+     * @param teacherId
+     */
+    void updateTeacherId(Integer studentId, Integer teacherId);
 }

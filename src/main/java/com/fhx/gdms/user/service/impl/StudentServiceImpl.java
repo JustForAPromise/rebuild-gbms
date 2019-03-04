@@ -30,11 +30,14 @@ public class StudentServiceImpl implements StudentService {
         UserModel model = new UserModel();
         model.setNo(no);
         model.setPassword(password);
-        model.setOrdinaryStudent(true);
-
         model = studentRepository.findByNoAndPassword(model);
 
         return model;
+    }
+
+    @Override
+    public void updateTeacherId(Integer studentId, Integer teacherId) {
+        studentRepository.updateTeacherId(studentId, teacherId);
     }
 
     @Override
@@ -42,8 +45,6 @@ public class StudentServiceImpl implements StudentService {
         UserModel model = new UserModel();
         model.setName(name);
         model.setPassword(password);
-        model.setOrdinaryStudent(true);
-
         model = studentRepository.findByNameAndPassword(model);
 
         return model;
@@ -72,7 +73,6 @@ public class StudentServiceImpl implements StudentService {
         }
 
         model.setIdentify(2);
-        model.setOrdinaryStudent(true);
         model = this.save(model);
         model = getMoreInfo(model);
 

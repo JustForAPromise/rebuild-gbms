@@ -81,4 +81,11 @@ public interface ProjectionService {
      * @return
      */
     List<ProjectionModel> listProjectionToStudent(ProjectionModel projectionModel, UserModel student, Integer status);
+
+    /**
+     * 更新学生id
+     * @param projectionId
+     * @param studentId
+     */
+    void updateStudentId(Integer projectionId, Integer studentId);
 }

@@ -287,11 +287,10 @@
                 var dataList;
                 if (index = 3) {
                     dataList = $(".majorSelect");
-                    dataList.html("");
                 } else {
-                    dataList = $($(".majorSelect")[index]);
-                    dataList.html("");
+                    dataList = $(".majorSelect").eq(index);
                 }
+                dataList.html("");
 
                 var head = "<option value = \"";
                 var second = "\">";

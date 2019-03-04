@@ -84,14 +84,15 @@ public class SelectRecordServiceImpl implements SelectRecordService {
     @Override
     public Integer receiveStudent(Integer id) {
         SelectRecordModel selectRecordModel =  this.findById(id);
+        Integer flag =  selectRecordRepository.receiveStudent(id);
 
-        UserModel studentModel = studentService.findById(selectRecordModel.getStudentId());
-        studentModel.setTeacherId(selectRecordModel.getTeacherId());
-        studentService.update(studentModel);
+        studentService.updateTeacherId(selectRecordModel.getStudentId(), selectRecordModel.getTeacherId());
+
+        projectionService.updateStudentId(selectRecordModel.getProjectionId(), selectRecordModel.getStudentId());
 
         selectRecordRepository.refuseOtherRequestOfStudent(selectRecordModel.getStudentId());
 
-        return selectRecordRepository.receiveStudent(id);
+        return flag;
     }
 
     @Override

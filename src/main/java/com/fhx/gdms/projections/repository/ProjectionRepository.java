@@ -47,6 +47,9 @@ public interface ProjectionRepository {
     @ResultMap(value = "projectionMap")
     List<ProjectionModel> listAllProjection(ProjectionModel model);
 
+    @Update("update tb_projection set student_id = #{studentId} where id = #{projectionId}")
+    void updateStudentId(@Param("projectionId")Integer projectionId, @Param("studentId")Integer studentId);
+
     /********** 内部类 *********/
 
     class ProjectionProvider {
@@ -110,7 +113,9 @@ public interface ProjectionRepository {
                     }
                 }
                 sql.WHERE(inSQl.toString());
+                sql.WHERE("student_id is NULL");
             }
+
             return sql.toString();
         }
 

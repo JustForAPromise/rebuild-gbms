@@ -58,7 +58,7 @@ public interface SelectRecordRepository {
     @Select("SELECT count(*) FROM stu_tea_pro_record WHERE  student_id= #{studentId} AND audit_status = #{status} ")
     Integer findTotalByStudentId(@Param("studentId")Integer studentId, @Param("status")Integer status);
 
-    @Update("update stu_tea_pro_record SET audit_status = 2 WHERE student_id = #{studentId} AND  audit_status != 1")
+    @Delete("DELETE FROM stu_tea_pro_record WHERE student_id = #{studentId} AND  audit_status != 1")
     void refuseOtherRequestOfStudent(@Param("studentId")Integer studentId);
 
     @Select("SELECT * FROM stu_tea_pro_record WHERE  teacher_id= #{teacherId} AND audit_status = 1")

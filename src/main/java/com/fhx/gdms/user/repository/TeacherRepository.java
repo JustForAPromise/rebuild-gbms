@@ -22,11 +22,6 @@ public interface TeacherRepository {
             @Result(column = "password", property = "password", javaType = String.class),
             @Result(column = "identify", property = "identify", javaType = Integer.class),
 
-            @Result(column = "ordinary_teacher", property = "ordinaryTeacher", javaType = Boolean.class),
-            @Result(column = "ordinary_student", property = "ordinaryStudent", javaType = Boolean.class),
-            @Result(column = "senate_members", property = "senateMembers", javaType = Boolean.class),
-            @Result(column = "system_administrator", property = "systemAdministrator", javaType = Boolean.class),
-
             @Result(column = "create_time", property = "createTime", javaType = Date.class),
             @Result(column = "update_time", property = "updateTime", javaType = Date.class),
 
@@ -37,11 +32,11 @@ public interface TeacherRepository {
     })
     UserModel findById(Integer id);
 
-    @Select("SELECT * FROM tb_user WHERE no = #{no} AND password = #{password} AND ordinary_teacher = #{ordinaryTeacher} AND identify = 1")
+    @Select("SELECT * FROM tb_user WHERE no = #{no} AND password = #{password} AND identify = 1")
     @ResultMap(value = "teacherMap")
     UserModel findByNoAndPassword(UserModel model);
 
-    @Select("SELECT * FROM tb_user WHERE name = #{name} AND password = #{password} AND ordinary_teacher = #{ordinaryTeacher} AND identify = 1")
+    @Select("SELECT * FROM tb_user WHERE name = #{name} AND password = #{password} AND identify = 1")
     @ResultMap(value = "teacherMap")
     UserModel findByNameAndPassword(UserModel model);
 
@@ -88,9 +83,6 @@ public interface TeacherRepository {
             }
             if (model.getIntroduce() != null && !"".equals(model.getIntroduce())) {
                 sql.VALUES("introduce", "#{introduce}");
-            }
-            if (model.getOrdinaryTeacher() != null && !"".equals(model.getOrdinaryTeacher())) {
-                sql.VALUES("ordinary_teacher", "#{ordinaryTeacher}");
             }
             if (model.getDepartmentId() != null && !"".equals(model.getDepartmentId())) {
                 sql.VALUES("department_id", "#{departmentId}");

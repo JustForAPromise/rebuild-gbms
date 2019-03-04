@@ -10,7 +10,7 @@ import java.util.Date;
 @Component
 public interface AdminRepository {
 
-    @Select("SELECT * FROM tb_user WHERE id = #{id}")
+    @Select("SELECT * FROM tb_user WHERE id = #{id} AND identify = 4")
     @Results(id = "adminMap", value = {
             @Result(column = "id", property = "id", javaType = Integer.class),
             @Result(column = "no", property = "no", javaType = String.class),
@@ -19,11 +19,6 @@ public interface AdminRepository {
             @Result(column = "phone", property = "phone", javaType = String.class),
             @Result(column = "password", property = "password", javaType = String.class),
             @Result(column = "identify", property = "identify", javaType = Integer.class),
-
-            @Result(column = "ordinary_teacher", property = "ordinaryTeacher", javaType = Boolean.class),
-            @Result(column = "ordinary_student", property = "ordinaryStudent", javaType = Boolean.class),
-            @Result(column = "senate_members", property = "senateMembers", javaType = Boolean.class),
-            @Result(column = "system_administrator", property = "systemAdministrator", javaType = Boolean.class),
 
             @Result(column = "create_time", property = "createTime", javaType = Date.class),
             @Result(column = "update_time", property = "updateTime", javaType = Date.class),
@@ -35,11 +30,11 @@ public interface AdminRepository {
     })
     UserModel findById(@Param("id") Integer id);
 
-    @Select("SELECT * FROM tb_user WHERE name = #{name} AND password = #{password} AND system_administrator = #{systemAdministrator}")
+    @Select("SELECT * FROM tb_user WHERE name = #{name} AND password = #{password} AND identify = 4")
     @ResultMap("adminMap")
     UserModel findByNameAndPassword(UserModel model);
 
-    @Select("SELECT * FROM tb_user WHERE no = #{no} AND password = #{password} AND system_administrator = #{systemAdministrator}")
+    @Select("SELECT * FROM tb_user WHERE no = #{no} AND password = #{password} AND identify = 4")
     @ResultMap("adminMap")
     UserModel findByNoAndPassword(UserModel model);
 }

@@ -39,7 +39,7 @@ public class UserModel {
     String password;
 
     /**
-     * 身份 1教师 2学生
+     * 身份 1教师 2学生 3教务员 4管理员
      */
     Integer identify;
 
@@ -48,35 +48,10 @@ public class UserModel {
      */
     private String phone;
 
-//    /**
-//     * 职位
-//     */
-//    private String position;
-
     /**
      * 简介
      */
     private String introduce;
-
-    /**
-     *  普通学生
-     */
-    private Boolean ordinaryStudent;
-
-    /**
-     * 普通教师
-     */
-    private Boolean ordinaryTeacher;
-
-    /**
-     * 普通教师
-     */
-    private Boolean systemAdministrator;
-
-    /**
-     * 教务员
-     */
-    private Boolean senateMembers;
 
     /**
      * 创建时间

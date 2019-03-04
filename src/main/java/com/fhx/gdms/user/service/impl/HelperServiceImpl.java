@@ -1,9 +1,7 @@
 package com.fhx.gdms.user.service.impl;
 
 import com.fhx.gdms.user.model.UserModel;
-import com.fhx.gdms.user.repository.AdminRepository;
 import com.fhx.gdms.user.repository.HelperRepository;
-import com.fhx.gdms.user.service.AdminService;
 import com.fhx.gdms.user.service.HelperService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,10 +14,8 @@ public class HelperServiceImpl implements HelperService {
     @Override
     public UserModel findByNameAndPassword(String name, String password) {
         UserModel model = new UserModel();
-        model.setName(name);
         model.setPassword(password);
-        model.setSenateMembers(true);
-
+        model.setName(name);
         model = helperRepository.findByNameAndPassword(model);
 
         return model;
@@ -28,10 +24,8 @@ public class HelperServiceImpl implements HelperService {
     @Override
     public UserModel findByNoAndPasswd(String no, String password) {
         UserModel model = new UserModel();
-        model.setNo(no);
         model.setPassword(password);
-        model.setSenateMembers(true);
-
+        model.setNo(no);
         model = helperRepository.findByNoAndPassword(model);
 
         return model;

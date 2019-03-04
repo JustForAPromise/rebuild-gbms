@@ -23,8 +23,6 @@ public class TeacherServiceImpl implements TeacherService {
         UserModel model = new UserModel();
         model.setNo(no);
         model.setPassword(password);
-        model.setOrdinaryTeacher(true);
-
         model = teacherRepository.findByNoAndPassword(model);
 
         return model;
@@ -35,8 +33,6 @@ public class TeacherServiceImpl implements TeacherService {
         UserModel model = new UserModel();
         model.setName(name);
         model.setPassword(password);
-        model.setOrdinaryTeacher(true);
-
         model = teacherRepository.findByNameAndPassword(model);
 
         return model;
@@ -66,7 +62,6 @@ public class TeacherServiceImpl implements TeacherService {
         }
 
         model.setIdentify(1);
-        model.setOrdinaryTeacher(true);
         model = this.save(model);
         model = getMoreInfo(model);
 

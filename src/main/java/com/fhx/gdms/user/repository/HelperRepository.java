@@ -37,11 +37,11 @@ public interface HelperRepository {
     })
     UserModel findById(Integer id);
 
-    @Select("SELECT * FROM tb_user WHERE name = #{name} AND password = #{password} AND senate_members = #{senateMembers}")
+    @Select("SELECT * FROM tb_user WHERE name = #{name} AND password = #{password} AND identify = 3")
     @ResultMap(value = "teacherMap")
     UserModel findByNameAndPassword(UserModel model);
 
-    @Select("SELECT * FROM tb_user WHERE no = #{no} AND password = #{password} AND system_administrator = #{ordinaryTeacher}")
+    @Select("SELECT * FROM tb_user WHERE no = #{no} AND password = #{password} AND identify = 3")
     @ResultMap("teacherMap")
     UserModel findByNoAndPassword(UserModel model);
 
@@ -97,6 +97,7 @@ public interface HelperRepository {
             }
             sql.VALUES("update_time", "now()");
             sql.VALUES("create_time", "now()");
+            sql.VALUES("identify", "3");
 
             return sql.toString();
         }
@@ -120,6 +121,7 @@ public interface HelperRepository {
             if (model.getDepartmentId() != null && !"".equals(model.getDepartmentId())) {
                 sql.WHERE("department_id = #{departmentId}");
             }
+            sql.WHERE("identify = 3");
             return sql.toString();
         }
 
@@ -147,6 +149,8 @@ public interface HelperRepository {
             sql.SET("update_time = now()");
 
             sql.WHERE("id = #{id}");
+            sql.WHERE("identify = 3");
+
             return sql.toString();
         }
     }

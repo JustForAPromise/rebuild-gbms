@@ -22,11 +22,6 @@ public interface UserRepository {
             @Result(column = "password", property = "password", javaType = String.class),
             @Result(column = "identify", property = "identify", javaType = Integer.class),
 
-            @Result(column = "ordinary_teacher", property = "ordinaryTeacher", javaType = Boolean.class),
-            @Result(column = "ordinary_student", property = "ordinaryStudent", javaType = Boolean.class),
-            @Result(column = "senate_members", property = "senateMembers", javaType = Boolean.class),
-            @Result(column = "system_administrator", property = "systemAdministrator", javaType = Boolean.class),
-
             @Result(column = "create_time", property = "createTime", javaType = Date.class),
             @Result(column = "update_time", property = "updateTime", javaType = Date.class),
 
