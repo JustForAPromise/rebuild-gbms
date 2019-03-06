@@ -1,5 +1,7 @@
 package com.fhx.gdms.taskbook.model;
 
+import com.fhx.gdms.projections.model.ProjectionModel;
+import com.fhx.gdms.user.model.UserModel;
 import lombok.Data;
 
 import java.util.Date;
@@ -7,47 +9,61 @@ import java.util.Date;
 @Data
 public class TaskBookModel {
 
-    Integer id;
+    private Integer id;
 
     /**
      * 文件地址
      */
-    String file;
+    private String filePath;
 
     /**
-     * 终稿地址
+     * 审阅状态 0未审阅 1通过 2未通过
      */
-    String finalFile;
+    private Integer auditStatus;
+
 
     /**
-     * 提交次数
+     * 评语
      */
-    String uploadNum;
+    private String auditRemark;
 
     /**
      * 创建时间
      */
-    Date createTime;
+    private Date createTime;
 
     /**
      * 更新时间
      */
-    Date updateTime;
+    private Date updateTime;
 
     /**
      * 学生id
      */
-    Integer studentId;
+    private Integer studentId;
 
     /**
      * 指导教师id
      */
-    Integer teacherId;
+    private Integer teacherId;
 
     /**
      * 课题id
      */
-    Integer projectionId;
+    private Integer projectionId;
 
+    /**
+     * 扩展：学生
+     */
+    private UserModel student;
 
+    /**
+     * 扩展：指导教师
+     */
+    private UserModel teacher;
+
+    /**
+     * 扩展：指导教师
+     */
+    private ProjectionModel projection;
 }

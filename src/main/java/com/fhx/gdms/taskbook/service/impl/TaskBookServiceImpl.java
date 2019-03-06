@@ -6,6 +6,7 @@ import com.fhx.gdms.taskbook.service.TaskBookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
 import java.util.List;
 
 @Service
@@ -15,7 +16,9 @@ public class TaskBookServiceImpl implements TaskBookService {
 
     @Override
     public TaskBookModel save(TaskBookModel model) {
-        return null;
+        taskBookRepository.save(model);
+
+        return this.findById(model.getId());
     }
 
     @Override
@@ -24,22 +27,35 @@ public class TaskBookServiceImpl implements TaskBookService {
     }
 
     @Override
-    public TaskBookModel saveTeacher(TaskBookModel model) {
-        return null;
+    public List<TaskBookModel> findList(TaskBookModel model) {
+        return taskBookRepository.findList(model);
     }
 
     @Override
-    public TaskBookModel updateTeacher(TaskBookModel model) {
-        return null;
+    public void saveTaskBook(TaskBookModel taskBookModel) {
+        TaskBookModel existModel = taskBookRepository.findOne(taskBookModel);
+        if (existModel != null){
+            this.deleteTackBookRecord(existModel);
+        }
+
+        this.save(taskBookModel);
     }
 
     @Override
-    public List<TaskBookModel> findAll() {
-        return null;
+    public TaskBookModel findById(Integer id) {
+        return taskBookRepository.findById(id);
     }
 
     @Override
-    public List<TaskBookModel> findTeacher(TaskBookModel model) {
-        return null;
+    public void deleteTackBookRecord(TaskBookModel existModel) {
+        File file = new File(existModel.getFilePath());
+        file.delete();
+
+        this.deleteById(existModel.getId());
+    }
+
+    @Override
+    public void deleteById(Integer id) {
+        taskBookRepository.deleteById(id);
     }
 }

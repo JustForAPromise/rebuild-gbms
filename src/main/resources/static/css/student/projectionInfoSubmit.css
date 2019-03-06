@@ -1,4 +1,39 @@
-.body{
-	margin-left: 30px;
-	margin-top: 20px;
+body {
+    background-color: #FFFFFF;
 }
+
+.body {
+    margin-left: 30px;
+    margin-top: 20px;
+}
+
+/* 未访问的链接 */
+a:link {
+    color: #000000
+}
+
+/* 已访问的链接 */
+a:visited {
+    color: #69a3e8
+}
+
+/* 鼠标移动到链接上 */
+a:hover {
+    color: #000000
+}
+
+/* 选定的链接 */
+a:active {
+    color: #000000
+}
+
+.historyBody table tbody tr td:nth-child(-n+3){
+    text-align:center
+}
+.historyBody table tbody tr td:nth-child(4){
+    text-align: left;
+    padding-left: 5px;
+}
+
+
+

@@ -1,48 +1,68 @@
 package com.fhx.gdms.theses.model;
 
+import com.fhx.gdms.projections.model.ProjectionModel;
+import com.fhx.gdms.user.model.UserModel;
+import lombok.Data;
+
 import java.util.Date;
 
+@Data
 public class ThesesModel {
-
-    Integer id;
-
-    /**
-     * 论文文件链接
-     */
-    String fileLink;
+    private Integer id;
 
     /**
-     * 论文终稿链接
+     * 文件地址
      */
-    String finalFileLink;
+    private String filePath;
 
     /**
-     * 提交次数
+     * 审阅状态 0未审阅 1通过 2未通过
      */
-    Integer uploadNum;
+    private Integer auditStatus;
+
+
+    /**
+     * 评语
+     */
+    private String auditRemark;
 
     /**
      * 创建时间
      */
-    Date createTime;
+    private Date createTime;
 
     /**
      * 更新时间
      */
-    Date updateTime;
-
-    /**
-     * 指导教师id
-     */
-    Integer teacherId;
+    private Date updateTime;
 
     /**
      * 学生id
      */
-    Integer studentId;
+    private Integer studentId;
+
+    /**
+     * 指导教师id
+     */
+    private Integer teacherId;
 
     /**
      * 课题id
      */
-    Integer projectionId;
+    private Integer projectionId;
+
+    /**
+     * 扩展：学生
+     */
+    private UserModel student;
+
+    /**
+     * 扩展：指导教师
+     */
+    private UserModel teacher;
+
+    /**
+     * 扩展：指导教师
+     */
+    private ProjectionModel projection;
 }

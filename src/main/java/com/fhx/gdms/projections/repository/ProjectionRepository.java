@@ -50,6 +50,10 @@ public interface ProjectionRepository {
     @Update("update tb_projection set student_id = #{studentId} where id = #{projectionId}")
     void updateStudentId(@Param("projectionId")Integer projectionId, @Param("studentId")Integer studentId);
 
+    @Select("SELECT * FROM tb_projection WHERE student_id= #{studentId} AND teacher_id = #{teacherId} LIMIT 1")
+    @ResultMap(value = "projectionMap")
+    ProjectionModel findByUserIdAndTeacherId(@Param("studentId")Integer studentId, @Param("teacherId")Integer teacherId);
+
     /********** 内部类 *********/
 
     class ProjectionProvider {

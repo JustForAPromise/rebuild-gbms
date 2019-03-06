@@ -120,4 +120,9 @@ public class ProjectionServiceImpl implements ProjectionService {
     public void updateStudentId(Integer projectionId, Integer studentId) {
         projectionRepository.updateStudentId(projectionId, studentId);
     }
+
+    @Override
+    public ProjectionModel findByUserIdAndTeacherId(Integer studentId, Integer teacherId) {
+        return projectionRepository.findByUserIdAndTeacherId(studentId, teacherId);
+    }
 }

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>学生信息管理</title>
+
+    <link rel="stylesheet" type="text/css" href="/css/student/projectionInfoSubmit.css">
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap-theme.min.css">
+
+    <script type="text/javascript" src="/js/jquery.js"></script>
+    <script type="text/javascript" src="/js/swiper.jquery.min.js"></script>
+</head>
+<body>
+<div class="historyBody">
+    <a href="/student/projectionInfo"><input type="button" value="返回"></a><br>
+    <table style="margin-left: 20px; margin-top: 10px">
+        <thead>
+        <tr>
+            <th width="80px">序号</th>
+            <th width="110px">提交日期</th>
+            <th width="110px">审阅状态</th>
+            <th style="min-width: 150px; max-width: 300px">教师意见</th>
+            <th width="110px"></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="record,iterStat : ${records}">
+            <td th:text="${iterStat.count}"></td>
+            <td th:text="${#dates.format(record.createTime, 'yyyy-MM-dd')}"></td>
+            <td th:if="${record.auditStatus ==0}" style="color: #080808">未审阅</td>
+            <td th:if="${record.auditStatus ==2}" style="color: red">未通过</td>
+            <td th:if="${record.auditStatus ==1}" style="color: darkorange">审阅通过</td>
+            <td th:text="${record.auditRemark}"></td>
+            <td><a th:href="@{'/theses/record/'+${record.id}}"><input type="button" value="下载文件"></a></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

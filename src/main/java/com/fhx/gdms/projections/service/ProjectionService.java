@@ -88,4 +88,12 @@ public interface ProjectionService {
      * @param studentId
      */
     void updateStudentId(Integer projectionId, Integer studentId);
+
+    /**
+     * studentId + teacherId 查询
+     * @param studentId
+     * @param teacherId
+     * @return
+     */
+    ProjectionModel findByUserIdAndTeacherId(Integer studentId, Integer teacherId);
 }

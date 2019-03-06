@@ -1,26 +1,29 @@
 package com.fhx.gdms.taskbook.controllers;
 
+import com.fhx.gdms.projections.service.ProjectionService;
 import com.fhx.gdms.supportUtil.ApiResult;
 import com.fhx.gdms.supportUtil.FileUtil;
+import com.fhx.gdms.taskbook.model.TaskBookModel;
 import com.fhx.gdms.taskbook.service.TaskBookService;
 import com.fhx.gdms.user.model.UserModel;
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.ResourceUtils;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.*;
 import java.net.URLEncoder;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 
 @Controller
 @RequestMapping("/taskBook")
@@ -29,6 +32,10 @@ public class TaskBookController {
     @Autowired
     private TaskBookService taskBookService;
 
+
+    @Autowired
+    private ProjectionService projectionService;
+
     @Autowired
     private HttpSession session;
 
@@ -36,58 +43,93 @@ public class TaskBookController {
     @ResponseBody
     ApiResult save(@RequestParam("file") MultipartFile file) {
         ApiResult apiResult = new ApiResult();
-
         if (file.isEmpty()) {
             apiResult.setCode(-1);
             apiResult.setMsg("Please select a file to upload");
             return apiResult;
         }
 
-        String uploadDir = FileUtil.getThesesFileDir();
+        //获取用户信息
+        UserModel student = (UserModel)session.getAttribute("userInfo");
 
+        //构建model
+        TaskBookModel taskBookModel = new TaskBookModel();
+        taskBookModel.setStudentId(student.getId());
+        taskBookModel.setTeacherId(student.getTeacherId());
+        taskBookModel.setProjectionId(projectionService.findByUserIdAndTeacherId(student.getId(), student.getTeacherId()).getId());
+        taskBookModel.setAuditStatus(0);
+
+        //拼接学生文件夹
+        String uploadDir = FileUtil.getTaskBookFileDir();
+        uploadDir = uploadDir + student.getNo() + File.separator;
         try {
             byte[] bytes = file.getBytes();
-            Path path = Paths.get(uploadDir + file.getOriginalFilename());
-            Files.write(path, bytes);
 
+            String prefix=file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf(".")+1);
+            String path = uploadDir + new DateTime().toString("yyMMdd-HHmm") + "." + prefix;
+            File newFile = new File(path);
+            if (!newFile.getParentFile().exists()){
+                newFile.getParentFile().mkdirs();
+            }
+            Files.write(Paths.get(path), bytes);
+
+            //保存文件路径
+            taskBookModel.setFilePath(path);
         } catch (IOException e) {
             e.printStackTrace();
+            apiResult.setCode(-1);
+            apiResult.setMsg("上传失败！");
+            return apiResult;
         }
 
-        return null;
+        taskBookService.saveTaskBook(taskBookModel);
+
+        apiResult.setCode(0);
+        apiResult.setMsg("上传成功！");
+        return apiResult;
     }
 
 
+    @RequestMapping(value = "/records", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    ModelAndView records() {
+        ApiResult apiResult = new ApiResult();
 
-    // 获取指定目录下的第一个文件
+        //获取用户信息
+        UserModel student = (UserModel)session.getAttribute("userInfo");
+        //构建model
+        TaskBookModel taskBookModel = new TaskBookModel();
+        taskBookModel.setStudentId(student.getId());
+        taskBookModel.setTeacherId(student.getTeacherId());
+        taskBookModel.setProjectionId(projectionService.findByUserIdAndTeacherId(student.getId(), student.getTeacherId()).getId());
 
-    File path = null;
-        try {
-        path = new File(ResourceUtils.getURL("classpath:").getPath());
-    } catch (
-    FileNotFoundException e) {
-        e.printStackTrace();
+        List<TaskBookModel> list = taskBookService.findList(taskBookModel);
+
+        ModelAndView modelAndView = new ModelAndView("/student/info/submitHistory.html");
+        modelAndView.addObject("records", list);
+        return modelAndView;
     }
-    String filePath = path.getParentFile().getParentFile().getParent() + File.separator + "test" + File.separator;
 
-    File scFileDir = new File(filePath);
-    File TrxFiles[] = scFileDir.listFiles();
-        System.out.println(TrxFiles[0]);
-    String fileName = TrxFiles[0].getName(); //下载的文件名
+    @RequestMapping(value = "/record/{id}", method = RequestMethod.GET)
+    void record(@PathVariable("id") Integer id, HttpServletResponse response) {
+        ApiResult apiResult = new ApiResult();
 
-    // 如果文件名不为空，则进行下载
-        if (fileName != null) {
-        //设置文件路径
-        String realPath = filePath;
-        File file = new File(realPath, fileName);
+        //获取用户信息
+        UserModel student = (UserModel) session.getAttribute("userInfo");
+        //构建model
+        TaskBookModel taskBookModel = taskBookService.findById(id);
+        if (student.getId() != taskBookModel.getStudentId()) {
+            return;
+        }
 
-        // 如果文件名存在，则进行下载
+        File file = new File(taskBookModel.getFilePath());
+
         if (file.exists()) {
+            String fileName = student.getNo() + "-taskBook." + file.getPath().substring(file.getPath().lastIndexOf(".") + 1);
             // 配置文件下载
             response.setHeader("content-type", "application/octet-stream");
             response.setContentType("application/octet-stream");
             // 下载文件能正常显示中文
-            response.setHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode(fileName, "UTF-8"));
+            response.setHeader("Content-Disposition", "attachment;filename=" +fileName);
 
             // 实现文件下载
             byte[] buffer = new byte[1024];
@@ -102,9 +144,9 @@ public class TaskBookController {
                     os.write(buffer, 0, i);
                     i = bis.read(buffer);
                 }
-                System.out.println("Download the song successfully!");
             } catch (Exception e) {
-                System.out.println("Download the song failed!");
+                e.printStackTrace();
+                return;
             } finally {
                 if (bis != null) {
                     try {
@@ -123,5 +165,4 @@ public class TaskBookController {
             }
         }
     }
-        return null;
 }

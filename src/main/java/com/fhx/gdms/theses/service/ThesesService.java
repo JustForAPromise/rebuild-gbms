@@ -19,29 +19,34 @@ public interface ThesesService {
     ThesesModel update(ThesesModel model);
 
     /**
-     * 创建
-     * @param model
-     * @return
-     */
-    ThesesModel saveTeacher(ThesesModel model);
-
-    /**
-     * 更新
-     * @param model
-     * @return
-     */
-    ThesesModel updateTeacher(ThesesModel model);
-
-    /**
-     * 查询全部
-     * @return
-     */
-    List<ThesesModel> findAll();
-
-    /**
      * 条件查询
      * @param model
      * @return
      */
-    List<ThesesModel> findTeacher(ThesesModel model);
+    List<ThesesModel> findList(ThesesModel model);
+
+    /**
+     * 创建
+     * @param model
+     */
+    void saveTheses(ThesesModel model);
+
+    /**
+     * id 查询
+     * @param id
+     * @return
+     */
+    ThesesModel findById(Integer id);
+
+    /**
+     * 删除提交记录(包括文件)
+     * @param existModel
+     */
+    void deleteThesesRecord(ThesesModel existModel);
+
+    /**
+     * 删除记录
+     * @param id
+     */
+    void deleteById(Integer id);
 }

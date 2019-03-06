@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>学生信息管理</title>
 
-    <link rel="stylesheet" type="text/css" href="\css\student\projectionInfoSubmit.css">
+    <link rel="stylesheet" type="text/css" href="/css/student/projectionInfoSubmit.css">
     <link rel="stylesheet" type="text/css" href="/css/bootstrap-theme.min.css">
     <link rel="stylesheet" type="text/css" href="/css/bootstrap.css">
     <link rel="stylesheet" type="text/css" href="/css/swiper.min.css">
@@ -17,51 +17,54 @@
 <div class="body">
     <fieldset>
         <legend>任务书提交：</legend>
-        <form id="taskBook">
+        <form id="taskBook" enctype="multipart/form-data" name="taskBook">
             <label>文件： </label><input type="file" , name="file" style="display: inline-block">
             <input type="button" value="提交">
         </form>
         <br>
-        <input type="button" value="查看历史提交记录" width="">
+        <a href="/taskBook/records"><input type="button" value="查看历史提交记录"></a>
     </fieldset>
 
     <br><br><br>
 
     <fieldset>
         <legend>论文提交：</legend>
-        <form id="these">
+        <form id="these" enctype="multipart/form-data" name="these">
             <label>文件： </label><input type="file" , name="file" style="display: inline-block">
             <input type="button" value="提交">
         </form>
         <br>
-        <input type="button" value="查看历史提交记录">
+        <a href="/theses/records"><input type="button" value="查看历史提交记录"></a>
     </fieldset>
 </div>
 
 <script th:if="${flag !=false}">
     $(document).ready(function () {
         $('#taskBook input[value="提交"]').click(function () {
-            var formData = $("#taskBook")
+            var form = document.forms.namedItem("taskBook");
+            submitTaskBook(new FormData(form))
 
-            submitTaskBook(formData)
-
+            form.reset();
         })
-        $('#these input[value="提交"]').click(function () {
-            var formData = $("#these")
-            submitThese(formData)
 
+        $('#these input[value="提交"]').click(function () {
+            var form = document.forms.namedItem("these");
+            submitThese(new FormData(form))
+
+            form.reset();
         })
     })
     function submitTaskBook(formData) {
         $.ajax({
             url: '/taskBook/add',
             type: 'POST',
-            data:formData.serialize(),
-            dataType: 'json',
+            data:formData,
+            processData: false,
+            contentType: false,
             success: function (data) {
                 if (data.code == -1) {
                     alert(data.msg)
-                } else {
+                } else if (data.code == 0) {
                     alert(data.msg)
                 }
             }
@@ -72,8 +75,9 @@
         $.ajax({
             url: '/theses/add',
             type: 'POST',
-            data:formData.serialize(),
-            dataType: 'json',
+            data:formData,
+            processData: false,
+            contentType: false,
             success: function (data) {
                 if (data.code == -1) {
                     alert(data.msg)

@@ -19,29 +19,34 @@ public interface TaskBookService {
     TaskBookModel update(TaskBookModel model);
 
     /**
-     * 创建
-     * @param model
-     * @return
-     */
-    TaskBookModel saveTeacher(TaskBookModel model);
-
-    /**
-     * 更新
-     * @param model
-     * @return
-     */
-    TaskBookModel updateTeacher(TaskBookModel model);
-
-    /**
-     * 查询全部
-     * @return
-     */
-    List<TaskBookModel> findAll();
-
-    /**
      * 条件查询
      * @param model
      * @return
      */
-    List<TaskBookModel> findTeacher(TaskBookModel model);
+    List<TaskBookModel> findList(TaskBookModel model);
+
+    /**
+     * 创建
+     * @param taskBookModel
+     */
+    void saveTaskBook(TaskBookModel taskBookModel);
+
+    /**
+     * id 查询
+     * @param id
+     * @return
+     */
+    TaskBookModel findById(Integer id);
+
+    /**
+     * 删除提交记录(包括文件)
+     * @param existModel
+     */
+    void deleteTackBookRecord(TaskBookModel existModel);
+
+    /**
+     * 删除记录
+     * @param id
+     */
+    void deleteById(Integer id);
 }
