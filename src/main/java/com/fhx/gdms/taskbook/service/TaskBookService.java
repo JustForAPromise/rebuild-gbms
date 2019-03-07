@@ -1,6 +1,7 @@
 package com.fhx.gdms.taskbook.service;
 
 import com.fhx.gdms.taskbook.model.TaskBookModel;
+import com.fhx.gdms.user.model.UserModel;
 
 import java.util.List;
 
@@ -49,4 +50,12 @@ public interface TaskBookService {
      * @param id
      */
     void deleteById(Integer id);
+
+    /**
+     * 根据学生信息 + 教师信息查询
+     * @param teacher
+     * @param student
+     * @return
+     */
+    List<TaskBookModel> listTaskBook(UserModel teacher, UserModel student);
 }

@@ -88,6 +88,19 @@ public interface TaskBookRepository {
             if (model.getProjectionId() != null) {
                 sql.WHERE("projection_id = #{projectionId}");
             }
+            if (model.getStudentIds().size() > 0) {
+                StringBuffer inSQl = new StringBuffer("student_id in(");
+                for (int i = 0, j = model.getStudentIds().size(); i < j; i++){
+                    inSQl.append(model.getStudentIds().get(i));
+                    if (i == j-1){
+                        inSQl.append(")");
+                    }else{
+                        inSQl.append(",");
+                    }
+                }
+                sql.WHERE(inSQl.toString());
+            }
+
             return sql.toString();
         }
     }

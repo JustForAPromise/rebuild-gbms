@@ -109,6 +109,26 @@ public class TaskBookController {
         return modelAndView;
     }
 
+
+    @RequestMapping(value = "/listTaskBook", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ResponseBody
+    ApiResult listTaskBook(String no, String name) {
+        ApiResult apiResult = new ApiResult();
+        //获取用户信息
+        UserModel teacher = (UserModel)session.getAttribute("userInfo");
+
+        UserModel student = new UserModel();
+        student.setNo(no);
+        student.setName(name);
+
+        List<TaskBookModel> list = taskBookService.listTaskBook(teacher, student);
+
+        apiResult.setCode(0);
+        apiResult.setData(list);
+        return apiResult;
+    }
+
+
     @RequestMapping(value = "/record/{id}", method = RequestMethod.GET)
     void record(@PathVariable("id") Integer id, HttpServletResponse response) {
         ApiResult apiResult = new ApiResult();

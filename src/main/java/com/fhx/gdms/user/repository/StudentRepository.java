@@ -66,6 +66,9 @@ public interface StudentRepository {
     @Update("update tb_user set teacher_id = #{teacherId} where id = #{studentId} AND identify = 2")
     void updateTeacherId(@Param("studentId")Integer studentId, @Param("teacherId")Integer teacherId);
 
+    @Select("SELECT id FROM tb_user WHERE no like #{no} AND name like #{name} AND teacher_id = #{teacherId} AND identify = 2")
+    List<Integer> listStudentId(UserModel student);
+
 
     /********** 内部类 *********/
 

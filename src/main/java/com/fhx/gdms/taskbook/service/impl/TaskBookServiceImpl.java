@@ -1,8 +1,12 @@
 package com.fhx.gdms.taskbook.service.impl;
 
+import com.fhx.gdms.projections.service.ProjectionService;
 import com.fhx.gdms.taskbook.model.TaskBookModel;
 import com.fhx.gdms.taskbook.repository.TaskBookRepository;
 import com.fhx.gdms.taskbook.service.TaskBookService;
+import com.fhx.gdms.user.model.UserModel;
+import com.fhx.gdms.user.service.StudentService;
+import javafx.concurrent.Task;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +17,12 @@ import java.util.List;
 public class TaskBookServiceImpl implements TaskBookService {
     @Autowired
     private TaskBookRepository taskBookRepository;
+
+    @Autowired
+    private StudentService studentService;
+
+    @Autowired
+    private ProjectionService projectionService;
 
     @Override
     public TaskBookModel save(TaskBookModel model) {
@@ -58,4 +68,30 @@ public class TaskBookServiceImpl implements TaskBookService {
     public void deleteById(Integer id) {
         taskBookRepository.deleteById(id);
     }
+
+    @Override
+    public List<TaskBookModel> listTaskBook(UserModel teacher, UserModel student) {
+
+        if (student.getNo() != null) {
+            student.setNo("%" + student.getNo() + "%");
+        }
+        if (student.getName() != null) {
+            student.setName("%" + student.getName() + "%");
+        }
+        student.setTeacherId(teacher.getId());
+        List<Integer> studentIds = studentService.listStudentId(student);
+
+        TaskBookModel taskBookModel = new TaskBookModel();
+        taskBookModel.setStudentIds(studentIds);
+        taskBookModel.setTeacherId(teacher.getId());
+
+        List<TaskBookModel> taskBookModelList = taskBookRepository.findList(taskBookModel);
+
+        taskBookModelList.stream().forEach(data ->{
+            data.setStudent(studentService.findById(data.getStudentId()));
+            data.setProjection(projectionService.findById(data.getProjectionId()));
+        });
+        return taskBookModelList;
+    }
+
 }

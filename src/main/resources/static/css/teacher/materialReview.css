@@ -1,0 +1,36 @@
+.body {
+    padding-top: 10px;
+    padding-left: 20px;
+    background-color: #FFFFFF;
+}
+
+.body input {
+    border-radius: 5px;
+}
+
+.function {
+    margin-bottom: 10px;
+}
+
+.displays {
+    min-height: 300px;
+    min-width: 6000px;
+}
+
+.hides {
+    display: none;
+}
+
+.search {
+    margin-top: 5px;
+}
+
+.tables{
+    margin-top: 10px;
+    margin-left: 10px;
+
+}
+
+.tables th, .tables td{
+    text-align: center;
+}

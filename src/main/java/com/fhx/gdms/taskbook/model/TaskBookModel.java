@@ -5,6 +5,7 @@ import com.fhx.gdms.user.model.UserModel;
 import lombok.Data;
 
 import java.util.Date;
+import java.util.List;
 
 @Data
 public class TaskBookModel {
@@ -66,4 +67,10 @@ public class TaskBookModel {
      * 扩展：指导教师
      */
     private ProjectionModel projection;
+
+    /*********** 辅助参数 *********/
+    /**
+     * 学生id  in参数
+     */
+    private List<Integer> studentIds;
 }

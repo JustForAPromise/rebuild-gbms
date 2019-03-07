@@ -91,4 +91,11 @@ public interface StudentService {
      * @param teacherId
      */
     void updateTeacherId(Integer studentId, Integer teacherId);
+
+    /**
+     * list student id  by no and name and id of teacher
+     * @param student
+     * @return
+     */
+    List<Integer> listStudentId(UserModel student);
 }
