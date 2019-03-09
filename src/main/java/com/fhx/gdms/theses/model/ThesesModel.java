@@ -5,10 +5,17 @@ import com.fhx.gdms.user.model.UserModel;
 import lombok.Data;
 
 import java.util.Date;
+import java.util.List;
 
 @Data
 public class ThesesModel {
+
     private Integer id;
+
+    /**
+     * 文件类型 1任务书 2论文
+     */
+    private Integer fileType;
 
     /**
      * 文件地址
@@ -19,7 +26,6 @@ public class ThesesModel {
      * 审阅状态 0未审阅 1通过 2未通过
      */
     private Integer auditStatus;
-
 
     /**
      * 评语
@@ -65,4 +71,10 @@ public class ThesesModel {
      * 扩展：指导教师
      */
     private ProjectionModel projection;
+
+    /*********** 辅助参数 *********/
+    /**
+     * 学生id  in参数
+     */
+    private List<Integer> studentIds;
 }

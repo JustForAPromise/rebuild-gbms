@@ -21,21 +21,21 @@
 
 <!--内容-->
 <div class="displays hides">
-    <div>
-        <input type="button" value="查看统计">
-
-        <!-- 模态框开始 -->
-        <div class="top myModal hide">
-            <p class="p"><h5>已提交人数：</h5><span></span></p>
-            <p class="p"><h5>未提交人数：</h5><span></span><input type="button" value="查看"></p>
-            <p class="p"><h5>已通过人数：</h5><span></span></p>
-            <p class="p"><h5>未通过人数：</h5><span></span><input type="button" value="查看"></p>
-            <p class="p"><input type="button" value="关闭"></p>
-        </div>
-        <div class="top shade hide"></div>
-        <!-- 模态框结束 -->
+    <!--内容标题-->
+    <legend class="title"></legend>
+    <div class="search search-student">
+        <span>学生查询 ---> &nbsp;&nbsp;&nbsp;</span>
+        <label>状态：</label>
+        <select name="status">
+            <option>已提交</option>
+            <option>未提交</option>
+            <option>已通过</option>
+            <option>未通过</option>
+        </select>
+        <input type="button" value="搜索">
     </div>
-    <div class="search">
+    <div class="search search-material">
+        <span>提交材料查找 ---> &nbsp;&nbsp;&nbsp;</span>
         <label>学号：</label><input type="text" name="no">
         <span>&nbsp;&nbsp;</span>
         <label>姓名：</label><input type="text" name="name">
@@ -43,29 +43,44 @@
     </div>
     <div>
         <!-- 批阅模态框开始 -->
-        <div class="top myModal hide">
-            <p style="display: none"><input type="text" name="id"></p>
-            <p class="p">
-                <label>状态：</label>
-                <select name="auditStatus">
-                    <option value="1">通过</option>
-                    <option value="2">待修改</option>
-                </select>
+        <div class="bottoms myModal hide">
+            <p style="display: none">
+                <input type="text" name="id" class="hide">
+                <input type="text" name="type" class="hide">
             </p>
             <p class="p">
-                <label>审阅意见：</label>
-                <textarea name="auditRemark"></textarea>
+            <table style="margin-left: 20px">
+                <tr>
+                    <td>
+                        <label>状态：</label>
+                    </td>
+                    <td>
+                        <select name="auditStatus">
+                            <option value="1">通过</option>
+                            <option value="2">待修改</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label>审阅意见：</label>
+                    </td>
+                    <td>
+                        <textarea name="auditRemark"></textarea>
+                    </td>
+                </tr>
+            </table>
             </p>
             <p class="p"><input type="button" value="取消"><input type="button" value="提交"></p>
         </div>
-        <div class="top shade hide"></div>
+        <div class="bottoms shade hide"></div>
         <!-- 批阅模态框结束 -->
 
         <table class="tables data">
             <thead>
             <tr>
                 <th width="50px">序号</th>
-                <th  width="100px">学号</th>
+                <th width="100px">学号</th>
                 <th width="100px">姓名</th>
                 <th width="200px">课题</th>
                 <th width="180px">提交日期</th>
@@ -74,15 +89,8 @@
             </tr>
             </thead>
             <tbody id="dataList">
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td><input type="button" value="下载文件"><input type="button" value="审批" store=""></td>
-            </tr>
+
+
             </tbody>
         </table>
     </div>
@@ -94,55 +102,64 @@
     $(document).ready(function () {
         $('input[value="任务书审阅"]').click(function () {
             $('.displays').removeClass('hides');
+            $('.title').html('任务书提交情况');
+            $('input[value = "查看统计"]').attr('store', "1");
 
             listTaskBook(null, null)
         })
 
         $('input[value="论文审阅"]').click(function () {
             $('.displays').removeClass('hides');
-
-            findByAuditStatus(2)
+            $('.title').html('论文提交情况');
+            $('input[value = "查看统计"]').attr('store', "2");
+            listTheses(null, null)
         })
 
 
-        //添加按钮 显示模态框
+        //查看统计按钮 显示模态框
         $('input[value="查看统计"]').click(function () {
-            $('.top .hide').removeClass('hide');
+            var type = $(this).attr("store");
+            if (type == 1) {
+                countTaskBook();
+                $('.tops').removeClass('hide');
+            } else if (type == 2) {
+                countTheses()
+                $('.tops').removeClass('hide');
+            } else (
+                alert("ERROR")
+            );
+        })
+
+        $('input[value="关闭"]').click(function () {
+            $('.tops').addClass('hide');
         })
 
 
-        //确定按钮 添加ajax
-        $('input[value="确定"]').click(function () {
-            $('.top .myModal, .top .shade').addClass('hide');
-        })
+        $(".data").on("click", "input[value='审批']", function () {
+            $('.bottoms input[name="id"]').val($(this).attr("store"));
+            $('.bottoms input[name="type"]').val($(this).attr("fileType"));
 
-        //取消按钮
+            $('.bottoms').removeClass('hide');
+        })
+        $('input[value="提交"]').click(function () {
+            $('.bottoms').addClass('hide');
+
+            var id = $('.bottoms input[name="id"]').val();
+            var type = $('.bottoms input[name="type"]').val();
+            var status = $('.bottoms select[name="auditStatus"]').val();
+            var remark = $('.bottoms textarea').val();
+            if (type == 1) {
+                updateTaskBook(id, status, remark)
+            } else if (type == 2) {
+                updateTheses(id, status, remark)
+            }
+        })
         $('input[value="取消"]').click(function () {
-            $('.myModal input[name="id"]').val("");
-            $('.myModal input[name="title"]').val("");
-            $('.myModal textarea').val("");
+            $('.bottoms input[name="id"]').val("");
+            $('.bottoms select[name="auditStatus"]').val("1");
+            $('.bottoms textarea').val("");
 
-            $('.myModal,.shade').addClass('hide');
-        })
-
-        //下载文件按钮
-        $(".data").on("click", "input[value='下载文件']", function () {
-            var id = $(this).attr("store");
-            var a = document.createElement('a'); // 创建a标签
-            $(a).css("display","none")
-            a.setAttribute('href', '/taskBook/record/'+id);// href链接
-            a.click();// 自执行点击事件
-            a.remove()
-        })
-
-        //删除按钮
-        $(".data").on("click", "input[value='删除']", function () {
-            var tds = $(this).parent().prevAll();
-            //jquery对象加上索引是dom对象
-            var id = $(tds[3]).attr("store");
-            var status = $(tds[3]).attr("status");
-            deleteById(id);
-            findByAuditStatus(status)
+            $('.bottoms').addClass('hide');
         })
     });
 
@@ -163,8 +180,6 @@
         return fmt;
     }
 
-
-    // 时间函数
     function listTaskBook(no, name) {
         $.ajax({
             url: '/taskBook/listTaskBook',
@@ -181,15 +196,16 @@
 
                 for (i = 0; i < data.data.length; i++) {
                     var str = "<tr><td>" + (i + 1) + "</td> "
-                        +"<td>" + data.data[i].student.no + "</td> "
-                        +"<td>" + data.data[i].student.name + "</td> "
-                        +"<td>" + data.data[i].projection.title + "</td> "
-                        +"<td>" + (new Date(data.data[i].createTime)).Format("yyyy-MM-dd hh:mm:ss") + "</td> "
+                        + "<td>" + data.data[i].student.no + "</td> "
+                        + "<td>" + data.data[i].student.name + "</td> "
+                        + "<td>" + data.data[i].projection.title + "</td> "
+                        + "<td>" + (new Date(data.data[i].createTime)).Format("yyyy-MM-dd hh:mm:ss") + "</td> "
 
                     if (data.data[i].auditStatus == 0) {
                         str = str + "<td style='color: #0e0074;'>未审核</td>"
-                            + "<td><input type=\"button\" name=\"\" value=\"下载文件\" store=\"" + data.data[i].id + "\">"
-                            +"<input type=\"button\" value=\"审批\" store=\""+ data.data[i].id + " \"></td>";
+                            + "<td><a href=\"/taskBook/record/" + data.data[i].id + "\"><input type=\"button\" value=\"下载文件\" ></a>"
+                            + "<input type=\"button\" value=\"审批\" store=\"" + data.data[i].id + " \" fileType =\"" + data.data[i].fileType + "\"></td>";
+
                     } else if (data.data[i].auditStatus == 1) {
                         str = str + "<td style='color: #e9a931;'>通过</td><td></td>"
                     } else if (data.data[i].auditStatus == 2) {
@@ -203,62 +219,108 @@
         });
     }
 
-
-    function deleteById(id) {
+    function listTheses(no, name) {
         $.ajax({
-            url: '/projection/deleteById',
-            type: 'DELETE',
+            url: '/theses/listTheses',
+            type: 'GET',
             data: {
-                id: id
+                no: no,
+                name: name
             },
             async: false,
             dataType: 'json',
             success: function (data) {
-                if (data.code == -1) {
-                    alert(data.msg)
+                var dataList = $("#dataList");
+                dataList.html("");
+
+                for (i = 0; i < data.data.length; i++) {
+                    var str = "<tr><td>" + (i + 1) + "</td> "
+                        + "<td>" + data.data[i].student.no + "</td> "
+                        + "<td>" + data.data[i].student.name + "</td> "
+                        + "<td>" + data.data[i].projection.title + "</td> "
+                        + "<td>" + (new Date(data.data[i].createTime)).Format("yyyy-MM-dd hh:mm:ss") + "</td> "
+
+                    if (data.data[i].auditStatus == 0) {
+                        str = str + "<td style='color: #0e0074;'>未审核</td>"
+                            + "<td><a href=\"/theses/record/" + data.data[i].id + "\"><input type=\"button\" name=\"\" value=\"下载文件\" ></a>"
+                            + "<input type=\"button\" value=\"审批\" store=\"" + data.data[i].id + " fileType =\"" + data.data[i].fileType + "\" ></td>";
+
+                    } else if (data.data[i].auditStatus == 1) {
+                        str = str + "<td style='color: #e9a931;'>通过</td><td></td>"
+                    } else if (data.data[i].auditStatus == 2) {
+                        str = str + "<td style='color: #e9005f;'>未通过</td><td></td>";
+                    }
+                    str = str + "</tr>";
+
+                    dataList.append(str)
                 }
             }
         });
     }
 
-    function add(title, require, introduce) {
+    function updateTaskBook(id, status, remark) {
         $.ajax({
-            url: '/projection/add',
-            type: 'POST',
-            data: {
-                title: title,
-                demand: require,
-                introduce: introduce
-            },
-            dataType: 'json',
-            success: function (data) {
-                if (data.code == -1) {
-                    alert(data.msg)
-                } else {
-                    findByAuditStatus(0);
-                }
-            }
-        });
-    }
-
-    function update(id, title, require, introduce) {
-        $.ajax({
-            url: '/projection/update',
+            url: '/taskBook/updateAudit',
             type: 'POST',
             data: {
                 id: id,
-                title: title,
-                demand: require,
-                introduce: introduce
+                status: status,
+                remark: remark
             },
             dataType: 'json',
             success: function (data) {
                 if (data.code == -1) {
                     alert(data.msg)
                 } else {
-                    findByAuditStatus(0);
-                    alert(data.msg)
+                    listTaskBook(null, null)
                 }
+            }
+        });
+    }
+
+    function updateTheses(id, status, remark) {
+        $.ajax({
+            url: '/theses/updateAudit',
+            type: 'POST',
+            data: {
+                id: id,
+                status: status,
+                remark: remark
+            },
+            dataType: 'json',
+            success: function (data) {
+                if (data.code == -1) {
+                    alert(data.msg)
+                } else {
+                    listTheses(null, null)
+                }
+            }
+        });
+    }
+
+    function countTaskBook() {
+        $.ajax({
+            url: '/taskBook/countTaskBook',
+            type: 'GET',
+            async: false,
+            dataType: 'json',
+            success: function (data) {
+                var dataList = $(".tops").eq(0);
+
+            }
+        });
+    }
+
+    function countTheses() {
+        $.ajax({
+            url: '/theses/countTheses',
+            type: 'GET',
+            async: false,
+            dataType: 'json',
+            success: function (data) {
+                var dataList = $(".tops").eq(0);
+
+
             }
         });
     }

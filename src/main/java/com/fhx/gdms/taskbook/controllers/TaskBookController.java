@@ -66,7 +66,7 @@ public class TaskBookController {
             byte[] bytes = file.getBytes();
 
             String prefix=file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf(".")+1);
-            String path = uploadDir + new DateTime().toString("yyMMdd-HHmm") + "." + prefix;
+            String path = uploadDir + file.getOriginalFilename()+"-"+ new DateTime().toString("yyMMddHHmmss") + "." + prefix;
             File newFile = new File(path);
             if (!newFile.getParentFile().exists()){
                 newFile.getParentFile().mkdirs();
@@ -110,6 +110,19 @@ public class TaskBookController {
     }
 
 
+    @RequestMapping(value = "/updateAudit", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ResponseBody
+    ApiResult updateAudit(Integer id, Integer status, String remark) {
+        ApiResult apiResult = new ApiResult();
+        //获取用户信息
+
+        TaskBookModel result = taskBookService.updateAudit(id, status, remark);
+
+        apiResult.setCode(0);
+        apiResult.setMsg("审批成功！");
+        return apiResult;
+    }
+
     @RequestMapping(value = "/listTaskBook", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
     ApiResult listTaskBook(String no, String name) {
@@ -128,29 +141,29 @@ public class TaskBookController {
         return apiResult;
     }
 
-
     @RequestMapping(value = "/record/{id}", method = RequestMethod.GET)
-    void record(@PathVariable("id") Integer id, HttpServletResponse response) {
+    void record(@PathVariable("id") Integer id, HttpServletResponse response) throws UnsupportedEncodingException {
         ApiResult apiResult = new ApiResult();
 
-        //获取用户信息
-        UserModel student = (UserModel) session.getAttribute("userInfo");
-        //构建model
+//        //获取用户信息
+//        UserModel userModel = (UserModel) session.getAttribute("userInfo");
+//        //构建model
+//        TaskBookModel taskBookModel = taskBookService.findById(id);
+//        if (userModel.getId() != taskBookModel.getStudentId()) {
+//            return;
+//        }
+
         TaskBookModel taskBookModel = taskBookService.findById(id);
-        if (student.getId() != taskBookModel.getStudentId()) {
-            return;
-        }
 
         File file = new File(taskBookModel.getFilePath());
 
         if (file.exists()) {
-            String fileName = student.getNo() + "-taskBook." + file.getPath().substring(file.getPath().lastIndexOf(".") + 1);
             // 配置文件下载
             response.setHeader("content-type", "application/octet-stream");
             response.setContentType("application/octet-stream");
             // 下载文件能正常显示中文
-            response.setHeader("Content-Disposition", "attachment;filename=" +fileName);
-
+            response.setHeader("Content-Disposition",
+                    "attachment;filename=" + new String(FileUtil.getFileName(file).replace(" ", "_").getBytes("UTF-8"), "ISO-8859-1"));
             // 实现文件下载
             byte[] buffer = new byte[1024];
             FileInputStream fis = null;

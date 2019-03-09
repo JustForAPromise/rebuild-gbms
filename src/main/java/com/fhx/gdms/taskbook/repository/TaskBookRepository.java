@@ -12,9 +12,10 @@ import java.util.List;
 @Component
 public interface TaskBookRepository {
 
-    @Select("SELECT * FROM tb_task_book where id = #{id}")
+    @Select("SELECT * FROM tb_material where id = #{id} AND file_type = 1")
     @Results(id = "taskBookMap", value = {
             @Result(column = "id", property = "id", javaType = Integer.class),
+            @Result(column = "file_type", property = "fileType", javaType = Integer.class),
             @Result(column = "file_path", property = "filePath", javaType = String.class),
             @Result(column = "audit_status", property = "auditStatus", javaType = Integer.class),
             @Result(column = "audit_remark", property = "auditRemark", javaType = String.class),
@@ -36,19 +37,26 @@ public interface TaskBookRepository {
     @ResultMap("taskBookMap")
     List<TaskBookModel> findList(TaskBookModel model);
 
-    @Select("SELECT * FROM tb_task_book where student_id = #{studentId} AND " +
-            "teacher_id = #{teacherId} AND projection_id = #{projectionId} AND audit_status = 0 LIMIT 1")
+    @Select("SELECT * FROM tb_material " +
+            "where student_id = #{studentId} AND  teacher_id = #{teacherId} " +
+            "AND projection_id = #{projectionId} AND audit_status = 0 " +
+            "AND file_type = 1 " +
+            "LIMIT 1")
     @ResultMap("taskBookMap")
     TaskBookModel findOne(TaskBookModel taskBookModel);
 
-    @Delete("DELETE FROM tb_task_book WHERE id = #{id}")
+    @Delete("DELETE FROM tb_material WHERE id = #{id} AND file_type = 1")
     void deleteById(@Param("id") Integer id);
+
+    @UpdateProvider(type = TaskBookProvider.class, method = "updateModel")
+    void update(TaskBookModel model);
 
     /********** 内部类 *********/
     class TaskBookProvider {
         public String save(TaskBookModel model) {
             SQL sql = new SQL();
-            sql.INSERT_INTO("tb_task_book");
+            sql.INSERT_INTO("tb_material");
+            sql.VALUES("file_type", "1");
             sql.VALUES("file_path", "#{filePath}");
             sql.VALUES("audit_status", "#{auditStatus}");
 
@@ -64,20 +72,21 @@ public interface TaskBookRepository {
 
         public String updateModel(TaskBookModel model) {
             SQL sql = new SQL();
-            sql.UPDATE("tb_task_book");
+            sql.UPDATE("tb_material");
 
             sql.SET("audit_status = #{auditStatus}");
             sql.SET("audit_remark = #{auditRemark}");
             sql.SET("update_time = now()");
 
             sql.WHERE("id = #{id}");
+            sql.WHERE("file_type = 1");
             return sql.toString();
         }
 
         public String findList(TaskBookModel model) {
             SQL sql = new SQL();
             sql.SELECT("*");
-            sql.FROM("tb_task_book");
+            sql.FROM("tb_material ");
 
             if (model.getStudentId() != null) {
                 sql.WHERE("student_id = #{studentId}");
@@ -88,19 +97,22 @@ public interface TaskBookRepository {
             if (model.getProjectionId() != null) {
                 sql.WHERE("projection_id = #{projectionId}");
             }
-            if (model.getStudentIds().size() > 0) {
-                StringBuffer inSQl = new StringBuffer("student_id in(");
-                for (int i = 0, j = model.getStudentIds().size(); i < j; i++){
-                    inSQl.append(model.getStudentIds().get(i));
-                    if (i == j-1){
-                        inSQl.append(")");
-                    }else{
-                        inSQl.append(",");
+            if (model.getStudentIds() != null) {
+                if (model.getStudentIds().size() > 0) {
+                    StringBuffer inSQl = new StringBuffer("student_id in(");
+                    for (int i = 0, j = model.getStudentIds().size(); i < j; i++) {
+                        inSQl.append(model.getStudentIds().get(i));
+                        if (i == j - 1) {
+                            inSQl.append(")");
+                        } else {
+                            inSQl.append(",");
+                        }
                     }
+                    sql.WHERE(inSQl.toString());
                 }
-                sql.WHERE(inSQl.toString());
             }
 
+            sql.WHERE("file_type = 1");
             return sql.toString();
         }
     }

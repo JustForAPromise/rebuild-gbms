@@ -107,27 +107,61 @@ public class ThesesController {
         return modelAndView;
     }
 
+
+    @RequestMapping(value = "/listTheses", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ResponseBody
+    ApiResult listTheses(String no, String name) {
+        ApiResult apiResult = new ApiResult();
+        //获取用户信息
+        UserModel teacher = (UserModel)session.getAttribute("userInfo");
+
+        UserModel student = new UserModel();
+        student.setNo(no);
+        student.setName(name);
+
+        List<ThesesModel> list = thesesService.listTheses(teacher, student);
+
+        apiResult.setCode(0);
+        apiResult.setData(list);
+        return apiResult;
+    }
+
+    @RequestMapping(value = "/updateAudit", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ResponseBody
+    ApiResult updateAudit(Integer id, Integer status, String remark) {
+        ApiResult apiResult = new ApiResult();
+        //获取用户信息
+
+        ThesesModel result = thesesService.updateAudit(id, status, remark);
+
+        apiResult.setCode(0);
+        apiResult.setMsg("审批成功！");
+        return apiResult;
+    }
+
     @RequestMapping(value = "/record/{id}", method = RequestMethod.GET)
-    void record(@PathVariable("id") Integer id, HttpServletResponse response) {
+    void record(@PathVariable("id") Integer id, HttpServletResponse response) throws UnsupportedEncodingException {
         ApiResult apiResult = new ApiResult();
 
-        //获取用户信息
-        UserModel student = (UserModel) session.getAttribute("userInfo");
-        //构建model
-        ThesesModel taskBookModel = thesesService.findById(id);
-        if (student.getId() != taskBookModel.getStudentId()) {
-            return;
-        }
 
-        File file = new File(taskBookModel.getFilePath());
+//        //获取用户信息
+//        UserModel userModel = (UserModel) session.getAttribute("userInfo");
+//        //构建model
+//        TaskBookModel taskBookModel = taskBookService.findById(id);
+//        if (userModel.getId() != taskBookModel.getStudentId()) {
+//            return;
+//        }
+
+        ThesesModel thesesModel = thesesService.findById(id);
+        File file = new File(thesesModel.getFilePath());
 
         if (file.exists()) {
-            String fileName = student.getNo() + "-theses." + file.getPath().substring(file.getPath().lastIndexOf(".") + 1);
             // 配置文件下载
             response.setHeader("content-type", "application/octet-stream");
             response.setContentType("application/octet-stream");
             // 下载文件能正常显示中文
-            response.setHeader("Content-Disposition", "attachment;filename=" +fileName);
+            response.setHeader("Content-Disposition",
+                    "attachment;filename=" + new String(FileUtil.getFileName(file).replace(" ", "_").getBytes("UTF-8"), "ISO-8859-1"));
 
             // 实现文件下载
             byte[] buffer = new byte[1024];

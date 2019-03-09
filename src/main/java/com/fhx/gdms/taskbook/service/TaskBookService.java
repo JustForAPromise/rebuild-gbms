@@ -58,4 +58,12 @@ public interface TaskBookService {
      * @return
      */
     List<TaskBookModel> listTaskBook(UserModel teacher, UserModel student);
+
+    /**
+     * 材料审批
+     * @param id
+     * @param status
+     * @param remark
+     */
+    TaskBookModel updateAudit(Integer id, Integer status, String remark);
 }

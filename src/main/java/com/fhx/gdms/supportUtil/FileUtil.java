@@ -34,4 +34,21 @@ public class FileUtil {
 
         return filePath;
     }
+
+    public static String getFileName(File file) {
+
+        String sp = String.valueOf(File.separatorChar);
+        String[] fileNames = null;
+
+        if (sp.equals("\\")){
+            fileNames = file.getPath().split("\\\\");
+        }else{
+            fileNames = file.getPath().split("/");
+        }
+
+
+        String fileName=fileNames[fileNames.length-1];
+
+        return fileName;
+    }
 }

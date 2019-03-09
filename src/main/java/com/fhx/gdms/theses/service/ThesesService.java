@@ -1,6 +1,7 @@
 package com.fhx.gdms.theses.service;
 
 import com.fhx.gdms.theses.model.ThesesModel;
+import com.fhx.gdms.user.model.UserModel;
 
 import java.util.List;
 
@@ -49,4 +50,20 @@ public interface ThesesService {
      * @param id
      */
     void deleteById(Integer id);
+
+    /**
+     * teacher + student 查询
+     * @param teacher
+     * @param student
+     * @return
+     */
+    List<ThesesModel> listTheses(UserModel teacher, UserModel student);
+
+    /**
+     * 材料审批
+     * @param id
+     * @param status
+     * @param remark
+     */
+    ThesesModel updateAudit(Integer id, Integer status, String remark);
 }

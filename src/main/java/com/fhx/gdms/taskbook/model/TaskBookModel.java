@@ -13,6 +13,11 @@ public class TaskBookModel {
     private Integer id;
 
     /**
+     * 文件类型 1任务书 2论文
+     */
+    private Integer fileType;
+
+    /**
      * 文件地址
      */
     private String filePath;
@@ -21,7 +26,6 @@ public class TaskBookModel {
      * 审阅状态 0未审阅 1通过 2未通过
      */
     private Integer auditStatus;
-
 
     /**
      * 评语

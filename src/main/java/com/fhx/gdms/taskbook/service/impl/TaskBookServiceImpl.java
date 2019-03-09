@@ -9,6 +9,7 @@ import com.fhx.gdms.user.service.StudentService;
 import javafx.concurrent.Task;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.File;
 import java.util.List;
@@ -33,7 +34,9 @@ public class TaskBookServiceImpl implements TaskBookService {
 
     @Override
     public TaskBookModel update(TaskBookModel model) {
-        return null;
+        taskBookRepository.update(model);
+
+        return this.findById(model.getId());
     }
 
     @Override
@@ -92,6 +95,19 @@ public class TaskBookServiceImpl implements TaskBookService {
             data.setProjection(projectionService.findById(data.getProjectionId()));
         });
         return taskBookModelList;
+    }
+
+    @Transactional
+    @Override
+    public TaskBookModel updateAudit(Integer id, Integer status, String remark) {
+        TaskBookModel model = this.findById(id);
+        if (model == null){
+            return null;
+        }
+
+        model.setAuditStatus(status);
+        model.setAuditRemark(remark);
+        return this.update(model);
     }
 
 }
