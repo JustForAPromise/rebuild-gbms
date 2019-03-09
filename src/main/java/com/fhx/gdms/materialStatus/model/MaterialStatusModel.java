@@ -1,4 +1,4 @@
-package com.fhx.gdms.theses.model;
+package com.fhx.gdms.materialStatus.model;
 
 import com.fhx.gdms.projections.model.ProjectionModel;
 import com.fhx.gdms.user.model.UserModel;
@@ -8,30 +8,29 @@ import java.util.Date;
 import java.util.List;
 
 @Data
-public class ThesesModel {
+public class MaterialStatusModel {
 
     private Integer id;
 
     /**
-     * 文件类型 1任务书 2论文
+     * 任务书提交状态 0未提交 1已提交
      */
-    private Integer fileType;
+    private Integer taskSubmitStatus;
 
     /**
-     * 文件地址
+     * 任务书审阅状态 0未审核 1通过 2未通过
      */
-    private String filePath;
+    private Integer taskAuditStatus;
 
     /**
-     * 审阅状态 0未审阅 1通过 2未通过
+     * 论文提交状态 0未提交 1已提交
      */
-    private Integer auditStatus;
+    private Integer thesesSubmitStatus;
 
     /**
-     * 评语
+     * 论文审阅状态 0未审核 1未通过 2未通过
      */
-    private String auditRemark;
-
+    private Integer thesesAuditStatus;
     /**
      * 创建时间
      */
@@ -71,10 +70,4 @@ public class ThesesModel {
      * 扩展：指导教师
      */
     private ProjectionModel projection;
-
-    /*********** 辅助参数 *********/
-    /**
-     * 学生id  in参数
-     */
-    private List<Integer> studentIds;
 }

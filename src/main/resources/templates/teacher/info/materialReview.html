@@ -23,17 +23,22 @@
 <div class="displays hides">
     <!--内容标题-->
     <legend class="title"></legend>
+
+    <!-- 学生搜索 -->
     <div class="search search-student">
         <span>学生查询 ---> &nbsp;&nbsp;&nbsp;</span>
         <label>状态：</label>
         <select name="status">
-            <option>已提交</option>
-            <option>未提交</option>
-            <option>已通过</option>
-            <option>未通过</option>
+            <option value="0" selected>全部</option>
+            <option value="1">已提交</option>
+            <option value="2">未提交</option>
+            <option value="3">已通过</option>
+            <option value="4">未通过</option>
         </select>
         <input type="button" value="搜索">
     </div>
+
+    <!-- 材料搜索 -->
     <div class="search search-material">
         <span>提交材料查找 ---> &nbsp;&nbsp;&nbsp;</span>
         <label>学号：</label><input type="text" name="no">
@@ -76,22 +81,8 @@
         <div class="bottoms shade hide"></div>
         <!-- 批阅模态框结束 -->
 
-        <table class="tables data">
-            <thead>
-            <tr>
-                <th width="50px">序号</th>
-                <th width="100px">学号</th>
-                <th width="100px">姓名</th>
-                <th width="200px">课题</th>
-                <th width="180px">提交日期</th>
-                <th width="100px">审阅状态</th>
-                <th></th>
-            </tr>
-            </thead>
-            <tbody id="dataList">
+        <table class="tables data" id="dataList">
 
-
-            </tbody>
         </table>
     </div>
 </div>
@@ -103,7 +94,7 @@
         $('input[value="任务书审阅"]').click(function () {
             $('.displays').removeClass('hides');
             $('.title').html('任务书提交情况');
-            $('input[value = "查看统计"]').attr('store', "1");
+            $('.displays').attr('store', "1");
 
             listTaskBook(null, null)
         })
@@ -111,29 +102,9 @@
         $('input[value="论文审阅"]').click(function () {
             $('.displays').removeClass('hides');
             $('.title').html('论文提交情况');
-            $('input[value = "查看统计"]').attr('store', "2");
+            $('.displays').attr('store', "2");
             listTheses(null, null)
         })
-
-
-        //查看统计按钮 显示模态框
-        $('input[value="查看统计"]').click(function () {
-            var type = $(this).attr("store");
-            if (type == 1) {
-                countTaskBook();
-                $('.tops').removeClass('hide');
-            } else if (type == 2) {
-                countTheses()
-                $('.tops').removeClass('hide');
-            } else (
-                alert("ERROR")
-            );
-        })
-
-        $('input[value="关闭"]').click(function () {
-            $('.tops').addClass('hide');
-        })
-
 
         $(".data").on("click", "input[value='审批']", function () {
             $('.bottoms input[name="id"]').val($(this).attr("store"));
@@ -161,6 +132,52 @@
 
             $('.bottoms').addClass('hide');
         })
+
+        //学生搜索
+        $('.search-student input[value="搜索"]').click(function () {
+            var type = $('.displays').attr('store');
+            var status = $('.search-student select[name="status"]').val()
+            if (type == 1) {
+                if (status == 0) {
+                    countTaskBook(null, null)
+                } else if (status == 1) {
+                    countTaskBook(1, null)
+
+                } else if (status == 2) {
+                    countTaskBook(2, null)
+
+                } else if (status == 3) {
+                    countTaskBook(null, 1)
+
+                } else if (status == 4) {
+                    countTaskBook(null, 2)
+                }
+            } else if (type == 2) {
+                if (status == 0) {
+                    countTheses(null, null)
+                } else if (status == 1) {
+                    countTheses(1, null)
+
+                } else if (status == 2) {
+                    countTheses(2, null)
+
+                } else if (status == 3) {
+                    countTheses(null, 1)
+
+                } else if (status == 4) {
+                    countTheses(null, 2)
+                }
+            }
+        })
+
+        //材料搜索
+        $('.search-material input[value="搜索"]').click(function () {
+            var type = $('.displays').attr('store', "1");
+            var no = $(".search-material input[name='no']").val();
+            var name = $(".search-material input[name='name']").val();
+            listTaskBook(no, name)
+        })
+
     });
 
     //时间格式化
@@ -193,6 +210,18 @@
             success: function (data) {
                 var dataList = $("#dataList");
                 dataList.html("");
+                var heads = "<thead>\n" +
+                    "            <tr>\n" +
+                    "                <th width=\"50px\">序号</th>\n" +
+                    "                <th width=\"100px\">学号</th>\n" +
+                    "                <th width=\"100px\">姓名</th>\n" +
+                    "                <th width=\"200px\">课题</th>\n" +
+                    "                <th width=\"180px\">提交日期</th>\n" +
+                    "                <th width=\"100px\">审阅状态</th>\n" +
+                    "                <th></th>\n" +
+                    "            </tr>\n" +
+                    "            </thead><tbody>"
+                dataList.append(heads)
 
                 for (i = 0; i < data.data.length; i++) {
                     var str = "<tr><td>" + (i + 1) + "</td> "
@@ -215,6 +244,7 @@
 
                     dataList.append(str)
                 }
+                dataList.append("</tbody>")
             }
         });
     }
@@ -232,6 +262,18 @@
             success: function (data) {
                 var dataList = $("#dataList");
                 dataList.html("");
+                var heads = "<thead>\n" +
+                    "            <tr>\n" +
+                    "                <th width=\"50px\">序号</th>\n" +
+                    "                <th width=\"100px\">学号</th>\n" +
+                    "                <th width=\"100px\">姓名</th>\n" +
+                    "                <th width=\"200px\">课题</th>\n" +
+                    "                <th width=\"180px\">提交日期</th>\n" +
+                    "                <th width=\"100px\">审阅状态</th>\n" +
+                    "                <th></th>\n" +
+                    "            </tr>\n" +
+                    "            </thead><tbody>"
+                dataList.append(heads)
 
                 for (i = 0; i < data.data.length; i++) {
                     var str = "<tr><td>" + (i + 1) + "</td> "
@@ -254,6 +296,7 @@
 
                     dataList.append(str)
                 }
+                dataList.append("</tbody>")
             }
         });
     }
@@ -298,29 +341,108 @@
         });
     }
 
-    function countTaskBook() {
+    function countTheses(submitStatus, auditStatus) {
         $.ajax({
-            url: '/taskBook/countTaskBook',
+            url: '/materialStatus/countTheses',
             type: 'GET',
-            async: false,
+            data:{
+                submitStatus:submitStatus,
+                auditStatus:auditStatus
+            },
             dataType: 'json',
             success: function (data) {
-                var dataList = $(".tops").eq(0);
+                var dataList = $("#dataList");
+                dataList.html("");
+                var heads = "<thead>\n" +
+                    "            <tr>\n" +
+                    "                <th width=\"50px\">序号</th>\n" +
+                    "                <th width=\"100px\">学号</th>\n" +
+                    "                <th width=\"100px\">姓名</th>\n" +
+                    "                <th width=\"200px\">课题</th>\n" +
+                    "                <th width=\"180px\">提交状态</th>\n" +
+                    "                <th width=\"100px\">审阅状态</th>\n" +
+                    "            </tr>\n" +
+                    "            </thead><tbody>"
+                dataList.append(heads)
 
+                for (i = 0; i < data.data.length; i++) {
+                    var str = "<tr><td>" + (i + 1) + "</td> "
+                        + "<td>" + data.data[i].student.no + "</td> "
+                        + "<td>" + data.data[i].student.name + "</td> "
+                        + "<td>" + data.data[i].projection.title + "</td> "
+
+                    if (data.data[i].taskSubmitStatus == null) {
+                        str = str + "<td style='color: #0e0074;'>—</td>"
+                    } else if (data.data[i].taskSubmitStatus == 0) {
+                        str = str + "<td style='color: #e9a931;'>未提交</td>"
+                    } else if (data.data[i].taskSubmitStatus == 1) {
+                        str = str + "<td style='color: #e9005f;'>已提交</td>";
+                    }
+                    if (data.data[i].taskAuditStatus == null) {
+                        str = str + "<td style='color: #0e0074;'>—</td>"
+                    } else if (data.data[i].taskAuditStatus == 1) {
+                        str = str + "<td style='color: #e9a931;'>已通过</td>"
+                    } else if (data.data[i].taskAuditStatus == 2) {
+                        str = str + "<td style='color: #e9005f;'>未通过</td>";
+                    }
+                    str = str + "</tr>";
+
+                    dataList.append(str)
+                }
+                dataList.append("</tbody>")
             }
         });
     }
 
-    function countTheses() {
+    function countTaskBook(submitStatus, auditStatus) {
         $.ajax({
-            url: '/theses/countTheses',
+            url: '/materialStatus/countTaskBook',
             type: 'GET',
-            async: false,
+            data:{
+                submitStatus:submitStatus,
+                auditStatus:auditStatus
+            },
             dataType: 'json',
             success: function (data) {
-                var dataList = $(".tops").eq(0);
+                var dataList = $("#dataList");
+                dataList.html("");
+                var heads = "<thead>\n" +
+                    "            <tr>\n" +
+                    "                <th width=\"50px\">序号</th>\n" +
+                    "                <th width=\"100px\">学号</th>\n" +
+                    "                <th width=\"100px\">姓名</th>\n" +
+                    "                <th width=\"200px\">课题</th>\n" +
+                    "                <th width=\"180px\">提交状态</th>\n" +
+                    "                <th width=\"100px\">审阅状态</th>\n" +
+                    "            </tr>\n" +
+                    "            </thead><tbody>"
+                dataList.append(heads)
 
+                for (i = 0; i < data.data.length; i++) {
+                    var str = "<tr><td>" + (i + 1) + "</td> "
+                        + "<td>" + data.data[i].student.no + "</td> "
+                        + "<td>" + data.data[i].student.name + "</td> "
+                        + "<td>" + data.data[i].projection.title + "</td> "
 
+                    if (data.data[i].taskSubmitStatus == null) {
+                        str = str + "<td style='color: #0e0074;'>—</td>"
+                    } else if (data.data[i].taskSubmitStatus == 0) {
+                        str = str + "<td style='color: #e9a931;'>未提交</td>"
+                    } else if (data.data[i].taskSubmitStatus == 1) {
+                        str = str + "<td style='color: #e9005f;'>已提交</td>";
+                    }
+                    if (data.data[i].taskAuditStatus == null) {
+                        str = str + "<td style='color: #0e0074;'>—</td>"
+                    } else if (data.data[i].taskAuditStatus == 1) {
+                        str = str + "<td style='color: #e9a931;'>已通过</td>"
+                    } else if (data.data[i].taskAuditStatus == 2) {
+                        str = str + "<td style='color: #e9005f;'>未通过</td>";
+                    }
+                    str = str + "</tr>";
+
+                    dataList.append(str)
+                }
+                dataList.append("</tbody>")
             }
         });
     }

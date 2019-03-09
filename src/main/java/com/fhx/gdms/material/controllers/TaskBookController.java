@@ -1,12 +1,11 @@
-package com.fhx.gdms.theses.controllers;
+package com.fhx.gdms.material.controllers;
 
 import com.fhx.gdms.projections.service.ProjectionService;
 import com.fhx.gdms.supportUtil.ApiResult;
 import com.fhx.gdms.supportUtil.FileUtil;
-import com.fhx.gdms.theses.model.ThesesModel;
-import com.fhx.gdms.theses.service.ThesesService;
+import com.fhx.gdms.material.model.MaterialModel;
+import com.fhx.gdms.material.service.TaskBookService;
 import com.fhx.gdms.user.model.UserModel;
-import org.apache.ibatis.annotations.Param;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -18,23 +17,23 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.*;
-import java.net.URLEncoder;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
 
 @Controller
-@RequestMapping("/theses")
-public class ThesesController {
+@RequestMapping("/taskBook")
+public class TaskBookController {
 
     @Autowired
-    private ThesesService thesesService;
+    private TaskBookService taskBookService;
 
-    @Autowired
-    private HttpSession session;
 
     @Autowired
     private ProjectionService projectionService;
+
+    @Autowired
+    private HttpSession session;
 
     @RequestMapping(value = "/add", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
@@ -47,32 +46,39 @@ public class ThesesController {
         }
 
         //获取用户信息
-        UserModel student = (UserModel) session.getAttribute("userInfo");
+        UserModel student = (UserModel)session.getAttribute("userInfo");
 
         //构建model
+        MaterialModel taskBookModel = new MaterialModel();
+        taskBookModel.setStudentId(student.getId());
+        taskBookModel.setTeacherId(student.getTeacherId());
+        taskBookModel.setProjectionId(projectionService.findByUserIdAndTeacherId(student.getId(), student.getTeacherId()).getId());
 
-        ThesesModel thesesModel = new ThesesModel();
-        thesesModel.setStudentId(student.getId());
-        thesesModel.setTeacherId(student.getTeacherId());
-        thesesModel.setProjectionId(projectionService.findByUserIdAndTeacherId(student.getId(), student.getTeacherId()).getId());
-        thesesModel.setAuditStatus(0);
+        //查询是否已通过审核
+        taskBookModel.setAuditStatus(1);
+        MaterialModel isPass = taskBookService.findOne(taskBookModel);
+        if (isPass != null){
+            apiResult.setCode(-1);
+            apiResult.setMsg("审核已通过，无需再次提交！");
+            return apiResult;
+        }
 
         //拼接学生文件夹
-        String uploadDir = FileUtil.getThesesFileDir();
+        String uploadDir = FileUtil.getTaskBookFileDir();
         uploadDir = uploadDir + student.getNo() + File.separator;
         try {
             byte[] bytes = file.getBytes();
 
-            String prefix = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf(".") + 1);
-            String path = uploadDir + new DateTime().toString("yyMMdd-HHmm") + "." + prefix;
+            String prefix=file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf(".")+1);
+            String path = uploadDir + file.getOriginalFilename()+"-"+ new DateTime().toString("yyMMddHHmmss") + "." + prefix;
             File newFile = new File(path);
-            if (!newFile.getParentFile().exists()) {
+            if (!newFile.getParentFile().exists()){
                 newFile.getParentFile().mkdirs();
             }
             Files.write(Paths.get(path), bytes);
 
             //保存文件路径
-            thesesModel.setFilePath(path);
+            taskBookModel.setFilePath(path);
         } catch (IOException e) {
             e.printStackTrace();
             apiResult.setCode(-1);
@@ -80,27 +86,28 @@ public class ThesesController {
             return apiResult;
         }
 
-        thesesService.saveTheses(thesesModel);
+        taskBookModel.setAuditStatus(0);
+        taskBookService.saveTaskBook(taskBookModel);
 
         apiResult.setCode(0);
         apiResult.setMsg("上传成功！");
         return apiResult;
-
     }
+
 
     @RequestMapping(value = "/records", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     ModelAndView records() {
         ApiResult apiResult = new ApiResult();
 
         //获取用户信息
-        UserModel student = (UserModel) session.getAttribute("userInfo");
+        UserModel student = (UserModel)session.getAttribute("userInfo");
         //构建model
-        ThesesModel taskBookModel = new ThesesModel();
+        MaterialModel taskBookModel = new MaterialModel();
         taskBookModel.setStudentId(student.getId());
         taskBookModel.setTeacherId(student.getTeacherId());
         taskBookModel.setProjectionId(projectionService.findByUserIdAndTeacherId(student.getId(), student.getTeacherId()).getId());
 
-        List<ThesesModel> list = thesesService.findList(taskBookModel);
+        List<MaterialModel> list = taskBookService.findList(taskBookModel);
 
         ModelAndView modelAndView = new ModelAndView("/student/info/submitHistory.html");
         modelAndView.addObject("records", list);
@@ -108,9 +115,22 @@ public class ThesesController {
     }
 
 
-    @RequestMapping(value = "/listTheses", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @RequestMapping(value = "/updateAudit", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
-    ApiResult listTheses(String no, String name) {
+    ApiResult updateAudit(Integer id, Integer status, String remark) {
+        ApiResult apiResult = new ApiResult();
+        //获取用户信息
+
+        MaterialModel result = taskBookService.updateAudit(id, status, remark);
+
+        apiResult.setCode(0);
+        apiResult.setMsg("审批成功！");
+        return apiResult;
+    }
+
+    @RequestMapping(value = "/listTaskBook", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ResponseBody
+    ApiResult listTaskBook(String no, String name) {
         ApiResult apiResult = new ApiResult();
         //获取用户信息
         UserModel teacher = (UserModel)session.getAttribute("userInfo");
@@ -119,23 +139,10 @@ public class ThesesController {
         student.setNo(no);
         student.setName(name);
 
-        List<ThesesModel> list = thesesService.listTheses(teacher, student);
+        List<MaterialModel> list = taskBookService.listTaskBook(teacher, student);
 
         apiResult.setCode(0);
         apiResult.setData(list);
-        return apiResult;
-    }
-
-    @RequestMapping(value = "/updateAudit", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    @ResponseBody
-    ApiResult updateAudit(Integer id, Integer status, String remark) {
-        ApiResult apiResult = new ApiResult();
-        //获取用户信息
-
-        ThesesModel result = thesesService.updateAudit(id, status, remark);
-
-        apiResult.setCode(0);
-        apiResult.setMsg("审批成功！");
         return apiResult;
     }
 
@@ -143,17 +150,9 @@ public class ThesesController {
     void record(@PathVariable("id") Integer id, HttpServletResponse response) throws UnsupportedEncodingException {
         ApiResult apiResult = new ApiResult();
 
+        MaterialModel taskBookModel = taskBookService.findById(id);
 
-//        //获取用户信息
-//        UserModel userModel = (UserModel) session.getAttribute("userInfo");
-//        //构建model
-//        TaskBookModel taskBookModel = taskBookService.findById(id);
-//        if (userModel.getId() != taskBookModel.getStudentId()) {
-//            return;
-//        }
-
-        ThesesModel thesesModel = thesesService.findById(id);
-        File file = new File(thesesModel.getFilePath());
+        File file = new File(taskBookModel.getFilePath());
 
         if (file.exists()) {
             // 配置文件下载
@@ -162,7 +161,6 @@ public class ThesesController {
             // 下载文件能正常显示中文
             response.setHeader("Content-Disposition",
                     "attachment;filename=" + new String(FileUtil.getFileName(file).replace(" ", "_").getBytes("UTF-8"), "ISO-8859-1"));
-
             // 实现文件下载
             byte[] buffer = new byte[1024];
             FileInputStream fis = null;

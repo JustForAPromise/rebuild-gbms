@@ -1,6 +1,6 @@
-package com.fhx.gdms.theses.repository;
+package com.fhx.gdms.material.repository;
 
-import com.fhx.gdms.theses.model.ThesesModel;
+import com.fhx.gdms.material.model.MaterialModel;
 import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.jdbc.SQL;
 import org.springframework.stereotype.Component;
@@ -10,9 +10,9 @@ import java.util.List;
 
 @Mapper
 @Component
-public interface ThesesRepository {
+public interface TaskBookRepository {
 
-    @Select("SELECT * FROM tb_material where id = #{id} AND file_type = 2")
+    @Select("SELECT * FROM tb_material where id = #{id} AND file_type = 1")
     @Results(id = "taskBookMap", value = {
             @Result(column = "id", property = "id", javaType = Integer.class),
             @Result(column = "file_type", property = "fileType", javaType = Integer.class),
@@ -27,34 +27,36 @@ public interface ThesesRepository {
             @Result(column = "teacher_id", property = "teacherId", javaType = Integer.class),
             @Result(column = "projection_id", property = "projectionId", javaType = Integer.class)
     })
-    ThesesModel findById(Integer id);
+    MaterialModel findById(Integer id);
 
-    @InsertProvider(type = ThesesProvider.class, method = "save")
+    @InsertProvider(type = TaskBookProvider.class, method = "save")
     @Options(useGeneratedKeys = true, keyProperty = "id")
-    void save(ThesesModel model);
+    void save(MaterialModel model);
 
-    @SelectProvider(type = ThesesProvider.class, method = "findList")
+    @SelectProvider(type = TaskBookProvider.class, method = "findList")
     @ResultMap("taskBookMap")
-    List<ThesesModel> findList(ThesesModel model);
+    List<MaterialModel> findList(MaterialModel model);
 
-    @Select("SELECT * FROM tb_material where student_id = #{studentId} AND " +
-            "teacher_id = #{teacherId} AND projection_id = #{projectionId} " +
-            "AND audit_status = 0  AND file_type = 2 " +
+    @Select("SELECT * FROM tb_material " +
+            "where student_id = #{studentId} AND  teacher_id = #{teacherId} " +
+            "AND projection_id = #{projectionId} AND audit_status = #{auditStatus} " +
+            "AND file_type = 1 " +
             "LIMIT 1")
     @ResultMap("taskBookMap")
-    ThesesModel findOne(ThesesModel taskBookModel);
+    MaterialModel findOne(MaterialModel taskBookModel);
 
-    @Delete("DELETE FROM tb_material WHERE id = #{id} AND file_type = 2")
+    @Delete("DELETE FROM tb_material WHERE id = #{id} AND file_type = 1")
     void deleteById(@Param("id") Integer id);
 
-    @UpdateProvider(type = ThesesProvider.class, method = "updateModel")
-    void update(ThesesModel model);
+    @UpdateProvider(type = TaskBookProvider.class, method = "updateModel")
+    void update(MaterialModel model);
 
     /********** 内部类 *********/
-    class ThesesProvider {
-        public String save(ThesesModel model) {
+    class TaskBookProvider {
+        public String save(MaterialModel model) {
             SQL sql = new SQL();
             sql.INSERT_INTO("tb_material");
+            sql.VALUES("file_type", "1");
             sql.VALUES("file_path", "#{filePath}");
             sql.VALUES("audit_status", "#{auditStatus}");
 
@@ -64,12 +66,11 @@ public interface ThesesRepository {
             sql.VALUES("student_id", "#{studentId}");
             sql.VALUES("teacher_id", "#{teacherId}");
             sql.VALUES("projection_id", "#{projectionId}");
-            sql.VALUES("file_type", "2");
 
             return sql.toString();
         }
 
-        public String updateModel(ThesesModel model) {
+        public String updateModel(MaterialModel model) {
             SQL sql = new SQL();
             sql.UPDATE("tb_material");
 
@@ -78,14 +79,14 @@ public interface ThesesRepository {
             sql.SET("update_time = now()");
 
             sql.WHERE("id = #{id}");
-            sql.WHERE("file_type = 2");
+            sql.WHERE("file_type = 1");
             return sql.toString();
         }
 
-        public String findList(ThesesModel model) {
+        public String findList(MaterialModel model) {
             SQL sql = new SQL();
             sql.SELECT("*");
-            sql.FROM("tb_material");
+            sql.FROM("tb_material ");
 
             if (model.getStudentId() != null) {
                 sql.WHERE("student_id = #{studentId}");
@@ -111,7 +112,7 @@ public interface ThesesRepository {
                 }
             }
 
-            sql.WHERE("file_type = 2");
+            sql.WHERE("file_type = 1");
             return sql.toString();
         }
     }

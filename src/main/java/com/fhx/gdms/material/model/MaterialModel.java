@@ -1,4 +1,4 @@
-package com.fhx.gdms.taskbook.model;
+package com.fhx.gdms.material.model;
 
 import com.fhx.gdms.projections.model.ProjectionModel;
 import com.fhx.gdms.user.model.UserModel;
@@ -8,7 +8,7 @@ import java.util.Date;
 import java.util.List;
 
 @Data
-public class TaskBookModel {
+public class MaterialModel {
 
     private Integer id;
 

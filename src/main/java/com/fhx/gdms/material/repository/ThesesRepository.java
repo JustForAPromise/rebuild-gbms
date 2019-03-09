@@ -1,6 +1,6 @@
-package com.fhx.gdms.taskbook.repository;
+package com.fhx.gdms.material.repository;
 
-import com.fhx.gdms.taskbook.model.TaskBookModel;
+import com.fhx.gdms.material.model.MaterialModel;
 import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.jdbc.SQL;
 import org.springframework.stereotype.Component;
@@ -10,9 +10,9 @@ import java.util.List;
 
 @Mapper
 @Component
-public interface TaskBookRepository {
+public interface ThesesRepository {
 
-    @Select("SELECT * FROM tb_material where id = #{id} AND file_type = 1")
+    @Select("SELECT * FROM tb_material where id = #{id} AND file_type = 2")
     @Results(id = "taskBookMap", value = {
             @Result(column = "id", property = "id", javaType = Integer.class),
             @Result(column = "file_type", property = "fileType", javaType = Integer.class),
@@ -27,36 +27,34 @@ public interface TaskBookRepository {
             @Result(column = "teacher_id", property = "teacherId", javaType = Integer.class),
             @Result(column = "projection_id", property = "projectionId", javaType = Integer.class)
     })
-    TaskBookModel findById(Integer id);
+    MaterialModel findById(Integer id);
 
-    @InsertProvider(type = TaskBookProvider.class, method = "save")
+    @InsertProvider(type = ThesesProvider.class, method = "save")
     @Options(useGeneratedKeys = true, keyProperty = "id")
-    void save(TaskBookModel model);
+    void save(MaterialModel model);
 
-    @SelectProvider(type = TaskBookProvider.class, method = "findList")
+    @SelectProvider(type = ThesesProvider.class, method = "findList")
     @ResultMap("taskBookMap")
-    List<TaskBookModel> findList(TaskBookModel model);
+    List<MaterialModel> findList(MaterialModel model);
 
-    @Select("SELECT * FROM tb_material " +
-            "where student_id = #{studentId} AND  teacher_id = #{teacherId} " +
-            "AND projection_id = #{projectionId} AND audit_status = 0 " +
-            "AND file_type = 1 " +
+    @Select("SELECT * FROM tb_material where student_id = #{studentId} AND " +
+            "teacher_id = #{teacherId} AND projection_id = #{projectionId} " +
+            "AND audit_status = #{auditStatus} AND file_type = 2 " +
             "LIMIT 1")
     @ResultMap("taskBookMap")
-    TaskBookModel findOne(TaskBookModel taskBookModel);
+    MaterialModel findOne(MaterialModel taskBookModel);
 
-    @Delete("DELETE FROM tb_material WHERE id = #{id} AND file_type = 1")
+    @Delete("DELETE FROM tb_material WHERE id = #{id} AND file_type = 2")
     void deleteById(@Param("id") Integer id);
 
-    @UpdateProvider(type = TaskBookProvider.class, method = "updateModel")
-    void update(TaskBookModel model);
+    @UpdateProvider(type = ThesesProvider.class, method = "updateModel")
+    void update(MaterialModel model);
 
     /********** 内部类 *********/
-    class TaskBookProvider {
-        public String save(TaskBookModel model) {
+    class ThesesProvider {
+        public String save(MaterialModel model) {
             SQL sql = new SQL();
             sql.INSERT_INTO("tb_material");
-            sql.VALUES("file_type", "1");
             sql.VALUES("file_path", "#{filePath}");
             sql.VALUES("audit_status", "#{auditStatus}");
 
@@ -66,11 +64,12 @@ public interface TaskBookRepository {
             sql.VALUES("student_id", "#{studentId}");
             sql.VALUES("teacher_id", "#{teacherId}");
             sql.VALUES("projection_id", "#{projectionId}");
+            sql.VALUES("file_type", "2");
 
             return sql.toString();
         }
 
-        public String updateModel(TaskBookModel model) {
+        public String updateModel(MaterialModel model) {
             SQL sql = new SQL();
             sql.UPDATE("tb_material");
 
@@ -79,14 +78,14 @@ public interface TaskBookRepository {
             sql.SET("update_time = now()");
 
             sql.WHERE("id = #{id}");
-            sql.WHERE("file_type = 1");
+            sql.WHERE("file_type = 2");
             return sql.toString();
         }
 
-        public String findList(TaskBookModel model) {
+        public String findList(MaterialModel model) {
             SQL sql = new SQL();
             sql.SELECT("*");
-            sql.FROM("tb_material ");
+            sql.FROM("tb_material");
 
             if (model.getStudentId() != null) {
                 sql.WHERE("student_id = #{studentId}");
@@ -112,7 +111,7 @@ public interface TaskBookRepository {
                 }
             }
 
-            sql.WHERE("file_type = 1");
+            sql.WHERE("file_type = 2");
             return sql.toString();
         }
     }

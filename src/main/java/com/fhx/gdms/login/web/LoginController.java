@@ -2,16 +2,15 @@ package com.fhx.gdms.login.web;
 
 import com.fhx.gdms.department.service.DepartmentService;
 import com.fhx.gdms.major.service.MajorService;
-import com.fhx.gdms.power.model.PowerModel;
 import com.fhx.gdms.power.service.PowerService;
 import com.fhx.gdms.projections.model.ProjectionModel;
 import com.fhx.gdms.projections.service.ProjectionService;
 import com.fhx.gdms.selectRecord.model.SelectRecordModel;
 import com.fhx.gdms.selectRecord.service.SelectRecordService;
+import com.fhx.gdms.user.model.UserModel;
 import com.fhx.gdms.user.service.AdminService;
 import com.fhx.gdms.user.service.HelperService;
 import com.fhx.gdms.user.service.StudentService;
-import com.fhx.gdms.user.model.UserModel;
 import com.fhx.gdms.user.service.TeacherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -114,5 +113,12 @@ public class LoginController {
             session.setAttribute("userInfo", userModel);
             return modelAndView;
         }
+    }
+
+    @RequestMapping(value = "/loginOut", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    ModelAndView loginOut() {
+        session.removeAttribute("userInfo");
+        ModelAndView modelAndView = new ModelAndView("/login.html");
+        return modelAndView;
     }
 }

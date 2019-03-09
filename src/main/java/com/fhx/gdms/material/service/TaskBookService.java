@@ -1,6 +1,6 @@
-package com.fhx.gdms.taskbook.service;
+package com.fhx.gdms.material.service;
 
-import com.fhx.gdms.taskbook.model.TaskBookModel;
+import com.fhx.gdms.material.model.MaterialModel;
 import com.fhx.gdms.user.model.UserModel;
 
 import java.util.List;
@@ -11,39 +11,39 @@ public interface TaskBookService {
      * @param model
      * @return
      */
-    TaskBookModel save(TaskBookModel model);
+    MaterialModel save(MaterialModel model);
     /**
      * 更新（base）
      * @param model
      * @return
      */
-    TaskBookModel update(TaskBookModel model);
+    MaterialModel update(MaterialModel model);
 
     /**
      * 条件查询
      * @param model
      * @return
      */
-    List<TaskBookModel> findList(TaskBookModel model);
+    List<MaterialModel> findList(MaterialModel model);
 
     /**
      * 创建
      * @param taskBookModel
      */
-    void saveTaskBook(TaskBookModel taskBookModel);
+    void saveTaskBook(MaterialModel taskBookModel);
 
     /**
      * id 查询
      * @param id
      * @return
      */
-    TaskBookModel findById(Integer id);
+    MaterialModel findById(Integer id);
 
     /**
      * 删除提交记录(包括文件)
      * @param existModel
      */
-    void deleteTackBookRecord(TaskBookModel existModel);
+    void deleteTackBookRecord(MaterialModel existModel);
 
     /**
      * 删除记录
@@ -57,7 +57,7 @@ public interface TaskBookService {
      * @param student
      * @return
      */
-    List<TaskBookModel> listTaskBook(UserModel teacher, UserModel student);
+    List<MaterialModel> listTaskBook(UserModel teacher, UserModel student);
 
     /**
      * 材料审批
@@ -65,5 +65,11 @@ public interface TaskBookService {
      * @param status
      * @param remark
      */
-    TaskBookModel updateAudit(Integer id, Integer status, String remark);
+    MaterialModel updateAudit(Integer id, Integer status, String remark);
+
+    /**
+     * @param taskBookModel
+     * @return
+     */
+    MaterialModel findOne(MaterialModel taskBookModel);
 }

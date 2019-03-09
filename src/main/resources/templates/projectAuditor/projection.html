@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>学生信息管理</title>
+
+    <link rel="stylesheet" type="text/css" href="/css/admin/admin-motaikuang.css">
+    <link rel="stylesheet" type="text/css" href="/css/personInfo.css">
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="/css/swiper.min.css">
+
+    <script type="text/javascript" src="/js/jquery.js"></script>
+    <script type="text/javascript" src="/js/bootstrap.js"></script>
+    <script type="text/javascript" src="/js/swiper.jquery.min.js"></script>
+</head>
+<body>
+<div class="body">
+    <div class="search">
+        <input type="button" value="提交课题">
+        <label>&nbsp;&nbsp;&nbsp;课题状态：</label>
+        <input type="button" value="审核中">
+        <input type="button" value="已通过">
+        <input type="button" value="未通过">
+    </div>
+</div>
+<!-- 模态框开始 -->
+<div class="myModal hide">
+    <p class="p" style="display: none">id：<input type="text" name="id"></p>
+    <p class="p"><label style="width: 50px">标题：</label><input type="text" name="title"></p>
+    <p class="p"><label style="width: 50px">内容描述：</label><textarea name="introduce"></textarea></p>
+    <p class="p"><label style="width: 50px">要求：</label><textarea name="require"></textarea></p>
+    <p class="p"><input type="button" value="确定">&nbsp<input type="button" value="取消"></p>
+</div>
+<div class="shade hide"></div>
+<!-- 模态框结束 -->
+
+<div class="data">
+    <table>
+        <thead>
+        <tr>
+            <th style="min-width:50px " store="">序号</th>
+            <th style="min-width:130px ">标题</th>
+            <th style="min-width:130px ">内容描述</th>
+            <th style="min-width:130px ">要求</th>
+            <th style="min-width:80px ">审核状态</th>
+            <th style="min-width:100px "></th>
+        </tr>
+        </thead>
+        <tbody id="dataList">
+        </tbody>
+    </table>
+</div>
+</div>
+
+
+<!-- jq代码 -->
+<script>
+    $(document).ready(function () {
+        //添加按钮 显示模态框
+        $('input[value="提交课题"]').click(function () {
+            $('.hide').removeClass('hide');
+        })
+
+        //课题信息查询
+        $('input[value="审核中"]').click(function () {
+            findByAuditStatus(0)
+        })
+
+        $('input[value="已通过"]').click(function () {
+            findByAuditStatus(1)
+        })
+
+        $('input[value="未通过"]').click(function () {
+            findByAuditStatus(2)
+        })
+
+
+        //确定按钮 添加ajax
+        $('input[value="确定"]').click(function () {
+            var id = $('.myModal input[name="id"]').val()
+            var title = $('.myModal input[name="title"]').val()
+            var require = $('.myModal textarea[name="require"]').val()
+            var introduce = $('.myModal textarea[name="introduce"]').val()
+            //信息获取
+
+            //界面处理
+            $('.myModal input[name="id"]').val("");
+            $('.myModal input[name="title"]').val("");
+            $('.myModal textarea').val("");
+            $('.myModal,.shade').addClass('hide');
+
+            if (id == null || id == "") {
+                add(title, require, introduce)
+            } else {
+                update(id, title, require, introduce)
+            }
+        })
+
+        //取消按钮
+        $('input[value="取消"]').click(function () {
+            $('.myModal input[name="id"]').val("");
+            $('.myModal input[name="title"]').val("");
+            $('.myModal textarea').val("");
+
+            $('.myModal,.shade').addClass('hide');
+        })
+
+        //编辑按钮
+        $(".data").on("click", "input[value='编辑']", function () {
+            var tds = $(this).parent().prevAll();
+
+            //jquery对象加上索引是dom对象
+            $('.myModal input[name="id"]').val($(tds[4]).attr("store"))
+            $('.myModal input[name="title"]').val($(tds[3]).text())
+            $('.myModal textarea[name="introduce"]').val($(tds[2]).text())
+            $('.myModal textarea[name="require"]').val($(tds[1]).text())
+
+            $('.hide').removeClass('hide');
+        })
+
+        //删除按钮
+        $(".data").on("click", "input[value='删除']", function () {
+            var tds = $(this).parent().prevAll();
+            //jquery对象加上索引是dom对象
+            var id = $(tds[3]).attr("store");
+            var status = $(tds[3]).attr("status");
+            deleteById(id);
+            findByAuditStatus(status)
+        })
+
+    });
+
+    function deleteById(id) {
+        $.ajax({
+            url: '/projection/deleteById',
+            type: 'DELETE',
+            data: {
+                id: id
+            },
+            async: false,
+            dataType: 'json',
+            success: function (data) {
+                if (data.code == -1) {
+                    alert(data.msg)
+                }
+            }
+        });
+    }
+
+    function add(title, require, introduce) {
+        $.ajax({
+            url: '/projection/add',
+            type: 'POST',
+            data: {
+                title: title,
+                demand: require,
+                introduce: introduce
+            },
+            dataType: 'json',
+            success: function (data) {
+                if (data.code == -1) {
+                    alert(data.msg)
+                } else {
+                    findByAuditStatus(0);
+                }
+            }
+        });
+    }
+
+    function update(id, title, require, introduce) {
+        $.ajax({
+            url: '/projection/update',
+            type: 'POST',
+            data: {
+                id: id,
+                title: title,
+                demand: require,
+                introduce: introduce
+            },
+            dataType: 'json',
+            success: function (data) {
+                if (data.code == -1) {
+                    alert(data.msg)
+                } else {
+                    findByAuditStatus(0);
+                    alert(data.msg)
+                }
+            }
+        });
+    }
+
+    function findByAuditStatus(auditStatus) {
+        $.ajax({
+            url: '/projection/findByAuditStatus',
+            type: 'GET',
+            data: {
+                auditStatus: auditStatus
+            },
+            async: false,
+            dataType: 'json',
+            success: function (data) {
+                var dataList = $("#dataList");
+                dataList.html("");
+
+                for (i = 0; i < data.data.length; i++) {
+                    var str = "<tr><td store=\"" + data.data[i].id + "\" status = \"" + data.data[i].auditStatus + "\">" + (i + 1)
+                        + "</td> <td>" + data.data[i].title + "</td> "
+                        + "<td>" + data.data[i].introduce + "</td>"
+                        + "<td>" + data.data[i].demand + "</td>"
+
+                    if (data.data[i].auditStatus == 0) {
+                        str = str + "<td>未审核</td>"
+                            + "<td><input type=\"button\" name=\"\" value=\"编辑\"><input type=\"button\" name=\"\" value=\"删除\"></td> </tr>";
+                    } else if (data.data[i].auditStatus == 1) {
+                        str = str + "<td>审核通过</td>"
+                    } else if (data.data[i].auditStatus == 2) {
+                        str = str + "<td>未通过审核</td>"
+                            + "<td><input type=\"button\" name=\"\" value=\"编辑\"><input type=\"button\" name=\"\" value=\"删除\"></td> </tr>";
+                    }
+
+                    dataList.append(str)
+                }
+            }
+        });
+    }
+</script>
+</body>
+</html>

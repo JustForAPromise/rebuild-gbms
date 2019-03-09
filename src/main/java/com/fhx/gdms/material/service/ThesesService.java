@@ -1,6 +1,6 @@
-package com.fhx.gdms.theses.service;
+package com.fhx.gdms.material.service;
 
-import com.fhx.gdms.theses.model.ThesesModel;
+import com.fhx.gdms.material.model.MaterialModel;
 import com.fhx.gdms.user.model.UserModel;
 
 import java.util.List;
@@ -11,39 +11,39 @@ public interface ThesesService {
      * @param model
      * @return
      */
-    ThesesModel save(ThesesModel model);
+    MaterialModel save(MaterialModel model);
     /**
      * 更新（base）
      * @param model
      * @return
      */
-    ThesesModel update(ThesesModel model);
+    MaterialModel update(MaterialModel model);
 
     /**
      * 条件查询
      * @param model
      * @return
      */
-    List<ThesesModel> findList(ThesesModel model);
+    List<MaterialModel> findList(MaterialModel model);
 
     /**
      * 创建
      * @param model
      */
-    void saveTheses(ThesesModel model);
+    void saveTheses(MaterialModel model);
 
     /**
      * id 查询
      * @param id
      * @return
      */
-    ThesesModel findById(Integer id);
+    MaterialModel findById(Integer id);
 
     /**
      * 删除提交记录(包括文件)
      * @param existModel
      */
-    void deleteThesesRecord(ThesesModel existModel);
+    void deleteThesesRecord(MaterialModel existModel);
 
     /**
      * 删除记录
@@ -57,7 +57,7 @@ public interface ThesesService {
      * @param student
      * @return
      */
-    List<ThesesModel> listTheses(UserModel teacher, UserModel student);
+    List<MaterialModel> listTheses(UserModel teacher, UserModel student);
 
     /**
      * 材料审批
@@ -65,5 +65,11 @@ public interface ThesesService {
      * @param status
      * @param remark
      */
-    ThesesModel updateAudit(Integer id, Integer status, String remark);
+    MaterialModel updateAudit(Integer id, Integer status, String remark);
+
+    /**
+     * @param thesesModel
+     * @return
+     */
+    MaterialModel findOne(MaterialModel thesesModel);
 }
