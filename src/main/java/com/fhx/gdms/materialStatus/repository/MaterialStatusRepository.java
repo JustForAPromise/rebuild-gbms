@@ -44,6 +44,9 @@ public interface MaterialStatusRepository {
     @UpdateProvider(type = MaterialStatusProvider.class, method = "updateModel")
     void update(MaterialStatusModel model);
 
+    @Select("SELECT student_id FROM tb_material_status where teacher_id = #{teacherId} ")
+    List<Integer> listAllStudentIdByTeacherId(@Param("teacherId") Integer teacherId);
+
     /********** 内部类 *********/
     class MaterialStatusProvider {
         public String save(MaterialStatusModel model) {

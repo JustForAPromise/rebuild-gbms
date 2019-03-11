@@ -1,12 +1,11 @@
 package com.fhx.gdms.selectRecord.service.impl;
 
-import com.fhx.gdms.projections.model.ProjectionModel;
-import com.fhx.gdms.projections.repository.ProjectionRepository;
+import com.fhx.gdms.materialStatus.model.MaterialStatusModel;
+import com.fhx.gdms.materialStatus.service.MaterialStatusService;
 import com.fhx.gdms.projections.service.ProjectionService;
 import com.fhx.gdms.selectRecord.model.SelectRecordModel;
 import com.fhx.gdms.selectRecord.repository.SelectRecordRepository;
 import com.fhx.gdms.selectRecord.service.SelectRecordService;
-import com.fhx.gdms.user.model.UserModel;
 import com.fhx.gdms.user.service.StudentService;
 import com.fhx.gdms.user.service.TeacherService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +27,9 @@ public class SelectRecordServiceImpl implements SelectRecordService {
 
     @Autowired
     private ProjectionService projectionService;
+
+    @Autowired
+    private MaterialStatusService materialStatusService;
 
     @Override
     public SelectRecordModel saveSelect(SelectRecordModel model) {
@@ -91,6 +93,14 @@ public class SelectRecordServiceImpl implements SelectRecordService {
         projectionService.updateStudentId(selectRecordModel.getProjectionId(), selectRecordModel.getStudentId());
 
         selectRecordRepository.refuseOtherRequestOfStudent(selectRecordModel.getStudentId());
+
+        MaterialStatusModel materialStatusModel = new MaterialStatusModel();
+        materialStatusModel.setTeacherId(selectRecordModel.getTeacherId());
+        materialStatusModel.setStudentId(selectRecordModel.getStudentId());
+        materialStatusModel.setProjectionId(selectRecordModel.getProjectionId());
+        materialStatusModel.setTaskSubmitStatus(0);
+        materialStatusModel.setThesesSubmitStatus(0);
+        materialStatusService.saveStatus(materialStatusModel);
 
         return flag;
     }
