@@ -19,7 +19,7 @@ public class FileUtil {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-        String filePath = path.getParentFile().getParentFile().getParent()
+        String filePath = path.getParent()
                 + File.separator + "upload" + File.separator + "taskBook" + File.separator;
         return filePath;
     }
@@ -30,7 +30,7 @@ public class FileUtil {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-        String filePath = path.getParentFile().getParentFile().getParent() + File.separator + "upload" + File.separator + "theses" + File.separator;
+        String filePath = path.getParent() + File.separator + "upload" + File.separator + "theses" + File.separator;
 
         return filePath;
     }
