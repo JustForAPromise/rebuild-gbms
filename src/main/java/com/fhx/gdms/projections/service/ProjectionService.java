@@ -96,4 +96,19 @@ public interface ProjectionService {
      * @return
      */
     ProjectionModel findByUserIdAndTeacherId(Integer studentId, Integer teacherId);
+
+    /**
+     * 课题审核
+     * @param teacherId
+     * @param departmentId
+     * @return
+     */
+    List<ProjectionModel> listProjectionToAudit(Integer teacherId, Integer departmentId);
+
+    /**
+     *
+     * @param model
+     * @return
+     */
+    List<ProjectionModel> findListToAudit(ProjectionModel model);
 }

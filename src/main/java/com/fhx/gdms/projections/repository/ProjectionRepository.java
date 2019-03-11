@@ -24,8 +24,9 @@ public interface ProjectionRepository {
             @Result(column = "id", property = "id", javaType = Integer.class),
             @Result(column = "title", property = "title", javaType = String.class),
             @Result(column = "introduce", property = "introduce", javaType = String.class),
-            @Result(column = "audit_status", property = "auditStatus", javaType = Integer.class),
             @Result(column = "demand", property = "demand", javaType = String.class),
+            @Result(column = "audit_status", property = "auditStatus", javaType = Integer.class),
+            @Result(column = "audit_remark", property = "auditRemark", javaType = String.class),
 
             @Result(column = "create_time", property = "createTime", javaType = Date.class),
             @Result(column = "update_time", property = "updateTime", javaType = Date.class),
@@ -53,6 +54,14 @@ public interface ProjectionRepository {
     @Select("SELECT * FROM tb_projection WHERE student_id= #{studentId} AND teacher_id = #{teacherId} LIMIT 1")
     @ResultMap(value = "projectionMap")
     ProjectionModel findByUserIdAndTeacherId(@Param("studentId")Integer studentId, @Param("teacherId")Integer teacherId);
+
+    @Select("SELECT * FROM tb_projection WHERE teacher_id != #{teacherId} AND department_id = #{departmentId} ORDER BY audit_status, update_time DESC")
+    @ResultMap(value = "projectionMap")
+    List<ProjectionModel> listProjectionToAudit(@Param("teacherId")Integer teacherId, @Param("departmentId")Integer departmentId);
+
+    @Select("SELECT * FROM tb_projection WHERE teacher_id != #{teacherId} AND department_id = #{departmentId} AND audit_status = #{auditStatus} ORDER BY audit_status, update_time DESC")
+    @ResultMap(value = "projectionMap")
+    List<ProjectionModel> findListToAudit(ProjectionModel model);
 
     /********** 内部类 *********/
 
@@ -87,6 +96,9 @@ public interface ProjectionRepository {
             }
             if (model.getAuditStatus() != null && !"".equals(model.getAuditStatus())) {
                 sql.WHERE("audit_status = #{auditStatus}");
+            }
+            if (model.getAuditRemark() != null && !"".equals(model.getAuditRemark())) {
+                sql.WHERE("audit_remark = #{auditRemark}");
             }
             if (model.getTeacherId() != null && !"".equals(model.getTeacherId())) {
                 sql.WHERE("teacher_id = #{teacherId}");

@@ -23,9 +23,6 @@ public class ProjectionController {
     private ProjectionService projectionService;
 
     @Autowired
-    private SelectRecordService selectRecordService;
-
-    @Autowired
     private HttpSession session;
 
     @RequestMapping(value = "/add", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)

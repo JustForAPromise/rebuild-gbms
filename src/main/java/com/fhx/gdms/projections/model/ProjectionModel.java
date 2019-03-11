@@ -23,14 +23,19 @@ public class ProjectionModel {
     private String introduce;
 
     /**
+     * 要求
+     */
+    private String demand;
+
+    /**
      * 审核状态 0未审核 1通过 2未通过
      */
     private Integer auditStatus;
 
     /**
-     * 要求
+     * 审核备注
      */
-    private String demand;
+    private String auditRemark;
 
     /**
      * 创建时间

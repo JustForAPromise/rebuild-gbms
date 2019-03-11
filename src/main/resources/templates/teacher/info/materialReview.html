@@ -144,7 +144,7 @@
                     countTaskBook(1, null)
 
                 } else if (status == 2) {
-                    countTaskBook(2, null)
+                    countTaskBook(0, null)
 
                 } else if (status == 3) {
                     countTaskBook(null, 1)
@@ -159,7 +159,7 @@
                     countTheses(1, null)
 
                 } else if (status == 2) {
-                    countTheses(2, null)
+                    countTheses(0, null)
 
                 } else if (status == 3) {
                     countTheses(null, 1)
@@ -371,18 +371,18 @@
                         + "<td>" + data.data[i].student.name + "</td> "
                         + "<td>" + data.data[i].projection.title + "</td> "
 
-                    if (data.data[i].taskSubmitStatus == null) {
-                        str = str + "<td style='color: #0e0074;'>—</td>"
-                    } else if (data.data[i].taskSubmitStatus == 0) {
+                    if (data.data[i].thesesSubmitStatus == 0) {
                         str = str + "<td style='color: #e9a931;'>未提交</td>"
-                    } else if (data.data[i].taskSubmitStatus == 1) {
+                    } else if (data.data[i].thesesSubmitStatus == 1) {
                         str = str + "<td style='color: #e9005f;'>已提交</td>";
                     }
                     if (data.data[i].taskAuditStatus == null) {
                         str = str + "<td style='color: #0e0074;'>—</td>"
-                    } else if (data.data[i].taskAuditStatus == 1) {
+                    } else if (data.data[i].thesesAuditStatus == 0) {
+                        str = str + "<td style='color: #0e0074;'>—</td>"
+                    } else if (data.data[i].thesesAuditStatus == 1) {
                         str = str + "<td style='color: #e9a931;'>已通过</td>"
-                    } else if (data.data[i].taskAuditStatus == 2) {
+                    } else if (data.data[i].thesesAuditStatus == 2) {
                         str = str + "<td style='color: #e9005f;'>未通过</td>";
                     }
                     str = str + "</tr>";
@@ -432,6 +432,8 @@
                         str = str + "<td style='color: #e9005f;'>已提交</td>";
                     }
                     if (data.data[i].taskAuditStatus == null) {
+                        str = str + "<td style='color: #0e0074;'>—</td>"
+                    } else if (data.data[i].taskAuditStatus == 0) {
                         str = str + "<td style='color: #0e0074;'>—</td>"
                     } else if (data.data[i].taskAuditStatus == 1) {
                         str = str + "<td style='color: #e9a931;'>已通过</td>"

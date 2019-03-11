@@ -68,8 +68,11 @@ public class ThesesController {
         try {
             byte[] bytes = file.getBytes();
 
-            String prefix = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf(".") + 1);
-            String path = uploadDir + new DateTime().toString("yyMMdd-HHmm") + "." + prefix;
+            Integer endIndex = file.getOriginalFilename().lastIndexOf(".")+1;
+
+            String prefix=file.getOriginalFilename().substring(endIndex);
+            String path = uploadDir + file.getOriginalFilename().substring(0,endIndex -1)+"-"+ new DateTime().toString("yyMMddHHmmss") + "." + prefix;
+
             File newFile = new File(path);
             if (!newFile.getParentFile().exists()) {
                 newFile.getParentFile().mkdirs();

@@ -69,8 +69,10 @@ public class TaskBookController {
         try {
             byte[] bytes = file.getBytes();
 
-            String prefix=file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf(".")+1);
-            String path = uploadDir + file.getOriginalFilename()+"-"+ new DateTime().toString("yyMMddHHmmss") + "." + prefix;
+            Integer endIndex = file.getOriginalFilename().lastIndexOf(".");
+
+            String prefix=file.getOriginalFilename().substring(endIndex+1);
+            String path = uploadDir + file.getOriginalFilename().substring(0,endIndex)+"-"+ new DateTime().toString("yyMMddHHmmss") + "." + prefix;
             File newFile = new File(path);
             if (!newFile.getParentFile().exists()){
                 newFile.getParentFile().mkdirs();

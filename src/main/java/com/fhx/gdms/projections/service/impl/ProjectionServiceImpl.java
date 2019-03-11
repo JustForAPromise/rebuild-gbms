@@ -45,6 +45,8 @@ public class ProjectionServiceImpl implements ProjectionService {
     public ProjectionModel findById(Integer id) {
         ProjectionModel model = projectionRepository.findById(id);
 
+        model.setTeacherModel(teacherService.findById(model.getTeacherId()));
+
         return model;
     }
 
@@ -124,5 +126,25 @@ public class ProjectionServiceImpl implements ProjectionService {
     @Override
     public ProjectionModel findByUserIdAndTeacherId(Integer studentId, Integer teacherId) {
         return projectionRepository.findByUserIdAndTeacherId(studentId, teacherId);
+    }
+
+    @Override
+    public List<ProjectionModel> listProjectionToAudit(Integer teacherId, Integer departmentId) {
+        List<ProjectionModel> results =  projectionRepository.listProjectionToAudit(teacherId, departmentId);
+        results.stream().forEach(data ->{
+            data.setTeacherModel(teacherService.findById(data.getTeacherId()));
+        });
+
+        return results;
+    }
+
+    @Override
+    public List<ProjectionModel> findListToAudit(ProjectionModel model) {
+        List<ProjectionModel> results =  projectionRepository.findListToAudit(model);
+        results.stream().forEach(data ->{
+            data.setTeacherModel(teacherService.findById(data.getTeacherId()));
+        });
+
+        return results;
     }
 }
