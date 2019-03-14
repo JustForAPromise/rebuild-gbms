@@ -6,7 +6,7 @@
     <groupId>com.fhx</groupId>
     <artifactId>gdms</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <packaging>jar</packaging>
+    <packaging>war</packaging>
 
     <name>gdms</name>
     <description>Demo project for Spring Boot</description>
@@ -91,13 +91,18 @@
     </dependencies>
 
     <build>
+        <finalName>gdms</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
         </plugins>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+            </resource>
+        </resources>
     </build>
-
 
 </project>

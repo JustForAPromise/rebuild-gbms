@@ -27,10 +27,10 @@ public class ParameterRequestWrapper extends HttpServletRequestWrapper {
 	      super(request);   
 	      //将参数表，赋予给当前的Map以便于持有request中的参数    
 	      Map<String, String[]> requestMap=request.getParameterMap();
-	      System.out.println("转化前参数："+JSON.toJSONString(requestMap));
+//	      System.out.println("转化前参数："+JSON.toJSONString(requestMap));
 	      this.params.putAll(requestMap);
 	      this.modifyParameterValues();
-	      System.out.println("转化后参数："+JSON.toJSONString(params));
+//	      System.out.println("转化后参数："+JSON.toJSONString(params));
 	  }    
 	  /**
 	   * 重写getInputStream方法  post类型的请求参数必须通过流才能获取到值
@@ -46,9 +46,9 @@ public class ParameterRequestWrapper extends HttpServletRequestWrapper {
 	        if (StringUtils.isEmpty(json)) {
 	            return super.getInputStream();
 	        }
-	        System.out.println("转化前参数："+json);
+//	        System.out.println("转化前参数："+json);
 			Map<String,Object> map= StringJsonUtils.jsonStringToMap(json);
-			System.out.println("转化后参数："+JSON.toJSONString(map));
+//			System.out.println("转化后参数："+JSON.toJSONString(map));
 	        ByteArrayInputStream bis = new ByteArrayInputStream(JSON.toJSONString(map).getBytes("utf-8"));
 	        return new MyServletInputStream(bis);
 	  }
