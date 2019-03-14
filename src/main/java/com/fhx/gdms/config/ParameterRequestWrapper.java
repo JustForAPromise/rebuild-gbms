@@ -1,24 +1,22 @@
 package com.fhx.gdms.config;
 
+import com.alibaba.fastjson.JSON;
+import com.fhx.gdms.supportUtil.StringJsonUtils;
+import org.apache.commons.io.IOUtils;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.util.StringUtils;
+
+import javax.servlet.ReadListener;
+import javax.servlet.ServletInputStream;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletRequestWrapper;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
-
-import javax.servlet.ReadListener;
-import javax.servlet.ServletInputStream;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletRequestWrapper;
-
-import org.apache.commons.io.IOUtils;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
-import org.springframework.util.StringUtils;
-
-import com.alibaba.fastjson.JSON;
-import com.zhang.util.StringJsonUtils;
 
 public class ParameterRequestWrapper extends HttpServletRequestWrapper {
 
@@ -49,7 +47,7 @@ public class ParameterRequestWrapper extends HttpServletRequestWrapper {
 	            return super.getInputStream();
 	        }
 	        System.out.println("转化前参数："+json);
-			Map<String,Object> map=StringJsonUtils.jsonStringToMap(json);
+			Map<String,Object> map= StringJsonUtils.jsonStringToMap(json);
 			System.out.println("转化后参数："+JSON.toJSONString(map));
 	        ByteArrayInputStream bis = new ByteArrayInputStream(JSON.toJSONString(map).getBytes("utf-8"));
 	        return new MyServletInputStream(bis);
