@@ -44,6 +44,9 @@ public interface UserRepository {
     @Update("update tb_user set power_id = #{powerId} where id = #{id}")
     void updatePowerById(@Param("id") Integer id, @Param("powerId") Integer powerId);
 
+    @Update("update tb_user set password = #{password} where id = #{id}")
+    void updatePwd(@Param("id")Integer id, @Param("password")String password);
+
     /********** 内部类 *********/
     class UserProvider {
         public String findOne(UserModel model) {

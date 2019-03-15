@@ -35,6 +35,8 @@
 }
 .data table th, .data table td{
 	text-align: center;
+	padding-right: 5px;
+	padding-left: 5px;
 }
 .data table tbody tr{ text-align: center; 	height:30px;}
 .data table tbody tr:nth-of-type(odd){ background:#EEE9E9 ;}/**奇数行**/ 
@@ -51,6 +53,11 @@
 	width: 350px;
 }
 
+.studentInfo table td{
+	padding-left: 5px;
+	padding-right: 5px;
+}
+
 .teacherInfo{
 	float: left;
 	margin-left: 20px;
@@ -62,6 +69,11 @@
 	width: 350px;
 }
 
+.teacherInfo table td{
+	padding-left: 5px;
+	padding-right: 5px;
+}
+
 .projectionInfo{
 	clear: both;
 }
@@ -71,5 +83,8 @@
 .projectionInfo table{
 	width: 600px;
 }
-
+.projectionInfo table td{
+	padding-left: 5px;
+	padding-right: 5px;
+}
 

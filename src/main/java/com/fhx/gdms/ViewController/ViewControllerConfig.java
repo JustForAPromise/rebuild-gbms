@@ -21,10 +21,9 @@ public class ViewControllerConfig extends WebMvcConfigurerAdapter {
         registry.addViewController("admin/teacher").setViewName("/admin/infoManage/teacher.html");
         registry.addViewController("admin/systemLog").setViewName("/admin/infoManage/systemLog.html");
         registry.addViewController("admin/power").setViewName("/admin/powerManage/power.html");
-
+        registry.addViewController("admin/scoreCondition").setViewName("/admin/scoreCondition/scoreCondition.html");
 
         registry.addViewController("student/projection").setViewName("/student/info/projection.html");
-        registry.addViewController("student/contactTeacher").setViewName("/student/info/contactTeacher.html");
         registry.addViewController("student/score").setViewName("/student/info/score.html");
 
 

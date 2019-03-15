@@ -92,6 +92,18 @@ public class ProjectionController {
         return apiResult;
     }
 
+    @RequestMapping(value = "/findById", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ResponseBody
+    ApiResult findById(Integer id) {
+        ApiResult apiResult = new ApiResult();
+
+        ProjectionModel result = projectionService.findById(id);
+
+        apiResult.setData(result);
+
+        return apiResult;
+    }
+
     @RequestMapping(value = "/findByTitle", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
     ApiResult findByName(String title) {

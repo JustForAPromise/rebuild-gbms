@@ -34,4 +34,11 @@ public class UserServiceImpl implements UserService {
     public void updatePowerById(Integer id, Integer powerId) {
         userRepository.updatePowerById(id, powerId);
     }
+
+    @Override
+    public UserModel updatePwd(Integer id, String password) {
+        userRepository.updatePwd(id, password);
+
+        return this.findById(id);
+    }
 }

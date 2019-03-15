@@ -32,4 +32,12 @@ public interface UserService {
      * @param powerId
      */
     void updatePowerById(Integer id, Integer powerId);
+
+    /**
+     * 密码修改
+     * @param id
+     * @param password
+     * @return
+     */
+    UserModel updatePwd(Integer id, String password);
 }
