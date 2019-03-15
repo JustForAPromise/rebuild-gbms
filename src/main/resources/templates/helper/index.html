@@ -1,20 +1,20 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>毕业设计信息管理系统</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <link rel="stylesheet" type="text/css" href="/css/index.css">
-    <link rel="stylesheet" type="text/css" href="/css/bootstrap-theme.min.css">
-    <link rel="stylesheet" type="text/css" href="/css/bootstrap.css">
-    <link rel="stylesheet" type="text/css" href="/css/swiper.min.css">
+    <link rel="stylesheet" type="text/css" href="css/index.css">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap-theme.min.css">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="css/swiper.min.css">
 
 
-    <script type="text/javascript" src="/js/jquery.js"></script>
-    <script type="text/javascript" src="/js/bootstrap.js"></script>
-    <script type="text/javascript" src="/js/swiper.jquery.min.js"></script>
+    <script type="text/javascript" src="js/jquery.js"></script>
+    <script type="text/javascript" src="js/bootstrap.js"></script>
+    <script type="text/javascript" src="js/swiper.jquery.min.js"></script>
 
 </head>
 <body style="background-color:#888">
@@ -24,32 +24,25 @@
         	<img>
         </div>
         <div class="personInfo">
-        	<a><span>个人信息</span></a>
-            <span>登陆时间：</span><span style="margin-right:15px">***********</span>
-            <span>登录IP：</span><span style="margin-right:15px">***********</span>
-            <span><img src="/images/exit.png" width="30" height="30" title="退出"></span>
+            <span>用户：</span><span th:text="${session.userInfo.name}"></span>
+            <span>登陆时间：</span><span style="margin-right:15px"
+                                    th:text="${#dates.format(new java.util.Date().getTime(), 'yyyy-MM-dd hh:mm:ss')}"></span>
+            <span><a href="loginOut"><img src="/images/exit.png" width="30" height="30" title="退出"></a></span>
         </div>
     </div>
     <div class="leftDiv">
     	<ul class="mainNav">
-            <li>
-                <a><span>用户信息</span></a>
-                <ul class="childrenNav">
-                    <li><a target="function" href="personInfo/personInfo.html">个人信息管理</a></li>
-                </ul>
-            </li>
         	<li>
             	<a><span>操作选项</span></a>
             	<ul class="childrenNav">
-                    <li><a target="function" href="info/student-info.html">学生信息管理</a></li>
-                	<li><a target="function" href="info/teacher-info.html">导师信息设置</a></li>
-                    <li><a target="function" href="info/teacher.html">答辩信息管理</a></li>
+                    <li><a target="function" href="helper/student-info">学生信息管理</a></li>
+                	<li><a target="function" href="helper/teacher-info">导师信息设置</a></li>
                 </ul>
             </li>
             <li>
             	<a><span>系统相关</span></a>
                 <ul class="childrenNav">
-                    <li><a href="/loginOut">安全退出</a></li>
+                    <li><a href="loginOut">安全退出</a></li>
                 </ul>
             </li>
         </ul>

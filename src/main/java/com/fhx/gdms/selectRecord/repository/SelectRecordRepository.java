@@ -69,6 +69,9 @@ public interface SelectRecordRepository {
     @ResultMap(value = "recordMap")
     SelectRecordModel findHavedSelectedRecordByStudentId(Integer studentId);
 
+    @Select("SELECT count(1) FROM stu_tea_pro_record WHERE  teacher_id= #{teacherId} AND audit_status = 1")
+    Integer findTotalByTeacherId(@Param("teacherId")Integer teacherId);
+
     /********** 内部类 *********/
 
     class SelectRecordProvider {

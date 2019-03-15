@@ -2,6 +2,8 @@ package com.fhx.gdms.selectRecord.controllers;
 
 import com.fhx.gdms.selectRecord.model.SelectRecordModel;
 import com.fhx.gdms.selectRecord.service.SelectRecordService;
+import com.fhx.gdms.studentNumOfTeacher.model.StudentNumOfTeacherModel;
+import com.fhx.gdms.studentNumOfTeacher.service.StudentNumOfTeacherService;
 import com.fhx.gdms.supportUtil.ApiResult;
 import com.fhx.gdms.user.model.UserModel;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +22,9 @@ public class SelectRecordController {
 
     @Autowired
     private SelectRecordService selectRecordService;
+
+    @Autowired
+    private StudentNumOfTeacherService studentNumOfTeacherService;
 
     @Autowired
     private HttpSession session;
@@ -119,6 +124,15 @@ public class SelectRecordController {
     @ResponseBody
     ApiResult receiveStudent(Integer id) {
         ApiResult apiResult = new ApiResult();
+
+        UserModel userModel = (UserModel) session.getAttribute("userInfo");
+        StudentNumOfTeacherModel model = studentNumOfTeacherService.findByTeacherId(userModel.getId());
+        Integer totalOfHashReceive = selectRecordService.findTotalByTeacherId(userModel.getId());
+        if (model.getStudentNum() <= totalOfHashReceive){
+            apiResult.setCode(-1);
+            apiResult.setMsg("可指导学生名额已满！");
+            return apiResult;
+        }
 
         Integer result = selectRecordService.receiveStudent(id);
 

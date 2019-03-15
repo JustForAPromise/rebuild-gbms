@@ -81,4 +81,11 @@ public interface TeacherService {
      * @return
      */
     UserModel findByNoAndPasswd(String no, String password);
+
+    /**
+     * find list
+     * @param model
+     * @return
+     */
+    List<UserModel> findList(UserModel model);
 }

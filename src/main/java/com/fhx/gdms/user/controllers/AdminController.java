@@ -1,7 +1,7 @@
 package com.fhx.gdms.user.controllers;
 
-import com.fhx.gdms.user.service.AdminService;
 import com.fhx.gdms.user.model.UserModel;
+import com.fhx.gdms.user.service.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;

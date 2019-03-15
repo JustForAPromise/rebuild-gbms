@@ -1,0 +1,26 @@
+.studentInfo {
+    padding: 10px 15px;
+}
+
+.studentInfo table td {
+    min-width: 100px;
+    text-align: center;
+}
+
+.studentInfo table tr {
+    margin-bottom: 10px;
+}
+
+.font-blod {
+    font-weight: bold;
+    font-size: small;
+}
+
+.data{
+    padding: 5px 20px;
+}
+.data table tfoot td{
+    padding-top: 10px;
+    text-align: center;
+}
+

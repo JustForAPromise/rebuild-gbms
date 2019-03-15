@@ -5,7 +5,6 @@ import com.fhx.gdms.user.model.UserModel;
 import lombok.Data;
 
 import java.util.Date;
-import java.util.List;
 
 @Data
 public class MaterialStatusModel {

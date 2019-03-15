@@ -12,6 +12,13 @@ public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
 
     @Override
+    public UserModel save(UserModel model) {
+        userRepository.save(model);
+
+        return this.findById(model.getId());
+    }
+
+    @Override
     public UserModel findByNoAndDepartmentId(String no, Integer departmentId) {
         UserModel model = new UserModel();
         model.setNo(no);
@@ -40,5 +47,16 @@ public class UserServiceImpl implements UserService {
         userRepository.updatePwd(id, password);
 
         return this.findById(id);
+    }
+
+    @Override
+    public UserModel addSupports(UserModel model) {
+        UserModel existModel = userRepository.findByNoAndDepartmentId(model);
+        if (existModel != null){
+            return null;
+        }
+        model.setIdentify(3);
+
+        return this.save(model);
     }
 }

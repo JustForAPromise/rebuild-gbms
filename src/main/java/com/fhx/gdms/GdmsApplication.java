@@ -16,3 +16,10 @@ public class GdmsApplication extends SpringBootServletInitializer {
         SpringApplication.run(GdmsApplication.class, args);
     }
 }
+
+//@SpringBootApplication
+//public class GdmsApplication {
+//    public static void main(String[] args) {
+//        SpringApplication.run(GdmsApplication.class, args);
+//    }
+//}

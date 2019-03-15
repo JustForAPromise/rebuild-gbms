@@ -6,72 +6,74 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <link rel="stylesheet" type="text/css" href="/css/admin/admin-index.css">
-    <link rel="stylesheet" type="text/css" href="/css/bootstrap-theme.min.css">
-    <link rel="stylesheet" type="text/css" href="/css/bootstrap.css">
-    <link rel="stylesheet" type="text/css" href="/css/swiper.min.css">
+    <link rel="stylesheet" type="text/css" href="css/admin/admin-index.css">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap-theme.min.css">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="css/swiper.min.css">
 
 
-    <script type="text/javascript" src="/js/jquery.min.js"></script>
-    <script type="text/javascript" src="/js/swiper.jquery.min.js"></script>
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="js/swiper.jquery.min.js"></script>
 
 </head>
 <body style="background-color:#888">
 <div class="main">
     <div class="topDiv">
-    	<div class="iconBar">
-        	<img>
+        <div class="iconBar">
+            <img>
         </div>
         <div class="personInfo">
-        	<span>用户：</span><span  th:text="${session.userInfo.name}"></span>
-            <span>登陆时间：</span><span style="margin-right:15px" th:text="${#dates.format(new java.util.Date().getTime(), 'yyyy-MM-dd hh:mm:ss')}"></span>
+            <span>用户：</span><span th:text="${session.userInfo.name}"></span>
+            <span>登陆时间：</span><span style="margin-right:15px"
+                                    th:text="${#dates.format(new java.util.Date().getTime(), 'yyyy-MM-dd hh:mm:ss')}"></span>
             <span><a href="loginOut"><img src="/images/exit.png" width="30" height="30" title="退出"></a></span>
         </div>
     </div>
     <div class="leftDiv">
-    	<ul class="mainNav">
+        <ul class="mainNav">
             <li>
                 <a><span>用户信息</span></a>
                 <ul class="childrenNav">
                     <li><a target="function" href="admin/getUserInfo">个人信息管理</a></li>
                 </ul>
             </li>
-        	<li>
-            	<a><span>信息管理</span></a>
-            	<ul class="childrenNav">
+            <li>
+                <a><span>信息管理</span></a>
+                <ul class="childrenNav">
                     <li><a target="function" href="admin/department">系别一览</a></li>
-                	<li><a target="function" href="admin/student">学生</a></li>
+                    <li><a target="function" href="admin/student">学生</a></li>
                     <li><a target="function" href="admin/teacher">教师</a></li>
                 </ul>
             </li>
             <li>
-            	<a><span>权限管理</span></a>
-            	<ul class="childrenNav">
-                	<li><a target="function" href="admin/power">权限分配</a></li>
+                <a><span>权限管理</span></a>
+                <ul class="childrenNav">
+                    <li><a target="function" href="admin/power">权限分配</a></li>
                 </ul>
             </li>
             <li>
-                <a><span>答辩相关</span></a>
+                <a><span>成绩相关</span></a>
                 <ul class="childrenNav">
-                    <li><a target="function" href="admin/scoreCondition">成绩评分管理</a></li>
+                    <li><a target="function" href="admin/scoreCondition">评分项目管理</a></li>
+                    <li><a target="function" href="#">学生成绩一览</a></li>
                 </ul>
             </li>
             <li>
-            	<a><span>系统相关</span></a>
+                <a><span>系统相关</span></a>
                 <ul class="childrenNav">
-                	<li><a target="function">参数设置</a></li>
-                    <li><a href="/loginOut">安全退出</a></li>
+                    <!--<li><a target="function">参数设置</a></li>-->
+                    <li><a href="loginOut">安全退出</a></li>
                 </ul>
             </li>
         </ul>
     </div>
     <div class="rightDiv">
-    	<div class="navInfo">
-        	<span>系统--></span>
+        <div class="navInfo">
+            <span>系统--></span>
         </div>
         <div class="frame">
-        	<iframe id="functionFrame" name="function" frameborder="0">
-            
+            <iframe id="functionFrame" name="function" frameborder="0">
+
             </iframe>
         </div>
     </div>
@@ -79,53 +81,55 @@
 
 <script>
 
-	var mainDiv = $(".main:first");
-	var rightDiv = $(".rightDiv:first");
-	var leftDiv = $(".leftDiv:first");
-	var frame = $("#functionFrame");
-	function resetSize(){
-        if(window.innerWidth > 1040){
+    var mainDiv = $(".main:first");
+    var rightDiv = $(".rightDiv:first");
+    var leftDiv = $(".leftDiv:first");
+    var frame = $("#functionFrame");
+
+    function resetSize() {
+        if (window.innerWidth > 1040) {
             mainDiv.width(window.innerWidth)
-            rightDiv.width(window.innerWidth-260);
-            frame.width(window.innerWidth-260)
+            rightDiv.width(window.innerWidth - 260);
+            frame.width(window.innerWidth - 260)
         }
-        if (window.innerHeight > 500 ) {
+        if (window.innerHeight > 500) {
             mainDiv.height(window.innerHeight)
-            frame.height(window.innerHeight-100) 
-            leftDiv.height(window.innerHeight-70);
-        }      
-	}
-	~resetSize();
-	$(window).resize(function(e) {
+            frame.height(window.innerHeight - 100)
+            leftDiv.height(window.innerHeight - 70);
+        }
+    }
+
+    ~resetSize();
+    $(window).resize(function (e) {
         resetSize();
     });
-	
-	/* 导航栏效果 */
-	var firstNav = $(".mainNav>li>a");
-	var firstColor = firstNav.css("background-color");//保留一级导航栏的背景色
-	firstNav.hover(function(){
-			$(this).css("background-color","rgb(180, 180, 180)");
-		},function(){
-			$(this).css("background-color","rgb(204, 204, 204)");
-		})
-	var secondNav = $(".childrenNav");
-		secondNav.children("li").hover(function(){
-			$(this).css({"background-color":"#0AA","color":"#000"});
-		},function(){
-			$(this).css({"background-color":"#000","color":"#0FF"});
-		})
-	
-	firstNav.click(function(){
-		var index = firstNav.index(this);
-		secondNav.not(":eq("+index+")").slideUp("fast");
-		var children = secondNav.eq(index);
-		if(children.css("display") == 'none'){
-			children.slideDown('fast');
-		}else{
-			children.slideUp('fast');
-		}
-	});
-	
+
+    /* 导航栏效果 */
+    var firstNav = $(".mainNav>li>a");
+    var firstColor = firstNav.css("background-color");//保留一级导航栏的背景色
+    firstNav.hover(function () {
+        $(this).css("background-color", "rgb(180, 180, 180)");
+    }, function () {
+        $(this).css("background-color", "rgb(204, 204, 204)");
+    })
+    var secondNav = $(".childrenNav");
+    secondNav.children("li").hover(function () {
+        $(this).css({"background-color": "#0AA", "color": "#000"});
+    }, function () {
+        $(this).css({"background-color": "#000", "color": "#0FF"});
+    })
+
+    firstNav.click(function () {
+        var index = firstNav.index(this);
+        secondNav.not(":eq(" + index + ")").slideUp("fast");
+        var children = secondNav.eq(index);
+        if (children.css("display") == 'none') {
+            children.slideDown('fast');
+        } else {
+            children.slideUp('fast');
+        }
+    });
+
 </script>
 </body>
 </html>

@@ -4,15 +4,11 @@ import com.fhx.gdms.materialStatus.model.MaterialStatusModel;
 import com.fhx.gdms.materialStatus.repository.MaterialStatusRepository;
 import com.fhx.gdms.materialStatus.service.MaterialStatusService;
 import com.fhx.gdms.projections.service.ProjectionService;
-import com.fhx.gdms.material.model.MaterialModel;
-import com.fhx.gdms.user.model.UserModel;
 import com.fhx.gdms.user.service.StudentService;
 import com.fhx.gdms.user.service.TeacherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.io.File;
 import java.util.List;
 
 @Service
@@ -39,6 +35,11 @@ public class MaterialStatusServiceImpl implements MaterialStatusService {
         });
 
         return list;
+    }
+
+    @Override
+    public MaterialStatusModel findOne(MaterialStatusModel materialStatus) {
+        return materialStatusRepository.findOne(materialStatus);
     }
 
     @Override

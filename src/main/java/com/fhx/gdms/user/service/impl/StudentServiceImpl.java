@@ -2,6 +2,7 @@ package com.fhx.gdms.user.service.impl;
 
 import com.fhx.gdms.department.service.DepartmentService;
 import com.fhx.gdms.major.service.MajorService;
+import com.fhx.gdms.projections.service.ProjectionService;
 import com.fhx.gdms.user.model.UserModel;
 import com.fhx.gdms.user.repository.StudentRepository;
 import com.fhx.gdms.user.service.StudentService;
@@ -25,6 +26,9 @@ public class StudentServiceImpl implements StudentService {
     @Autowired
     private TeacherService teacherService;
 
+    @Autowired
+    private ProjectionService projectionService;
+
     @Override
     public UserModel findByNoAndPasswd(String no, String password) {
         UserModel model = new UserModel();
@@ -43,6 +47,17 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public List<Integer> listStudentId(UserModel student) {
         return studentRepository.listStudentId(student);
+    }
+
+    @Override
+    public List<UserModel> findByTeacherId(Integer teacherId) {
+        List<UserModel> modelList = studentRepository.findByTeacherId(teacherId);
+
+        modelList.stream().forEach(data ->{
+            data.setProjectionModel(projectionService.findByUserIdAndTeacherId(data.getId(), data.getTeacherId()));
+        });
+
+        return modelList;
     }
 
     @Override

@@ -4,14 +4,14 @@
     <meta charset="UTF-8">
     <title>毕业设计信息管理系统</title>
 
-    <link rel="stylesheet" type="text/css" href="/css/index.css">
-    <link rel="stylesheet" type="text/css" href="/css/bootstrap-theme.min.css">
-    <link rel="stylesheet" type="text/css" href="/css/bootstrap.css">
-    <link rel="stylesheet" type="text/css" href="/css/swiper.min.css">
+    <link rel="stylesheet" type="text/css" href="css/index.css">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap-theme.min.css">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="css/swiper.min.css">
 
-    <script type="text/javascript" src="/js/jquery.js"></script>
-    <script type="text/javascript" src="/js/bootstrap.js"></script>
-    <script type="text/javascript" src="/js/swiper.jquery.min.js"></script>
+    <script type="text/javascript" src="js/jquery.js"></script>
+    <script type="text/javascript" src="js/bootstrap.js"></script>
+    <script type="text/javascript" src="js/swiper.jquery.min.js"></script>
 
 </head>
 <body style="background-color:#888">
@@ -36,17 +36,18 @@
                 </ul>
             </li>
             <li>
-                <a><span>信息管理</span></a>
+                <a><span>功能选项</span></a>
                 <ul class="childrenNav">
                     <li><a target="function" href="teacher/projection">课题管理</a></li>
                     <li><a target="function" href="teacher/student">学生申请</a></li>
                     <li><a target="function" href="teacher/materialReview">材料批阅</a></li>
+                    <li><a target="function" href="teacher/studentScore">成绩登记</a></li>
                 </ul>
             </li>
             <li>
                 <a><span>系统相关</span></a>
                 <ul class="childrenNav">
-                    <li><a href="/loginOut">安全退出</a></li>
+                    <li><a href="loginOut">安全退出</a></li>
                 </ul>
             </li>
         </ul>
@@ -57,7 +58,7 @@
                 <li>
                     <a><span>选项</span></a>
                     <ul class="childrenNav">
-                        <li><a target="function" href="#">权限分配</a></li>
+                        <li><a target="function" href="teacher/power">权限分配</a></li>
                     </ul>
                 </li>
             </ul>
@@ -67,20 +68,20 @@
                 <li>
                     <a><span>选项</span></a>
                     <ul class="childrenNav">
-                        <li><a target="function" href="/projectAuditor/listAll">课题审核</a></li>
+                        <li><a target="function" href="projectAuditor/listAll">课题审核</a></li>
                     </ul>
                 </li>
             </ul>
 
-            <ul class="mainNav" th:if="${session.userInfo.powerModel.answerAuditor}">
-                <h5>答辩审核员：</h5>
-                <li>
-                    <a><span>相关</span></a>
-                    <ul class="childrenNav">
-                        <li><a target="function" href="teacher/power">权限分配</a></li>
-                    </ul>
-                </li>
-            </ul>
+            <!--<ul class="mainNav" th:if="${session.userInfo.powerModel.answerAuditor}">-->
+                <!--<h5>答辩审核员：</h5>-->
+                <!--<li>-->
+                    <!--<a><span>相关</span></a>-->
+                    <!--<ul class="childrenNav">-->
+                        <!--<li><a target="function" href="teacher/power">权限分配</a></li>-->
+                    <!--</ul>-->
+                <!--</li>-->
+            <!--</ul>-->
         </div>
     </div>
     <div class="rightDiv">

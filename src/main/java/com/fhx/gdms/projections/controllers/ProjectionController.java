@@ -2,7 +2,6 @@ package com.fhx.gdms.projections.controllers;
 
 import com.fhx.gdms.projections.model.ProjectionModel;
 import com.fhx.gdms.projections.service.ProjectionService;
-import com.fhx.gdms.selectRecord.service.SelectRecordService;
 import com.fhx.gdms.supportUtil.ApiResult;
 import com.fhx.gdms.user.model.UserModel;
 import org.springframework.beans.factory.annotation.Autowired;

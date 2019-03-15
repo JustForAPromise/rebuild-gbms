@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>学生信息管理</title>
+
+    <link rel="stylesheet" type="text/css" href="../css/admin/admin-motaikuang.css">
+    <link rel="stylesheet" type="text/css" href="../css/teacher/teacher-score-detail.css">
+    <link rel="stylesheet" type="text/css" href="../css/bootstrap-theme.min.css">
+    <link rel="stylesheet" type="text/css" href="../css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="../css/swiper.min.css">
+
+    <script type="text/javascript" src="../js/jquery.js"></script>
+    <script type="text/javascript" src="../js/bootstrap.js"></script>
+    <script type="text/javascript" src="../js/swiper.jquery.min.js"></script>
+</head>
+<body>
+<div class="body">
+    <a href="/teacher/studentScore"><input style="margin-top: 5px; margin-left:10px" type="button" value="返回"></a>
+    <div class="studentInfo">
+        <table>
+            <tr>
+                <td style="display: none" colspan="6" th:text="${scoreAllInfo.student.id}" id="ids"></td>
+            </tr>
+            <tr>
+                <td class="font-blod">学号：</td>
+                <td th:text="${scoreAllInfo.student.no}"></td>
+                <td class="font-blod">姓名：</td>
+                <td th:text="${scoreAllInfo.student.name}"></td>
+                <td class="font-blod">所选课题：</td>
+                <td th:text="${scoreAllInfo.projectionModel.title}"></td>
+            </tr>
+
+            <tr>
+                <td class="font-blod">任务书审核是否通过：</td>
+                <td th:if="${scoreAllInfo.materialStatusModel.taskAuditStatus == 1}">通过</td>
+                <td th:if="${scoreAllInfo.materialStatusModel.taskAuditStatus == 2}">未通过</td>
+                <td th:if="${scoreAllInfo.materialStatusModel.taskAuditStatus != 1 && scoreAllInfo.materialStatusModel.taskAuditStatus != 2}">
+                    --
+                </td>
+                <td class="2"></td>
+                <td class="font-blod">论文审核是否通过：</td>
+                <td th:if="${scoreAllInfo.materialStatusModel.thesesAuditStatus == 1}">通过</td>
+                <td th:if="${scoreAllInfo.materialStatusModel.thesesAuditStatus == 2}">未通过</td>
+                <td th:if="${scoreAllInfo.materialStatusModel.thesesAuditStatus != 1 && scoreAllInfo.materialStatusModel.thesesAuditStatus != 2}">
+                    --
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="data">
+        <table  th:if="${#lists.size(scoreAllInfo.scoreRecordModels) > 0}">
+            <thead>
+            <tr>
+                <th style="min-width: 80px">序号</th>
+                <th style="min-width: 120px">评分项目</th>
+                <th style="min-width: 60px">分数占比（百分值）</th>
+                <th style="min-width: 100px"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="record,iterStat : ${scoreAllInfo.scoreRecordModels}">
+                <td th:text="${iterStat.count}"></td>
+                <td  style="display: none" th:text="${record.id}" class="ids"></td>
+                <td th:text="${record.scoreItemModel.itemName}"></td>
+                <td th:text="${record.scoreItemModel.scoreRate}"></td>
+                <td><input type="text" th:value="${record.scoreNum}" class="nums"></td>
+            </tr>
+            </tbody>
+            <tfoot>
+            <tr>
+                <td colspan="5"><input type="button" value="提交"></td>
+            </tr>
+            </tfoot>
+        </table>
+    </div>
+</div>
+
+<!-- jq代码 -->
+<script>
+    $(document).ready(function () {
+        $(".data input[value=提交]").click(function () {
+            var ids = $(".ids");
+            var nums = $(".nums")
+            for (i = 0, j = ids.length; i < j; i++){
+                updateNum($(ids[i]).text(), $(nums[i]).val())
+            }
+            alert("提交成功")
+        })
+    });
+
+    function updateNum(id, nums) {
+        $.ajax({
+            url: '/studentScore/updateNum',
+            type: 'POST',
+            data: {
+                id: id,
+                scoreNum:nums
+            },
+            dataType: 'json',
+            success: function (data) {
+            }
+        });
+    }
+
+
+</script>
+</body>
+</html>

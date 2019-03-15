@@ -1,6 +1,5 @@
 package com.fhx.gdms.selectRecord.model;
 
-import com.fhx.gdms.department.model.DepartmentModel;
 import com.fhx.gdms.projections.model.ProjectionModel;
 import com.fhx.gdms.user.model.UserModel;
 import lombok.Data;

@@ -1,4 +1,4 @@
-package com.fhx.gdms.config;
+package com.fhx.gdms.config.paramFilter;
 
 import com.alibaba.fastjson.JSON;
 import com.fhx.gdms.supportUtil.StringJsonUtils;

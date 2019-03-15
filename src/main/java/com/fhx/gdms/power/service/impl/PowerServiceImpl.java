@@ -1,6 +1,5 @@
 package com.fhx.gdms.power.service.impl;
 
-import com.fhx.gdms.department.model.DepartmentModel;
 import com.fhx.gdms.department.service.DepartmentService;
 import com.fhx.gdms.power.model.PowerModel;
 import com.fhx.gdms.power.repository.PowerRepository;

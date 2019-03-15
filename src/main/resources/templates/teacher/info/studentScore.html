@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>学生信息管理</title>
+
+    <link rel="stylesheet" type="text/css" href="../css/admin/admin-motaikuang.css">
+    <link rel="stylesheet" type="text/css" href="../css/teacher/teacher-score.css">
+    <link rel="stylesheet" type="text/css" href="../css/bootstrap-theme.min.css">
+    <link rel="stylesheet" type="text/css" href="../css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="../css/swiper.min.css">
+
+    <script type="text/javascript" src="../js/jquery.js"></script>
+    <script type="text/javascript" src="../js/bootstrap.js"></script>
+    <script type="text/javascript" src="../js/swiper.jquery.min.js"></script>
+</head>
+<body>
+<div class="body">
+<div class="data">
+    <table>
+        <thead>
+        <tr>
+            <th style="min-width:50px " store="">序号</th>
+            <th style="min-width:130px ">学号</th>
+            <th style="min-width:130px ">姓名</th>
+            <th style="min-width:130px ">课题</th>
+            <th style="min-width:100px "></th>
+        </tr>
+        </thead>
+        <tbody id="dataList">
+
+        </tbody>
+    </table>
+</div>
+</div>
+
+<!-- jq代码 -->
+<script>
+    $(document).ready(function () {
+        //初始化界面  显示学生信息
+        listAllStudent();
+    });
+
+    function listAllStudent() {
+        $.ajax({
+            url: '/studentScore/listAllStudent',
+            type: 'GET',
+            dataType: 'json',
+            success: function (data) {
+                var dataList = $("#dataList");
+                dataList.html("");
+
+                for (i = 0; i < data.data.length; i++) {
+                    var str = "<tr><td>" + (i + 1) + "</td>"
+                        + "<td>" + data.data[i].no + "</td>"
+                        + "<td>" + data.data[i].name + "</td>"
+                        + "<td>" + data.data[i].projectionModel.title + "</td>"
+                        + "<td>"
+                        + "<a href='/studentScore/record?studentId=" + data.data[i].id+"'>"
+                        + "<input type='button' value='成绩登记'>"
+                        + "</a></td>"
+                    dataList.append(str)
+                }
+            }
+        });
+    }
+</script>
+</body>
+</html>

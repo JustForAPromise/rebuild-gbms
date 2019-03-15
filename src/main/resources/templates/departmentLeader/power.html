@@ -1,24 +1,28 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>系负责人--权限管理</title>
 
-    <link rel="stylesheet" type="text/css" href="/css/admin/admin-power-teacher.css">
-    <link rel="stylesheet" type="text/css" href="/css/admin/admin-motaikuang.css">
-    <link rel="stylesheet" type="text/css" href="/css/bootstrap-theme.min.css">
-    <link rel="stylesheet" type="text/css" href="/css/bootstrap.css">
-    <link rel="stylesheet" type="text/css" href="/css/swiper.min.css">
+    <link rel="stylesheet" type="text/css" href="../css/admin/admin-power-teacher.css">
+    <link rel="stylesheet" type="text/css" href="../css/admin/admin-motaikuang.css">
+    <link rel="stylesheet" type="text/css" href="../css/bootstrap-theme.min.css">
+    <link rel="stylesheet" type="text/css" href="../css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="../css/swiper.min.css">
 
-    <script type="text/javascript" src="/js/jquery.js"></script>
-    <script type="text/javascript" src="/js/bootstrap.js"></script>
-    <script type="text/javascript" src="/js/swiper.jquery.min.js"></script>
+    <script type="text/javascript" src="../js/jquery.js"></script>
+    <script type="text/javascript" src="../js/bootstrap.js"></script>
+    <script type="text/javascript" src="../js/swiper.jquery.min.js"></script>
 </head>
 <body>
 <div class="body">
     <div class="function">
         <!-- 添加权限功能 -->
-        <input type="button" value="添加">
+        <input type="button" value="添加"><span>&nbsp;&nbsp;&nbsp;</span>
+        <input type="button" name="" value="权限信息" th:attr="store=${session.userInfo.departmentId}">
+        <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+        <input type="button" name="" value="教务员信息" th:attr="store=${session.userInfo.departmentId}">
+        <input type="button" value="添加教务员"><span>&nbsp;&nbsp;&nbsp;</span>
         <!-- 模态框开始 -->
         <div class="tops myModal hide">
 
@@ -26,23 +30,28 @@
             <form id="form-data">
                 <p class="p" style="display: none"><label>id：</label><input type="text" name="id"></p>
                 <p class="p"><label>学工号：</label><input type="text" name="no"></p>
-                <p class="p">
-                    <label>系别：</label>
-                    <select class="department departmentSelect" name="departmentId">
-
-                    </select>
-                </p>
+                <p class="p" style="display: none"><label>系别：</label><input type="text" name="departmentId" th:value="${session.userInfo.departmentId}"></p>
             </form>
             <p class="p"><input type="button" value="添加">&nbsp<input type="button" value="取消"></p>
         </div>
         <div class="tops shade hide"></div>
         <!-- 模态框结束 -->
-    </div>
-    <div class="search">
-        <label>系别：</label>
-        <select class="departmentSelect">
-        </select>
-        <input type="button" name="" value="搜索">
+
+        <!-- 教务员模态框 模态框开始 -->
+        <div class="bottoms myModal hide">
+
+            <h4 style="text-align: center;">用户信息</h4>
+            <form id="form-data-bottoms">
+                <p class="p" style="display: none"><label>id：</label><input type="text" name="id"></p>
+                <p class="p"><label>学工号：</label><input type="text" name="no"></p>
+                <p class="p"><label>姓名：</label><input type="text" name="name"></p>
+                <p class="p"><label>联系方式：</label><input type="text" name="phone"></p>
+                <p class="p" style="display: none"><label>系别：</label><input type="text" name="departmentId" th:value="${session.userInfo.departmentId}"></p>
+            </form>
+            <p class="p"><input type="button" value="添加">&nbsp<input type="button" value="取消"></p>
+        </div>
+        <div class="bottoms shade hide"></div>
+        <!-- 模态框结束 -->
     </div>
     <div class="data">
         <table>
@@ -52,9 +61,7 @@
                 <th width="130px">学工号</th>
                 <th width="130px">姓名</th>
                 <th width="130px">身份</th>
-                <th width="80px">系负责人</th>
                 <th width="80px">课题审核员</th>
-                <th width="80px">答辩审核员</th>
                 <th width="160px"></th>
             </tr>
             </thead>
@@ -68,22 +75,19 @@
 <!-- 内容按钮功能 -->
 <script type="text/javascript">
     $(document).ready(function () {
-        /****初始化下拉列表***/
-        getAllDepartment();
+        //刷新按钮
+        $('input[value="权限信息"]').click(function () {
 
-        //搜索按钮
-        $('.search input[value="搜索"]').click(function () {
-            var departmentId = $(".search .departmentSelect").val();
-
-            findByDepartmentId(departmentId);
+            findByDepartmentId($(this).attr("store"));
         });
 
+        /**  权限相关  **/
         //添加按钮
         $('input[value="添加"]').click(function () {
             $('.tops').removeClass('hide');
         });
         //取消按钮
-        $('.function input[value="取消"]').click(function () {
+        $('.tops input[value="取消"]').click(function () {
             $("#form-data input").val("");
             $('.tops').addClass('hide');
         });
@@ -97,11 +101,34 @@
             $("#form-data input").val("");
             $('.tops').addClass('hide');
         });
+        /**  权限相关 end **/
+
+        /**  教务员相关  **/
+        //添加按钮
+        $('input[value="添加教务员"]').click(function () {
+            $('.bottoms').removeClass('hide');
+        });
+        //取消按钮
+        $('.bottoms input[value="取消"]').click(function () {
+            $("#form-data-bottoms input").val("");
+            $('.bottoms').addClass('hide');
+        });
+        //添加按钮 添加ajax
+        $('.bottoms input[value="添加"]').click(function () {
+            var forms = $("#form-data-bottoms")
+
+            addSupports(forms)
+
+            $("#form-data-bottoms input").val("");
+            $('.bottoms').addClass('hide');
+        });
+        /**  教务员相关 end **/
+
 
         //确定按钮
         $(".data").on("click", "#dataList input[value='确定']", function () {
             var tds = $(this).parent().prevAll();
-            var id = $(tds[8]).attr("store")
+            var id = $(tds[4]).attr("store")
 
             var departmentLeader
             var projectAuditor
@@ -109,30 +136,30 @@
 
             var checkBoxs = $(this).parent().parent().find("input[type=checkbox]")
 
+            // if ($(checkBoxs[0]).attr('checked')) {
+            //     departmentLeader = true
+            // } else {
+            //     departmentLeader = false;
+            // }
             if ($(checkBoxs[0]).attr('checked')) {
-                departmentLeader = true
-            } else {
-                departmentLeader = false;
-            }
-            if ($(checkBoxs[1]).attr('checked')) {
                 projectAuditor = true
             } else {
                 projectAuditor = false;
             }
-            if ($(checkBoxs[2]).attr('checked')) {
-                answerAuditor = true
-            } else {
-                answerAuditor = false;
-            }
+            // if ($(checkBoxs[2]).attr('checked')) {
+            //     answerAuditor = true
+            // } else {
+            //     answerAuditor = false;
+            // }
 
-            update(id, departmentLeader, senateMembers, projectAuditor, answerAuditor, systemAdministrator)
+            update(id, false,projectAuditor, false)
         })
 
         //删除按钮
         $(".data").on("click", "input[value='删除']", function () {
             var tds = $(this).parent().prevAll();
 
-            var id = $(tds[8]).attr("store")
+            var id = $(tds[4]).attr("store")
 
             deleteById(id);
         })
@@ -148,9 +175,31 @@
         })
     })
 
+
+
+
+
+
+
     function add(formData) {
         $.ajax({
             url: '/power/add',
+            type: 'POST',
+            data: formData.serialize(),
+            dataType: 'json',
+            success: function (data) {
+                if (data.code == -1) {
+                    alert(data.msg)
+                } else {
+                    findByDepartmentId(data.data.departmentId)
+                }
+            }
+        });
+    }
+
+    function addSupports(formData) {
+        $.ajax({
+            url: '/user/addSupports',
             type: 'POST',
             data: formData.serialize(),
             dataType: 'json',
@@ -200,26 +249,6 @@
         });
     }
 
-    function getAllDepartment() {
-        $.ajax({
-            url: '/department/list',
-            type: 'GET',
-            dataType: 'json',
-            success: function (data) {
-                var dataList = $(".departmentSelect");
-                dataList.html("");
-
-                var head = "<option value = \"";
-                var second = "\">";
-                var end = "</option>";
-                for (i = 0; i < data.data.length; i++) {
-                    var str = head + data.data[i].id + second + data.data[i].department + end;
-                    dataList.append(str)
-                }
-            }
-        });
-    }
-
     function findByDepartmentId(departmentId) {
         $.ajax({
             url: '/power/findByDepartmentId',
@@ -239,25 +268,25 @@
                     if (data.data[i].userModel.identify == 1) {
                         str = str + "<td>教师</td>"
 
-                        if (data.data[i].departmentLeader) {
-                            str = str + "<td><input type=\"checkbox\" name=\"departmentLeader\" checked='true'></td>"
-                        } else {
-                            str = str + "<td><input type=\"checkbox\" name=\"departmentLeader\"></td>"
-                        }
+                        // if (data.data[i].departmentLeader) {
+                        //     str = str + "<td><input type=\"checkbox\" name=\"departmentLeader\" checked='true'></td>"
+                        // } else {
+                        //     str = str + "<td><input type=\"checkbox\" name=\"departmentLeader\"></td>"
+                        // }
                         if (data.data[i].projectAuditor) {
                             str = str + "<td><input type=\"checkbox\" name=\"projectAuditor\" checked='true'></td>"
                         } else {
                             str = str + "<td><input type=\"checkbox\" name=\"projectAuditor\"></td>"
                         }
-                        if (data.data[i].answerAuditor) {
-                            str = str + "<td><input type=\"checkbox\" name=\"answerAuditor\" checked='true'></td>"
-                        } else {
-                            str = str + "<td><input type=\"checkbox\" name=\"answerAuditor\"></td>"
-                        }
-                    } else {
-                        str = str + "<td>学生</td>" + "<td><input type=\"checkbox\" name=\"departmentLeader\" disabled></td>"
-                            + "<td><input type=\"checkbox\" name=\"projectAuditor\" disabled></td>"
-                            + "<td><input type=\"checkbox\" name=\"answerAuditor\" disabled></td>"
+                        // if (data.data[i].answerAuditor) {
+                        //     str = str + "<td><input type=\"checkbox\" name=\"answerAuditor\" checked='true'></td>"
+                        // } else {
+                        //     str = str + "<td><input type=\"checkbox\" name=\"answerAuditor\"></td>"
+                        // }
+                    // } else {
+                    //     str = str + "<td>学生</td>" + "<td><input type=\"checkbox\" name=\"departmentLeader\" disabled></td>"
+                    //         + "<td><input type=\"checkbox\" name=\"projectAuditor\" disabled></td>"
+                    //         + "<td><input type=\"checkbox\" name=\"answerAuditor\" disabled></td>"
                     }
 
                     str = str + "<td><input type=\"button\" value=\"确定\"><input type=\"button\" value=\"删除\"></td></tr>"

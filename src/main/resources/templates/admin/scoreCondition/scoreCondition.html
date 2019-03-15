@@ -4,15 +4,15 @@
     <meta charset="UTF-8">
     <title>成绩评分标准</title>
 
-    <link rel="stylesheet" type="text/css" href="/css/admin/admin-power-teacher.css">
-    <link rel="stylesheet" type="text/css" href="/css/admin/admin-motaikuang.css">
-    <link rel="stylesheet" type="text/css" href="/css/bootstrap-theme.min.css">
-    <link rel="stylesheet" type="text/css" href="/css/bootstrap.css">
-    <link rel="stylesheet" type="text/css" href="/css/swiper.min.css">
+    <link rel="stylesheet" type="text/css" href="../css/admin/admin-score-item.css">
+    <link rel="stylesheet" type="text/css" href="../css/admin/admin-motaikuang.css">
+    <link rel="stylesheet" type="text/css" href="../css/bootstrap-theme.min.css">
+    <link rel="stylesheet" type="text/css" href="../css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="../css/swiper.min.css">
 
-    <script type="text/javascript" src="/js/jquery.js"></script>
-    <script type="text/javascript" src="/js/bootstrap.js"></script>
-    <script type="text/javascript" src="/js/swiper.jquery.min.js"></script>
+    <script type="text/javascript" src="../js/jquery.js"></script>
+    <script type="text/javascript" src="../js/bootstrap.js"></script>
+    <script type="text/javascript" src="../js/swiper.jquery.min.js"></script>
 </head>
 <body>
 <div class="body">
@@ -21,50 +21,70 @@
         <input type="button" value="添加">
         <!-- 模态框开始 -->
         <div class="myModal hide">
-            <form id="form-data">
-                <p class="p" style="display: none"><label>id：</label><input type="text" name="id"></p>
-                <p class="p"><label>评分项目：</label><input type="text" name="scoreItem"></p>
-                <p class="p">
-                    <label>分数占比：</label>
-                    <select class="scoreRate" name="scoreRate">
-                        <option value="5">5%</option>
-                        <option value="10">10%</option>
-                        <option value="15">15%</option>
-                        <option value="20">20%</option>
-                        <option value="25">25%</option>
-                        <option value="30">30%</option>
-                    </select>
-                </p>
-                <p class="p">
-                    <label>说明：</label>
-                    <textarea name="scoreIntroduce"></textarea>
-                </p>
-            </form>
+            <div class="p">
+                <form id="form-data">
+                    <table>
+                        <tr>
+                            <td><label>评分项目：</label></td>
+                            <td><input type="text" name="itemName"></td>
+                        </tr>
+                        <tr>
+                            <td><label>分数占比：</label></td>
+                            <td>
+                                <select class="scoreRate" name="scoreRate">
+                                    <option value="5">5%</option>
+                                    <option value="10">10%</option>
+                                    <option value="15">15%</option>
+                                    <option value="20">20%</option>
+                                    <option value="25">25%</option>
+                                    <option value="30">30%</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><label>说明：</label></td>
+                            <td><textarea name="introduce"></textarea></td>
+                        </tr>
+                    </table>
+                </form>
+            </div>
             <p class="p"><input type="button" value="添加">&nbsp<input type="button" value="取消"></p>
         </div>
         <div class="shade hide"></div>
         <!-- 模态框结束 -->
     </div>
-    <div class="search">
-        <label>系别：</label>
-        <select class="departmentSelect">
-        </select>
-        <input type="button" name="" value="搜索">
-    </div>
     <div class="data">
         <table>
             <thead>
             <tr>
-                <th width="50px">编号</th>
-                <th width="130px">学工号</th>
-                <th width="130px">姓名</th>
-                <th width="130px">身份</th>
-                <th width="80px">系负责人</th>
+                <th width="50px">序号</th>
+                <th width="130px">评分项目</th>
+                <th width="130px">总分占比</th>
+                <th style="padding: 0 6px; min-width: 110px">说明</th>
                 <th width="160px"></th>
             </tr>
             </thead>
             <tbody id="dataList">
-
+            <tr>
+                <td width="50px">序号</td>
+                <td width="130px">评分项目</td>
+                <td width="130px">总分占比</td>
+                <td width="130px">说明</td>
+                <td width="160px">
+                    <input type="button" value="启用" class="button-disable" disabled>
+                    <input type="button" value="禁用">
+                </td>
+            </tr>
+            <tr>
+                <td width="50px">序号</td>
+                <td width="130px">评分项目</td>
+                <td width="130px">总分占比</td>
+                <td width="130px">说明</td>
+                <td width="160px">
+                    <input type="button" value="启用" class="button-disable" disabled>
+                    <input type="button" value="禁用">
+                </td>
+            </tr>
             </tbody>
         </table>
     </div>
@@ -73,8 +93,8 @@
 <!-- 内容按钮功能 -->
 <script type="text/javascript">
     $(document).ready(function () {
-        /****初始化下拉列表***/
-        getAllDepartment();
+        //初始化界面
+        listAll();
 
         //搜索按钮
         $('.search input[value="搜索"]').click(function () {
@@ -89,7 +109,7 @@
         });
         //取消按钮
         $('.function input[value="取消"]').click(function () {
-            $("#form-data input").val("");
+            $("#form-data input, #form-data textarea").val("");
             $('.myModal,.shade').addClass('hide');
         });
 
@@ -99,75 +119,30 @@
 
             add(forms)
 
-            $("#form-data input").val("");
+            $("#form-data input, #form-data textarea").val("");
             $('.myModal,.shade').addClass('hide');
         });
 
-        //确定按钮
-        $(".data").on("click", "#dataList input[value='确定']", function () {
+        //启用按钮
+        $(".data").on("click", "#dataList input[value='启用']", function () {
             var tds = $(this).parent().prevAll();
-            var id = $(tds[8]).attr("store")
+            var id = $(tds[3]).attr("store")
 
-            var departmentLeader
-            var senateMembers
-            var projectAuditor
-            var answerAuditor
-            var systemAdministrator
-
-            var checkBoxs = $(this).parent().parent().find("input[type=checkbox]")
-
-            if ($(checkBoxs[0]).attr('checked')) {
-                departmentLeader = true
-            } else {
-                departmentLeader = false;
-            }
-            if ($(checkBoxs[1]).attr('checked')) {
-                senateMembers = true
-            } else {
-                senateMembers = false;
-            }
-            if ($(checkBoxs[2]).attr('checked')) {
-                projectAuditor = true
-            } else {
-                projectAuditor = false;
-            }
-            if ($(checkBoxs[3]).attr('checked')) {
-                answerAuditor = true
-            } else {
-                answerAuditor = false;
-            }
-            if ($(checkBoxs[4]).attr('checked')) {
-                systemAdministrator = true
-            } else {
-                systemAdministrator = false;
-            }
-
-            update(id, departmentLeader, senateMembers, projectAuditor, answerAuditor, systemAdministrator)
+            update(id, 1)
         })
 
-        //删除按钮
-        $(".data").on("click", "input[value='删除']", function () {
+        //禁用按钮
+        $(".data").on("click", "input[value='禁用']", function () {
             var tds = $(this).parent().prevAll();
+            var id = $(tds[3]).attr("store")
 
-            var id = $(tds[8]).attr("store")
-
-            deleteById(id);
-        })
-
-        //checkbox
-        $(".data").on("click", "input[type='checkbox']", function () {
-            if ($(this).attr('checked')){
-                $(this).removeAttr("checked")
-            } else {
-                $(this).attr("checked","true")
-            }
-
+            update(id, 0)
         })
     })
 
     function add(formData) {
         $.ajax({
-            url: '/power/add',
+            url: '/scoreItem/add',
             type: 'POST',
             data: formData.serialize(),
             dataType: 'json',
@@ -175,129 +150,58 @@
                 if (data.code == -1) {
                     alert(data.msg)
                 } else {
-                    findByDepartmentId(data.data.departmentId)
+                    listAll()
                 }
             }
         });
     }
 
-    function update(id, departmentLeader, senateMembers, projectAuditor, answerAuditor, systemAdministrator) {
+    function update(id, status) {
         $.ajax({
-            url: '/power/update',
+            url: '/scoreItem/updateStatus',
             type: 'POST',
             data: {
                 id: id,
-                departmentLeader: departmentLeader,
-                senateMembers: senateMembers,
-                projectAuditor: projectAuditor,
-                answerAuditor: answerAuditor,
-                systemAdministrator: systemAdministrator
+                status: status
             },
             dataType: 'json',
             success: function (data) {
                 if (data.code == -1) {
                     alert(data.msg)
                 } else {
-                    findByDepartmentId(data.data.departmentId)
+                    listAll()
                 }
             }
         });
     }
 
-    function deleteById(id) {
+    function listAll() {
         $.ajax({
-            url: '/power/deleteById',
-            type: 'DELETE',
-            async: false,
-            data: {
-                id: id
-            },
-            dataType: 'json',
-            success: function (data) {
-                findByDepartmentId(data.data.departmentId)
-            }
-        });
-    }
-
-    function getAllDepartment() {
-        $.ajax({
-            url: '/department/list',
+            url: '/scoreItem/listAll',
             type: 'GET',
-            dataType: 'json',
-            success: function (data) {
-                var dataList = $(".departmentSelect");
-                dataList.html("");
-
-                var head = "<option value = \"";
-                var second = "\">";
-                var end = "</option>";
-                for (i = 0; i < data.data.length; i++) {
-                    var str = head + data.data[i].id + second + data.data[i].department + end;
-                    dataList.append(str)
-                }
-            }
-        });
-    }
-
-    function findByDepartmentId(departmentId) {
-        $.ajax({
-            url: '/power/findByDepartmentId',
-            type: 'GET',
-            data: {
-                departmentId: departmentId
-            },
             dataType: 'json',
             success: function (data) {
                 var dataList = $("#dataList");
                 dataList.html("");
 
-
                 for (i = 0; i < data.data.length; i++) {
-                    var str = "<tr><td store=\"" + data.data[i].id + "\">" + (i + 1) + "</td><td>" + data.data[i].userModel.no + "</td>"
-                        + "<td>" + data.data[i].userModel.name + "</td>";
-                    if (data.data[i].userModel.identify == 1) {
-                        str = str + "<td>教师</td>"
+                    var str = "<tr><td store=\"" + data.data[i].id + "\">" + (i + 1) + "</td>"
+                        + "<td>" + data.data[i].itemName + "</td>"
+                        + "<td>" + data.data[i].scoreRate + "%</td>"
+                        + "<td>" + data.data[i].introduce + "</td>"
 
-                        if (data.data[i].departmentLeader) {
-                            str = str + "<td><input type=\"checkbox\" name=\"departmentLeader\" checked='true'></td>"
-                        } else {
-                            str = str + "<td><input type=\"checkbox\" name=\"departmentLeader\"></td>"
-                        }
-                        if (data.data[i].senateMembers) {
-                            str = str + "<td><input type=\"checkbox\" name=\"senateMembers\" checked='true'></td>"
-                        } else {
-                            str = str + "<td><input type=\"checkbox\" name=\"senateMembers\"></td>"
-                        }
-                        if (data.data[i].projectAuditor) {
-                            str = str + "<td><input type=\"checkbox\" name=\"projectAuditor\" checked='true'></td>"
-                        } else {
-                            str = str + "<td><input type=\"checkbox\" name=\"projectAuditor\"></td>"
-                        }
-                        if (data.data[i].answerAuditor) {
-                            str = str + "<td><input type=\"checkbox\" name=\"answerAuditor\" checked='true'></td>"
-                        } else {
-                            str = str + "<td><input type=\"checkbox\" name=\"answerAuditor\"></td>"
-                        }
-                        if (data.data[i].systemAdministrator) {
-                            str = str + "<td><input type=\"checkbox\" name=\"systemAdministrator\" checked='true'></td>"
-                        } else {
-                            str = str + "<td><input type=\"checkbox\" name=\"systemAdministrator\"></td>"
-                        }
-                    } else {
-                        str = str + "<td>学生</td>" + "<td><input type=\"checkbox\" name=\"departmentLeader\" disabled></td>"
-
-                        if (data.data[i].senateMembers) {
-                            str = str + "<td><input type=\"checkbox\" name=\"senateMembers\" checked='true'></td>"
-                        } else {
-                            str = str + "<td><input type=\"checkbox\" name=\"senateMembers\" ></td>"
-                        }
-
-                        str = str + "<td><input type=\"checkbox\" name=\"projectAuditor\" disabled></td>"
-                            + "<td><input type=\"checkbox\" name=\"answerAuditor\" disabled></td>"
-                            + "<td><input type=\"checkbox\" name=\"systemAdministrator\" disabled></td>"
+                    if (data.data[i].status == 0) {
+                        str = str + "<td>" +
+                            "<input type=\"button\" value=\"启用\" >" +
+                            "<input type=\"button\" value=\"禁用\" class=\"button-disable\" disabled>" +
+                            "</td> </tr>"
                     }
-
-                    str = str + "<td><input type=\"button\" value=\"确定\"><input type=\"button\" value=\"删除\"></td></tr>"
+                    if (data.data[i].status == 1) {
+                        str = str + "<td>" +
+                            "<input type=\"button\" value=\"启用\" class=\"button-disable\" disabled>" +
+                            "<input type=\"button\" value=\"禁用\">" +
+                            "</td> </tr>"
+                    }
                     dataList.append(str)
                 }
             }

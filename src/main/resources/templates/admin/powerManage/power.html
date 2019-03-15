@@ -4,15 +4,15 @@
     <meta charset="UTF-8">
     <title>权限管理</title>
 
-    <link rel="stylesheet" type="text/css" href="/css/admin/admin-power-teacher.css">
-    <link rel="stylesheet" type="text/css" href="/css/admin/admin-motaikuang.css">
-    <link rel="stylesheet" type="text/css" href="/css/bootstrap-theme.min.css">
-    <link rel="stylesheet" type="text/css" href="/css/bootstrap.css">
-    <link rel="stylesheet" type="text/css" href="/css/swiper.min.css">
+    <link rel="stylesheet" type="text/css" href="../css/admin/admin-power-teacher.css">
+    <link rel="stylesheet" type="text/css" href="../css/admin/admin-motaikuang.css">
+    <link rel="stylesheet" type="text/css" href="../css/bootstrap-theme.min.css">
+    <link rel="stylesheet" type="text/css" href="../css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="../css/swiper.min.css">
 
-    <script type="text/javascript" src="/js/jquery.js"></script>
-    <script type="text/javascript" src="/js/bootstrap.js"></script>
-    <script type="text/javascript" src="/js/swiper.jquery.min.js"></script>
+    <script type="text/javascript" src="../js/jquery.js"></script>
+    <script type="text/javascript" src="../js/bootstrap.js"></script>
+    <script type="text/javascript" src="../js/swiper.jquery.min.js"></script>
 </head>
 <body>
 <div class="body">
@@ -60,8 +60,8 @@
                 <th width="130px">姓名</th>
                 <th width="130px">身份</th>
                 <th width="80px">系负责人</th>
-                <th width="80px">课题审核员</th>
-                <th width="80px">答辩审核员</th>
+                <!--<th width="80px">课题审核员</th>-->
+                <!--<th width="80px">答辩审核员</th>-->
                 <th width="160px"></th>
             </tr>
             </thead>
@@ -108,7 +108,7 @@
         //确定按钮
         $(".data").on("click", "#dataList input[value='确定']", function () {
             var tds = $(this).parent().prevAll();
-            var id = $(tds[8]).attr("store")
+            var id = $(tds[4]).attr("store")
 
             var departmentLeader
             var projectAuditor
@@ -121,25 +121,25 @@
             } else {
                 departmentLeader = false;
             }
-            if ($(checkBoxs[1]).attr('checked')) {
-                projectAuditor = true
-            } else {
-                projectAuditor = false;
-            }
-            if ($(checkBoxs[2]).attr('checked')) {
-                answerAuditor = true
-            } else {
-                answerAuditor = false;
-            }
+            // if ($(checkBoxs[1]).attr('checked')) {
+            //     projectAuditor = true
+            // } else {
+            //     projectAuditor = false;
+            // }
+            // if ($(checkBoxs[2]).attr('checked')) {
+            //     answerAuditor = true
+            // } else {
+            //     answerAuditor = false;
+            // }
 
-            update(id, departmentLeader, senateMembers, projectAuditor, answerAuditor, systemAdministrator)
+            update(id, departmentLeader, false, false, false, false)
         })
 
         //删除按钮
         $(".data").on("click", "input[value='删除']", function () {
             var tds = $(this).parent().prevAll();
 
-            var id = $(tds[8]).attr("store")
+            var id = $(tds[4]).attr("store")
 
             deleteById(id);
         })
@@ -251,20 +251,16 @@
                         } else {
                             str = str + "<td><input type=\"checkbox\" name=\"departmentLeader\"></td>"
                         }
-                        if (data.data[i].projectAuditor) {
-                            str = str + "<td><input type=\"checkbox\" name=\"projectAuditor\" checked='true'></td>"
-                        } else {
-                            str = str + "<td><input type=\"checkbox\" name=\"projectAuditor\"></td>"
-                        }
-                        if (data.data[i].answerAuditor) {
-                            str = str + "<td><input type=\"checkbox\" name=\"answerAuditor\" checked='true'></td>"
-                        } else {
-                            str = str + "<td><input type=\"checkbox\" name=\"answerAuditor\"></td>"
-                        }
-                    } else {
-                        str = str + "<td>学生</td>" + "<td><input type=\"checkbox\" name=\"departmentLeader\" disabled></td>"
-                            + "<td><input type=\"checkbox\" name=\"projectAuditor\" disabled></td>"
-                            + "<td><input type=\"checkbox\" name=\"answerAuditor\" disabled></td>"
+                        // if (data.data[i].projectAuditor) {
+                        //     str = str + "<td><input type=\"checkbox\" name=\"projectAuditor\" checked='true'></td>"
+                        // } else {
+                        //     str = str + "<td><input type=\"checkbox\" name=\"projectAuditor\"></td>"
+                        // }
+                        // if (data.data[i].answerAuditor) {
+                        //     str = str + "<td><input type=\"checkbox\" name=\"answerAuditor\" checked='true'></td>"
+                        // } else {
+                        //     str = str + "<td><input type=\"checkbox\" name=\"answerAuditor\"></td>"
+                        // }
                     }
 
                     str = str + "<td><input type=\"button\" value=\"确定\"><input type=\"button\" value=\"删除\"></td></tr>"

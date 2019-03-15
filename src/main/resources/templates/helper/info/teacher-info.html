@@ -1,77 +1,110 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8">
-	<title>教师信息管理</title>
+    <meta charset="UTF-8">
+    <title>教师信息管理</title>
 
-    <link rel="stylesheet" type="text/css" href="/css/admin-info-teacher.css">
-    <link rel="stylesheet" type="text/css" href="/css/bootstrap-theme.min.css">
-    <link rel="stylesheet" type="text/css" href="/css/bootstrap.css">
-    <link rel="stylesheet" type="text/css" href="/css/swiper.min.css">
+    <link rel="stylesheet" type="text/css" href="../css/helper/helper-info-teacher.css">
+    <link rel="stylesheet" type="text/css" href="../css/bootstrap-theme.min.css">
+    <link rel="stylesheet" type="text/css" href="../css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="../css/swiper.min.css">
 
-    <script type="text/javascript" src="/js/jquery.js"></script>
-    <script type="text/javascript" src="/js/bootstrap.js"></script>
-    <script type="text/javascript" src="/js/swiper.jquery.min.js"></script>
+    <script type="text/javascript" src="../js/jquery.js"></script>
+    <script type="text/javascript" src="../js/bootstrap.js"></script>
+    <script type="text/javascript" src="../js/swiper.jquery.min.js"></script>
 </head>
 <body>
-	<div class="body">
-		</div>
-		<div class="search">
-			<form>
-				<label>系别：</label>
-				<select>
-					<option>123</option>
-					<option>123</option>
-					<option>123</option>
-					<option>123</option>
-				</select>
-				<input type="text" name="" placeholder="工号">
-				<input type="text" name="" placeholder="姓名">
-				<input type="submit" name="" value="search">
-			</form>	
-		</div>
-		<div class="data">
-			<table>
-				<thead>
-					<tr>
-						<th width="50px">编号</th>
-						<th width="130px">工号</th>
-						<th width="130px">姓名</th>
-						<th width="130px">指导学生名额</th>
-						<th width="150px"></th>
-						<th width="150px"></th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<td>1</td>
-						<td>1</td>
-						<td>1</td>
-						<td><input type="text" name="" style="width: 60px"></td>
-						<td><input type="button" name="" value="确定修改"></td>
-						<td><input type="button" name="" value="查看详情"></td>
-					</tr>
-					<tr>
-						<td>1</td>
-						<td>1</td>
-						<td>1</td>
-						<td><input type="text" name="" style="width: 60px"></td>
-						<td><input type="button" name="" value="确定修改"></td>
-						<td><input type="button" name="" value="查看详情"></td>
-					</tr>
-				</tbody>
-				<tfoot>
-					<tr>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-					</tr>
-				</tfoot>
-			</table>
-		</div>	
-	</div>
+<div class="body">
+    <div class="search">
+        <form>
+            <input type="text" name="no" placeholder="工号">
+            <input type="text" name="name" placeholder="姓名">
+            <input type="button" name="" value="搜索">
+        </form>
+    </div>
+
+    <div class="data">
+        <table>
+            <thead>
+            <tr>
+                <th width="50px">编号</th>
+                <th width="130px">工号</th>
+                <th width="130px">姓名</th>
+                <th width="130px">指导学生名额</th>
+                <th width="150px"></th>
+            </tr>
+            </thead>
+            <tbody id="dataList">
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- jq代码 -->
+<script>
+    $(document).ready(function () {
+        findList(null, null)
+
+        //添加按钮 显示模态框
+        $('input[value="搜索"]').click(function () {
+            var no = $("input[name=no]").val();
+            var name = $("input[name=name]").val();
+            findList(no, name)
+        })
+
+        //编辑按钮
+        $(".data").on("click", "input[value='确定修改']", function () {
+            var tds = $(this).parent().prevAll();
+            //jquery对象加上索引是dom对象
+            var id = $(tds[3]).attr("store")
+            var num = $(this).parent().parent().find("input[type='text']").val()
+            update(id, num)
+        })
+    });
+
+    function findList(no, name) {
+        $.ajax({
+            url: '/help:teacher/findList',
+            type: 'GET',
+            data: {
+                no: no,
+                name: name
+            },
+            dataType: 'json',
+            success: function (data) {
+                var dataList = $("#dataList");
+                dataList.html("");
+
+                for (i = 0; i < data.data.length; i++) {
+                    var str = "<tr><td store=\"" + data.data[i].id + "\">" + (i + 1) + "</td> "
+                        + "<td>" + data.data[i].teacherModel.no + "</td> "
+                        + "<td>" + data.data[i].teacherModel.name + "</td>"
+                        + "<td><input type=\"text\" name=\"studentNum\" style=\"width: 60px\" value=\"" + data.data[i].studentNum + "\"></td>"
+                        + "<td><input type=\"button\" name=\"\" value=\"确定修改\">"
+                    dataList.append(str)
+                }
+            }
+        });
+    }
+
+    function update(id, studentNum) {
+        $.ajax({
+            url: '/help:teacher/updateNum',
+            type: 'POST',
+            data: {
+                id: id,
+                studentNum: studentNum
+            },
+            dataType: 'json',
+            success: function (data) {
+                if (data.code == -1) {
+                    alert(data.msg)
+                } else {
+                    findList(null, null)
+                }
+            }
+        });
+    }
+</script>
 </body>
 </html>
