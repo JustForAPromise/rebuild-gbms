@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>系负责人--学生查看</title>
+
+    <link rel="stylesheet" type="text/css" href="../css/admin/admin-info-student.css">
+    <link rel="stylesheet" type="text/css" href="../css/admin/admin-motaikuang.css">
+    <link rel="stylesheet" type="text/css" href="../css/bootstrap-theme.min.css">
+    <link rel="stylesheet" type="text/css" href="../css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="../css/swiper.min.css">
+
+    <script type="text/javascript" src="../js/jquery.js"></script>
+    <script type="text/javascript" src="../js/bootstrap.js"></script>
+    <script type="text/javascript" src="../js/swiper.jquery.min.js"></script>
+</head>
+<body>
+<div class="body">
+    <div class="search">
+        <label>专业：</label>
+        <select class="major majorSelect">
+            <option>计算机科学与技术</option>
+            <option>物联网</option>
+        </select>
+        <br>
+        <input type="text" name="no" placeholder="学号">
+        <input type="text" name="name" placeholder="姓名">
+        <input type="button" value="搜索">
+    </div>
+    <div class="data">
+        <table>
+            <thead>
+            <tr>
+                <th width="50px">编号</th>
+                <th width="50px" style="display: none">id</th>
+                <th width="130px">学号</th>
+                <th width="130px">姓名</th>
+                <th width="130px">系别</th>
+                <th width="130px">专业</th>
+                <th width="150px"></th>
+            </tr>
+            </thead>
+            <tbody id="dataList">
+
+            </tbody>
+        </table>
+    </div>
+</div>
+<!-- 内容按钮功能 -->
+<script type="text/javascript">
+    $(document).ready(function () {
+        /****初始化下拉列表***/
+        findMajorByDepartmentId(departmentId, index)
+
+        //搜索按钮
+        $('.search input[value="搜索"]').click(function () {
+            var departmentId = $(".search .departmentSelect").val();
+            var majorId = $(".search .majorSelect").val();
+            var no = $(".search input[name=no]").val()
+            var name = $(".search input[name=name]").val()
+
+            findList(departmentId, majorId, no, name);
+        });
+
+        //添加按钮
+        $('input[value="添加"]').click(function () {
+            $('.hide').removeClass('hide');
+        });
+        //取消按钮
+        $('.function input[value="取消"]').click(function () {
+            $("#form-data input").val("");
+            $('.myModal,.shade').addClass('hide');
+        });
+
+        //确定按钮 添加ajax
+        $('.function input[value="确定"]').click(function () {
+            var forms = $("#form-data")
+
+            if (forms.find("input[name=id]").val() == null || forms.find("input[name=id]").val() == "") {
+                add(forms)
+            } else {
+                update(forms)
+            }
+            var departmentId = forms.find("p select[name=departmentId]").val();
+            var majorId = forms.find("p select[name=majorId]").val();
+            findByMajorIdAndDepartmentId(departmentId, majorId);
+
+            $("#form-data input").val("");
+            $('.myModal,.shade').addClass('hide');
+        });
+
+        //编辑按钮
+        $(".data").on("click", "input[value='编辑']", function () {
+            $('.hide').removeClass('hide');
+            var tds = $(this).parent().prevAll();
+            var id = $(tds[4]).text()
+            findById(id)
+        })
+
+        //删除按钮
+        $(".data").on("click", "input[value='删除']", function () {
+            var tds = $(this).parent().prevAll();
+
+            var id = $(tds[4]).text()
+            var departmentId = $(tds[1]).attr("store")
+            var majorId = $(tds[0]).attr("store")
+
+            deleteById(id);
+            findByMajorIdAndDepartmentId(departmentId, majorId)
+        })
+    })
+
+    function add(formData) {
+        $.ajax({
+            url: '/student/add',
+            type: 'POST',
+            data: formData.serialize(),
+            dataType: 'json',
+            success: function (data) {
+                if (data.code == -1) {
+                    alert(data.msg)
+                }
+            }
+        });
+    }
+
+    function update(formData) {
+        $.ajax({
+            url: '/student/update',
+            type: 'POST',
+            data: formData.serialize(),
+            dataType: 'json',
+            success: function (data) {
+                if (data.code == -1) {
+                    alert(data.msg)
+                } else {
+                    alert(data.msg)
+                }
+            }
+        });
+    }
+
+
+
+    function findList(departmentId, majorId, no, name) {
+        $.ajax({
+            url: '/student/findStudent',
+            type: 'GET',
+            data: {
+                majorId: majorId,
+                departmentId: departmentId,
+                no: no,
+                name: name
+            },
+            dataType: 'json',
+            success: function (data) {
+                var dataList = $("#dataList");
+                dataList.html("");
+
+                for (i = 0; i < data.data.length; i++) {
+                    var str = "<tr><td>" + (i + 1) + "</td><td style=\"display: none\">" + data.data[i].id + "</td>"
+                        + "<td>" + data.data[i].no + "</td><td>" + data.data[i].name + "</td>"
+                        + "<td store = " + data.data[i].departmentModel.id + ">" + data.data[i].departmentModel.department + "</td>"
+                        + "<td store = " + data.data[i].majorModel.id + ">" + data.data[i].majorModel.major + "</td>"
+                        + "<td><input type=\"button\" value=\"编辑\"><input type=\"button\" value=\"删除\"></td></tr>"
+                    dataList.append(str)
+                }
+            }
+        });
+    }
+
+    function findById(id) {
+        $.ajax({
+            url: '/student/findById',
+            type: 'GET',
+            data: {
+                id: id
+            },
+            dataType: 'json',
+            success: function (data) {
+                $("#form-data input[name=id]").val(data.data.id)
+                $("#form-data input[name=no]").val(data.data.no)
+                $("#form-data input[name=name]").val(data.data.name)
+                $("#form-data select[name=gender]").val(data.data.gender)
+                $("#form-data select[name=departmentId]").val(data.data.departmentId)
+                findMajorByDepartmentId(data.data.departmentId, 0)
+            }
+        });
+    }
+
+    function deleteById(id) {
+        $.ajax({
+            url: '/student/deleteById',
+            type: 'DELETE',
+            async: false,
+            data: {
+                id: id
+            },
+            dataType: 'json'
+        });
+    }
+
+
+    function getAllDepartment() {
+        $.ajax({
+            url: '/department/list',
+            type: 'GET',
+            dataType: 'json',
+            success: function (data) {
+                var dataList = $(".departmentSelect");
+                dataList.html("");
+
+                var head = "<option value = \"";
+                var second = "\">";
+                var end = "</option>";
+                for (i = 0; i < data.data.length; i++) {
+                    var str = head + data.data[i].id + second + data.data[i].department + end;
+                    dataList.append(str)
+                }
+                findMajorByDepartmentId(data.data[0].id, 3)
+            }
+        });
+    }
+
+    function findMajorByDepartmentId(departmentId, index) {
+        $.ajax({
+            url: '/major/findByDepartmentId',
+            type: 'GET',
+            data: {
+                departmentId: departmentId
+            },
+            dataType: 'json',
+            success: function (data) {
+                var dataList  = $(".majorSelect");
+
+                dataList.html("");
+
+                var head = "<option value = \"";
+                var second = "\">";
+                var end = "</option>";
+
+                for (i = 0; i < data.data.length; i++) {
+                    var str = head + data.data[i].id + second + data.data[i].major + end;
+                    dataList.append(str)
+                }
+            }
+        });
+    }
+
+    function findByMajorIdAndDepartmentId(departmentId, majorId) {
+        $.ajax({
+            url: '/student/findByMajorIdAndDepartmentId',
+            type: 'GET',
+            data: {
+                majorId: majorId,
+                departmentId: departmentId
+            },
+            async: false,
+            dataType: 'json',
+            success: function (data) {
+                var dataList = $("#dataList");
+                dataList.html("");
+
+                for (i = 0; i < data.data.length; i++) {
+                    var str = "<tr><td>" + (i + 1) + "</td><td style=\"display: none\">" + data.data[i].id + "</td>"
+                        + "<td>" + data.data[i].no + "</td><td>" + data.data[i].name + "</td>"
+                        + "<td store = " + data.data[i].departmentModel.id + ">" + data.data[i].departmentModel.department + "</td>"
+                        + "<td store = " + data.data[i].majorModel.id + ">" + data.data[i].majorModel.major + "</td>"
+                        + "<td><input type=\"button\" value=\"编辑\"><input type=\"button\" value=\"删除\"></td></tr>"
+                    dataList.append(str)
+                }
+            }
+        });
+    }
+</script>
+</body>
+</html>

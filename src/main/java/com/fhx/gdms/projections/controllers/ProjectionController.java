@@ -2,7 +2,6 @@ package com.fhx.gdms.projections.controllers;
 
 import com.fhx.gdms.projections.model.ProjectionModel;
 import com.fhx.gdms.projections.service.ProjectionService;
-import com.fhx.gdms.selectRecord.service.SelectRecordService;
 import com.fhx.gdms.supportUtil.ApiResult;
 import com.fhx.gdms.user.model.UserModel;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -88,6 +87,18 @@ public class ProjectionController {
         List<ProjectionModel> departmentModelList = projectionService.findList(model);
 
         apiResult.setData(departmentModelList);
+
+        return apiResult;
+    }
+
+    @RequestMapping(value = "/findById", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ResponseBody
+    ApiResult findById(Integer id) {
+        ApiResult apiResult = new ApiResult();
+
+        ProjectionModel result = projectionService.findById(id);
+
+        apiResult.setData(result);
 
         return apiResult;
     }

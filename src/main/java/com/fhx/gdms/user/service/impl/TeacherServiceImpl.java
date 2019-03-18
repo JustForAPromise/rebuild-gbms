@@ -29,6 +29,11 @@ public class TeacherServiceImpl implements TeacherService {
     }
 
     @Override
+    public List<UserModel> findList(UserModel model) {
+        return  teacherRepository.findList(model);
+    }
+
+    @Override
     public UserModel findByNameAndPassword(String name, String password) {
         UserModel model = new UserModel();
         model.setName(name);
@@ -89,7 +94,7 @@ public class TeacherServiceImpl implements TeacherService {
 
     @Override
     public List<UserModel> findTeacher(UserModel model) {
-        List<UserModel> results =  teacherRepository.findList(model);
+        List<UserModel> results =  this.findList(model);
 
         results.stream().forEach(data ->{
             data = getMoreInfo(data);

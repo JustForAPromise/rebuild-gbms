@@ -55,7 +55,6 @@ public interface StudentRepository {
     @ResultMap(value = "studentMap")
     UserModel findByNo(@Param("no") String no);
 
-
     @Select("SELECT * FROM tb_user WHERE department_id = #{departmentId} AND major_id = #{majorId} AND identify = 2")
     @ResultMap(value = "studentMap")
     List<UserModel> findByMajorIdAndDepartmentId(@Param("departmentId") Integer departmentId, @Param("majorId") Integer majorId);
@@ -68,6 +67,10 @@ public interface StudentRepository {
 
     @Select("SELECT id FROM tb_user WHERE no like #{no} AND name like #{name} AND teacher_id = #{teacherId} AND identify = 2")
     List<Integer> listStudentId(UserModel student);
+
+    @Select("SELECT * FROM tb_user WHERE teacher_id = #{teacherId} AND identify = 2")
+    @ResultMap(value = "studentMap")
+    List<UserModel> findByTeacherId(@Param("teacherId")Integer teacherId);
 
 
     /********** 内部类 *********/

@@ -98,4 +98,11 @@ public interface StudentService {
      * @return
      */
     List<Integer> listStudentId(UserModel student);
+
+    /**
+     * 根据教师查找学生
+     * @param teacherId
+     * @return
+     */
+    List<UserModel> findByTeacherId(Integer teacherId);
 }

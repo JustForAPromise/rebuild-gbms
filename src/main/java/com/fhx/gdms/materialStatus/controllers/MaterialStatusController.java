@@ -2,24 +2,16 @@ package com.fhx.gdms.materialStatus.controllers;
 
 import com.fhx.gdms.materialStatus.model.MaterialStatusModel;
 import com.fhx.gdms.materialStatus.service.MaterialStatusService;
-import com.fhx.gdms.projections.service.ProjectionService;
 import com.fhx.gdms.supportUtil.ApiResult;
-import com.fhx.gdms.supportUtil.FileUtil;
-import com.fhx.gdms.material.model.MaterialModel;
 import com.fhx.gdms.user.model.UserModel;
-import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.List;
 
 @Controller

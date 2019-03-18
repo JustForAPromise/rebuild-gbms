@@ -1,8 +1,9 @@
-package com.fhx.gdms.config;
+package com.fhx.gdms.config.paramFilter;
 
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
 import javax.servlet.DispatcherType;
 
 /**

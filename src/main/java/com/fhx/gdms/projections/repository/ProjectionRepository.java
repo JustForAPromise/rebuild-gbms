@@ -150,8 +150,10 @@ public interface ProjectionRepository {
             if (model.getStudentId() != null && !"".equals(model.getStudentId())) {
                 sql.SET("student_id = #{studentId}");
             }
+            if (model.getAuditStatus() != null && !"".equals(model.getAuditStatus())) {
+                sql.SET("audit_status = #{auditStatus}");
+            }
 
-            sql.SET("audit_status = 0");
             sql.SET("update_time = now()");
             sql.WHERE("id = #{id}");
             return sql.toString();

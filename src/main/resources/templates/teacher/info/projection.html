@@ -4,15 +4,15 @@
     <meta charset="UTF-8">
     <title>学生信息管理</title>
 
-    <link rel="stylesheet" type="text/css" href="/css/admin/admin-motaikuang.css">
-    <link rel="stylesheet" type="text/css" href="/css/personInfo.css">
-    <link rel="stylesheet" type="text/css" href="/css/bootstrap-theme.min.css">
-    <link rel="stylesheet" type="text/css" href="/css/bootstrap.css">
-    <link rel="stylesheet" type="text/css" href="/css/swiper.min.css">
+    <link rel="stylesheet" type="text/css" href="../css/admin/admin-motaikuang.css">
+    <link rel="stylesheet" type="text/css" href="../css/personInfo.css">
+    <link rel="stylesheet" type="text/css" href="../css/bootstrap-theme.min.css">
+    <link rel="stylesheet" type="text/css" href="../css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="../css/swiper.min.css">
 
-    <script type="text/javascript" src="/js/jquery.js"></script>
-    <script type="text/javascript" src="/js/bootstrap.js"></script>
-    <script type="text/javascript" src="/js/swiper.jquery.min.js"></script>
+    <script type="text/javascript" src="../js/jquery.js"></script>
+    <script type="text/javascript" src="../js/bootstrap.js"></script>
+    <script type="text/javascript" src="../js/swiper.jquery.min.js"></script>
 </head>
 <body>
 <div class="body">
@@ -109,22 +109,16 @@
         //编辑按钮
         $(".data").on("click", "input[value='编辑']", function () {
             var tds = $(this).parent().prevAll();
-
-            //jquery对象加上索引是dom对象
-            $('.myModal input[name="id"]').val($(tds[4]).attr("store"))
-            $('.myModal input[name="title"]').val($(tds[3]).text())
-            $('.myModal textarea[name="introduce"]').val($(tds[2]).text())
-            $('.myModal textarea[name="require"]').val($(tds[1]).text())
-
-            $('.hide').removeClass('hide');
+            var id = $(tds[4]).attr("store");
+            findById(id)
         })
 
         //删除按钮
         $(".data").on("click", "input[value='删除']", function () {
             var tds = $(this).parent().prevAll();
             //jquery对象加上索引是dom对象
-            var id = $(tds[3]).attr("store");
-            var status = $(tds[3]).attr("status");
+            var id = $(tds[4]).attr("store");
+            var status = $(tds[4]).attr("status");
             deleteById(id);
             findByAuditStatus(status)
         })
@@ -190,6 +184,30 @@
         });
     }
 
+    function findById(id) {
+        $.ajax({
+            url: '/projection/findById',
+            type: 'GET',
+            data: {
+                id: id
+            },
+            dataType: 'json',
+            success: function (data) {
+                if (data.code == -1) {
+                    alert(data.msg)
+                } else {
+                    //jquery对象加上索引是dom对象
+                    $('.myModal input[name="id"]').val(data.data.id)
+                    $('.myModal input[name="title"]').val(data.data.title)
+                    $('.myModal textarea[name="introduce"]').val(data.data.introduce)
+                    $('.myModal textarea[name="require"]').val(data.data.demand)
+                    $('.hide').removeClass('hide');
+                }
+            }
+        });
+    }
+
+
     function findByAuditStatus(auditStatus) {
         $.ajax({
             url: '/projection/findByAuditStatus',
@@ -206,8 +224,17 @@
                 for (i = 0; i < data.data.length; i++) {
                     var str = "<tr><td store=\"" + data.data[i].id + "\" status = \"" + data.data[i].auditStatus + "\">" + (i + 1)
                         + "</td> <td>" + data.data[i].title + "</td> "
-                        + "<td>" + data.data[i].introduce + "</td>"
-                        + "<td>" + data.data[i].demand + "</td>"
+
+                    if (data.data[i].introduce.length > 10) {
+                        str = str + "<td>" + data.data[i].introduce.substr(0, 10) + "....</td>"
+                    } else {
+                        str = str + "<td>" + data.data[i].introduce + "</td>"
+                    }
+                    if (data.data[i].demand.length > 10) {
+                        str = str + "<td>" + data.data[i].demand.substr(0, 10) + "....</td>"
+                    } else {
+                        str = str + "<td>" + data.data[i].demand + "</td>"
+                    }
 
                     if (data.data[i].auditStatus == 0) {
                         str = str + "<td>未审核</td>"

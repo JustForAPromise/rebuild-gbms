@@ -1,15 +1,11 @@
 package com.fhx.gdms.power.controllers;
 
-import com.fhx.gdms.department.model.DepartmentModel;
 import com.fhx.gdms.power.model.PowerModel;
 import com.fhx.gdms.power.service.PowerService;
 import com.fhx.gdms.supportUtil.ApiResult;
 import com.fhx.gdms.user.model.UserModel;
 import com.fhx.gdms.user.service.UserService;
-import com.sun.org.apache.bcel.internal.generic.IF_ACMPEQ;
-import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.security.servlet.UserDetailsServiceAutoConfiguration;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;

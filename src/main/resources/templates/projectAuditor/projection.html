@@ -2,17 +2,17 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>学生信息管理</title>
+    <title>课题审核</title>
 
-    <link rel="stylesheet" type="text/css" href="/css/admin/admin-motaikuang.css">
-    <link rel="stylesheet" type="text/css" href="/css/personInfo.css">
-    <link rel="stylesheet" type="text/css" href="/css/bootstrap-theme.min.css">
-    <link rel="stylesheet" type="text/css" href="/css/bootstrap.css">
-    <link rel="stylesheet" type="text/css" href="/css/swiper.min.css">
+    <link rel="stylesheet" type="text/css" href="../css/admin/admin-motaikuang.css">
+    <link rel="stylesheet" type="text/css" href="../css/personInfo.css">
+    <link rel="stylesheet" type="text/css" href="../css/bootstrap-theme.min.css">
+    <link rel="stylesheet" type="text/css" href="../css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="../css/swiper.min.css">
 
-    <script type="text/javascript" src="/js/jquery.js"></script>
-    <script type="text/javascript" src="/js/bootstrap.js"></script>
-    <script type="text/javascript" src="/js/swiper.jquery.min.js"></script>
+    <script type="text/javascript" src="../js/jquery.js"></script>
+    <script type="text/javascript" src="../js/bootstrap.js"></script>
+    <script type="text/javascript" src="../js/swiper.jquery.min.js"></script>
 </head>
 <body>
 <div class="body">
@@ -85,6 +85,7 @@
             <th style="min-width:130px ">内容描述</th>
             <th style="min-width:130px ">要求</th>
             <th style="min-width:80px ">提交人</th>
+            <th style="min-width:130px ">审核状态</th>
             <th style="min-width:100px "></th>
         </tr>
         </thead>
@@ -99,8 +100,12 @@
             <td th:text="${#strings.abbreviate(projection.introduce,10)}"></td>
             <td th:text="${#strings.abbreviate(projection.demand,10)}"></td>
             <td th:text="${projection.teacherModel.name}"></td>
+            <td th:if="${projection.auditStatus == 0}">未审核</td>
+            <td th:if="${projection.auditStatus == 1}" style='color: darkorange'>已通过</td>
+            <td th:if="${projection.auditStatus == 2}" style='color: red'>未通过</td>
 
-            <td><input type="button" value="查看"><input type="button" value="审批"></td>
+            <td th:if="${projection.auditStatus == 0}"><input type="button" value="查看"><input type="button" value="审批"></td>
+            <td th:if="${projection.auditStatus > 0}"><input type="button" value="查看"></td>
         </tr>
         </tbody>
     </table>
@@ -129,8 +134,7 @@
         $(".data").on("click", "input[value='查看']", function () {
             var tds = $(this).parent().prevAll();
             //界面处理
-            alert(tds.eq(4).text())
-            findById(tds.eq(4).text())
+            findById(tds.eq(5).text())
         })
 
         //查阅模态框按钮
@@ -141,7 +145,7 @@
         //批审按钮
         $(".data").on("click", "input[value='审批']", function () {
             var tds = $(this).parent().prevAll();
-            $('.bottoms input[name="id"]').val(tds.eq(4).text())
+            $('.bottoms input[name="id"]').val(tds.eq(5).text())
             $('.bottoms').removeClass('hide');
         })
 
@@ -188,7 +192,7 @@
 
     function update(id, auditStatus, auditRemark) {
         $.ajax({
-            url: '/projection/update',
+            url: '/projectAuditor/update',
             type: 'POST',
             data: {
                 id: id,
@@ -232,7 +236,17 @@
                         } else {
                             str = str + "<td>" + data.data[i].demand + "</td>"
                         }
-                        str = str + "<td><input type=\"button\" value=\"查看\"><input type=\"button\" value=\"审批\"></td> </tr>"
+
+                        str = str + "<td>" + data.data[i].teacherModel.name + "</td>"
+
+                        if (data.data[i].auditStatus  == 0) {
+                            str = str + "<td>未审核</td> "
+                                +"<td><input type=\"button\" value=\"查看\"><input type=\"button\" value=\"审批\"></td>\n"
+                        } else  if (data.data[i].auditStatus  == 1) {
+                            str = str + "<td style='color: darkorange'>已通过</td><td ><input type=\"button\" value=\"查看\"></td>"
+                        } else  if (data.data[i].auditStatus  == 2) {
+                            str = str + "<td style='color: red'>已通过</td><td ><input type=\"button\" value=\"查看\"></td>"
+                        }
 
                         dataList.append(str)
                     }
@@ -262,19 +276,29 @@
                         var str = "<tr><td>" + (i + 1)
                             + "</td> <td style=\"display: none\" >" + data.data[i].id + "</td> "
                             + "<td>" + data.data[i].title + "</td>";
+
                         if (data.data[i].introduce.length > 10) {
                             str = str + "<td>" + data.data[i].introduce.substr(0, 10) + "....</td>"
                         } else {
                             str = str + "<td>" + data.data[i].introduce + "</td>"
                         }
+
                         if (data.data[i].demand.length > 10) {
                             str = str + "<td>" + data.data[i].demand.substr(0, 10) + "....</td>"
                         } else {
                             str = str + "<td>" + data.data[i].demand + "</td>"
                         }
-                        str = str + "<td>" + data.data[i].teacherModel.name + "</td>"
-                            + "<td><input type=\"button\" value=\"查看\"><input type=\"button\" value=\"审批\"></td> </tr>"
 
+                        str = str + "<td>" + data.data[i].teacherModel.name + "</td>"
+
+                        if (data.data[i].auditStatus  == 0) {
+                            str = str + "<td>未审核</td> "
+                                +"<td><input type=\"button\" value=\"查看\"><input type=\"button\" value=\"审批\"></td>\n"
+                        } else  if (data.data[i].auditStatus  == 1) {
+                            str = str + "<td style='color: darkorange'>已通过</td><td ><input type=\"button\" value=\"查看\"></td>"
+                        } else  if (data.data[i].auditStatus  == 2) {
+                            str = str + "<td style='color: red'>已通过</td><td ><input type=\"button\" value=\"查看\"></td>"
+                        }
                         dataList.append(str)
                     }
                 }

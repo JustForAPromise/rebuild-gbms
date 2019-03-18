@@ -4,23 +4,23 @@
     <meta charset="UTF-8">
     <title>权限管理</title>
 
-    <link rel="stylesheet" type="text/css" href="/css/admin/admin-power-teacher.css">
-    <link rel="stylesheet" type="text/css" href="/css/admin/admin-motaikuang.css">
-    <link rel="stylesheet" type="text/css" href="/css/bootstrap-theme.min.css">
-    <link rel="stylesheet" type="text/css" href="/css/bootstrap.css">
-    <link rel="stylesheet" type="text/css" href="/css/swiper.min.css">
+    <link rel="stylesheet" type="text/css" href="../css/admin/admin-power-teacher.css">
+    <link rel="stylesheet" type="text/css" href="../css/admin/admin-motaikuang.css">
+    <link rel="stylesheet" type="text/css" href="../css/bootstrap-theme.min.css">
+    <link rel="stylesheet" type="text/css" href="../css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="../css/swiper.min.css">
 
-    <script type="text/javascript" src="/js/jquery.js"></script>
-    <script type="text/javascript" src="/js/bootstrap.js"></script>
-    <script type="text/javascript" src="/js/swiper.jquery.min.js"></script>
+    <script type="text/javascript" src="../js/jquery.js"></script>
+    <script type="text/javascript" src="../js/bootstrap.js"></script>
+    <script type="text/javascript" src="../js/swiper.jquery.min.js"></script>
 </head>
 <body>
 <div class="body">
     <div class="function">
-        <!-- 添加专业功能 -->
+        <!-- 添加权限功能 -->
         <input type="button" value="添加">
         <!-- 模态框开始 -->
-        <div class="myModal hide">
+        <div class="tops myModal hide">
 
             <h4 style="text-align: center;">用户信息</h4>
             <form id="form-data">
@@ -42,7 +42,7 @@
             </form>
             <p class="p"><input type="button" value="添加">&nbsp<input type="button" value="取消"></p>
         </div>
-        <div class="shade hide"></div>
+        <div class="tops shade hide"></div>
         <!-- 模态框结束 -->
     </div>
     <div class="search">
@@ -60,10 +60,8 @@
                 <th width="130px">姓名</th>
                 <th width="130px">身份</th>
                 <th width="80px">系负责人</th>
-                <th width="80px">教务员</th>
-                <th width="80px">课题审核员</th>
-                <th width="80px">答辩审核员</th>
-                <th width="80px">系统管理员</th>
+                <!--<th width="80px">课题审核员</th>-->
+                <!--<th width="80px">答辩审核员</th>-->
                 <th width="160px"></th>
             </tr>
             </thead>
@@ -89,34 +87,32 @@
 
         //添加按钮
         $('input[value="添加"]').click(function () {
-            $('.hide').removeClass('hide');
+            $('.tops').removeClass('hide');
         });
         //取消按钮
         $('.function input[value="取消"]').click(function () {
             $("#form-data input").val("");
-            $('.myModal,.shade').addClass('hide');
+            $('.tops').addClass('hide');
         });
 
         //模态框内部 添加按钮 添加ajax
-        $('.myModal input[value="添加"]').click(function () {
+        $('.tops input[value="添加"]').click(function () {
             var forms = $("#form-data")
 
             add(forms)
 
             $("#form-data input").val("");
-            $('.myModal,.shade').addClass('hide');
+            $('.tops').addClass('hide');
         });
 
         //确定按钮
         $(".data").on("click", "#dataList input[value='确定']", function () {
             var tds = $(this).parent().prevAll();
-            var id = $(tds[8]).attr("store")
+            var id = $(tds[4]).attr("store")
 
             var departmentLeader
-            var senateMembers
             var projectAuditor
             var answerAuditor
-            var systemAdministrator
 
             var checkBoxs = $(this).parent().parent().find("input[type=checkbox]")
 
@@ -125,45 +121,35 @@
             } else {
                 departmentLeader = false;
             }
-            if ($(checkBoxs[1]).attr('checked')) {
-                senateMembers = true
-            } else {
-                senateMembers = false;
-            }
-            if ($(checkBoxs[2]).attr('checked')) {
-                projectAuditor = true
-            } else {
-                projectAuditor = false;
-            }
-            if ($(checkBoxs[3]).attr('checked')) {
-                answerAuditor = true
-            } else {
-                answerAuditor = false;
-            }
-            if ($(checkBoxs[4]).attr('checked')) {
-                systemAdministrator = true
-            } else {
-                systemAdministrator = false;
-            }
+            // if ($(checkBoxs[1]).attr('checked')) {
+            //     projectAuditor = true
+            // } else {
+            //     projectAuditor = false;
+            // }
+            // if ($(checkBoxs[2]).attr('checked')) {
+            //     answerAuditor = true
+            // } else {
+            //     answerAuditor = false;
+            // }
 
-            update(id, departmentLeader, senateMembers, projectAuditor, answerAuditor, systemAdministrator)
+            update(id, departmentLeader, false, false, false, false)
         })
 
         //删除按钮
         $(".data").on("click", "input[value='删除']", function () {
             var tds = $(this).parent().prevAll();
 
-            var id = $(tds[8]).attr("store")
+            var id = $(tds[4]).attr("store")
 
             deleteById(id);
         })
 
         //checkbox
         $(".data").on("click", "input[type='checkbox']", function () {
-            if ($(this).attr('checked')){
+            if ($(this).attr('checked')) {
                 $(this).removeAttr("checked")
             } else {
-                $(this).attr("checked","true")
+                $(this).attr("checked", "true")
             }
 
         })
@@ -185,17 +171,15 @@
         });
     }
 
-    function update(id, departmentLeader, senateMembers, projectAuditor, answerAuditor, systemAdministrator) {
+    function update(id, departmentLeader, projectAuditor, answerAuditor) {
         $.ajax({
             url: '/power/update',
             type: 'POST',
             data: {
                 id: id,
                 departmentLeader: departmentLeader,
-                senateMembers: senateMembers,
                 projectAuditor: projectAuditor,
                 answerAuditor: answerAuditor,
-                systemAdministrator: systemAdministrator
             },
             dataType: 'json',
             success: function (data) {
@@ -267,38 +251,16 @@
                         } else {
                             str = str + "<td><input type=\"checkbox\" name=\"departmentLeader\"></td>"
                         }
-                        if (data.data[i].senateMembers) {
-                            str = str + "<td><input type=\"checkbox\" name=\"senateMembers\" checked='true'></td>"
-                        } else {
-                            str = str + "<td><input type=\"checkbox\" name=\"senateMembers\"></td>"
-                        }
-                        if (data.data[i].projectAuditor) {
-                            str = str + "<td><input type=\"checkbox\" name=\"projectAuditor\" checked='true'></td>"
-                        } else {
-                            str = str + "<td><input type=\"checkbox\" name=\"projectAuditor\"></td>"
-                        }
-                        if (data.data[i].answerAuditor) {
-                            str = str + "<td><input type=\"checkbox\" name=\"answerAuditor\" checked='true'></td>"
-                        } else {
-                            str = str + "<td><input type=\"checkbox\" name=\"answerAuditor\"></td>"
-                        }
-                        if (data.data[i].systemAdministrator) {
-                            str = str + "<td><input type=\"checkbox\" name=\"systemAdministrator\" checked='true'></td>"
-                        } else {
-                            str = str + "<td><input type=\"checkbox\" name=\"systemAdministrator\"></td>"
-                        }
-                    } else {
-                        str = str + "<td>学生</td>" + "<td><input type=\"checkbox\" name=\"departmentLeader\" disabled></td>"
-
-                        if (data.data[i].senateMembers) {
-                            str = str + "<td><input type=\"checkbox\" name=\"senateMembers\" checked='true'></td>"
-                        } else {
-                            str = str + "<td><input type=\"checkbox\" name=\"senateMembers\" ></td>"
-                        }
-
-                        str = str + "<td><input type=\"checkbox\" name=\"projectAuditor\" disabled></td>"
-                            + "<td><input type=\"checkbox\" name=\"answerAuditor\" disabled></td>"
-                            + "<td><input type=\"checkbox\" name=\"systemAdministrator\" disabled></td>"
+                        // if (data.data[i].projectAuditor) {
+                        //     str = str + "<td><input type=\"checkbox\" name=\"projectAuditor\" checked='true'></td>"
+                        // } else {
+                        //     str = str + "<td><input type=\"checkbox\" name=\"projectAuditor\"></td>"
+                        // }
+                        // if (data.data[i].answerAuditor) {
+                        //     str = str + "<td><input type=\"checkbox\" name=\"answerAuditor\" checked='true'></td>"
+                        // } else {
+                        //     str = str + "<td><input type=\"checkbox\" name=\"answerAuditor\"></td>"
+                        // }
                     }
 
                     str = str + "<td><input type=\"button\" value=\"确定\"><input type=\"button\" value=\"删除\"></td></tr>"

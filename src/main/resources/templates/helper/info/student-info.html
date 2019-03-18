@@ -4,14 +4,14 @@
 	<meta charset="UTF-8">
 	<title>学生信息管理</title>
 
-    <link rel="stylesheet" type="text/css" href="/css/helper-info-student.css">
-    <link rel="stylesheet" type="text/css" href="/css/bootstrap-theme.min.css">
-    <link rel="stylesheet" type="text/css" href="/css/bootstrap.css">
-    <link rel="stylesheet" type="text/css" href="/css/swiper.min.css">
+    <link rel="stylesheet" type="text/css" href="../css/helper-info-student.css">
+    <link rel="stylesheet" type="text/css" href="../css/bootstrap-theme.min.css">
+    <link rel="stylesheet" type="text/css" href="../css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="../css/swiper.min.css">
 
-    <script type="text/javascript" src="/js/jquery.js"></script>
-    <script type="text/javascript" src="/js/bootstrap.js"></script>
-    <script type="text/javascript" src="/js/swiper.jquery.min.js"></script>
+    <script type="text/javascript" src="../js/jquery.js"></script>
+    <script type="text/javascript" src="../js/bootstrap.js"></script>
+    <script type="text/javascript" src="../js/swiper.jquery.min.js"></script>
 </head>
 <body>
 	<div class="body">
@@ -20,13 +20,13 @@
 			<button id="specialType" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#myModal">
 				<a>特殊选题</a>
 			</button>
-			<button class="btn btn-primary btn-xs">
-				<a>Excel导出</a>
-			</button>
-			<div style="float: right; margin-right:20px;">
-				<label style="color: white">tip:</label>
-				<span style="font-size: 8">密码重置后，密码为学号后六位</span>
-			</div>
+			<!--<button class="btn btn-primary btn-xs">-->
+				<!--<a>Excel导出</a>-->
+			<!--</button>-->
+			<!--<div style="float: right; margin-right:20px;">-->
+				<!--<label style="color: white">tip:</label>-->
+				<!--<span style="font-size: 8">密码重置后，密码为学号后六位</span>-->
+			<!--</div>-->
 			<!-- 模态框（Modal） -->
 			<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 				<div class="modal-dialog">
@@ -72,25 +72,9 @@
 		</div>
 		<div class="search">
 			<form>
-				<label>系别：</label>
-				<select>
-					<option>123</option>
-					<option>123</option>
-					<option>123</option>
-					<option>123</option>
-				</select>
-
-				<label>专业：</label>
-				<select>
-					<option>123</option>
-					<option>123</option>
-					<option>123</option>
-					<option>123</option>
-				</select>
-				<br>
-				<input type="text" name="" placeholder="学号">
-				<input type="text" name="" placeholder="姓名">
-				<input type="submit" name="" value="search">
+				<input type="text" name="no" placeholder="学号">
+				<input type="text" name="name" placeholder="姓名">
+				<input type="submit" name="" value="搜索">
 			</form>	
 		</div>
 		<div class="data">
@@ -100,55 +84,14 @@
 						<th width="50px">编号</th>
 						<th width="130px">学号</th>
 						<th width="130px">姓名</th>
-						<th width="130px">系别</th>
-						<th min-width="130px">专业</th>
 						<th width="130px">联系电话</th>
-						<th width="65px">是否选题</th>
-						<th width="80px"></th>
 						<th width="80px"></th>
 						<th width="80px"></th>
 					</tr>
 				</thead>
-				<tbody>
-					<tr>
-						<td>1</td>
-						<td>1540406134</td>
-						<td>离散李四</td>
-						<td>计算机系</td>
-						<td>计算机科学与技术</td>
-						<td>13414105154</td>
-						<td>已选</td>
-						<td><input type="button" name="" value="选题详情"></td>
-						<td><input type="button" name="" value="选题重置" class="targetInfo" data-toggle="modal" data-target="#myModal"></td>
-						<td><input type="button" name="" value="密码重置"></td>
-					</tr>
-					<tr>
-						<td>1</td>
-						<td>1</td>
-						<td>1</td>
-						<td>1</td>
-						<td>1</td>
-						<td>1</td>
-						<td>1</td>
-						<td>1</td>
-						<td>1</td>
-						<td>1</td>
-					</tr>
+				<tbody id="dataList">
+
 				</tbody>
-				<tfoot>
-					<tr>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-					</tr>
-				</tfoot>
 			</table>
 		</div>	
 	</div>
@@ -163,6 +106,71 @@
 		$("#specialType").click(function(){
 			$(".borderRadius").val("");
 		});
+
+        $(document).ready(function () {
+            findList(null, null)
+
+            // //添加按钮 显示模态框
+            // $('input[value="搜索"]').click(function () {
+            //     var no = $("input[name=no]").val();
+            //     var name = $("input[name=name]").val();
+            //     findList(no, name)
+            // })
+			//
+            // //编辑按钮
+            // $(".data").on("click", "input[value='确定修改']", function () {
+            //     var tds = $(this).parent().prevAll();
+            //     //jquery对象加上索引是dom对象
+            //     var id = $(tds[3]).attr("store")
+            //     var num = $(this).parent().parent().find("input[type='text']").val()
+            //     update(id, num)
+            // })
+        });
+
+        function findList(no, name) {
+            $.ajax({
+                url: '/help:student/findList',
+                type: 'GET',
+                data: {
+                    no: no,
+                    name: name
+                },
+                dataType: 'json',
+                success: function (data) {
+                    var dataList = $("#dataList");
+                    dataList.html("");
+
+                    for (i = 0; i < data.data.length; i++) {
+                        var str = "<tr><td store=\"" + data.data[i].id + "\">" + (i + 1) + "</td> "
+                            + "<td>" + data.data[i].studentModel.no + "</td> "
+                            + "<td>" + data.data[i].studentModel.name + "</td>"
+                            + "<td>" + data.data[i].studentModel.phone + "</td>"
+                            + "<td><input type=\"button\" name=\"\" value=\"选题重置\" class=\"targetInfo\" data-toggle=\"modal\" data-target=\"#myModal\"></td>"
+							+ " <td><input type=\"button\" name=\"\" value=\"密码重置\"></td></tr>"
+                        dataList.append(str)
+                    }
+                }
+            });
+        }
+
+        // function update(id, studentNum) {
+        //     $.ajax({
+        //         url: '/help:student/updateNum',
+        //         type: 'POST',
+        //         data: {
+        //             id: id,
+        //             studentNum: studentNum
+        //         },
+        //         dataType: 'json',
+        //         success: function (data) {
+        //             if (data.code == -1) {
+        //                 alert(data.msg)
+        //             } else {
+        //                 findList(null, null)
+        //             }
+        //         }
+        //     });
+        // }
 	</script>
 </body>
 </html>

@@ -1,8 +1,6 @@
 package com.fhx.gdms.selectRecord.service;
 
-import com.fhx.gdms.projections.model.ProjectionModel;
 import com.fhx.gdms.selectRecord.model.SelectRecordModel;
-import com.fhx.gdms.user.model.UserModel;
 
 import java.util.List;
 
@@ -92,4 +90,11 @@ public interface SelectRecordService {
      * @return
      */
     SelectRecordModel findHavedSelectedRecordByStudentId(Integer studentId);
+
+    /**
+     * find total
+     * @param id
+     * @return
+     */
+    Integer findTotalByTeacherId(Integer id);
 }

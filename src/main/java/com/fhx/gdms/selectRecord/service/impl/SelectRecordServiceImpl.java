@@ -134,4 +134,9 @@ public class SelectRecordServiceImpl implements SelectRecordService {
     public SelectRecordModel findHavedSelectedRecordByStudentId(Integer studentId) {
         return selectRecordRepository.findHavedSelectedRecordByStudentId(studentId);
     }
+
+    @Override
+    public Integer findTotalByTeacherId(Integer teacherId) {
+        return selectRecordRepository.findTotalByTeacherId(teacherId);
+    }
 }

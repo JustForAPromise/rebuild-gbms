@@ -4,22 +4,22 @@
     <meta charset="UTF-8">
     <title>学生信息管理</title>
 
-    <link rel="stylesheet" type="text/css" href="/css/personInfo.css">
-    <link rel="stylesheet" type="text/css" href="/css/admin/admin-motaikuang.css">
-    <link rel="stylesheet" type="text/css" href="/css/bootstrap-theme.min.css">
-    <link rel="stylesheet" type="text/css" href="/css/bootstrap.css">
-    <link rel="stylesheet" type="text/css" href="/css/swiper.min.css">
+    <link rel="stylesheet" type="text/css" href="../css/personInfo.css">
+    <link rel="stylesheet" type="text/css" href="../css/admin/admin-motaikuang.css">
+    <link rel="stylesheet" type="text/css" href="../css/bootstrap-theme.min.css">
+    <link rel="stylesheet" type="text/css" href="../css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="../css/swiper.min.css">
 
-    <script type="text/javascript" src="/js/jquery.js"></script>
-    <script type="text/javascript" src="/js/bootstrap.js"></script>
-    <script type="text/javascript" src="/js/swiper.jquery.min.js"></script>
+    <script type="text/javascript" src="../js/jquery.js"></script>
+    <script type="text/javascript" src="../js/bootstrap.js"></script>
+    <script type="text/javascript" src="../js/swiper.jquery.min.js"></script>
 </head>
 <body>
 <div class="body">
     <!-- 模态框开始 -->
     <div class="myModal hide">
         <p class="p" style="display: none">id：<input type="text" name="id"></p>
-        <p class="p"><label style="width: 50px">标题：</label><input type="text" name="teacher" store="" disabled></p>
+        <p class="p"><label style="width: 50px">标题：</label><input type="text" name="title" store="" disabled></p>
         <p class="p"><label style="width: 50px">内容描述：</label><textarea name="introduce" disabled></textarea></p>
         <p class="p"><label style="width: 50px">要求：</label><textarea name="require" disabled></textarea></p>
         <p class="p"><label style="width: 50px">指导教师：</label><input type="text" name="teacher" store="" disabled></p>
@@ -64,7 +64,7 @@
 <script>
     $(document).ready(function () {
         var teachers = listTeacher();
-        var projections = listProjection(null, null,  0)
+        var projections = listProjection(null, null, 0)
 
         //刷新按钮 添加ajax
         $('input[value="刷新"]').click(function () {
@@ -77,8 +77,8 @@
         //搜索按钮 添加ajax
         $('input[value="搜索"]').click(function () {
             var teacherId = $(".search .teacherSelect").val();
-            var title  = $(".search input[name=title]").val();
-            listProjection(teacherId,title, 0)
+            var title = $(".search input[name=title]").val();
+            listProjection(teacherId, title, 0)
         })
 
         //模态框确定选择按钮 添加ajax
@@ -105,17 +105,12 @@
         $(".data").on("click", "input[value='详情']", function () {
             var tds = $(this).parent().prevAll();
             //jquery对象加上索引是dom对象
-            $('.myModal input[name="id"]').val($(tds[4]).attr("store"))
-            $('.myModal input[name="title"]').val($(tds[3]).text())
-            $('.myModal textarea[name="introduce"]').val($(tds[2]).text())
-            $('.myModal textarea[name="require"]').val($(tds[1]).text())
-            $('.myModal input[name="teacher"]').val($(tds[0]).text())
-            $('.myModal input[name="teacher"]').attr("store",$(tds[0]).attr("store"))
-            $('.hide').removeClass('hide');
+            var id = $(tds[4]).attr("store")
+            findById(id)
         })
 
         //确定按钮 添加ajax
-        $("#dataList ").on("click", 'input[value="选择"]',function () {
+        $("#dataList ").on("click", 'input[value="选择"]', function () {
             var tds = $(this).parent().prevAll();
             var projectionId = $(tds[4]).attr("store")
             var teacherId = $(tds[0]).attr("store")
@@ -138,7 +133,30 @@
                     alert(data.msg)
                 } else {
                     alert(data.msg)
-                    listProjection(teacherId, null, 0)
+                    listProjection(null, null, 0)
+                }
+            }
+        });
+    }
+
+    function findById(id) {
+        $.ajax({
+            url: '/projection/findById',
+            type: 'GET',
+            data: {
+                id: id
+            },
+            dataType: 'json',
+            success: function (data) {
+                if (data.code == -1) {
+                    alert(data.msg)
+                } else {
+                    $('.myModal input[name="title"]').val(data.data.title)
+                    $('.myModal textarea[name= "introduce"]').val(data.data.introduce);
+                    $('.myModal textarea[name="require"]').val(data.data.demand);
+                    $('.myModal input[name="teacher"]').val(data.data.teacherModel.name);
+                    $('.myModal input[name="teacher"]').attr("store",data.data.teacherModel.id);
+                    $('.hide').removeClass('hide');
                 }
             }
         });
@@ -169,29 +187,47 @@
             data: {
                 title: title,
                 teacherId: teacherId,
-                status:status
+                status: status
             },
             dataType: 'json',
             success: function (data) {
                 var dataList = $("#dataList");
                 dataList.html("");
-                if (status ==1){
+                if (status == 1) {
                     for (i = 0; i < data.data.length; i++) {
                         var str = "<tr><td store=\"" + data.data[i].id + "\">" + (i + 1)
                             + "</td> <td>" + data.data[i].title + "</td> "
-                            + "<td>" + data.data[i].introduce + "</td>"
-                            + "<td>" + data.data[i].demand + "</td>"
-                            + "<td store = \"" + data.data[i].teacherModel.id +"\">" + data.data[i].teacherModel.name + "</td>"
-                            // + "<td><input type=\"button\" name=\"\" value=\"详情\"><input type=\"button\" value=\"选择\"></td>"
+
+                        if (data.data[i].introduce.length > 10) {
+                            str = str + "<td>" + data.data[i].introduce.substr(0, 10) + "....</td>"
+                        } else {
+                            str = str + "<td>" + data.data[i].introduce + "</td>"
+                        }
+                        if (data.data[i].demand.length > 10) {
+                            str = str + "<td>" + data.data[i].demand.substr(0, 10) + "....</td>"
+                        } else {
+                            str = str + "<td>" + data.data[i].demand + "</td>"
+                        }
+
+                        str = str + "<td store = \"" + data.data[i].teacherModel.id + "\">" + data.data[i].teacherModel.name + "</td>"
                         dataList.append(str)
                     }
-                } else if (status ==0) {
+                } else if (status == 0) {
                     for (i = 0; i < data.data.length; i++) {
                         var str = "<tr><td store=\"" + data.data[i].id + "\">" + (i + 1)
                             + "</td> <td>" + data.data[i].title + "</td> "
-                            + "<td>" + data.data[i].introduce + "</td>"
-                            + "<td>" + data.data[i].demand + "</td>"
-                            + "<td store = \"" + data.data[i].teacherModel.id +"\">" + data.data[i].teacherModel.name + "</td>"
+
+                        if (data.data[i].introduce.length > 10) {
+                            str = str + "<td>" + data.data[i].introduce.substr(0, 10) + "....</td>"
+                        } else {
+                            str = str + "<td>" + data.data[i].introduce + "</td>"
+                        }
+                        if (data.data[i].demand.length > 10) {
+                            str = str + "<td>" + data.data[i].demand.substr(0, 10) + "....</td>"
+                        } else {
+                            str = str + "<td>" + data.data[i].demand + "</td>"
+                        }
+                        str = str + "<td store = \"" + data.data[i].teacherModel.id + "\">" + data.data[i].teacherModel.name + "</td>"
                             + "<td><input type=\"button\" name=\"\" value=\"详情\"><input type=\"button\" value=\"选择\"></td>"
                         dataList.append(str)
                     }

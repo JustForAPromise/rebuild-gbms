@@ -1,17 +1,16 @@
-package com.fhx.gdms.ViewController;
+package com.fhx.gdms.config.ViewController;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
-import java.io.IOException;
-
 @Configuration
-public class ViewControllerConfig extends WebMvcConfigurerAdapter {
+public class ViewControllerConfig implements WebMvcConfigurer {
 
     @Override
-    public void addViewControllers(ViewControllerRegistry registry){
+    public void addViewControllers(ViewControllerRegistry registry) {
         registry.addViewController("").setViewName("/login.html");
         registry.setOrder(Ordered.HIGHEST_PRECEDENCE);
 
@@ -21,10 +20,9 @@ public class ViewControllerConfig extends WebMvcConfigurerAdapter {
         registry.addViewController("admin/teacher").setViewName("/admin/infoManage/teacher.html");
         registry.addViewController("admin/systemLog").setViewName("/admin/infoManage/systemLog.html");
         registry.addViewController("admin/power").setViewName("/admin/powerManage/power.html");
-
+        registry.addViewController("admin/scoreCondition").setViewName("/admin/scoreCondition/scoreCondition.html");
 
         registry.addViewController("student/projection").setViewName("/student/info/projection.html");
-        registry.addViewController("student/contactTeacher").setViewName("/student/info/contactTeacher.html");
         registry.addViewController("student/score").setViewName("/student/info/score.html");
 
 
@@ -33,6 +31,11 @@ public class ViewControllerConfig extends WebMvcConfigurerAdapter {
         registry.addViewController("teacher/student").setViewName("/teacher/info/student.html");
         registry.addViewController("teacher/materialReview").setViewName("/teacher/info/materialReview.html");
         registry.addViewController("teacher/score").setViewName("/teacher/info/score.html");
-        super.addViewControllers(registry);
+        registry.addViewController("teacher/studentScore").setViewName("/teacher/info/studentScore.html");
+        registry.addViewController("teacher/power").setViewName("/departmentLeader/power.html");
+
+
+        registry.addViewController("helper/student-info").setViewName("/helper/info/student-info.html");
+        registry.addViewController("helper/teacher-info").setViewName("/helper/info/teacher-info.html");
     }
 }

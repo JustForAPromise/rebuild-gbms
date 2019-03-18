@@ -1,8 +1,6 @@
 package com.fhx.gdms.materialStatus.service;
 
 import com.fhx.gdms.materialStatus.model.MaterialStatusModel;
-import com.fhx.gdms.material.model.MaterialModel;
-import com.fhx.gdms.user.model.UserModel;
 
 import java.util.List;
 
@@ -25,4 +23,11 @@ public interface MaterialStatusService {
      * @return
      */
     List<MaterialStatusModel> findList(MaterialStatusModel model);
+
+    /**
+     * find one
+     * @param materialStatus
+     * @return
+     */
+    MaterialStatusModel findOne(MaterialStatusModel materialStatus);
 }

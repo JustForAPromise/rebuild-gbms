@@ -1,0 +1,70 @@
+.search{
+	background-color:#FDF5E6;
+	padding-top: 10px;
+	min-width: 500px;
+	min-height: 70px;
+	align-content: left;
+	padding-left: 200px;
+}
+.search select{
+	margin-right:15px;
+	width: 65px;
+	border-radius: 3px;
+	border-style: 1px white outset;
+}
+.search input[type=text]{
+	padding-left:10px;
+	border-radius: 7px;
+	margin-right:20px;
+}
+.search input[type=submit]{
+	border-radius: 6px;
+}
+.function{
+	background-color:#888;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	height: 40px;
+	text-align: left;
+	padding-left: 35px;
+	border-bottom: 1px #DBDBDB solid;
+}
+.function a{
+	color: black;
+}
+.form-div{
+	width: 900%;
+	padding-left:100px;
+}
+.data{
+	margin-top: 10px;
+}
+.data table{
+	min-width: 750px;
+	margin-left: 100px;
+	align-content: center;
+}
+.data table tbody tr{
+	margin-bottom: 10px;
+}
+.data table thead tr th{
+	text-align: center;
+}
+.data table tbody tr{ text-align: center; 	height:30px;}
+.data table tbody tr:nth-of-type(odd){ background:#EEE9E9 ;} /*奇数行*/ 
+.data table tbody tr:nth-of-type(even){ background:#FCFCFC ;}/*偶数行*/
+
+.data tbody tr input[type=submit]{
+	border-radius: 7px;
+}
+.form-div table tr:first-of-type input{
+	height:90%;
+	margin-bottom: 2px;
+}
+
+input[type=button]{
+	border-radius: 5px;
+}
+.button-disable{
+	background: darkgrey
+}
