@@ -121,7 +121,7 @@
 
     function add(projectionId, teacherId) {
         $.ajax({
-            url: '/selectRecord/add',
+           url: '../selectRecord/add',
             type: 'POST',
             data: {
                 projectionId: projectionId,
@@ -141,7 +141,7 @@
 
     function findById(id) {
         $.ajax({
-            url: '/projection/findById',
+           url: '../projection/findById',
             type: 'GET',
             data: {
                 id: id
@@ -164,7 +164,7 @@
 
     function listTeacher() {
         $.ajax({
-            url: '/teacher/listTeacher',
+           url: '../teacher/listTeacher',
             type: 'GET',
             dataType: 'json',
             success: function (data) {
@@ -182,7 +182,7 @@
 
     function listProjection(teacherId, title, status) {
         $.ajax({
-            url: '/projection/listProjectionToStudent',
+           url: '../projection/listProjectionToStudent',
             type: 'GET',
             data: {
                 title: title,

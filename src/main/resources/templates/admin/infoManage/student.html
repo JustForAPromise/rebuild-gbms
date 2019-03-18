@@ -165,7 +165,7 @@
 
     function add(formData) {
         $.ajax({
-            url: '/student/add',
+           url: '../student/add',
             type: 'POST',
             data: formData.serialize(),
             dataType: 'json',
@@ -179,7 +179,7 @@
 
     function update(formData) {
         $.ajax({
-            url: '/student/update',
+           url: '../student/update',
             type: 'POST',
             data: formData.serialize(),
             dataType: 'json',
@@ -197,7 +197,7 @@
 
     function findList(departmentId, majorId, no, name) {
         $.ajax({
-            url: '/student/findStudent',
+           url: '../student/findStudent',
             type: 'GET',
             data: {
                 majorId: majorId,
@@ -224,7 +224,7 @@
 
     function findById(id) {
         $.ajax({
-            url: '/student/findById',
+           url: '../student/findById',
             type: 'GET',
             data: {
                 id: id
@@ -243,7 +243,7 @@
 
     function deleteById(id) {
         $.ajax({
-            url: '/student/deleteById',
+           url: '../student/deleteById',
             type: 'DELETE',
             async: false,
             data: {
@@ -256,7 +256,7 @@
 
     function getAllDepartment() {
         $.ajax({
-            url: '/department/list',
+           url: '../department/list',
             type: 'GET',
             dataType: 'json',
             success: function (data) {
@@ -277,7 +277,7 @@
 
     function findMajorByDepartmentId(departmentId, index) {
         $.ajax({
-            url: '/major/findByDepartmentId',
+           url: '../major/findByDepartmentId',
             type: 'GET',
             data: {
                 departmentId: departmentId
@@ -306,7 +306,7 @@
 
     function findByMajorIdAndDepartmentId(departmentId, majorId) {
         $.ajax({
-            url: '/student/findByMajorIdAndDepartmentId',
+           url: '../student/findByMajorIdAndDepartmentId',
             type: 'GET',
             data: {
                 majorId: majorId,

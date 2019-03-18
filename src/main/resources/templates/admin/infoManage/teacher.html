@@ -150,7 +150,7 @@
 
     function add(formData) {
         $.ajax({
-            url: '/teacher/add',
+           url: '../teacher/add',
             type: 'POST',
             data: formData.serialize(),
             dataType: 'json',
@@ -167,7 +167,7 @@
 
     function update(formData) {
         $.ajax({
-            url: '/teacher/update',
+           url: '../teacher/update',
             type: 'POST',
             data: formData.serialize(),
             dataType: 'json',
@@ -185,7 +185,7 @@
 
     function findList(departmentId, no, name) {
         $.ajax({
-            url: '/teacher/findTeacher',
+           url: '../teacher/findTeacher',
             type: 'GET',
             data: {
                 departmentId: departmentId,
@@ -211,7 +211,7 @@
 
     function findById(id) {
         $.ajax({
-            url: '/teacher/findById',
+           url: '../teacher/findById',
             type: 'GET',
             data: {
                 id: id
@@ -230,7 +230,7 @@
 
     function deleteById(id) {
         $.ajax({
-            url: '/teacher/deleteById',
+           url: '../teacher/deleteById',
             type: 'DELETE',
             data: {
                 id: id
@@ -243,7 +243,7 @@
 
     function findByDepartmentId(departmentId) {
         $.ajax({
-            url: '/teacher/findByDepartmentId',
+           url: '../teacher/findByDepartmentId',
             type: 'GET',
             data: {
                 departmentId: departmentId
@@ -269,7 +269,7 @@
     /********************** 初始化下拉列表 ***************************/
     function getAllDepartment() {
         $.ajax({
-            url: '/department/list',
+           url: '../department/list',
             type: 'GET',
             dataType: 'json',
             success: function (data) {

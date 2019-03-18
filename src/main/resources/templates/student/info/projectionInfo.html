@@ -56,7 +56,7 @@
     })
     function submitTaskBook(formData) {
         $.ajax({
-            url: '/taskBook/add',
+           url: '../taskBook/add',
             type: 'POST',
             data:formData,
             processData: false,
@@ -73,7 +73,7 @@
 
     function submitThese(formData) {
         $.ajax({
-            url: '/theses/add',
+           url: '../theses/add',
             type: 'POST',
             data:formData,
             processData: false,

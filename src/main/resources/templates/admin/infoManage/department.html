@@ -56,7 +56,7 @@
     //ajax 获取所有系别信息
     function getDepartmentList() {
         $.ajax({
-            url: '/department/list',
+           url: '../department/list',
             type: 'GET',
             dataType: 'json',
             success: function (data) {
@@ -140,7 +140,7 @@
 
     function deleteById(id) {
         $.ajax({
-            url: '/department/deleteById',
+           url: '../department/deleteById',
             type: 'DELETE',
             data: {
                 id: id
@@ -158,7 +158,7 @@
 
     function add(departmentName) {
         $.ajax({
-            url: '/department/add',
+           url: '../department/add',
             type: 'POST',
             data: {
                 departmentName: departmentName
@@ -176,7 +176,7 @@
 
     function update(id, departmentName) {
         $.ajax({
-            url: '/department/update',
+           url: '../department/update',
             type: 'POST',
             data: {
                 id: id,
@@ -196,7 +196,7 @@
 
     function select(departmentName) {
         $.ajax({
-            url: '/department/findByName',
+           url: '../department/findByName',
             type: 'GET',
             data: {
                 departmentName: departmentName

@@ -199,7 +199,7 @@
 
     function listTaskBook(no, name) {
         $.ajax({
-            url: '/taskBook/listTaskBook',
+           url: '../taskBook/listTaskBook',
             type: 'GET',
             data: {
                 no: no,
@@ -251,7 +251,7 @@
 
     function listTheses(no, name) {
         $.ajax({
-            url: '/theses/listTheses',
+           url: '../theses/listTheses',
             type: 'GET',
             data: {
                 no: no,
@@ -303,7 +303,7 @@
 
     function updateTaskBook(id, status, remark) {
         $.ajax({
-            url: '/taskBook/updateAudit',
+           url: '../taskBook/updateAudit',
             type: 'POST',
             data: {
                 id: id,
@@ -323,7 +323,7 @@
 
     function updateTheses(id, status, remark) {
         $.ajax({
-            url: '/theses/updateAudit',
+           url: '../theses/updateAudit',
             type: 'POST',
             data: {
                 id: id,
@@ -343,7 +343,7 @@
 
     function countTheses(submitStatus, auditStatus) {
         $.ajax({
-            url: '/materialStatus/countTheses',
+           url: '../materialStatus/countTheses',
             type: 'GET',
             data:{
                 submitStatus:submitStatus,
@@ -396,7 +396,7 @@
 
     function countTaskBook(submitStatus, auditStatus) {
         $.ajax({
-            url: '/materialStatus/countTaskBook',
+           url: '../materialStatus/countTaskBook',
             type: 'GET',
             data:{
                 submitStatus:submitStatus,

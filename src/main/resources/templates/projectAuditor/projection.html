@@ -171,7 +171,7 @@
 
     function findById(id) {
         $.ajax({
-            url: '/projectAuditor/findById',
+           url: '../projectAuditor/findById',
             type: 'GET',
             data: {
                 id: id
@@ -192,7 +192,7 @@
 
     function update(id, auditStatus, auditRemark) {
         $.ajax({
-            url: '/projectAuditor/update',
+           url: '../projectAuditor/update',
             type: 'POST',
             data: {
                 id: id,
@@ -212,7 +212,7 @@
 
     function listToAudit() {
         $.ajax({
-            url: '/projectAuditor/listToAudit',
+           url: '../projectAuditor/listToAudit',
             type: 'GET',
             dataType: 'json',
             success: function (data) {
@@ -258,7 +258,7 @@
 
     function findByAuditStatus(auditStatus) {
         $.ajax({
-            url: '/projectAuditor/findByAuditStatus',
+           url: '../projectAuditor/findByAuditStatus',
             type: 'GET',
             data: {
                 auditStatus: auditStatus

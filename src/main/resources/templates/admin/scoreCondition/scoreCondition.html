@@ -142,7 +142,7 @@
 
     function add(formData) {
         $.ajax({
-            url: '/scoreItem/add',
+           url: '../scoreItem/add',
             type: 'POST',
             data: formData.serialize(),
             dataType: 'json',
@@ -158,7 +158,7 @@
 
     function update(id, status) {
         $.ajax({
-            url: '/scoreItem/updateStatus',
+           url: '../scoreItem/updateStatus',
             type: 'POST',
             data: {
                 id: id,
@@ -177,7 +177,7 @@
 
     function listAll() {
         $.ajax({
-            url: '/scoreItem/listAll',
+           url: '../scoreItem/listAll',
             type: 'GET',
             dataType: 'json',
             success: function (data) {
