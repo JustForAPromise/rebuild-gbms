@@ -35,6 +35,18 @@ public class FileUtil {
         return filePath;
     }
 
+    public static String getBaseFileDir() {
+        File path = null;
+        try {
+            path = new File(ResourceUtils.getURL("classpath:").getPath());
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        String filePath = path.getParent() + File.separator + "upload" + File.separator ;
+
+        return filePath;
+    }
+
     public static String getFileName(File file) {
 
         String sp = String.valueOf(File.separatorChar);

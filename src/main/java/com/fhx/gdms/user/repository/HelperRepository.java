@@ -138,7 +138,7 @@ public interface HelperRepository {
                 sql.SET("gender = #{gender}");
             }
             if (model.getPhone() != null && !"".equals(model.getPhone())) {
-                sql.VALUES("phone", "#{phone}");
+                sql.SET("phone", "#{phone}");
             }
             if (model.getPassword() != null && !"".equals(model.getPassword())) {
                 sql.SET("password = #{password}");

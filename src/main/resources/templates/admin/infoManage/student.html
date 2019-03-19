@@ -18,17 +18,36 @@
 <div class="body">
     <div class="function">
 
-        <button class="btn btn-primary btn-xs">
-            <a>批量导入</a>
-        </button>
-        <button class="btn btn-primary btn-xs">
-            <a>Excel模板导出</a>
-        </button>
+        <input type="button" value="批量导入">
+        <!-- 模态框开始 -->
+        <div class="tops myModal hide">
+            <h4 style="text-align: center;">学生信息</h4>
+            <form id="form-datas" enctype="multipart/form-data" name="excel">
+                <p class="p">
+                    <label>系别：</label>
+                    <select class="department departmentSelect" name="departmentId">
+                    </select>
+                </p>
+                <p class="p">
+                    <label>专业：</label>
+                    <select class="major majorSelect" name="majorId">
+                    </select>
+                </p>
+                <p class="p">
+                    <label>excel文件：</label>
+                    <input type="file" name="file">
+                </p>
+            </form>
+            <p class="p"><input type="button" value="确定">&nbsp<input type="button" value="取消"></p>
+            <a href="../file/getExcelOfStudent"><span style="padding: 0px 0px 5px 15px; color: red; ">模板下载</span></a>
+        </div>
+        <div class="tops shade hide"></div>
+        <!-- 模态框结束 -->
 
         <!-- 添加专业功能 -->
         <input type="button" value="添加">
         <!-- 模态框开始 -->
-        <div class="myModal hide">
+        <div class="bottoms myModal hide">
             <h4 style="text-align: center;">学生信息</h4>
             <form id="form-data">
                 <p class="p" style="display: none"><label>id：</label><input type="text" name="id"></p>
@@ -56,7 +75,7 @@
             </form>
             <p class="p"><input type="button" value="确定">&nbsp<input type="button" value="取消"></p>
         </div>
-        <div class="shade hide"></div>
+        <div class="bottoms shade hide"></div>
         <!-- 模态框结束 -->
     </div>
     <div class="search">
@@ -99,11 +118,25 @@
     $(document).ready(function () {
         /****初始化下拉列表***/
         getAllDepartment();
+
         $(".departmentSelect").change(function () {
             var departmentId = $(this).children('option:selected').val()
-            var index = $(".departmentSelect").index($(this))
+            var index = $(".departmentSelect").index(this)
             findMajorByDepartmentId(departmentId, index)
         })
+
+        //批量导入按钮
+        $('input[value="批量导入"]').click(function () {
+            $('.tops').removeClass('hide');
+        });
+
+        $('.tops input[value="确定"]').click(function () {
+            var form = document.forms.namedItem("excel");
+
+            batchImportOfStudent(new FormData(form))
+
+            $('.tops').addClass('hide');
+        });
 
         //搜索按钮
         $('.search input[value="搜索"]').click(function () {
@@ -117,7 +150,7 @@
 
         //添加按钮
         $('input[value="添加"]').click(function () {
-            $('.hide').removeClass('hide');
+            $('.bottoms').removeClass('hide');
         });
         //取消按钮
         $('.function input[value="取消"]').click(function () {
@@ -126,7 +159,7 @@
         });
 
         //确定按钮 添加ajax
-        $('.function input[value="确定"]').click(function () {
+        $('.bottoms input[value="确定"]').click(function () {
             var forms = $("#form-data")
 
             if (forms.find("input[name=id]").val() == null || forms.find("input[name=id]").val() == "") {
@@ -139,7 +172,7 @@
             findByMajorIdAndDepartmentId(departmentId, majorId);
 
             $("#form-data input").val("");
-            $('.myModal,.shade').addClass('hide');
+            $('.bottoms').addClass('hide');
         });
 
         //编辑按钮
@@ -176,7 +209,22 @@
             }
         });
     }
-
+    function batchImportOfStudent(formData) {
+        $.ajax({
+            url: '../file/batchImportOfStudent',
+            type: 'POST',
+            data:formData,
+            processData: false,
+            contentType: false,
+            success: function (data) {
+                if (data.code == -1) {
+                    alert(data.msg)
+                }else{
+                    alert(data.msg)
+                }
+            }
+        });
+    }
     function update(formData) {
         $.ajax({
            url: '../student/update',
@@ -192,8 +240,6 @@
             }
         });
     }
-
-
 
     function findList(departmentId, majorId, no, name) {
         $.ajax({
@@ -266,11 +312,13 @@
                 var head = "<option value = \"";
                 var second = "\">";
                 var end = "</option>";
+
                 for (i = 0; i < data.data.length; i++) {
                     var str = head + data.data[i].id + second + data.data[i].department + end;
                     dataList.append(str)
                 }
-                findMajorByDepartmentId(data.data[0].id, 3)
+                $(dataList[2]).append("<option></option>")
+                findMajorByDepartmentId(data.data[0].id, null)
             }
         });
     }
@@ -284,10 +332,8 @@
             },
             dataType: 'json',
             success: function (data) {
-                var dataList;
-                if (index = 3) {
-                    dataList = $(".majorSelect");
-                } else {
+                var dataList = $(".majorSelect");
+                if (index != null) {
                     dataList = $(".majorSelect").eq(index);
                 }
                 dataList.html("");
@@ -300,6 +346,7 @@
                     var str = head + data.data[i].id + second + data.data[i].major + end;
                     dataList.append(str)
                 }
+                $(dataList[2]).append("<option></option>")
             }
         });
     }
@@ -329,6 +376,7 @@
             }
         });
     }
+
 </script>
 </body>
 </html>

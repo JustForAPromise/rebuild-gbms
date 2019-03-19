@@ -132,7 +132,6 @@
             var tds = $(this).parent().prevAll();
             var id = $(tds[4]).text()
 
-
             findById(id)
         })
 
@@ -279,6 +278,8 @@
                 var head = "<option value = \"";
                 var second = "\">";
                 var end = "</option>";
+                var str = head + second  + end;
+                dataList.append(str)
                 for (i = 0; i < data.data.length; i++) {
                     var str = head + data.data[i].id + second + data.data[i].department + end;
                     dataList.append(str)
