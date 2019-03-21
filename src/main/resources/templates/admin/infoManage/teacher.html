@@ -17,12 +17,27 @@
 <body>
 <div class="body">
     <div class="function">
-        <button class="btn btn-primary btn-xs">
-            <a>批量导入</a>
-        </button>
-        <button class="btn btn-primary btn-xs">
-            <a>Excel模板导出</a>
-        </button>
+
+        <input type="button" value="批量导入">
+        <!-- 模态框开始 -->
+        <div class="tops myModal hide">
+            <h4 style="text-align: center;">学生信息</h4>
+            <form id="form-datas" enctype="multipart/form-data" name="excel">
+                <p class="p">
+                    <label>系别：</label>
+                    <select class="department departmentSelect" name="departmentId">
+                    </select>
+                </p>
+                <p class="p">
+                    <label>excel文件：</label>
+                    <input type="file" name="file">
+                </p>
+            </form>
+            <p class="p"><input type="button" value="确定">&nbsp<input type="button" value="取消"></p>
+            <a href="../file/getExcelOfTeacher"><span style="padding: 0px 0px 5px 15px; color: red; ">模板下载</span></a>
+        </div>
+        <div class="tops shade hide"></div>
+        <!-- 模态框结束 -->
 
         <input type="button" value="添加">
         <!-- 模态框开始 -->
@@ -93,6 +108,19 @@
             var departmentId = $(this).children('option:selected').val()
         })
 
+        //批量导入按钮
+        $('input[value="批量导入"]').click(function () {
+            $('.tops').removeClass('hide');
+        });
+
+        $('.tops input[value="确定"]').click(function () {
+            var form = document.forms.namedItem("excel");
+
+            batchImportOfTeacher(new FormData(form))
+
+            $('.tops').addClass('hide');
+        });
+
         //搜索按钮
         $('.search input[value="搜索"]').click(function () {
             var departmentId = $(".search .departmentSelect").val();
@@ -159,6 +187,23 @@
                 } else {
                     findByDepartmentId(data.data.departmentId);
 
+                }
+            }
+        });
+    }
+
+    function batchImportOfTeacher(formData) {
+        $.ajax({
+            url: '../file/batchImportOfTeacher',
+            type: 'POST',
+            data:formData,
+            processData: false,
+            contentType: false,
+            success: function (data) {
+                if (data.code == -1) {
+                    alert(data.msg)
+                }else{
+                    alert(data.msg)
                 }
             }
         });

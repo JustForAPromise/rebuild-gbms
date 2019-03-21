@@ -11,7 +11,10 @@ public class ViewControllerConfig implements WebMvcConfigurer {
 
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
-        registry.addViewController("").setViewName("/login.html");
+        registry.addViewController("").setViewName("/studentLogin.html");
+        registry.addViewController("student").setViewName("/studentLogin.html");
+        registry.addViewController("teacher").setViewName("/teacherLogin.html");
+        registry.addViewController("admin").setViewName("/adminLogin.html");
         registry.setOrder(Ordered.HIGHEST_PRECEDENCE);
 
         registry.addViewController("admin/personInfo").setViewName("/admin/personInfo/personInfo.html");

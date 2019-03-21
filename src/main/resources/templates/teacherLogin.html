@@ -1,0 +1,46 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>毕业设计信息管理系统</title>
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+    <script type="text/javascript" src="js/jquery.js"></script>
+</head>
+
+<body>
+<div class="loginDiv">
+    <script  th:inline="javascript" th:if="${tip != null}">
+        alert([[${tip}]]);
+    </script>
+    <form action="login" method="POST">
+        <table>
+            <tr style="height:40px">
+                <th colspan="2">
+                    <b>毕业设计信息管理系统</b>
+                </th>
+            </tr>
+            <tr>
+                <td><label>用户组:</label></td>
+                <td>
+                    <select name="identify">
+                        <option value="2">教师</option>
+                        <option value="3">教务员</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td><label>工号:</label></td><td><input type="text" size="20" alt="text" name="no"></td>
+            </tr>
+            <tr>
+                <td><label>密码:</label></td><td><input type="password" size="20" alt="text" name="password"></td>
+            </tr>
+            <tr>
+                <td colspan="2"><input type="reset" value="重写"><input type="submit" value="登录"></td>
+            </tr>
+
+        </table>
+    </form>
+</div>
+
+</body>
+</html>
