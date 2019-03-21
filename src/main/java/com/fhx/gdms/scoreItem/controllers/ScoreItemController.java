@@ -80,6 +80,36 @@ public class ScoreItemController {
         return apiResult;
     }
 
+    @RequestMapping(value = "/updateItem", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ResponseBody
+    ApiResult updateItem(ScoreItemModel model) {
+        ApiResult apiResult = new ApiResult();
+
+        UserModel userInfo = (UserModel) session.getAttribute("userInfo");
+        if (userInfo.getIdentify() != 4) {
+            apiResult.setCode(-1);
+            apiResult.setMsg("权限不足");
+            return apiResult;
+        }
+
+        ScoreItemModel exitModel = scoreItemService.findById(model.getId());
+        if (exitModel.getStatus() ==1){
+            apiResult.setCode(-1);
+            apiResult.setMsg("启用状态，禁止修改！");
+            return apiResult;
+        }
+
+        model = scoreItemService.updateItem(model);
+
+        if (model == null) {
+            apiResult.setCode(-1);
+            apiResult.setMsg("ERROR！");
+        } else if (model != null){
+            apiResult.setCode(0);
+            apiResult.setMsg("已更新！");
+        }
+        return apiResult;
+    }
     @RequestMapping(value = "/listAll", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
     ApiResult listAll() {
@@ -88,6 +118,24 @@ public class ScoreItemController {
         List<ScoreItemModel> departmentModelList = scoreItemService.listAll();
 
         apiResult.setData(departmentModelList);
+
+        return apiResult;
+    }
+
+    @RequestMapping(value = "/findById", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ResponseBody
+    ApiResult findById(Integer id) {
+        ApiResult apiResult = new ApiResult();
+
+        ScoreItemModel result = scoreItemService.findById(id);
+        if (result == null){
+            apiResult.setCode(-1);
+            apiResult.setMsg("记录不存在");
+
+        }else{
+            apiResult.setCode(0);
+            apiResult.setData(result);
+        }
 
         return apiResult;
     }

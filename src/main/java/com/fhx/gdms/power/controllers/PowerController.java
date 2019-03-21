@@ -30,9 +30,15 @@ public class PowerController {
 
         String no = model.getNo();
         UserModel existModel = userService.findOne(model);
+
         if (existModel == null) {
             apiResult.setCode(-1);
             apiResult.setMsg("添加失败，请确认用户信息");
+            return apiResult;
+        }
+        if(existModel.getIdentify() != 1){
+            apiResult.setCode(-1);
+            apiResult.setMsg("请选择教师身份用户！");
             return apiResult;
         }
 
@@ -44,7 +50,7 @@ public class PowerController {
             apiResult.setData(powerModel);
         } else {
             apiResult.setCode(-1);
-            apiResult.setMsg("学工号:" + model.getNo() + " 已存在");
+            apiResult.setMsg("工号:" + model.getNo() + " 已存在");
         }
         return apiResult;
     }

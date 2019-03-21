@@ -52,4 +52,11 @@ public interface ScoreItemService {
      * @return
      */
     List<ScoreItemModel> findAlive();
+
+    /**
+     * 更新
+     * @param model
+     * @return
+     */
+    ScoreItemModel updateItem(ScoreItemModel model);
 }

@@ -24,6 +24,10 @@
             <div class="p">
                 <form id="form-data">
                     <table>
+                        <tr style="display: none;">
+                            <td></td>
+                            <td><input type="text" name="id"></td>
+                        </tr>
                         <tr>
                             <td><label>评分项目：</label></td>
                             <td><input type="text" name="itemName"></td>
@@ -31,7 +35,7 @@
                         <tr>
                             <td><label>分数占比：</label></td>
                             <td>
-                                <select class="scoreRate" name="scoreRate">
+                                <select class="scoreRate" name="scoreRate" id="scoreRateSize">
                                     <option value="5">5%</option>
                                     <option value="10">10%</option>
                                     <option value="15">15%</option>
@@ -48,7 +52,7 @@
                     </table>
                 </form>
             </div>
-            <p class="p"><input type="button" value="添加">&nbsp<input type="button" value="取消"></p>
+            <p class="p"><input type="button" value="确认">&nbsp<input type="button" value="取消"></p>
         </div>
         <div class="shade hide"></div>
         <!-- 模态框结束 -->
@@ -96,6 +100,12 @@
         //初始化界面
         listAll();
 
+        var select = $("#scoreRateSize")
+        select.html("")
+        for (i=1; i<= 60; i++){
+            select.append("<option value=\""+i+"\">"+i+"%</option>")
+        }
+
         //搜索按钮
         $('.search input[value="搜索"]').click(function () {
             var departmentId = $(".search .departmentSelect").val();
@@ -114,10 +124,15 @@
         });
 
         //模态框内部 添加按钮 添加ajax
-        $('.myModal input[value="添加"]').click(function () {
-            var forms = $("#form-data")
+        $('.myModal input[value="确认"]').click(function () {
+            var formData = new FormData($("#form-data")[0]);
+            if ($('.myModal input[name=id]').val() == null || $('.myModal input[name=id]').val() == ""){
+                formData.delete("id")
+                add(formData)
 
-            add(forms)
+            }else {
+                updateItem(formData)
+            }
 
             $("#form-data input, #form-data textarea").val("");
             $('.myModal,.shade').addClass('hide');
@@ -138,14 +153,24 @@
 
             update(id, 0)
         })
+
+        //禁用按钮
+        $(".data").on("click", "input[value='编辑']", function () {
+            var tds = $(this).parent().prevAll();
+            var id = $(tds[3]).attr("store")
+
+            findById(id)
+        })
     })
 
     function add(formData) {
         $.ajax({
            url: '../scoreItem/add',
             type: 'POST',
-            data: formData.serialize(),
+            data: formData,
             dataType: 'json',
+            contentType: false,
+            processData:false,
             success: function (data) {
                 if (data.code == -1) {
                     alert(data.msg)
@@ -156,15 +181,54 @@
         });
     }
 
+    function findById(id) {
+        $.ajax({
+           url: '../scoreItem/findById',
+            type: 'GET',
+            data: {
+                id: id
+            },
+            dataType: 'json',
+            success: function (data) {
+                if (data.code == -1) {
+                    alert(data.msg)
+                } else {
+                    $('.hide').removeClass('hide');
+                    $('.myModal input[name=id]').val(data.data.id)
+                    $('.myModal input[name=itemName]').val(data.data.itemName)
+                    $('.myModal select[name=scoreRate]').val(data.data.scoreRate)
+                    $('.myModal textarea[name=introduce]').val(data.data.introduce)
+                }
+            }
+        });
+    }
+
     function update(id, status) {
         $.ajax({
-           url: '../scoreItem/updateStatus',
+            url: '../scoreItem/updateStatus',
             type: 'POST',
             data: {
                 id: id,
                 status: status
             },
             dataType: 'json',
+            success: function (data) {
+                if (data.code == -1) {
+                    alert(data.msg)
+                } else {
+                    listAll()
+                }
+            }
+        });
+    }
+    function updateItem(formData) {
+        $.ajax({
+            url: '../scoreItem/updateItem',
+            type: 'POST',
+            data: formData,
+            dataType: 'json',
+            contentType: false,
+            processData:false,
             success: function (data) {
                 if (data.code == -1) {
                     alert(data.msg)
@@ -193,15 +257,14 @@
                     if (data.data[i].status == 0) {
                         str = str + "<td>" +
                             "<input type=\"button\" value=\"启用\" >" +
-                            "<input type=\"button\" value=\"禁用\" class=\"button-disable\" disabled>" +
-                            "</td> </tr>"
+                            "<input type=\"button\" value=\"禁用\" class=\"button-disable\" disabled>"
                     }
                     if (data.data[i].status == 1) {
                         str = str + "<td>" +
                             "<input type=\"button\" value=\"启用\" class=\"button-disable\" disabled>" +
-                            "<input type=\"button\" value=\"禁用\">" +
-                            "</td> </tr>"
+                            "<input type=\"button\" value=\"禁用\">"
                     }
+                    str = str + "<input type=\"button\" value=\"编辑\"></td></tr>"
                     dataList.append(str)
                 }
             }

@@ -61,4 +61,11 @@ public class ScoreItemServiceImpl implements ScoreItemService {
     public List<ScoreItemModel> findAlive() {
         return scoreItemRepository.findAlive();
     }
+
+    @Override
+    public ScoreItemModel updateItem(ScoreItemModel model) {
+        scoreItemRepository.updateItem(model);
+
+        return this.findById(model.getId());
+    }
 }

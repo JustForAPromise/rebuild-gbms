@@ -33,7 +33,7 @@ public interface ScoreItemRepository {
     @ResultMap(value = "scoreItemMap")
     ScoreItemModel findByItemName(@Param("itemName") String itemName);
 
-    @Select("SELECT * FROM tb_score_item ORDER BY create_time DESC")
+    @Select("SELECT * FROM tb_score_item ORDER BY create_time, status DESC")
     @ResultMap(value = "scoreItemMap")
     List<ScoreItemModel> listAll();
 
@@ -44,6 +44,10 @@ public interface ScoreItemRepository {
     @Select("SELECT * FROM tb_score_item WHERE status = 1 ORDER BY create_time DESC")
     @ResultMap(value = "scoreItemMap")
     List<ScoreItemModel> findAlive();
+
+    @Update("UPDATE tb_score_item SET item_name = #{itemName}, score_rate = #{scoreRate}, introduce = #{introduce} WHERE id = #{id}")
+    @ResultMap(value = "scoreItemMap")
+    void updateItem(ScoreItemModel model);
 
 
     /********** 内部类 *********/
