@@ -22,10 +22,8 @@ public interface PowerRepository {
     @Results(id = "powerMap", value = {
             @Result(column = "id", property = "id", javaType = Integer.class),
             @Result(column = "department_leader", property = "departmentLeader", javaType = Boolean.class),
-            @Result(column = "senate_members", property = "senateMembers", javaType = Boolean.class),
-            @Result(column = "project_auditor", property = "projectAuditor", javaType = Boolean.class),
-            @Result(column = "answer_auditor", property = "answerAuditor", javaType = Boolean.class),
-            @Result(column = "system_administrator", property = "systemAdministrator", javaType = Boolean.class),
+            @Result(column = "review_teacher", property = "reviewTeacher", javaType = Boolean.class),
+            @Result(column = "response_team_leader", property = "responseTeamLeader", javaType = Boolean.class),
 
             @Result(column = "create_time", property = "createTime", javaType = Date.class),
             @Result(column = "update_time", property = "updateTime", javaType = Date.class),
@@ -52,20 +50,14 @@ public interface PowerRepository {
         public String updateModel(PowerModel model) {
             SQL sql = new SQL();
             sql.UPDATE("tb_power");
-            if (model.getAnswerAuditor() != null && !"".equals(model.getAnswerAuditor())) {
-                sql.SET("answer_auditor = #{answerAuditor}");
-            }
             if (model.getDepartmentLeader() != null && !"".equals(model.getDepartmentLeader())) {
                 sql.SET("department_leader = #{departmentLeader}");
             }
-            if (model.getProjectAuditor() != null && !"".equals(model.getProjectAuditor())) {
-                sql.SET("project_auditor = #{projectAuditor}");
+            if (model.getResponseTeamLeader() != null && !"".equals(model.getResponseTeamLeader())) {
+                sql.SET("response_team_leader = #{responseTeamLeader}");
             }
-            if (model.getSenateMembers() != null && !"".equals(model.getSenateMembers())) {
-                sql.SET("senate_members = #{senateMembers}");
-            }
-            if (model.getSystemAdministrator() != null && !"".equals(model.getSystemAdministrator())) {
-                sql.SET("system_administrator = #{systemAdministrator}");
+            if (model.getReviewTeacher() != null && !"".equals(model.getReviewTeacher())) {
+                sql.SET("review_teacher = #{reviewTeacher}");
             }
             sql.SET("update_time = now()");
 

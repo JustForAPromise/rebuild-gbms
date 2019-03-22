@@ -37,10 +37,6 @@ public class ProjectAuditorController {
         UserModel projectAuditor = (UserModel) session.getAttribute("userInfo");
 
         PowerModel power = powerService.findById(projectAuditor.getPowerId());
-        if (!power.getProjectAuditor()){
-            modelAndView.addObject("flag", true);
-            return modelAndView;
-        }
 
         List<ProjectionModel> projectionModelList = projectionService.listProjectionToAudit(projectAuditor.getId(), projectAuditor.getDepartmentId());
 

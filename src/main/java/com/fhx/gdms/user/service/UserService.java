@@ -2,6 +2,8 @@ package com.fhx.gdms.user.service;
 
 import com.fhx.gdms.user.model.UserModel;
 
+import java.util.List;
+
 public interface UserService {
 
     /**
@@ -54,4 +56,31 @@ public interface UserService {
      * @return
      */
     UserModel addSupports(UserModel model);
+
+    /**
+     * list 教务员
+     * @param departmentId
+     * @return
+     */
+    List<UserModel> findSupportsByDepartmentId(Integer departmentId);
+
+    /**
+     * update 教务员
+     * @param model
+     * @return
+     */
+    UserModel updateSupports(UserModel model);
+
+    /**
+     * update (base)
+     * @param model
+     * @return
+     */
+    UserModel update(UserModel model);
+
+    /**
+     * id 删除教务员
+     * @param id
+     */
+    void deleteById(Integer id);
 }

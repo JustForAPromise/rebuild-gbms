@@ -6,6 +6,8 @@ import com.fhx.gdms.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class UserServiceImpl implements UserService {
     @Autowired
@@ -58,5 +60,34 @@ public class UserServiceImpl implements UserService {
         model.setIdentify(3);
 
         return this.save(model);
+    }
+
+    @Override
+    public List<UserModel> findSupportsByDepartmentId(Integer departmentId) {
+        return userRepository.findSupportsByDepartmentId(departmentId);
+    }
+
+    @Override
+    public UserModel updateSupports(UserModel model) {
+        UserModel existModel = userRepository.findById(model.getId());
+        if (existModel != null){
+            if (existModel.getId() != model.getId()){
+                return null;
+            }
+        }
+
+        return this.update(model);
+    }
+
+    @Override
+    public UserModel update(UserModel model) {
+        userRepository.update(model);
+
+        return this.findById(model.getId());
+    }
+
+    @Override
+    public void deleteById(Integer id) {
+        userRepository.deleteById(id);
     }
 }

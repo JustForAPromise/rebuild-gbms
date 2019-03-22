@@ -4,6 +4,7 @@ import com.fhx.gdms.scoreItem.model.ScoreItemModel;
 import com.fhx.gdms.user.model.UserModel;
 
 import java.util.List;
+import java.util.Map;
 
 public interface ScoreItemService {
     /**
@@ -59,4 +60,10 @@ public interface ScoreItemService {
      * @return
      */
     ScoreItemModel updateItem(ScoreItemModel model);
+
+    /**
+     * 统计分率
+     * @return
+     */
+    List<Map<String, Integer>> countRate();
 }

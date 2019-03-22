@@ -54,7 +54,7 @@
 
         <div th:if="${session.userInfo.powerModel != null}">
             <ul class="mainNav" th:if="${session.userInfo.powerModel.departmentLeader}">
-                <h5>系负责人：</h5>
+                <h5>系负责人角色：</h5>
                 <li>
                     <a><span>选项</span></a>
                     <ul class="childrenNav">
@@ -63,25 +63,25 @@
                 </li>
             </ul>
 
-            <ul class="mainNav" th:if="${session.userInfo.powerModel.projectAuditor}">
-                <h5>课题审核员：</h5>
+            <ul class="mainNav" th:if="${session.userInfo.powerModel.reviewTeacher}">
+                <h5>评阅教师角色：</h5>
                 <li>
                     <a><span>选项</span></a>
                     <ul class="childrenNav">
-                        <li><a target="function" href="projectAuditor/listAll">课题审核</a></li>
+                        <li><a target="function" href="projectAuditor/listAll">成绩登记</a></li>
                     </ul>
                 </li>
             </ul>
 
-            <!--<ul class="mainNav" th:if="${session.userInfo.powerModel.answerAuditor}">-->
-                <!--<h5>答辩审核员：</h5>-->
-                <!--<li>-->
-                    <!--<a><span>相关</span></a>-->
-                    <!--<ul class="childrenNav">-->
-                        <!--<li><a target="function" href="teacher/power">权限分配</a></li>-->
-                    <!--</ul>-->
-                <!--</li>-->
-            <!--</ul>-->
+            <ul class="mainNav" th:if="${session.userInfo.powerModel.responseTeamLeader}">
+                <h5>答辩组组长角色：</h5>
+                <li>
+                    <a><span>选项</span></a>
+                    <ul class="childrenNav">
+                        <li><a target="function" href="projectAuditor/listAll">成绩登记</a></li>
+                    </ul>
+                </li>
+            </ul>
         </div>
     </div>
     <div class="rightDiv">

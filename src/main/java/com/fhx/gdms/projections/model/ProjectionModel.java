@@ -1,6 +1,7 @@
 package com.fhx.gdms.projections.model;
 
 import com.fhx.gdms.department.model.DepartmentModel;
+import com.fhx.gdms.major.model.MajorModel;
 import com.fhx.gdms.user.model.UserModel;
 import lombok.Data;
 
@@ -62,11 +63,18 @@ public class ProjectionModel {
      */
     private Integer departmentId;
 
+    /**
+     * 专业id
+     */
+    private Integer majorId;
+
     private UserModel teacherModel;
 
     private UserModel studentModel;
 
     private DepartmentModel departmentModel;
+
+    private MajorModel majorModel;
 
     /******** 辅助参数 ******************/
     private List<Integer> projectionIdNotIn;

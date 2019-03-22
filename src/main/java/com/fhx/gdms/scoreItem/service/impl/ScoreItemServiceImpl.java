@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class ScoreItemServiceImpl implements ScoreItemService {
@@ -67,5 +68,10 @@ public class ScoreItemServiceImpl implements ScoreItemService {
         scoreItemRepository.updateItem(model);
 
         return this.findById(model.getId());
+    }
+
+    @Override
+    public List<Map<String, Integer>> countRate() {
+        return scoreItemRepository.countRate();
     }
 }

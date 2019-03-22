@@ -25,10 +25,15 @@
             <h4 style="text-align: center;">用户信息</h4>
             <form id="form-data">
                 <p class="p" style="display: none"><label>id：</label><input type="text" name="id"></p>
-                <p class="p"><label>工号：</label><input type="text" name="no"></p>
                 <p class="p">
                     <label>系别：</label>
                     <select class="department departmentSelect" name="departmentId">
+
+                    </select>
+                </p>
+                <p class="p">
+                    <label>教师：</label>
+                    <select class="teacher teacherSelect" name="no">
 
                     </select>
                 </p>
@@ -53,8 +58,6 @@
                 <th width="130px">姓名</th>
                 <th width="130px">身份</th>
                 <th width="80px">系负责人</th>
-                <!--<th width="80px">课题审核员</th>-->
-                <!--<th width="80px">答辩审核员</th>-->
                 <th width="160px"></th>
             </tr>
             </thead>
@@ -69,7 +72,11 @@
 <script type="text/javascript">
     $(document).ready(function () {
         /****初始化下拉列表***/
-        getAllDepartment();
+        initPageOfDepartment();
+        $(".departmentSelect").change(function () {
+            var departmentId = $(this).children('option:selected').val()
+            initPageOfTeacher(departmentId)
+        })
 
         //搜索按钮
         $('.search input[value="搜索"]').click(function () {
@@ -114,18 +121,8 @@
             } else {
                 departmentLeader = false;
             }
-            // if ($(checkBoxs[1]).attr('checked')) {
-            //     projectAuditor = true
-            // } else {
-            //     projectAuditor = false;
-            // }
-            // if ($(checkBoxs[2]).attr('checked')) {
-            //     answerAuditor = true
-            // } else {
-            //     answerAuditor = false;
-            // }
 
-            update(id, departmentLeader, false, false, false, false)
+            update(id, departmentLeader)
         })
 
         //删除按钮
@@ -164,15 +161,13 @@
         });
     }
 
-    function update(id, departmentLeader, projectAuditor, answerAuditor) {
+    function update(id, departmentLeader) {
         $.ajax({
            url: '../power/update',
             type: 'POST',
             data: {
                 id: id,
-                departmentLeader: departmentLeader,
-                projectAuditor: projectAuditor,
-                answerAuditor: answerAuditor,
+                departmentLeader: departmentLeader
             },
             dataType: 'json',
             success: function (data) {
@@ -200,7 +195,7 @@
         });
     }
 
-    function getAllDepartment() {
+    function initPageOfDepartment() {
         $.ajax({
            url: '../department/list',
             type: 'GET',
@@ -214,6 +209,29 @@
                 var end = "</option>";
                 for (i = 0; i < data.data.length; i++) {
                     var str = head + data.data[i].id + second + data.data[i].department + end;
+                    dataList.append(str)
+                }
+                initPageOfTeacher(data.data[0].id)
+            }
+        });
+    }
+    function initPageOfTeacher(departmentId) {
+        $.ajax({
+            url: '../teacher/findTeacher',
+            type: 'GET',
+            data: {
+                departmentId: departmentId
+            },
+            dataType: 'json',
+            success: function (data) {
+                var dataList = $(".teacherSelect");
+                dataList.html("");
+
+                var head = "<option value = \"";
+                var second = "\">";
+                var end = "</option>";
+                for (i = 0; i < data.data.length; i++) {
+                    var str = head + data.data[i].no + second + data.data[i].name + end;
                     dataList.append(str)
                 }
             }
@@ -244,16 +262,6 @@
                         } else {
                             str = str + "<td><input type=\"checkbox\" name=\"departmentLeader\"></td>"
                         }
-                        // if (data.data[i].projectAuditor) {
-                        //     str = str + "<td><input type=\"checkbox\" name=\"projectAuditor\" checked='true'></td>"
-                        // } else {
-                        //     str = str + "<td><input type=\"checkbox\" name=\"projectAuditor\"></td>"
-                        // }
-                        // if (data.data[i].answerAuditor) {
-                        //     str = str + "<td><input type=\"checkbox\" name=\"answerAuditor\" checked='true'></td>"
-                        // } else {
-                        //     str = str + "<td><input type=\"checkbox\" name=\"answerAuditor\"></td>"
-                        // }
                     }
 
                     str = str + "<td><input type=\"button\" value=\"确定\"><input type=\"button\" value=\"删除\"></td></tr>"

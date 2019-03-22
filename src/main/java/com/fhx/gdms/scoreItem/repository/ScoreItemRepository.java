@@ -1,12 +1,14 @@
 package com.fhx.gdms.scoreItem.repository;
 
 import com.fhx.gdms.scoreItem.model.ScoreItemModel;
+import com.fhx.gdms.studentScoreRecord.model.StudentScoreRecordModel;
 import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.jdbc.SQL;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 @Mapper
 @Component
@@ -23,6 +25,7 @@ public interface ScoreItemRepository {
             @Result(column = "score_rate", property = "scoreRate", javaType = Integer.class),
             @Result(column = "introduce", property = "introduce", javaType = String.class),
             @Result(column = "status", property = "status", javaType = Integer.class),
+            @Result(column = "type", property = "type", javaType = Integer.class),
 
             @Result(column = "create_time", property = "createTime", javaType = Date.class),
             @Result(column = "update_time", property = "updateTime", javaType = Date.class),
@@ -45,9 +48,12 @@ public interface ScoreItemRepository {
     @ResultMap(value = "scoreItemMap")
     List<ScoreItemModel> findAlive();
 
-    @Update("UPDATE tb_score_item SET item_name = #{itemName}, score_rate = #{scoreRate}, introduce = #{introduce} WHERE id = #{id}")
+    @UpdateProvider(type = ScoreItemProvider.class, method = "updateModel")
     @ResultMap(value = "scoreItemMap")
     void updateItem(ScoreItemModel model);
+
+    @Select("SELECT type, sum(score_rate) as sum FROM tb_score_item WHERE status = 1 GROUP BY type")
+    List<Map<String, Integer>> countRate();
 
 
     /********** 内部类 *********/
@@ -58,10 +64,31 @@ public interface ScoreItemRepository {
             sql.VALUES("item_name", "#{itemName}");
             sql.VALUES("score_rate", "#{scoreRate}");
             sql.VALUES("introduce", "#{introduce}");
-
             sql.VALUES("status", "0");
+            sql.VALUES("type", "#{type}");
+
             sql.VALUES("update_time", "now()");
             sql.VALUES("create_time", "now()");
+            return sql.toString();
+        }
+
+        public String updateModel(ScoreItemModel model) {
+            SQL sql = new SQL();
+            sql.UPDATE("tb_score_item");
+            if (model.getItemName() != null && !"".equals(model.getItemName())) {
+                sql.SET("item_name = #{itemName}");
+            }
+            if (model.getIntroduce() != null && !"".equals(model.getIntroduce())) {
+                sql.SET("introduce = #{introduce}");
+            }
+            if (model.getScoreRate() != null && !"".equals(model.getScoreRate())) {
+                sql.SET("score_rate = #{scoreRate}");
+            }
+            if (model.getType() != null && !"".equals(model.getType())) {
+                sql.SET("type = #{type}");
+            }
+
+            sql.WHERE("id = #{id}");
             return sql.toString();
         }
     }

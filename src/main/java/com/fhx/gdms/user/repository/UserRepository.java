@@ -7,6 +7,7 @@ import org.apache.ibatis.jdbc.SQL;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
+import java.util.List;
 
 @Mapper
 @Component
@@ -51,6 +52,16 @@ public interface UserRepository {
     @Update("update tb_user set password = #{password} where id = #{id}")
     void updatePwd(@Param("id") Integer id, @Param("password") String password);
 
+    @Select("SELECT * FROM tb_user WHERE department_id = #{departmentId} AND identify =3")
+    @ResultMap(value = "userMap")
+    List<UserModel> findSupportsByDepartmentId(Integer departmentId);
+
+    @UpdateProvider(type = UserModelProvider.class, method = "updateModel")
+    void update(UserModel model);
+
+    @Delete("DELETE FROM tb_user WHERE id = #{id} AND identify =3")
+    void deleteById(Integer id);
+
     /********** 内部类 *********/
     class UserModelProvider {
         public String save(UserModel model) {
@@ -64,6 +75,9 @@ public interface UserRepository {
             }
             if (model.getIntroduce() != null && !"".equals(model.getIntroduce())) {
                 sql.VALUES("introduce", "#{introduce}");
+            }
+            if (model.getPhone() != null && !"".equals(model.getPhone())) {
+                sql.VALUES("phone", "#{phone}");
             }
             if (model.getPassword() != null && !"".equals(model.getPassword())) {
                 sql.VALUES("password", "#{password}");
@@ -98,6 +112,28 @@ public interface UserRepository {
             if (model.getDepartmentId() != null && !"".equals(model.getDepartmentId())) {
                 sql.WHERE("department_id = #{departmentId}");
             }
+            return sql.toString();
+        }
+
+        public String updateModel(UserModel model) {
+            SQL sql = new SQL();
+            sql.UPDATE("tb_user");
+            if (model.getNo() != null && !"".equals(model.getNo())) {
+                sql.SET("no = #{no}");
+            }
+            if (model.getName() != null && !"".equals(model.getName())) {
+                sql.SET("name = #{name}");
+            }
+            if (model.getGender() != null && !"".equals(model.getGender())) {
+                sql.SET("gender = #{gender}");
+            }
+            if (model.getPhone() != null && !"".equals(model.getPhone())) {
+                sql.SET("phone = #{phone}");
+            }
+            sql.SET("update_time = now()");
+
+            sql.WHERE("id = #{id}");
+
             return sql.toString();
         }
     }

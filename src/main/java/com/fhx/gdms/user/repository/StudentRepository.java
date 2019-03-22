@@ -59,7 +59,7 @@ public interface StudentRepository {
     @ResultMap(value = "studentMap")
     List<UserModel> findByMajorIdAndDepartmentId(@Param("departmentId") Integer departmentId, @Param("majorId") Integer majorId);
 
-    @Delete("DELETE FROM tb_user WHERE id = #{id}")
+    @Delete("DELETE FROM tb_user WHERE id = #{id} AND identify = 2")
     void deleteById(Integer id);
 
     @Update("update tb_user set teacher_id = #{teacherId} where id = #{studentId} AND identify = 2")

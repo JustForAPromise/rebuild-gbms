@@ -40,7 +40,6 @@ public interface TeacherRepository {
     @ResultMap(value = "teacherMap")
     UserModel findByNameAndPassword(UserModel model);
 
-
     @InsertProvider(type = TeacherProvider.class, method = "save")
     @Options(useGeneratedKeys = true, keyProperty = "id")
     Integer save(UserModel model);
@@ -60,7 +59,7 @@ public interface TeacherRepository {
     @ResultMap(value = "teacherMap")
     List<UserModel> findByDepartmentId(@Param("departmentId") Integer departmentId);
 
-    @Delete("DELETE FROM tb_user WHERE id = #{id}")
+    @Delete("DELETE FROM tb_user WHERE id = #{id} AND identify = 1")
     void deleteById(Integer id);
 
 

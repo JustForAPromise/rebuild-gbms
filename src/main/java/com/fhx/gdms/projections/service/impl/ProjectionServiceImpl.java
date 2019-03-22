@@ -1,5 +1,6 @@
 package com.fhx.gdms.projections.service.impl;
 
+import com.fhx.gdms.major.service.MajorService;
 import com.fhx.gdms.projections.model.ProjectionModel;
 import com.fhx.gdms.projections.repository.ProjectionRepository;
 import com.fhx.gdms.projections.service.ProjectionService;
@@ -18,6 +19,9 @@ public class ProjectionServiceImpl implements ProjectionService {
 
     @Autowired
     private TeacherService teacherService;
+
+    @Autowired
+    private MajorService majorService;
 
     @Autowired
     private SelectRecordService selectRecordService;
@@ -46,6 +50,7 @@ public class ProjectionServiceImpl implements ProjectionService {
         ProjectionModel model = projectionRepository.findById(id);
 
         model.setTeacherModel(teacherService.findById(model.getTeacherId()));
+        model.setMajorModel(majorService.findById(model.getMajorId()));
 
         return model;
     }
@@ -81,6 +86,7 @@ public class ProjectionServiceImpl implements ProjectionService {
         List<ProjectionModel>  modelList = projectionRepository.findList(model);
         modelList.stream().forEach(data->{
             data.setTeacherModel(teacherService.findById(data.getTeacherId()));
+            data.setMajorModel(majorService.findById(data.getMajorId()));
         });
 
         return modelList;
@@ -91,6 +97,7 @@ public class ProjectionServiceImpl implements ProjectionService {
         List<ProjectionModel> modelList = projectionRepository.listAllProjection(model);
         modelList.stream().forEach(data->{
             data.setTeacherModel(teacherService.findById(data.getTeacherId()));
+            data.setMajorModel(majorService.findById(data.getMajorId()));
         });
 
         return modelList;
@@ -113,6 +120,7 @@ public class ProjectionServiceImpl implements ProjectionService {
         List<ProjectionModel> modelList = projectionRepository.findList(projectionModel);
         modelList.stream().forEach(data->{
             data.setTeacherModel(teacherService.findById(data.getTeacherId()));
+            data.setMajorModel(majorService.findById(data.getMajorId()));
         });
 
         return modelList;
@@ -133,6 +141,7 @@ public class ProjectionServiceImpl implements ProjectionService {
         List<ProjectionModel> results =  projectionRepository.listProjectionToAudit(teacherId, departmentId);
         results.stream().forEach(data ->{
             data.setTeacherModel(teacherService.findById(data.getTeacherId()));
+            data.setMajorModel(majorService.findById(data.getMajorId()));
         });
 
         return results;
@@ -143,6 +152,7 @@ public class ProjectionServiceImpl implements ProjectionService {
         List<ProjectionModel> results =  projectionRepository.findListToAudit(model);
         results.stream().forEach(data ->{
             data.setTeacherModel(teacherService.findById(data.getTeacherId()));
+            data.setMajorModel(majorService.findById(data.getMajorId()));
         });
 
         return results;

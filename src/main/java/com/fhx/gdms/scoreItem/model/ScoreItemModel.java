@@ -33,6 +33,11 @@ public class ScoreItemModel {
     private Integer status;
 
     /**
+     * 类型 1指导教师评分  2评阅教师评分  3答辩教师评分
+     */
+    private Integer type;
+
+    /**
      * 创建时间
      */
     private Date createTime;

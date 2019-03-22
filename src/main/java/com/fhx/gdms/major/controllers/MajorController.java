@@ -3,6 +3,8 @@ package com.fhx.gdms.major.controllers;
 import com.fhx.gdms.major.model.MajorModel;
 import com.fhx.gdms.major.service.MajorService;
 import com.fhx.gdms.supportUtil.ApiResult;
+import com.fhx.gdms.user.model.UserModel;
+import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
@@ -105,6 +107,20 @@ public class MajorController {
 
         apiResult.setCode(0);
         apiResult.setMsg("已删除");
+        apiResult.setData(majorModelList);
+        return apiResult;
+    }
+
+    @RequestMapping(value = "/listMajorWithLoginUser", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ResponseBody
+    ApiResult listMajorWithLoginUser() {
+        ApiResult apiResult = new ApiResult();
+
+        UserModel loginUser = (UserModel)session.getAttribute("userInfo");
+
+        List<MajorModel> majorModelList = majorService.findByDepartmentId(loginUser.getDepartmentId());
+
+        apiResult.setCode(0);
         apiResult.setData(majorModelList);
         return apiResult;
     }

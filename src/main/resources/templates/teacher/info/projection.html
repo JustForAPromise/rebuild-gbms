@@ -5,7 +5,7 @@
     <title>学生信息管理</title>
 
     <link rel="stylesheet" type="text/css" href="../css/admin/admin-motaikuang.css">
-    <link rel="stylesheet" type="text/css" href="../css/personInfo.css">
+    <link rel="stylesheet" type="text/css" href="../css/teacher/teacher-projection.css">
     <link rel="stylesheet" type="text/css" href="../css/bootstrap-theme.min.css">
     <link rel="stylesheet" type="text/css" href="../css/bootstrap.css">
     <link rel="stylesheet" type="text/css" href="../css/swiper.min.css">
@@ -26,10 +26,16 @@
 </div>
 <!-- 模态框开始 -->
 <div class="myModal hide">
-    <p class="p" style="display: none">id：<input type="text" name="id"></p>
-    <p class="p"><label style="width: 50px">标题：</label><input type="text" name="title"></p>
-    <p class="p"><label style="width: 50px">内容描述：</label><textarea name="introduce"></textarea></p>
-    <p class="p"><label style="width: 50px">要求：</label><textarea name="require"></textarea></p>
+    <form id="form-data">
+        <p class="p" style="display: none">id：<input type="text" name="id"></p>
+        <p class="p"><label style="width: 70px; margin-left: -20px">标题：</label><input type="text" name="title"></p>
+        <p class="p"><label style="width: 70px; margin-left: -20px">内容描述：</label><textarea name="introduce"></textarea></p>
+        <p class="p"><label style="width: 70px; margin-left: -20px">要求：</label><textarea name="demand"></textarea></p>
+        <p class="p">
+            <label style="width: 70px; margin-left: -20px">专业要求：</label>
+            <select name="majorId"></select>
+        </p>
+    </form>
     <p class="p"><input type="button" value="确定">&nbsp<input type="button" value="取消"></p>
 </div>
 <div class="shade hide"></div>
@@ -43,6 +49,7 @@
             <th style="min-width:130px ">标题</th>
             <th style="min-width:130px ">内容描述</th>
             <th style="min-width:130px ">要求</th>
+            <th style="min-width:130px ">专业要求</th>
             <th style="min-width:80px ">审核状态</th>
             <th style="min-width:100px "></th>
         </tr>
@@ -57,6 +64,9 @@
 <!-- jq代码 -->
 <script>
     $(document).ready(function () {
+
+        intMajorSelect()
+
         //添加按钮 显示模态框
         $('input[value="提交课题"]').click(function () {
             $('.hide').removeClass('hide');
@@ -79,9 +89,9 @@
         //确定按钮 添加ajax
         $('input[value="确定"]').click(function () {
             var id = $('.myModal input[name="id"]').val()
-            var title = $('.myModal input[name="title"]').val()
-            var require = $('.myModal textarea[name="require"]').val()
-            var introduce = $('.myModal textarea[name="introduce"]').val()
+
+            var formData = new FormData($("#form-data")[0]);
+
             //信息获取
 
             //界面处理
@@ -91,9 +101,10 @@
             $('.myModal,.shade').addClass('hide');
 
             if (id == null || id == "") {
-                add(title, require, introduce)
+                formData.delete("id")
+                add(formData)
             } else {
-                update(id, title, require, introduce)
+                update(formData)
             }
         })
 
@@ -109,7 +120,7 @@
         //编辑按钮
         $(".data").on("click", "input[value='编辑']", function () {
             var tds = $(this).parent().prevAll();
-            var id = $(tds[4]).attr("store");
+            var id = $(tds[5]).attr("store");
             findById(id)
         })
 
@@ -117,8 +128,8 @@
         $(".data").on("click", "input[value='删除']", function () {
             var tds = $(this).parent().prevAll();
             //jquery对象加上索引是dom对象
-            var id = $(tds[4]).attr("store");
-            var status = $(tds[4]).attr("status");
+            var id = $(tds[5]).attr("store");
+            var status = $(tds[5]).attr("status");
             deleteById(id);
             findByAuditStatus(status)
         })
@@ -127,7 +138,7 @@
 
     function deleteById(id) {
         $.ajax({
-          url: '../projection/deleteById',
+            url: '../projection/deleteById',
             type: 'DELETE',
             data: {
                 id: id
@@ -142,16 +153,14 @@
         });
     }
 
-    function add(title, require, introduce) {
+    function add(formData) {
         $.ajax({
-          url: '../projection/add',
+            url: '../projection/add',
             type: 'POST',
-            data: {
-                title: title,
-                demand: require,
-                introduce: introduce
-            },
+            data: formData,
             dataType: 'json',
+            contentType: false,
+            processData:false,
             success: function (data) {
                 if (data.code == -1) {
                     alert(data.msg)
@@ -162,17 +171,14 @@
         });
     }
 
-    function update(id, title, require, introduce) {
+    function update(formData) {
         $.ajax({
-          url: '../projection/update',
+            url: '../projection/update',
             type: 'POST',
-            data: {
-                id: id,
-                title: title,
-                demand: require,
-                introduce: introduce
-            },
+            data: formData,
             dataType: 'json',
+            contentType: false,
+            processData:false,
             success: function (data) {
                 if (data.code == -1) {
                     alert(data.msg)
@@ -186,7 +192,7 @@
 
     function findById(id) {
         $.ajax({
-          url: '../projection/findById',
+            url: '../projection/findById',
             type: 'GET',
             data: {
                 id: id
@@ -200,7 +206,8 @@
                     $('.myModal input[name="id"]').val(data.data.id)
                     $('.myModal input[name="title"]').val(data.data.title)
                     $('.myModal textarea[name="introduce"]').val(data.data.introduce)
-                    $('.myModal textarea[name="require"]').val(data.data.demand)
+                    $('.myModal select[name="majorId"]').val(data.data.majorModel.id)
+                    $('.myModal textarea[name="demand"]').val(data.data.demand)
                     $('.hide').removeClass('hide');
                 }
             }
@@ -210,7 +217,7 @@
 
     function findByAuditStatus(auditStatus) {
         $.ajax({
-          url: '../projection/findByAuditStatus',
+            url: '../projection/findByAuditStatus',
             type: 'GET',
             data: {
                 auditStatus: auditStatus
@@ -225,16 +232,26 @@
                     var str = "<tr><td store=\"" + data.data[i].id + "\" status = \"" + data.data[i].auditStatus + "\">" + (i + 1)
                         + "</td> <td>" + data.data[i].title + "</td> "
 
-                    if (data.data[i].introduce.length > 10) {
+                    if (data.data[i].introduce != null && data.data[i].introduce.length > 10) {
                         str = str + "<td>" + data.data[i].introduce.substr(0, 10) + "....</td>"
                     } else {
-                        str = str + "<td>" + data.data[i].introduce + "</td>"
+                        if (data.data[i].introduce == null) {
+                            str = str + "<td></td>"
+                        }else {
+                            str = str + "<td>" + data.data[i].introduce + "</td>"
+                        }
                     }
-                    if (data.data[i].demand.length > 10) {
+                    if (data.data[i].demand != null && data.data[i].demand.length > 10) {
                         str = str + "<td>" + data.data[i].demand.substr(0, 10) + "....</td>"
                     } else {
-                        str = str + "<td>" + data.data[i].demand + "</td>"
+                        if (data.data[i].demand == null) {
+                            str = str + "<td></td>"
+                        }else {
+                            str = str + "<td>" + data.data[i].demand + "</td>"
+                        }
                     }
+
+                    str = str + "<td>" + data.data[i].majorModel.major + "</td>"
 
                     if (data.data[i].auditStatus == 0) {
                         str = str + "<td>未审核</td>"
@@ -247,6 +264,33 @@
                     }
 
                     dataList.append(str)
+                }
+            }
+        });
+    }
+
+    function intMajorSelect(id) {
+        $.ajax({
+            url: '../major/listMajorWithLoginUser',
+            type: 'GET',
+            data: {
+                id: id
+            },
+            async: false,
+            dataType: 'json',
+            success: function (data) {
+                if (data.code == -1) {
+                    alert(data.msg)
+                } else {
+                    var majorSelect = $(".myModal select[name=majorId]")
+                    var head = "<option value = \"";
+                    var second = "\">";
+                    var end = "</option>";
+
+                    for (i = 0; i < data.data.length; i++) {
+                        var str = head + data.data[i].id + second + data.data[i].major + end;
+                        majorSelect.append(str)
+                    }
                 }
             }
         });

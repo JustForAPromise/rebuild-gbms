@@ -33,7 +33,8 @@ public interface ProjectionRepository {
 
             @Result(column = "teacher_id", property = "teacherId", javaType = Integer.class),
             @Result(column = "student_id", property = "studentId", javaType = Integer.class),
-            @Result(column = "department_id", property = "departmentId", javaType = Integer.class)
+            @Result(column = "department_id", property = "departmentId", javaType = Integer.class),
+            @Result(column = "major_id", property = "majorId", javaType = Integer.class)
     })
     ProjectionModel findById(@Param("id") Integer id);
 
@@ -82,6 +83,7 @@ public interface ProjectionRepository {
             sql.VALUES("audit_status", "0");
             sql.VALUES("teacher_id", "#{teacherId}");
             sql.VALUES("department_id", "#{departmentId}");
+            sql.VALUES("major_id", "#{majorId}");
             sql.VALUES("update_time", "now()");
             sql.VALUES("create_time", "now()");
             return sql.toString();
@@ -105,6 +107,9 @@ public interface ProjectionRepository {
             }
             if (model.getDepartmentId() != null && !"".equals(model.getDepartmentId())) {
                 sql.WHERE("department_id = #{departmentId}");
+            }
+            if (model.getMajorId() != null && !"".equals(model.getMajorId())) {
+                sql.WHERE("major_id = #{majorId}");
             }
             if (model.getProjectionIdIn() != null && model.getProjectionIdIn().size() > 0) {
                 StringBuffer inSQl = new StringBuffer("id in(");
@@ -147,11 +152,16 @@ public interface ProjectionRepository {
             if (model.getDemand() != null && !"".equals(model.getDemand())) {
                 sql.SET("demand = #{demand}");
             }
+
             if (model.getStudentId() != null && !"".equals(model.getStudentId())) {
                 sql.SET("student_id = #{studentId}");
             }
             if (model.getAuditStatus() != null && !"".equals(model.getAuditStatus())) {
                 sql.SET("audit_status = #{auditStatus}");
+            }
+
+            if (model.getMajorId() != null && !"".equals(model.getMajorId())) {
+                sql.SET("major_id = #{majorId}");
             }
 
             sql.SET("update_time = now()");

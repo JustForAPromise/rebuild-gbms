@@ -17,24 +17,14 @@ public class PowerModel {
     private Boolean departmentLeader;
 
     /**
-     * 教务员
+     * 评阅教师
      */
-    private Boolean senateMembers;
+    private Boolean reviewTeacher;
 
     /**
-     * 课题审核员
+     * 答辩组组长
      */
-    private Boolean projectAuditor;
-
-    /**
-     * 答辩审核员
-     */
-    private Boolean answerAuditor;
-
-    /**
-     * 系统管理员
-     */
-    private Boolean systemAdministrator;
+    private Boolean responseTeamLeader;
 
     /**
      * 创建时间

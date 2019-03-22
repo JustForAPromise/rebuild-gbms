@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/scoreItem")
@@ -118,6 +119,18 @@ public class ScoreItemController {
         List<ScoreItemModel> departmentModelList = scoreItemService.listAll();
 
         apiResult.setData(departmentModelList);
+
+        return apiResult;
+    }
+
+    @RequestMapping(value = "/countRate", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ResponseBody
+    ApiResult countRate() {
+        ApiResult apiResult = new ApiResult();
+
+        List<Map<String, Integer>> result = scoreItemService.countRate();
+
+        apiResult.setData(result);
 
         return apiResult;
     }
