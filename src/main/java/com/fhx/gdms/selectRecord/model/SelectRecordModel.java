@@ -46,4 +46,9 @@ public class SelectRecordModel {
     private UserModel studentModel;
 
     private ProjectionModel projectionModel;
+
+    /**
+     * 辅助参数：学生学号
+     */
+    private String studentNo;
 }

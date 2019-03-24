@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>学生信息管理</title>
+
+    <link rel="stylesheet" type="text/css" href="../css/admin/admin-motaikuang.css">
+    <link rel="stylesheet" type="text/css" href="../css/teacher/teacher-score.css">
+    <link rel="stylesheet" type="text/css" href="../css/bootstrap-theme.min.css">
+    <link rel="stylesheet" type="text/css" href="../css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="../css/swiper.min.css">
+
+    <script type="text/javascript" src="../js/jquery.js"></script>
+    <script type="text/javascript" src="../js/bootstrap.js"></script>
+    <script type="text/javascript" src="../js/swiper.jquery.min.js"></script>
+</head>
+<body>
+<div class="body">
+    <div class="data">
+        <div style="padding: 200px 0px 0px 250px; min-height: 400px; min-width: 800px">
+            <form method="get" action="../studentScore/recordOfResponse">
+                <lable>请输入要登记成绩的学生学号：</lable>
+                <input type="text" name="no">
+                <input type="submit" value="提交">
+            </form>
+        </div>
+    </div>
+</div>
+
+<script th:if="${tips}">
+    $(document).ready(function () {
+        alert([[${tips}]])
+    })
+</script>
+</body>
+</html>

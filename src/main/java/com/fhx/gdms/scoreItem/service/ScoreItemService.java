@@ -50,9 +50,10 @@ public interface ScoreItemService {
 
     /**
      * 处于开启状态的评分项目
+     * @param type  类型 1指导教师 2批阅教师 3答辩教师
      * @return
      */
-    List<ScoreItemModel> findAlive();
+    List<ScoreItemModel> findAlive(Integer type);
 
     /**
      * 更新

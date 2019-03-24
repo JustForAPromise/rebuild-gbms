@@ -59,8 +59,8 @@ public class ScoreItemServiceImpl implements ScoreItemService {
     }
 
     @Override
-    public List<ScoreItemModel> findAlive() {
-        return scoreItemRepository.findAlive();
+    public List<ScoreItemModel> findAlive(Integer type) {
+        return scoreItemRepository.findAlive(type);
     }
 
     @Override

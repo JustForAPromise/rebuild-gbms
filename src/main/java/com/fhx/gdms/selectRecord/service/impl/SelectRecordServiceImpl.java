@@ -6,6 +6,7 @@ import com.fhx.gdms.projections.service.ProjectionService;
 import com.fhx.gdms.selectRecord.model.SelectRecordModel;
 import com.fhx.gdms.selectRecord.repository.SelectRecordRepository;
 import com.fhx.gdms.selectRecord.service.SelectRecordService;
+import com.fhx.gdms.user.model.UserModel;
 import com.fhx.gdms.user.service.StudentService;
 import com.fhx.gdms.user.service.TeacherService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +34,7 @@ public class SelectRecordServiceImpl implements SelectRecordService {
 
     @Override
     public SelectRecordModel saveSelect(SelectRecordModel model) {
+        model.setAuditStatus(0);
         model = this.save(model);
 
         return model;
@@ -138,5 +140,30 @@ public class SelectRecordServiceImpl implements SelectRecordService {
     @Override
     public Integer findTotalByTeacherId(Integer teacherId) {
         return selectRecordRepository.findTotalByTeacherId(teacherId);
+    }
+
+    @Override
+    public SelectRecordModel updateRecord(SelectRecordModel model) {
+        SelectRecordModel exitModel = model;
+        exitModel.setProjectionId(null);
+        exitModel.setTeacherId(null);
+        List<SelectRecordModel> existRecord = selectRecordRepository.findList(model);
+        if (existRecord.size()>0){
+            selectRecordRepository.deleteByStudentId(model.getStudentId());
+        }
+        model.setAuditStatus(1);
+
+       model =  this.save(model);
+
+        UserModel student = studentService.findById(model.getStudentId());
+        student.setTeacherId(model.getTeacherId());
+        studentService.update(student);
+
+        return model;
+     }
+
+    @Override
+    public List<SelectRecordModel> findList(SelectRecordModel selectRecordModel) {
+        return selectRecordRepository.findList(selectRecordModel);
     }
 }

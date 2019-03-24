@@ -72,6 +72,9 @@ public interface StudentRepository {
     @ResultMap(value = "studentMap")
     List<UserModel> findByTeacherId(@Param("teacherId")Integer teacherId);
 
+    @SelectProvider(type = StudentProvider.class, method = "findListByModel")
+    UserModel findOne(UserModel student);
+
 
     /********** 内部类 *********/
 

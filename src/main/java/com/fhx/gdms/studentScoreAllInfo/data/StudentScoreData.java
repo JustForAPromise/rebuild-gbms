@@ -7,6 +7,7 @@ import com.fhx.gdms.user.model.UserModel;
 import lombok.Data;
 
 import java.util.List;
+import java.util.Map;
 
 @Data
 public class StudentScoreData {
@@ -17,5 +18,14 @@ public class StudentScoreData {
     private MaterialStatusModel materialStatusModel;
 
     private List<StudentScoreRecordModel> scoreRecordModels;
+
+    private List<StudentScoreRecordModel> scoreRecordListOfOrdinary;
+
+    private List<StudentScoreRecordModel> scoreRecordListOfReview;
+
+    private List<StudentScoreRecordModel> scoreRecordListOfResponse;
+
+    private TotalScoreData totalScore;
+
 
 }

@@ -3,6 +3,7 @@ package com.fhx.gdms.studentScoreAllInfo.web;
 import com.fhx.gdms.projections.model.ProjectionModel;
 import com.fhx.gdms.projections.service.ProjectionService;
 import com.fhx.gdms.scoreItem.service.ScoreItemService;
+import com.fhx.gdms.studentScoreAllInfo.api.SearchDetailApiGet;
 import com.fhx.gdms.studentScoreAllInfo.data.StudentScoreData;
 import com.fhx.gdms.studentScoreAllInfo.service.StudentScoreService;
 import com.fhx.gdms.studentScoreRecord.model.StudentScoreRecordModel;
@@ -48,14 +49,78 @@ public class StudentScoreController {
         return apiResult;
     }
 
-    @RequestMapping(value = "/record", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    ModelAndView findByStudentId(Integer studentId) {
+    @RequestMapping(value = "/recordOfOrdinary", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    ModelAndView recordOfOrdinary(SearchDetailApiGet receiveData) {
+        UserModel teacher = (UserModel) session.getAttribute("userInfo");
+        if (teacher.getIdentify() != 1) {
+            return null;
+        }
+        receiveData.setType(1);
+
+        StudentScoreData result = studentScoreService.findRecord(receiveData);
+
+        ModelAndView modelAndView = new ModelAndView("/teacher/info/studentScoreDetail.html");
+        modelAndView.addObject("scoreAllInfo", result);
+
+        return modelAndView;
+    }
+
+    @RequestMapping(value = "/recordOfReview", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    ModelAndView recordOfReview(SearchDetailApiGet receiveData) {
         UserModel teacher = (UserModel) session.getAttribute("userInfo");
         if (teacher.getIdentify() != 1) {
             return null;
         }
 
-        StudentScoreData result = studentScoreService.findRecord(studentId);
+        if (receiveData.getNo() != null){
+            UserModel student = new UserModel();
+            student.setDepartmentId(teacher.getDepartmentId());
+            student.setNo(receiveData.getNo());
+            student =  studentService.findOne(student);
+            if (student == null){
+                ModelAndView modelAndView = new ModelAndView("/reviewTeacher/studentScore.html");
+                modelAndView.addObject("tips", "学号不存在");
+                return modelAndView;
+            }else{
+                receiveData.setStudentId(student.getId());
+            }
+        }
+        receiveData.setType(2);
+
+
+
+        StudentScoreData result = studentScoreService.findRecord(receiveData);
+
+        ModelAndView modelAndView = new ModelAndView("/teacher/info/studentScoreDetail.html");
+        modelAndView.addObject("scoreAllInfo", result);
+
+        return modelAndView;
+    }
+
+    @RequestMapping(value = "/recordOfResponse", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    ModelAndView recordOfResponse(SearchDetailApiGet receiveData) {
+        UserModel teacher = (UserModel) session.getAttribute("userInfo");
+        if (teacher.getIdentify() != 1) {
+            return null;
+        }
+
+        if (receiveData.getNo() != null){
+            UserModel student = new UserModel();
+            student.setDepartmentId(teacher.getDepartmentId());
+            student.setNo(receiveData.getNo());
+            student =  studentService.findOne(student);
+            if (student == null){
+                ModelAndView modelAndView = new ModelAndView("/responseTeamLeader/studentScore.html");
+                modelAndView.addObject("tips", "学号不存在");
+                return modelAndView;
+            }else{
+                receiveData.setStudentId(student.getId());
+            }
+        }
+
+        receiveData.setType(3);
+
+        StudentScoreData result = studentScoreService.findRecord(receiveData);
 
         ModelAndView modelAndView = new ModelAndView("/teacher/info/studentScoreDetail.html");
         modelAndView.addObject("scoreAllInfo", result);
@@ -81,4 +146,18 @@ public class StudentScoreController {
         return apiResult;
     }
 
+    @RequestMapping(value = "/findScoreToStudent", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    ModelAndView findScoreToStudent() {
+        UserModel student = (UserModel) session.getAttribute("userInfo");
+        if (student == null) {
+            return null;
+        }
+
+        StudentScoreData result = studentScoreService.findScoreToStudent(student);
+
+        ModelAndView modelAndView = new ModelAndView("/student/info/soscore.html");
+        modelAndView.addObject("scoreAllInfo", result);
+
+        return modelAndView;
+    }
 }

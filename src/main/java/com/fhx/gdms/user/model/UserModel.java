@@ -4,6 +4,7 @@ import com.fhx.gdms.department.model.DepartmentModel;
 import com.fhx.gdms.major.model.MajorModel;
 import com.fhx.gdms.power.model.PowerModel;
 import com.fhx.gdms.projections.model.ProjectionModel;
+import com.fhx.gdms.selectRecord.model.SelectRecordModel;
 import lombok.Data;
 
 import java.util.Date;
@@ -92,4 +93,6 @@ public class UserModel {
     private PowerModel powerModel;
 
     private ProjectionModel projectionModel;
+
+    private SelectRecordModel projectionSelectModel;
 }

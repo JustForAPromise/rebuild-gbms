@@ -105,4 +105,10 @@ public interface StudentService {
      * @return
      */
     List<UserModel> findByTeacherId(Integer teacherId);
+
+    /**
+     * find one
+     * @param student
+     */
+    UserModel findOne(UserModel student);
 }

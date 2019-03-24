@@ -44,9 +44,9 @@ public interface ScoreItemRepository {
     @ResultMap(value = "scoreItemMap")
     Integer updateStatus(ScoreItemModel model);
 
-    @Select("SELECT * FROM tb_score_item WHERE status = 1 ORDER BY create_time DESC")
+    @Select("SELECT * FROM tb_score_item WHERE type = #{type} AND status = 1 ORDER BY create_time DESC")
     @ResultMap(value = "scoreItemMap")
-    List<ScoreItemModel> findAlive();
+    List<ScoreItemModel> findAlive(@Param("type") Integer type);
 
     @UpdateProvider(type = ScoreItemProvider.class, method = "updateModel")
     @ResultMap(value = "scoreItemMap")

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>学生信息管理</title>
 
-    <link rel="stylesheet" type="text/css" href="../css/helper-info-student.css">
+    <link rel="stylesheet" type="text/css" href="../css/helper/helper-info-student.css">
     <link rel="stylesheet" type="text/css" href="../css/bootstrap-theme.min.css">
     <link rel="stylesheet" type="text/css" href="../css/bootstrap.css">
     <link rel="stylesheet" type="text/css" href="../css/swiper.min.css">
@@ -16,11 +16,8 @@
 <body>
 <div class="body">
     <div class="function">
-        <!-- 按钮触发模态框 -->
-        <button id="specialType" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#myModal"
-                style="color: white;">
-            <a>特殊选题</a>
-        </button>
+        <input type="button" value="特殊选题" data-toggle="modal" data-target="#myModal">
+
         <!-- 模态框（Modal） -->
         <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
              aria-hidden="true">
@@ -36,14 +33,13 @@
                     </div>
                     <div class="modal-body">
                         <div class="form-div">
-                            <form>
+                            <form id="form-data">
                                 <table>
                                     <tr>
-                                        <td><label>学生：</label>
+                                        <td><label>学号：</label>
                                         </td>
                                         <td>
-                                            <select class="teacherSelect" name="teacherId">
-                                            </select>
+                                            <input type="text" name="studentNo">
                                         </td>
                                     </tr>
                                     <tr>
@@ -58,7 +54,7 @@
                                         <td><label>课题：</label>
                                         </td>
                                         <td>
-                                            <select class="teacherSelect" name="teacherId">
+                                            <select class="projectionSelect" name="projectionId">
                                             </select>
                                         </td>
                                     </tr>
@@ -67,10 +63,10 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-default"
+                        <button type="button" class="btn btn-default closeBtn"
                                 data-dismiss="modal">关闭
                         </button>
-                        <button type="button" class="btn btn-primary">
+                        <button type="button" class="btn btn-primary submitBtn">
                             提交
                         </button>
                     </div>
@@ -80,7 +76,7 @@
 
     </div>
     <div class="search">
-        <form id="data-search" class="data-search">
+        <form id="data-search" class="data-search" style="float: left">
             <label>专业：</label>
             <select class="majorSelect" name="majorId">
 
@@ -88,7 +84,7 @@
             <input type="text" name="no" placeholder="学号">
             <input type="text" name="name" placeholder="姓名">
         </form>
-        <input type="submit" name="" value="search">
+        <input type="submit" name="" value="搜索">
 
     </div>
     <div class="data">
@@ -96,47 +92,242 @@
             <thead>
             <tr>
                 <th width="50px">编号</th>
-                <th width="130px">学号</th>
+                <th width="120px">学号</th>
                 <th width="130px">姓名</th>
                 <th width="130px">系别</th>
-                <th min-width="130px">专业</th>
-                <th width="130px">联系电话</th>
+                <th style="min-width:120px">专业</th>
                 <th width="65px">是否选题</th>
-                <th width="80px"></th>
-                <th width="80px"></th>
-                <th width="80px"></th>
+                <th></th>
             </tr>
             </thead>
-            <tbody>
-            <tr>
-                <td>1</td>
-                <td>1540406134</td>
-                <td>离散李四</td>
-                <td>计算机系</td>
-                <td>计算机科学与技术</td>
-                <td>13414105154</td>
-                <td>已选</td>
-                <td><input type="button" name="" value="选题详情"></td>
-                <td><input type="button" name="" value="选题重置" class="targetInfo" data-toggle="modal"
-                           data-target="#myModal"></td>
-                <td><input type="button" name="" value="密码重置"></td>
-            </tr>
+            <tbody id="dataList">
 
             </tbody>
         </table>
     </div>
 </div>
 <script>
-    $(".targetInfo").on("click", function () {
-        var index = $(this).index();
-        var tr = $(".data table tbody tr").eq(index)
-        var sno = tr.children().eq(1).text();
-        $(".borderRadius").val(sno);
-    });
+    $(document).ready(function () {
+        /****初始化下拉列表***/
+        initPage();
 
-    $("#specialType").click(function () {
-        $(".borderRadius").val("");
-    });
+        $(".teacherSelect").change(function () {
+            var teacherId = $(this).children('option:selected').val()
+            initProjection(teacherId)
+        })
+
+        $(".closeBtn").click(function () {
+            $("#form-data input").val("")
+            $("#form-data input[name=studentNo]").removeAttr("disabled")
+        })
+
+        $(".submitBtn").click(function () {
+            var formData = new FormData($("#form-data")[0]);
+            updateStudentSelectProjection(formData)
+        })
+
+        $(".search input[value=搜索]").click(function () {
+            var majorId = $(".search select[name=majorId]").val();
+            var no = $(".search input[name=no]").val();
+            var name = $(".search input[name=name]").val();
+            findRecordList(majorId, no, name)
+        })
+
+        //密码重置按钮
+        $(".data").on("click", "input[value='密码重置']", function () {
+            var id = $(this).attr("attr")
+            resetStudent(id)
+        })
+
+        //选题修改按钮
+        $(".data").on("click", "input[value='选题修改']", function () {
+            var id = $(this).attr("attr")
+            findById(id)
+        })
+
+    })
+
+    /************** 界面初始化  ********************/
+    function initPage() {
+        initTeacher()
+        initMajor()
+        findRecordList()
+    }
+
+    function initTeacher() {
+        $.ajax({
+            url: '../teacher/listTeacher',
+            type: 'GET',
+            dataType: 'json',
+            success: function (data) {
+                var dataList = $(".teacherSelect");
+                dataList.html("");
+
+                var head = "<option value = \"";
+                var second = "\">";
+                var end = "</option>";
+                for (i = 0; i < data.data.length; i++) {
+                    var str = head + data.data[i].id + second + data.data[i].name + end;
+                    dataList.append(str)
+                }
+                initProjection(data.data[0].id)
+            }
+        });
+    }
+
+    function initProjection(teacherId) {
+        $.ajax({
+            url: '../projection/list',
+            type: 'GET',
+            data: {
+                teacherId: teacherId,
+                auditStatus: 1
+            },
+            dataType: 'json',
+            success: function (data) {
+                var dataList = $(".projectionSelect");
+                dataList.html("");
+
+                var head = "<option value = \"";
+                var second = "\">";
+                var end = "</option>";
+                for (i = 0; i < data.data.length; i++) {
+                    var str = head + data.data[i].id + second + data.data[i].title + end;
+                    dataList.append(str)
+                }
+            }
+        });
+    }
+
+    function initMajor() {
+        $.ajax({
+            url: '../major/listMajorWithLoginUser',
+            type: 'GET',
+            dataType: 'json',
+            success: function (data) {
+                var dataList = $(".majorSelect");
+                dataList.html("");
+
+                var head = "<option value = \"";
+                var second = "\">";
+                var end = "</option>";
+                dataList.append(head + second + "-专业-" + end);
+                for (i = 0; i < data.data.length; i++) {
+                    var str = head + data.data[i].id + second + data.data[i].major + end;
+                    dataList.append(str)
+                }
+            }
+        });
+    }
+
+    /*****************  功能区 ****************************/
+    function updateStudentSelectProjection(formData) {
+        $.ajax({
+            url: '../selectRecord/updateRecord',
+            type: 'POST',
+            data: formData,
+            dataType: 'json',
+            contentType: false,
+            processData: false,
+            success: function (data) {
+                if (data.code == -1) {
+                    alert(data.msg)
+                } else {
+                    findSupportsByDepartmentId(data.data.departmentId)
+                }
+            }
+        });
+    }
+
+    function resetStudent(id) {
+        $.ajax({
+            url: '../student/reset',
+            type: 'POST',
+            data: {
+                id: id
+            },
+            dataType: 'json',
+            success: function (data) {
+                if (data.code == -1) {
+                    alert(data.msg)
+                } else if (data.code == 0) {
+                    alert(data.msg)
+                }
+            }
+        });
+    }
+
+    function findRecordList(majorId, studentNo, name) {
+        $.ajax({
+            url: '../student/listToHelper',
+            type: 'GET',
+            data: {
+                majorId: majorId,
+                no: studentNo,
+                name: name
+            },
+            dataType: 'json',
+            success: function (data) {
+                if (data.code == -1) {
+                    alert(data.msg)
+                } else {
+                    var dataList = $("#dataList");
+                    dataList.html("");
+
+                    for (i = 0; i < data.data.length; i++) {
+                        var str = "<tr><td>" + (i + 1) + "</td> "
+                            + "<td>" + data.data[i].no + "</td> "
+                            + "<td>" + data.data[i].name + "</td>"
+                            + "<td>" + data.data[i].departmentModel.department + "</td>"
+                            + "<td>" + data.data[i].majorModel.major + "</td>";
+
+                        if (data.data[i].projectionSelectModel == null) {
+                            str = str + "<td style='color: red;'>未选题 </td> "
+                        } else if (data.data[i].projectionSelectModel != null) {
+                            str = str + "<td> 已选 </td> "
+                        }
+
+                        str = str + "<td><a href=\"../student/" + data.data[i].id + "\"><input type=\"button\" name=\"\" value=\"选题详情\"></a> "
+                        str = str + "<input type=\"button\" value=\"选题修改\" attr=\" " + data.data[i].id + "\" data-toggle=\"modal\" data-target=\"#myModal\">"
+                        str = str + "<input type=\"button\" name=\"\" value=\"密码重置\" attr=\"" + data.data[i].id + "\"></td></tr>"
+                        dataList.append(str)
+                    }
+                }
+            }
+        });
+    }
+
+    function findById(id) {
+        $.ajax({
+            url: '../student/findById',
+            type: 'GET',
+            data: {
+                id: id
+            },
+            dataType: 'json',
+            success: function (data) {
+                if (data.code == -1) {
+                    alert(data.msg)
+                } else {
+                    $("#form-data input[name=studentNo]").val(data.data.no)
+                    $("#form-data input[name=studentNo]").attr("disabled","true")
+                    if (data.data.teacherModel != null){
+                        $("#form-data select[name=teacherId]").val(data.data.teacherModel.id)
+                        initProjection(data.data.teacherModel.id)
+                    } else{
+                        $("#form-data select[name=teacherId]").val(0)
+                    }
+
+                    if (data.data.projection != null){
+                        $("#form-data select[name=projectionId]").val(data.data.projection.id)
+                    } else{
+                        $("#form-data select[name=projectionId]").val(0)
+                    }
+                    $("#form-data select[name=projectionId]").val(data.data.projection.id)
+                }
+            }
+        });
+    }
 </script>
 </body>
 </html>

@@ -30,10 +30,11 @@ public class StudentScoreRecordServiceImpl implements StudentScoreRecordService 
 
     @Transactional
     @Override
-    public List<StudentScoreRecordModel> ListByStudentId(Integer studentId) {
+    public List<StudentScoreRecordModel> ListByStudentId(Integer studentId, Integer type) {
         List<StudentScoreRecordModel> results =  new ArrayList<>();
 
-        List<ScoreItemModel> scoreItemModels = scoreItemService.findAlive();
+        List<ScoreItemModel> scoreItemModels = scoreItemService.findAlive(type);
+
         scoreItemModels.stream().forEach(data ->{
             StudentScoreRecordModel model = studentScoreRecordRepository.findByStudentIdAndItemId(studentId, data.getId());
             if ( null == model){

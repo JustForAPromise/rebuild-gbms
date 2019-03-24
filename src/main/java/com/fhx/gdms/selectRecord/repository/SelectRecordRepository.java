@@ -72,13 +72,20 @@ public interface SelectRecordRepository {
     @Select("SELECT count(1) FROM stu_tea_pro_record WHERE  teacher_id= #{teacherId} AND audit_status = 1")
     Integer findTotalByTeacherId(@Param("teacherId")Integer teacherId);
 
+    @SelectProvider(type = SelectRecordProvider.class, method = "findList")
+    @ResultMap(value = "recordMap")
+    List<SelectRecordModel> findList(SelectRecordModel model);
+
+    @Delete("DELETE FROM stu_tea_pro_record WHERE student_id = #{studentId}")
+    void deleteByStudentId(Integer studentId);
+
     /********** 内部类 *********/
 
     class SelectRecordProvider {
         public String save(SelectRecordModel model) {
             SQL sql = new SQL();
             sql.INSERT_INTO("stu_tea_pro_record");
-            sql.VALUES("audit_status", "0");
+            sql.VALUES("audit_status", "#{auditStatus}");
 
             sql.VALUES("update_time", "now()");
             sql.VALUES("create_time", "now()");
@@ -89,5 +96,23 @@ public interface SelectRecordRepository {
             return sql.toString();
         }
 
+        public String findList(SelectRecordModel model) {
+            SQL sql = new SQL();
+            sql.SELECT("*");
+            sql.FROM("stu_tea_pro_record");
+            if (model.getAuditStatus() != null && !"".equals(model.getAuditStatus())) {
+                sql.WHERE("audit_status = #{auditStatus}");
+            }
+            if (model.getTeacherId() != null && !"".equals(model.getTeacherId())) {
+                sql.WHERE("teacher_id = #{teacherId}");
+            }
+            if (model.getStudentId() != null && !"".equals(model.getStudentId())) {
+                sql.WHERE("student_id = #{studentId}");
+            }
+            if (model.getProjectionId() != null && !"".equals(model.getProjectionId())) {
+                sql.WHERE("projection_id = #{projectionId}");
+            }
+            return sql.toString();
+        }
     }
 }

@@ -3,6 +3,8 @@ package com.fhx.gdms.user.service.impl;
 import com.fhx.gdms.department.service.DepartmentService;
 import com.fhx.gdms.major.service.MajorService;
 import com.fhx.gdms.projections.service.ProjectionService;
+import com.fhx.gdms.selectRecord.model.SelectRecordModel;
+import com.fhx.gdms.selectRecord.service.SelectRecordService;
 import com.fhx.gdms.user.model.UserModel;
 import com.fhx.gdms.user.repository.StudentRepository;
 import com.fhx.gdms.user.service.StudentService;
@@ -28,6 +30,9 @@ public class StudentServiceImpl implements StudentService {
 
     @Autowired
     private ProjectionService projectionService;
+
+    @Autowired
+    private SelectRecordService selectRecordService;
 
     @Override
     public UserModel findByNoAndPasswd(String no, String password) {
@@ -58,6 +63,11 @@ public class StudentServiceImpl implements StudentService {
         });
 
         return modelList;
+    }
+
+    @Override
+    public UserModel findOne(UserModel student) {
+        return studentRepository.findOne(student);
     }
 
     @Override
@@ -138,7 +148,7 @@ public class StudentServiceImpl implements StudentService {
     public UserModel findById(Integer id) {
         UserModel model =  studentRepository.findById(id);
 
-        model.setMajorModel(majorService.findById(model.getMajorId()));
+        model = getMoreInfo(model);
 
         return model;
     }
@@ -165,6 +175,16 @@ public class StudentServiceImpl implements StudentService {
         }
         model.setDepartmentModel(departmentService.findById(model.getDepartmentId()));
         model.setMajorModel(majorService.findById(model.getMajorId()));
+
+        SelectRecordModel selectRecordModel = new SelectRecordModel();
+        selectRecordModel.setStudentId(model.getId());
+        selectRecordModel.setAuditStatus(1);
+
+        List<SelectRecordModel> results = selectRecordService.findList(selectRecordModel);
+        if (results.size() == 1){
+            model.setProjectionSelectModel(results.get(0));
+            model.setProjectionModel(projectionService.findById(results.get(0).getProjectionId()));
+        }
 
         return model;
     }

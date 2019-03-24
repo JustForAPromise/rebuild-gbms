@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-	<meta charset="UTF-8">
-	<title>教师信息管理</title>
+    <meta charset="UTF-8">
+    <title>教师信息管理</title>
 
     <link rel="stylesheet" type="text/css" href="../css/admin-info-teacher.css">
     <link rel="stylesheet" type="text/css" href="../css/bootstrap-theme.min.css">
@@ -14,64 +14,75 @@
     <script type="text/javascript" src="../js/swiper.jquery.min.js"></script>
 </head>
 <body>
-	<div class="body">
-		</div>
-		<div class="search">
-			<form>
-				<label>系别：</label>
-				<select>
-					<option>123</option>
-					<option>123</option>
-					<option>123</option>
-					<option>123</option>
-				</select>
-				<input type="text" name="" placeholder="工号">
-				<input type="text" name="" placeholder="姓名">
-				<input type="submit" name="" value="search">
-			</form>	
-		</div>
-		<div class="data">
-			<table>
-				<thead>
-					<tr>
-						<th width="50px">编号</th>
-						<th width="130px">工号</th>
-						<th width="130px">姓名</th>
-						<th width="130px">指导学生名额</th>
-						<th width="150px"></th>
-						<th width="150px"></th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<td>1</td>
-						<td>1</td>
-						<td>1</td>
-						<td><input type="text" name="" style="width: 60px"></td>
-						<td><input type="button" name="" value="确定修改"></td>
-						<td><input type="button" name="" value="查看详情"></td>
-					</tr>
-					<tr>
-						<td>1</td>
-						<td>1</td>
-						<td>1</td>
-						<td><input type="text" name="" style="width: 60px"></td>
-						<td><input type="button" name="" value="确定修改"></td>
-						<td><input type="button" name="" value="查看详情"></td>
-					</tr>
-				</tbody>
-				<tfoot>
-					<tr>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-					</tr>
-				</tfoot>
-			</table>
-		</div>	
-	</div>
+<div class="body">
+    <div class="studentInfo">
+        <h4>基本信息</h4>
+        <table>
+            <tr>
+                <td width="85px">学号：</td>
+                <td th:text="${scoreAllInfo.student.no}"></td>
+                <td>姓名：</td>
+                <td th:text="${scoreAllInfo.student.name}"></td>
+            </tr>
+            <tr>
+                <td>系别：</td>
+                <td th:text="${scoreAllInfo.student.departmentModel.department}"></td>
+                <td>专业：</td>
+                <td th:text="${scoreAllInfo.student.majorModel.major}"></td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="OrdinaryInfo" th:if="${scoreAllInfo.scoreRecordListOfOrdinary != null}">
+        <h4>指导教师评分</h4>
+        <table>
+            <tr th:each="score,scoreStatus: ${scoreAllInfo.scoreRecordListOfOrdinary}">
+                <td th:text="${scoreStatus.count}"></td>
+                <td  style="display: none" th:text="${score.id}" class="ids"></td>
+                <td th:text="${score.scoreItemModel.itemName}"></td>
+                <td th:text="${score.scoreItemModel.scoreRate}"></td>
+                <td><input type="text" th:value="${score.scoreNum}" class="nums"></td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="ReviewInfo" th:if="${scoreAllInfo.scoreRecordListOfReview != null}">
+        <h4>评阅教师评分</h4>
+        <table>
+            <tr th:each="score,scoreStatus: ${scoreAllInfo.scoreRecordListOfReview}">
+                <td th:text="${scoreStatus.count}"></td>
+                <td  style="display: none" th:text="${score.id}" class="ids"></td>
+                <td th:text="${score.scoreItemModel.itemName}"></td>
+                <td th:text="${score.scoreItemModel.scoreRate}"></td>
+                <td><input type="text" th:value="${score.scoreNum}" class="nums"></td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="ResponseInfo" th:if="${scoreAllInfo.scoreRecordListOfResponse != null}">
+        <h4>答辩教师评分</h4>
+        <table>
+            <tr th:each="score,scoreStatus: ${scoreAllInfo.scoreRecordListOfResponse }">
+                <td th:text="${scoreStatus.count}"></td>
+                <td  style="display: none" th:text="${score.id}" class="ids"></td>
+                <td th:text="${score.scoreItemModel.itemName}"></td>
+                <td th:text="${score.scoreItemModel.scoreRate}"></td>
+                <td><input type="text" th:value="${score.scoreNum}" class="nums"></td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="ResponseInfo" style="border-top: #080808 solid 2px">
+        <h4>总成绩</h4>
+        <table>
+            <tr>
+                <td>总分：</td>
+                <td th:text="${scoreAllInfo.totalScore.totalScorenNum}"></td>
+                <td>评定等级：</td>
+                <td th:text="${scoreAllInfo.totalScore.level}"></td>
+            </tr>
+        </table>
+    </div>
+</div>
 </body>
 </html>

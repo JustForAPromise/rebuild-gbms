@@ -6,6 +6,8 @@ import com.fhx.gdms.studentNumOfTeacher.model.StudentNumOfTeacherModel;
 import com.fhx.gdms.studentNumOfTeacher.service.StudentNumOfTeacherService;
 import com.fhx.gdms.supportUtil.ApiResult;
 import com.fhx.gdms.user.model.UserModel;
+import com.fhx.gdms.user.service.StudentService;
+import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
@@ -25,6 +27,9 @@ public class SelectRecordController {
 
     @Autowired
     private StudentNumOfTeacherService studentNumOfTeacherService;
+
+    @Autowired
+    private StudentService studentService;
 
     @Autowired
     private HttpSession session;
@@ -158,6 +163,43 @@ public class SelectRecordController {
         if (modelList != null) {
             apiResult.setCode(0);
             apiResult.setData(modelList);
+        } else {
+            apiResult.setCode(-1);
+            apiResult.setMsg("ERROR！");
+        }
+        return apiResult;
+    }
+
+    @RequestMapping(value = "/updateRecord", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ResponseBody
+    ApiResult updateRecord(SelectRecordModel model) {
+        ApiResult apiResult = new ApiResult();
+
+        UserModel helper = (UserModel) session.getAttribute("userInfo");
+        if (helper == null) {
+            apiResult.setCode(-1);
+            apiResult.setMsg("请先登录");
+            return apiResult;
+        }else if (helper.getIdentify() != 3){
+            apiResult.setCode(-1);
+            apiResult.setMsg("权限不足");
+            return apiResult;
+        }
+
+        UserModel student = studentService.findByNo(model.getStudentNo());
+        if (student == null){
+            apiResult.setCode(-1);
+            apiResult.setMsg("学号："+model.getStudentNo()+" 不存在");
+            return apiResult;
+        }
+
+        model.setStudentId(student.getId());
+
+        SelectRecordModel result = selectRecordService.updateRecord(model);
+
+        if (result != null) {
+            apiResult.setCode(0);
+            apiResult.setMsg("SUCCESS！");
         } else {
             apiResult.setCode(-1);
             apiResult.setMsg("ERROR！");

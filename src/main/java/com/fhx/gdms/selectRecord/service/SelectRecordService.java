@@ -97,4 +97,18 @@ public interface SelectRecordService {
      * @return
      */
     Integer findTotalByTeacherId(Integer id);
+
+    /**
+     * 教务员 学生特殊选题
+     * @param model
+     * @return
+     */
+    SelectRecordModel updateRecord(SelectRecordModel model);
+
+    /**
+     * 查询已完成选题的记录
+     * @param selectRecordModel
+     * @return
+     */
+    List<SelectRecordModel> findList(SelectRecordModel selectRecordModel);
 }

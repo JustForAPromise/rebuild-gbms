@@ -26,8 +26,6 @@ public class ViewControllerConfig implements WebMvcConfigurer {
         registry.addViewController("admin/scoreCondition").setViewName("/admin/scoreCondition/scoreCondition.html");
 
         registry.addViewController("student/projection").setViewName("student/info/projection.html");
-        registry.addViewController("student/score").setViewName("student/info/soscore.html");
-
 
         registry.addViewController("teacher/personInfo").setViewName("/teacher/personInfo/personInfo.html");
         registry.addViewController("teacher/projection").setViewName("/teacher/info/projection.html");
@@ -39,6 +37,11 @@ public class ViewControllerConfig implements WebMvcConfigurer {
         registry.addViewController("departmentLeader/power").setViewName("/departmentLeader/power.html");
         registry.addViewController("departmentLeader/projection").setViewName("/departmentLeader/projection.html");
         registry.addViewController("departmentLeader/scoreOfStudent").setViewName("/departmentLeader/student.html");
+
+        registry.addViewController("reviewTeacher/studentScore").setViewName("/reviewTeacher/studentScore.html");
+
+        registry.addViewController("responseTeamLeader/studentScore").setViewName("/responseTeamLeader/studentScore.html");
+
 
         registry.addViewController("helper/student-info").setViewName("/helper/info/student-info.html");
         registry.addViewController("helper/teacher-info").setViewName("/helper/info/teacher-info.html");

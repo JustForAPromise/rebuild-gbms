@@ -1,0 +1,28 @@
+input, select{
+	height: 26px;
+	border-radius: 5px;
+}
+.body{
+	margin-top: 10px;
+	margin-left: 15px;
+}
+
+.function{
+	margin-left: 60px;
+	margin-bottom: 8px;
+}
+.search{
+	margin-bottom: 8px;
+	margin-left: 60px;
+}
+.search *{
+	margin-right: 5px;
+}
+.data{
+	clear: both;
+	margin-left: 60px;
+}
+.data td, .data th{
+	text-align: center;
+	padding-bottom: 5px;
+}
