@@ -23,7 +23,7 @@ public interface ProjectionService {
      * 查询全部
      * @return
      */
-    List<ProjectionModel> findAll();
+    List<ProjectionModel> list(ProjectionModel model);
 
     /**
      * id查询

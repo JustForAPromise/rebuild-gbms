@@ -1,0 +1,25 @@
+.body {
+    padding-top: 10px;
+    padding-left: 20px;
+    background-color: #FFFFFF;
+}
+
+.body input {
+    border-radius: 5px;
+}
+
+table{
+    margin: 5px 0px 0px 50px;
+}
+table tr{
+    margin-bottom: 10px;
+}
+table td:nth-child(even){
+    max-width: 300px;
+    padding-left: 10px;
+}
+
+table td:nth-child(odd){
+    width: 100px;
+    text-align: right;
+}

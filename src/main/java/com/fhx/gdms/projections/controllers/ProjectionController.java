@@ -7,9 +7,11 @@ import com.fhx.gdms.user.model.UserModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
@@ -64,12 +66,16 @@ public class ProjectionController {
 
     @RequestMapping(value = "/list", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
-    ApiResult listAll() {
+    ApiResult list(ProjectionModel model) {
         ApiResult apiResult = new ApiResult();
 
-        List<ProjectionModel> departmentModelList = projectionService.findAll();
+        if (model.getTitle() != null){
+            model.setTitle("%"+model.getTitle()+"%");
+        }
 
-        apiResult.setData(departmentModelList);
+        List<ProjectionModel> results = projectionService.list(model);
+
+        apiResult.setData(results);
 
         return apiResult;
     }
@@ -101,6 +107,17 @@ public class ProjectionController {
         apiResult.setData(result);
 
         return apiResult;
+    }
+
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    ModelAndView findByIdWithUrl(@PathVariable("id") Integer id) {
+
+        ProjectionModel result = projectionService.findById(id);
+
+        ModelAndView modelAndView = new ModelAndView("/departmentLeader/projectionDetail.html");
+        modelAndView.addObject("info", result);
+
+        return modelAndView;
     }
 
     @RequestMapping(value = "/findByTitle", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
@@ -171,6 +188,7 @@ public class ProjectionController {
         projectionModel.setDepartmentId(student.getDepartmentId());
         projectionModel.setTitle("%"+title+"%");
         projectionModel.setTeacherId(teacherId);
+        projectionModel.setMajorId(student.getMajorId());
 
         List<ProjectionModel> projectionModelList = projectionService.listProjectionToStudent(projectionModel, student , status);
 

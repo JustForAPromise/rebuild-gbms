@@ -99,9 +99,6 @@ public interface ProjectionRepository {
             if (model.getAuditStatus() != null && !"".equals(model.getAuditStatus())) {
                 sql.WHERE("audit_status = #{auditStatus}");
             }
-            if (model.getAuditRemark() != null && !"".equals(model.getAuditRemark())) {
-                sql.WHERE("audit_remark = #{auditRemark}");
-            }
             if (model.getTeacherId() != null && !"".equals(model.getTeacherId())) {
                 sql.WHERE("teacher_id = #{teacherId}");
             }
@@ -137,6 +134,7 @@ public interface ProjectionRepository {
                 sql.WHERE("student_id is NULL");
             }
 
+            sql.ORDER_BY("audit_status","teacher_id","major_id DESC");
             return sql.toString();
         }
 
@@ -152,14 +150,15 @@ public interface ProjectionRepository {
             if (model.getDemand() != null && !"".equals(model.getDemand())) {
                 sql.SET("demand = #{demand}");
             }
-
             if (model.getStudentId() != null && !"".equals(model.getStudentId())) {
                 sql.SET("student_id = #{studentId}");
             }
             if (model.getAuditStatus() != null && !"".equals(model.getAuditStatus())) {
                 sql.SET("audit_status = #{auditStatus}");
             }
-
+            if (model.getAuditRemark() != null && !"".equals(model.getAuditRemark())) {
+                sql.SET("audit_remark = #{auditRemark}");
+            }
             if (model.getMajorId() != null && !"".equals(model.getMajorId())) {
                 sql.SET("major_id = #{majorId}");
             }

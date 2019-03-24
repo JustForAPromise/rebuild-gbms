@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>学生信息管理</title>
+
+    <link rel="stylesheet" type="text/css" href="../css/helper/helper-info-projection.css">
+    <link rel="stylesheet" type="text/css" href="../css/admin/admin-motaikuang.css">
+    <link rel="stylesheet" type="text/css" href="../css/bootstrap-theme.min.css">
+    <link rel="stylesheet" type="text/css" href="../css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="../css/swiper.min.css">
+
+    <script type="text/javascript" src="../js/jquery.js"></script>
+    <script type="text/javascript" src="../js/bootstrap.js"></script>
+    <script type="text/javascript" src="../js/swiper.jquery.min.js"></script>
+</head>
+<body>
+<div class="body">
+    <div class="function">
+        <div>
+            <input type="button" value="课题审核结果导入">
+        </div>
+    </div>
+    <!-- 文件导入模态框开始 -->
+    <div class="tops myModal hide">
+        <form id="file-data" enctype="multipart/form-data" name="excel">
+            <p class="p">请选择文件：<input type="file" name="file"></p>
+        </form>
+        <p class="p"><input type="button" value="确定">&nbsp<input type="button" value="取消"></p>
+    </div>
+    <div class="tops shade hide"></div>
+    <!-- 模态框结束 -->
+
+    <!-- 审核模态框开始 -->
+    <div class="bottoms myModal hide">
+        <form name="audit-data" id="audit-data">
+            <p style="display: none">
+                <input type="text" name="id" class="hide">
+            </p>
+            <p class="p">
+            <table style="margin-left: 20px">
+                <tr>
+                    <td>
+                        <label>状态：</label>
+                    </td>
+                    <td>
+                        <select name="auditStatus">
+                            <option value="0">未审核</option>
+                            <option value="1">通过</option>
+                            <option value="2">待修改</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label>审核意见：</label>
+                    </td>
+                    <td>
+                        <textarea name="auditRemark"></textarea>
+                    </td>
+                </tr>
+            </table>
+            </p>
+        </form>
+        <p class="p"><input type="button" value="取消"><input type="button" value="确定"></p>
+    </div>
+    <div class="bottoms shade hide"></div>
+    <!-- 审核模态框结束 -->
+
+    <div class="search">
+        <form id="search-data" style="float: left">
+            <select name="teacherId" class="teacherSelect">
+
+            </select>
+            <input type="text" name="title" placeholder="课题标题">
+            <select name="auditStatus" class="auditStatusSelect">
+                <option value="" selected>-课题审核状态-</option>
+                <option value="0">未审核</option>
+                <option value="1">已通过</option>
+                <option value="2">未通过</option>
+            </select>
+        </form>
+        <input type="submit" name="" value="搜索"><span>&nbsp;&nbsp;&nbsp;</span>
+        <input type="submit" name="" value="信息导出">
+    </div>
+
+    <div class="data">
+        <table>
+            <thead>
+            <tr>
+                <th width="50px">编号</th>
+                <th width="130px">指导教师</th>
+                <th width="130px">专业要求</th>
+                <th style="min-width: 130px">课题标题</th>
+                <th width="130px">审核状态</th>
+                <th></th>
+            </tr>
+            </thead>
+
+            <tbody id="dataList">
+            <tr>
+                <td width="50px">编号</td>
+                <td width="130px">指导教师</td>
+                <td width="130px">专业要求</td>
+                <td width="130px">课题标题</td>
+                <td width="130px">审核状态</td>
+                <td>
+                    <input type="button" value="详情">
+                    <input type="button" value="审核状态修改">
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        /****初始化下拉列表***/
+        initPage();
+
+        //批量导入按钮
+        $('input[value="课题审核结果导入"]').click(function () {
+            $('.tops').removeClass('hide');
+        });
+
+        $('.tops input[value="确定"]').click(function () {
+            var form = $("#file-data")[0];
+
+            batchUpdateProjections(new FormData(form))
+
+            $('.tops').addClass('hide');
+        });
+
+        //审核状态修改按钮
+        $(".data").on("click", "input[value='审核状态修改']", function () {
+            var id = $(this).attr("attr")
+
+            findById(id)
+
+            $('.bottoms').removeClass('hide');
+        })
+
+        $('.bottoms input[value="确定"]').click(function () {
+            var form = $("#audit-data")[0];
+
+            updateStatus(new FormData(form))
+
+            $('.bottoms').addClass('hide');
+        });
+
+        //取消按钮
+        $('input[value="取消"]').click(function () {
+            $("form input").val("");
+            $('.myModal, .shade').addClass('hide');
+        });
+
+        //搜索按钮
+        $('.search input[value="搜索"]').click(function () {
+            var teacherId = $("#search-data select[name=teacherId]").val();
+            var title = $("#search-data input[name=title]").val();
+            var auditStatus = $("#search-data select[name=auditStatus]").val();
+
+            findList(teacherId, title, auditStatus);
+        });
+
+        //批量导出按钮
+        $('input[value="信息导出"]').click(function () {
+            var teacherId = $("#search-data select[name=teacherId]").val();
+            var title = $("#search-data input[name=title]").val();
+            var auditStatus = $("#search-data select[name=auditStatus]").val();
+            var url = "../projection:helper/down?"
+            if (teacherId != null && teacherId != "") {
+                url = url + "teacherId=" + teacherId;
+                if (title != null && title != "") {
+                    url = url + "&title=" + title;
+                }
+                if (auditStatus != null && auditStatus != "") {
+                    url = url + "&auditStatus=" + auditStatus;
+                }
+            } else if (title != null && title != "") {
+                url = url + "title=" + title;
+                if (auditStatus != null && auditStatus != "") {
+                    url = url + "&auditStatus=" + auditStatus;
+                }
+            } else if (auditStatus != null && auditStatus != "") {
+                url = url + "auditStatus=" + auditStatus;
+            }
+            downloadProjectionData(url)
+        });
+
+    })
+
+    /********************** 初始化界面 ***************************/
+    function initPage() {
+        initTeacherSelect()
+        findList()
+    }
+
+    function initTeacherSelect() {
+        $.ajax({
+            url: '../teacher/listTeacher',
+            type: 'GET',
+            dataType: 'json',
+            success: function (data) {
+                var dataList = $(".teacherSelect");
+                dataList.html("");
+
+                var head = "<option value = \"";
+                var second = "\">";
+                var end = "</option>";
+                dataList.append(head + second + "-教师选择-" + end);
+                for (i = 0; i < data.data.length; i++) {
+                    var str = head + data.data[i].id + second + data.data[i].name + end;
+                    dataList.append(str)
+                }
+            }
+        });
+    }
+
+    /*************************  功能区 ***********************************/
+
+    function findList(teacherId, title, auditStatus) {
+        $.ajax({
+            url: '../projection:helper/findList',
+            type: 'GET',
+            data: {
+                teacherId: teacherId,
+                title: title,
+                auditStatus: auditStatus
+            },
+            dataType: 'json',
+            success: function (data) {
+                var dataList = $("#dataList");
+                dataList.html("");
+
+                for (i = 0; i < data.data.length; i++) {
+                    var str = "<tr><td>" + (i + 1) + "</td> "
+                        + "<td>" + data.data[i].teacherModel.name + "</td> "
+                        + "<td>" + data.data[i].majorModel.major + "</td>"
+                        + "<td>" + data.data[i].title + "</td>";
+                    if (data.data[i].auditStatus == 0) {
+                        str = str + "<td>未审核 </td> "
+                    } else if (data.data[i].auditStatus == 1) {
+                        str = str + "<td style='color: #f0ad4e'>已通过</td> "
+                    } else if (data.data[i].auditStatus == 2) {
+                        str = str + "<td style='color: red'> 未通过 </td> "
+                    } else {
+                        str = str + "<td>--- </td> "
+                    }
+
+                    str = str + "<td><a href=\"../projection:helper/" + data.data[i].id + "\"><input type=\"button\" value=\"详情\"></a> "
+
+                    str = str + "<input type=\"button\" value=\"审核状态修改\" attr=" + data.data[i].id + "></td></tr>"
+                    dataList.append(str)
+
+                }
+            }
+        });
+    }
+
+    function findById(id) {
+        $.ajax({
+            url: '../projection:helper/findById',
+            type: 'GET',
+            data: {
+                id: id
+            },
+            dataType: 'json',
+            success: function (data) {
+                if (data.code == -1) {
+                    alert(data.msg)
+                } else {
+                    $(".bottoms input[name=id]").val(data.data.id)
+                    $(".bottoms select[name=auditStatus]").val(data.data.auditStatus)
+                    $(".bottoms textarea[name=auditRemark]").val(data.data.auditRemark)
+                }
+            }
+        });
+    }
+
+    function updateStatus(formData) {
+        $.ajax({
+            url: '../projection:helper/update',
+            type: 'POST',
+            data: formData,
+            dataType: 'json',
+            contentType: false,
+            processData: false,
+            success: function (data) {
+                if (data.code == -1) {
+                    alert(data.msg)
+                } else {
+                    findList()
+                }
+            }
+        });
+    }
+
+    function downloadProjectionData(url) {
+        var a = document.createElement('a');
+        a.href = url;
+        $("body").append(a);    // 修复firefox中无法触发click
+        a.click();
+        $(a).remove();
+    }
+
+    function batchUpdateProjections(formData) {
+        $.ajax({
+            url: '../projection:helper/batchUpdate',
+            type: 'POST',
+            data:formData,
+            processData: false,
+            contentType: false,
+            success: function (data) {
+                if (data.code == -1) {
+                    alert(data.msg)
+                }else{
+                    alert(data.msg)
+                    findList()
+                }
+            }
+        });
+    }
+
+</script>
+</body>
+</html>

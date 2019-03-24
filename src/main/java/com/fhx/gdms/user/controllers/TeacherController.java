@@ -103,6 +103,25 @@ public class TeacherController {
         return apiResult;
     }
 
+    @RequestMapping(value = "/listTeacherToLeader", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ResponseBody
+    ApiResult listTeacherToLeader() {
+        ApiResult apiResult = new ApiResult();
+
+        UserModel leader = (UserModel)session.getAttribute("userInfo");
+        if (leader == null){
+            return apiResult;
+        }else if (!leader.getPowerModel().getDepartmentLeader()){
+            return null;
+        }
+
+        List<UserModel> UserModelList = teacherService.findByDepartmentId(leader.getDepartmentId());
+
+        apiResult.setData(UserModelList);
+
+        return apiResult;
+    }
+
     @RequestMapping(value = "/listTeacher", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
     ApiResult listTeacher() {

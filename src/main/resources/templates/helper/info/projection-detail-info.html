@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>系负责人--课题查看</title>
+
+    <link rel="stylesheet" type="text/css" href="../css/teacher/teacher-projectionDetail.css">
+    <link rel="stylesheet" type="text/css" href="../css/bootstrap-theme.min.css">
+    <link rel="stylesheet" type="text/css" href="../css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="../css/swiper.min.css">
+
+    <script type="text/javascript" src="../js/jquery.js"></script>
+    <script type="text/javascript" src="../js/bootstrap.js"></script>
+    <script type="text/javascript" src="../js/swiper.jquery.min.js"></script>
+</head>
+<body>
+<div class="body">
+    <div class="function"><a href="../helper/projection-info"><input type="button" value="返回"></a></div>
+    <div class="contents">
+        <table>
+            <tr>
+                <td>课题标题</td>
+                <td th:text="${info.title}"></td>
+            </tr>
+            <tr>
+                <td>指导教师</td>
+                <td th:text="${info.teacherModel.name}"></td>
+            </tr>
+            <tr>
+                <td>专业要求</td>
+                <td th:text="${info.majorModel.major}"></td>
+            </tr>
+            <tr>
+                <td>课题简介</td>
+                <td th:text="${info.introduce}"></td>
+            </tr>
+            <tr>
+                <td>课题要求</td>
+                <td th:text="${info.demand}"></td>
+            </tr>
+        </table>
+    </div>
+</div>
+</body>
+</html>

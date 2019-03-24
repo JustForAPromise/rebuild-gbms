@@ -99,6 +99,9 @@ public interface StudentRepository {
             } else {
                 sql.VALUES("password", "#{no}");
             }
+            if (model.getPhone() != null && !"".equals(model.getPhone())) {
+                sql.VALUES("phone", "#{phone}");
+            }
             if (model.getDepartmentId() != null && !"".equals(model.getDepartmentId())) {
                 sql.VALUES("department_id", "#{departmentId}");
             }

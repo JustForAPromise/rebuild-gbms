@@ -41,8 +41,14 @@ public class ProjectionServiceImpl implements ProjectionService {
     }
 
     @Override
-    public List<ProjectionModel> findAll() {
-        return null;
+    public List<ProjectionModel> list(ProjectionModel model) {
+        List<ProjectionModel> results =  projectionRepository.findList(model);
+        results.stream().forEach(data ->{
+            data.setTeacherModel(teacherService.findById(data.getTeacherId()));
+            data.setMajorModel(majorService.findById(data.getMajorId()));
+        });
+
+        return results;
     }
 
     @Override

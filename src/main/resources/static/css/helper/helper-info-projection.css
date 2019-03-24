@@ -1,0 +1,32 @@
+input {
+    border-radius: 5px;
+}
+
+.body {
+    margin-top: 10px;
+    margin-left: 15px;
+}
+
+.function {
+    padding-left: 60px;
+    padding-bottom: 5px;
+}
+
+.search {
+    padding-left: 60px;
+}
+
+.search * {
+    margin-right: 5px;
+}
+
+.data {
+    padding-left: 60px;
+    padding-top: 10px;
+}
+
+.data td {
+    text-align: center;
+	padding-left: 3px;
+    padding-right: 3px;
+}

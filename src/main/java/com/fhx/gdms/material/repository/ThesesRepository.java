@@ -112,6 +112,7 @@ public interface ThesesRepository {
             }
 
             sql.WHERE("file_type = 2");
+            sql.ORDER_BY("audit_status","update_time DESC");
             return sql.toString();
         }
     }
