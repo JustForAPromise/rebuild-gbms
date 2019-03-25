@@ -1,16 +1,16 @@
 package com.fhx.gdms.controller.help.controllers;
 
-import com.fhx.gdms.controller.student.department.service.DepartmentService;
-import com.fhx.gdms.controller.student.major.service.MajorService;
-import com.fhx.gdms.controller.student.power.service.PowerService;
-import com.fhx.gdms.controller.student.projections.model.ProjectionModel;
-import com.fhx.gdms.controller.student.projections.service.ProjectionService;
-import com.fhx.gdms.controller.student.selectRecord.model.SelectRecordModel;
-import com.fhx.gdms.controller.student.selectRecord.service.SelectRecordService;
-import com.fhx.gdms.controller.student.supportUtil.ApiResult;
-import com.fhx.gdms.controller.student.user.model.UserModel;
-import com.fhx.gdms.controller.student.user.service.StudentService;
-import com.fhx.gdms.controller.student.user.service.TeacherService;
+import com.fhx.gdms.service.department.service.DepartmentService;
+import com.fhx.gdms.service.major.service.MajorService;
+import com.fhx.gdms.service.power.service.PowerService;
+import com.fhx.gdms.service.projections.model.ProjectionModel;
+import com.fhx.gdms.service.projections.service.ProjectionService;
+import com.fhx.gdms.service.selectRecord.model.SelectRecordModel;
+import com.fhx.gdms.service.selectRecord.service.SelectRecordService;
+import com.fhx.gdms.service.user.model.UserModel;
+import com.fhx.gdms.service.user.service.StudentService;
+import com.fhx.gdms.service.user.service.TeacherService;
+import com.fhx.gdms.supportUtil.ApiResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
@@ -25,8 +25,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Controller
-@RequestMapping("/student")
-public class StudentController {
+@RequestMapping("/helper:student")
+public class StudentOfHelperController {
     @Autowired
     private StudentService studentService;
 

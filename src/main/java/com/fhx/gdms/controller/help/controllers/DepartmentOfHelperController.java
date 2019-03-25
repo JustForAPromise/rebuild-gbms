@@ -1,8 +1,8 @@
 package com.fhx.gdms.controller.help.controllers;
 
-import com.fhx.gdms.controller.student.department.model.DepartmentModel;
-import com.fhx.gdms.controller.student.department.service.DepartmentService;
-import com.fhx.gdms.controller.student.supportUtil.ApiResult;
+import com.fhx.gdms.service.department.model.DepartmentModel;
+import com.fhx.gdms.service.department.service.DepartmentService;
+import com.fhx.gdms.supportUtil.ApiResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import java.util.List;
 
 @Controller
-@RequestMapping("/department")
-public class DepartmentController {
+@RequestMapping("/helper:department")
+public class DepartmentOfHelperController {
     @Autowired
     private DepartmentService departmentService;
 

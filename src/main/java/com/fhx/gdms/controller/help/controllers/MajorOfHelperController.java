@@ -1,9 +1,9 @@
 package com.fhx.gdms.controller.help.controllers;
 
-import com.fhx.gdms.controller.student.major.model.MajorModel;
-import com.fhx.gdms.controller.student.major.service.MajorService;
-import com.fhx.gdms.controller.student.supportUtil.ApiResult;
-import com.fhx.gdms.controller.student.user.model.UserModel;
+import com.fhx.gdms.service.major.model.MajorModel;
+import com.fhx.gdms.service.major.service.MajorService;
+import com.fhx.gdms.supportUtil.ApiResult;
+import com.fhx.gdms.service.user.model.UserModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
@@ -16,8 +16,8 @@ import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Controller
-@RequestMapping("/major")
-public class MajorController {
+@RequestMapping("/helper:major")
+public class MajorOfHelperController {
 
     @Autowired
     private HttpSession session;
