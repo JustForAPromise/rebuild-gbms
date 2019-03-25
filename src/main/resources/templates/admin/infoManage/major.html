@@ -29,7 +29,7 @@
                 $(document).ready(function () {
                     function getDepartmentList() {
                         $.ajax({
-                           url: '../department/list',
+                           url: '../admin:department/list',
                             type: 'GET',
                             dataType: 'json',
                             success: function (data) {
@@ -160,7 +160,7 @@
 
     function add(majorName, introduce) {
         $.ajax({
-           url: '../major/add',
+           url: '../admin:major/add',
             type: 'POST',
             data: {
                 majorName: majorName,
@@ -179,7 +179,7 @@
 
     function update(id, majorName, introduce) {
         $.ajax({
-           url: '../major/update',
+           url: '../admin:major/update',
             type: 'POST',
             data: {
                 id: id,
@@ -199,7 +199,7 @@
 
     function deleteById(id) {
         $.ajax({
-           url: '../major/deleteById',
+           url: '../admin:major/deleteById',
             type: 'DELETE',
             data: {
                 id: id
@@ -228,7 +228,7 @@
 
     function findByDepartmentId(departmentId) {
         $.ajax({
-           url: '../major/findByDepartmentId',
+           url: '../admin:major/findByDepartmentId',
             type: 'GET',
             data: {
                 departmentId: departmentId

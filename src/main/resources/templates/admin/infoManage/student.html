@@ -39,7 +39,7 @@
                 </p>
             </form>
             <p class="p"><input type="button" value="确定">&nbsp<input type="button" value="取消"></p>
-            <a href="../file/getExcelOfStudent"><span style="padding: 0px 0px 5px 15px; color: red; ">模板下载</span></a>
+            <a href="../admin:file/getExcelOfStudent"><span style="padding: 0px 0px 5px 15px; color: red; ">模板下载</span></a>
         </div>
         <div class="tops shade hide"></div>
         <!-- 模态框结束 -->
@@ -198,7 +198,7 @@
 
     function add(formData) {
         $.ajax({
-           url: '../student/add',
+           url: '../admin:student/add',
             type: 'POST',
             data: formData.serialize(),
             dataType: 'json',
@@ -211,7 +211,7 @@
     }
     function batchImportOfStudent(formData) {
         $.ajax({
-            url: '../file/batchImportOfStudent',
+            url: '../admin:file/batchImportOfStudent',
             type: 'POST',
             data:formData,
             processData: false,
@@ -227,7 +227,7 @@
     }
     function update(formData) {
         $.ajax({
-           url: '../student/update',
+           url: '../admin:student/update',
             type: 'POST',
             data: formData.serialize(),
             dataType: 'json',
@@ -243,7 +243,7 @@
 
     function findList(departmentId, majorId, no, name) {
         $.ajax({
-           url: '../student/findStudent',
+           url: '../admin:student/findStudent',
             type: 'GET',
             data: {
                 majorId: majorId,
@@ -270,7 +270,7 @@
 
     function findById(id) {
         $.ajax({
-           url: '../student/findById',
+           url: '../admin:student/findById',
             type: 'GET',
             data: {
                 id: id
@@ -289,7 +289,7 @@
 
     function deleteById(id) {
         $.ajax({
-           url: '../student/deleteById',
+           url: '../admin:student/deleteById',
             type: 'DELETE',
             async: false,
             data: {
@@ -302,7 +302,7 @@
 
     function getAllDepartment() {
         $.ajax({
-           url: '../department/list',
+           url: '../admin:department/list',
             type: 'GET',
             dataType: 'json',
             success: function (data) {
@@ -325,7 +325,7 @@
 
     function findMajorByDepartmentId(departmentId, index) {
         $.ajax({
-           url: '../major/findByDepartmentId',
+           url: '../admin:major/findByDepartmentId',
             type: 'GET',
             data: {
                 departmentId: departmentId
@@ -353,7 +353,7 @@
 
     function findByMajorIdAndDepartmentId(departmentId, majorId) {
         $.ajax({
-           url: '../student/findByMajorIdAndDepartmentId',
+           url: '../admin:student/findByMajorIdAndDepartmentId',
             type: 'GET',
             data: {
                 majorId: majorId,
