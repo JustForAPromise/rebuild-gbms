@@ -81,7 +81,7 @@
 
     function findProjection(teacherId, title) {
         $.ajax({
-            url: '../projection/list',
+            url: '../departmentLeader:projection/list',
             type: 'GET',
             data: {
                 teacherId: teacherId,
@@ -109,7 +109,7 @@
 
     function initTeacher() {
         $.ajax({
-            url: '../teacher/listTeacherToLeader',
+            url: '../departmentLeader:teacher/listTeacherToLeader',
             type: 'GET',
             dataType: 'json',
             success: function (data) {
@@ -130,7 +130,7 @@
 
     function findById(id) {
         $.ajax({
-            url: '../projectAuditor/findById',
+            url: '../departmentLeader:projection/findById',
             type: 'GET',
             data: {
                 id: id
@@ -152,7 +152,7 @@
 
     function findByAuditStatus(auditStatus) {
         $.ajax({
-            url: '../projectAuditor/findByAuditStatus',
+            url: '../departmentLeader:projection/findByAuditStatus',
             type: 'GET',
             data: {
                 auditStatus: auditStatus

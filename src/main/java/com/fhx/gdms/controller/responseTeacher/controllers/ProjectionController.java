@@ -1,9 +1,9 @@
-package com.fhx.gdms.controller.student.controllers;
+package com.fhx.gdms.controller.responseTeacher.controllers;
 
-import com.fhx.gdms.service.projections.model.ProjectionModel;
-import com.fhx.gdms.service.projections.service.ProjectionService;
-import com.fhx.gdms.service.user.model.UserModel;
-import com.fhx.gdms.supportUtil.ApiResult;
+import com.fhx.gdms.controller.student.projections.model.ProjectionModel;
+import com.fhx.gdms.controller.student.projections.service.ProjectionService;
+import com.fhx.gdms.controller.student.supportUtil.ApiResult;
+import com.fhx.gdms.controller.student.user.model.UserModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
@@ -17,7 +17,7 @@ import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Controller
-@RequestMapping("/student:projection")
+@RequestMapping("/projection")
 public class ProjectionController {
 
     @Autowired
