@@ -115,6 +115,13 @@
 </div>
 <script>
     $(document).ready(function () {
+        /****** 扶助对象 ********/
+        var searchInfo={
+            teacherId:null,
+            auditStatus: null,
+            title :null
+        }
+
         /****初始化下拉列表***/
         initPage();
 
@@ -160,14 +167,18 @@
             var title = $("#search-data input[name=title]").val();
             var auditStatus = $("#search-data select[name=auditStatus]").val();
 
+            searchInfo.teacherId = teacherId;
+            searchInfo.title = title;
+            searchInfo.auditStatus =auditStatus;
+
             findList(teacherId, title, auditStatus);
         });
 
         //批量导出按钮
         $('input[value="信息导出"]').click(function () {
-            var teacherId = $("#search-data select[name=teacherId]").val();
-            var title = $("#search-data input[name=title]").val();
-            var auditStatus = $("#search-data select[name=auditStatus]").val();
+            var teacherId = searchInfo.teacherId;
+            var title = searchInfo.title;
+            var auditStatus = searchInfo.auditStatus;
             var url = "../projection:helper/down?"
             if (teacherId != null && teacherId != "") {
                 url = url + "teacherId=" + teacherId;
