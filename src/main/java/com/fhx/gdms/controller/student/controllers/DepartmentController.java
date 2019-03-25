@@ -1,4 +1,4 @@
-package com.fhx.gdms.controller.student.department.controllers;
+package com.fhx.gdms.controller.student.controllers;
 
 import com.fhx.gdms.controller.student.department.model.DepartmentModel;
 import com.fhx.gdms.controller.student.department.service.DepartmentService;

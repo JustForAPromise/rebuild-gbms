@@ -1,4 +1,4 @@
-package com.fhx.gdms.controller.student.selectRecord.controllers;
+package com.fhx.gdms.controller.student.controllers;
 
 import com.fhx.gdms.controller.student.selectRecord.model.SelectRecordModel;
 import com.fhx.gdms.controller.student.selectRecord.service.SelectRecordService;

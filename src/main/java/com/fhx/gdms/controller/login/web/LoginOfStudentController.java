@@ -1,4 +1,4 @@
-package com.fhx.gdms.controller.admin.controllers;
+package com.fhx.gdms.controller.login.web;
 
 import com.fhx.gdms.service.department.service.DepartmentService;
 import com.fhx.gdms.service.major.service.MajorService;
@@ -22,7 +22,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpSession;
 
 @Controller
-public class LoginOfAdmintController {
+public class LoginOfStudentController {
 
     @Autowired
     private HttpSession session;
@@ -54,22 +54,62 @@ public class LoginOfAdmintController {
     @Autowired
     private ProjectionService projectionService;
 
-    @RequestMapping(value = "/admin:login", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @RequestMapping(value = "/login", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     ModelAndView login(Integer identify, String no, String password) {
         UserModel userModel = new UserModel();
         ModelAndView modelAndView = null;
 
+        if (identify == 1) {
             userModel = adminService.findByNoAndPasswd(no, password);
 
             if (userModel != null) {
                 modelAndView = new ModelAndView("/admin/index.html");
             }
 
+        } else if (identify == 2) {
+            userModel = teacherService.findByNoAndPasswd(no, password);
+            if (userModel != null) {
+                modelAndView = new ModelAndView("/teacher/index.html");
+            }
+
+        } else if (identify == 3) {
+            userModel = helperService.findByNoAndPasswd(no, password);
+            if (userModel != null) {
+                modelAndView = new ModelAndView("/helper/index.html");
+            }
+
+        } else if (identify == 4) {
+            userModel = studentService.findByNoAndPasswd(no, password);
+            if (userModel != null) {
+                modelAndView = new ModelAndView("/student/index.html");
+            }
+        }
+
+
         if (userModel == null) {
-            modelAndView = new ModelAndView("/adminLogin.html");
+            modelAndView = new ModelAndView("/login.html");
             modelAndView.addObject("tip", "密码或用户名错误！");
             return modelAndView;
         } else {
+            if (userModel.getPowerId() != null) {
+                userModel.setPowerModel(powerService.findById(userModel.getPowerId()));
+            }
+            if (userModel.getTeacherId() != null) {
+                userModel.setTeacherModel(teacherService.findById(userModel.getTeacherId()));
+            }
+            if (userModel.getDepartmentId() != null) {
+                userModel.setDepartmentModel(departmentService.findById(userModel.getDepartmentId()));
+            }
+            if (userModel.getMajorId() != null) {
+                userModel.setMajorModel(majorService.findById(userModel.getMajorId()));
+            }
+            if (userModel.getIdentify() == 2) {
+                SelectRecordModel selectRecordModel = selectRecordService.findHavedSelectedRecordByStudentId(userModel.getId());
+                if (selectRecordModel != null) {
+                    ProjectionModel projectionModel = projectionService.findById(selectRecordModel.getProjectionId());
+                    userModel.setProjectionModel(projectionModel);
+                }
+            }
             session.setAttribute("userInfo", userModel);
             return modelAndView;
         }
@@ -80,7 +120,14 @@ public class LoginOfAdmintController {
         UserModel userModel = (UserModel) session.getAttribute("userInfo");
         session.invalidate();
 
-        ModelAndView modelAndView = new ModelAndView("/adminLogin.html");
+        ModelAndView modelAndView = null;
+        if (userModel.getIdentify() == 2) {
+            modelAndView = new ModelAndView("/studentLogin.html");
+        } else if (userModel.getIdentify() == 4) {
+            modelAndView = new ModelAndView("/adminLogin.html");
+        } else {
+            modelAndView = new ModelAndView("/teacherLogin.html");
+        }
         return modelAndView;
     }
 }

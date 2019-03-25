@@ -1,4 +1,4 @@
-package com.fhx.gdms.controller.student.materialStatus.controllers;
+package com.fhx.gdms.controller.student.controllers;
 
 import com.fhx.gdms.controller.student.materialStatus.model.MaterialStatusModel;
 import com.fhx.gdms.controller.student.materialStatus.service.MaterialStatusService;

@@ -4,14 +4,14 @@ import com.fhx.gdms.controller.student.materialStatus.model.MaterialStatusModel;
 import com.fhx.gdms.controller.student.materialStatus.service.MaterialStatusService;
 import com.fhx.gdms.controller.student.projections.model.ProjectionModel;
 import com.fhx.gdms.controller.student.projections.service.ProjectionService;
-import com.fhx.gdms.controller.student.studentScoreAllInfo.api.SearchDetailApiGet;
-import com.fhx.gdms.controller.student.studentScoreAllInfo.data.StudentScoreData;
-import com.fhx.gdms.controller.student.studentScoreAllInfo.data.TotalScoreData;
-import com.fhx.gdms.controller.student.studentScoreAllInfo.service.StudentScoreService;
 import com.fhx.gdms.controller.student.studentScoreRecord.model.StudentScoreRecordModel;
 import com.fhx.gdms.controller.student.studentScoreRecord.service.StudentScoreRecordService;
 import com.fhx.gdms.controller.student.user.model.UserModel;
 import com.fhx.gdms.controller.student.user.service.StudentService;
+import com.fhx.gdms.controller.student.studentScoreAllInfo.api.SearchDetailApiGet;
+import com.fhx.gdms.controller.student.studentScoreAllInfo.data.StudentScoreData;
+import com.fhx.gdms.controller.student.studentScoreAllInfo.data.TotalScoreData;
+import com.fhx.gdms.controller.student.studentScoreAllInfo.service.StudentScoreService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

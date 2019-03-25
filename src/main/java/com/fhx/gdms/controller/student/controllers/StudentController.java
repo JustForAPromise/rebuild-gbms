@@ -1,4 +1,4 @@
-package com.fhx.gdms.controller.student.user.controllers;
+package com.fhx.gdms.controller.student.controllers;
 
 import com.fhx.gdms.controller.student.department.service.DepartmentService;
 import com.fhx.gdms.controller.student.major.service.MajorService;

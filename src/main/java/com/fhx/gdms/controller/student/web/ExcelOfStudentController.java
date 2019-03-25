@@ -1,9 +1,9 @@
-package com.fhx.gdms.controller.student.file.web;
+package com.fhx.gdms.controller.student.web;
 
 import com.fhx.gdms.controller.student.supportUtil.ApiResult;
 import com.fhx.gdms.controller.student.supportUtil.FileUtil;
 import com.fhx.gdms.controller.student.user.model.UserModel;
-import com.fhx.gdms.controller.student.user.service.TeacherService;
+import com.fhx.gdms.controller.student.user.service.StudentService;
 import jxl.Sheet;
 import jxl.Workbook;
 import jxl.format.Alignment;
@@ -28,17 +28,17 @@ import java.lang.Boolean;
 
 @Controller
 @RequestMapping("/file")
-public class ExcelOfTeacherController {
+public class ExcelOfStudentController {
 
     @Autowired
-    private TeacherService teacherService;
+    private StudentService studentService;
 
-    @RequestMapping(value = "/getExcelOfTeacher", method = RequestMethod.GET)
+    @RequestMapping(value = "/getExcelOfStudent", method = RequestMethod.GET)
     void record(HttpServletResponse response) throws UnsupportedEncodingException {
         ApiResult apiResult = new ApiResult();
 
         // 文件名
-        String filename = "教师信息导入模板.xls";
+        String filename = "学生信息导入模板.xls";
         // 写到服务器上
         String path = FileUtil.getBaseFileDir() + filename;
 
@@ -53,7 +53,7 @@ public class ExcelOfTeacherController {
                 // 创建写工作簿对象
                 WritableWorkbook workbook = Workbook.createWorkbook(file);
                 // 工作表
-                WritableSheet sheet = workbook.createSheet("教师信息", 0);
+                WritableSheet sheet = workbook.createSheet("学生信息", 0);
                 // 设置字体;
                 WritableFont font = new WritableFont(WritableFont.ARIAL, 12, WritableFont.BOLD, false, UnderlineStyle.NO_UNDERLINE, Colour.BLACK);
                 WritableCellFormat cellFormat = new WritableCellFormat(font);
@@ -76,7 +76,7 @@ public class ExcelOfTeacherController {
                 cellFormat.setWrap(true);
 
                 // 单元格
-                Label label0 = new Label(0, 0, "工号", cellFormat);
+                Label label0 = new Label(0, 0, "学号", cellFormat);
                 Label label1 = new Label(1, 0, "姓名", cellFormat);
                 Label label2 = new Label(2, 0, "性别", cellFormat);
                 Label label3 = new Label(3, 0, "联系电话", cellFormat);
@@ -148,9 +148,10 @@ public class ExcelOfTeacherController {
         }
     }
 
-    @RequestMapping(value = "/batchImportOfTeacher", method = RequestMethod.POST)
+    @RequestMapping(value = "/batchImportOfStudent", method = RequestMethod.POST)
     @ResponseBody
     ApiResult batchImportOfStudent(@RequestParam("departmentId") Integer departmentId,
+                                   @RequestParam("majorId") Integer majorId,
                                    @RequestParam("file") MultipartFile file) {
         ApiResult apiResult = new ApiResult();
         Boolean isExcel = false;
@@ -168,23 +169,24 @@ public class ExcelOfTeacherController {
                 Sheet sheet = workbook.getSheet(0);
                 System.out.println(sheet.getColumns()+"  "+sheet.getRows());
 
-                UserModel teacher = new UserModel();
-                teacher.setDepartmentId(departmentId);
+                UserModel student = new UserModel();
+                student.setDepartmentId(departmentId);
+                student.setMajorId(majorId);
 
                 for (int i = 1, j= sheet.getRows(); i< j; i++){
                     if ("".equals(sheet.getCell(0,i).getContents())){
                         break;
                     }
-                    teacher.setNo(sheet.getCell(0,i).getContents());
-                    teacher.setName(sheet.getCell(1,i).getContents());
+                    student.setNo(sheet.getCell(0,i).getContents());
+                    student.setName(sheet.getCell(1,i).getContents());
 
                     if ("男".equals(sheet.getCell(2,i).getContents())) {
-                        teacher.setGender(1);
+                        student.setGender(1);
                     }else if ("女".equals(sheet.getCell(2,i).getContents())){
-                        teacher.setGender(2);
+                        student.setGender(2);
                     }
-                    teacher.setPhone(sheet.getCell(3,i).getContents());
-                    teacherService.saveTeacher(teacher);
+                    student.setPhone(sheet.getCell(3,i).getContents());
+                    studentService.saveStudent(student);
                 }
             } catch (IOException e) {
                 e.printStackTrace();

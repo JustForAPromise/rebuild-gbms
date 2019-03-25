@@ -1,4 +1,4 @@
-package com.fhx.gdms.controller.student.projections.controllers;
+package com.fhx.gdms.controller.student.controllers;
 
 import com.fhx.gdms.controller.student.projections.model.ProjectionModel;
 import com.fhx.gdms.controller.student.projections.service.ProjectionService;

@@ -1,4 +1,4 @@
-package com.fhx.gdms.controller.student.defence.controllers;
+package com.fhx.gdms.controller.student.controllers;
 
 import com.fhx.gdms.controller.student.defence.model.DefenceModel;
 import com.fhx.gdms.controller.student.defence.service.DefenceService;

@@ -1,4 +1,4 @@
-package com.fhx.gdms.controller.help.web;
+package com.fhx.gdms.controller.login.web;
 
 import com.fhx.gdms.service.department.service.DepartmentService;
 import com.fhx.gdms.service.major.service.MajorService;

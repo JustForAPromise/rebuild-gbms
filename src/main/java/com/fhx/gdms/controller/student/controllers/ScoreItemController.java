@@ -1,4 +1,4 @@
-package com.fhx.gdms.controller.student.scoreItem.controllers;
+package com.fhx.gdms.controller.student.controllers;
 
 import com.fhx.gdms.controller.student.scoreItem.model.ScoreItemModel;
 import com.fhx.gdms.controller.student.scoreItem.service.ScoreItemService;

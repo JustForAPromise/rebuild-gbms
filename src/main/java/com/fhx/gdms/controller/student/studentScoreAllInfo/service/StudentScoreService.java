@@ -1,9 +1,9 @@
 package com.fhx.gdms.controller.student.studentScoreAllInfo.service;
 
-import com.fhx.gdms.controller.student.studentScoreAllInfo.api.SearchDetailApiGet;
-import com.fhx.gdms.controller.student.studentScoreAllInfo.data.StudentScoreData;
 import com.fhx.gdms.controller.student.studentScoreRecord.model.StudentScoreRecordModel;
 import com.fhx.gdms.controller.student.user.model.UserModel;
+import com.fhx.gdms.controller.student.studentScoreAllInfo.api.SearchDetailApiGet;
+import com.fhx.gdms.controller.student.studentScoreAllInfo.data.StudentScoreData;
 
 public interface StudentScoreService {
 

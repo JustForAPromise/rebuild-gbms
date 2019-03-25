@@ -1,4 +1,4 @@
-package com.fhx.gdms.controller.student.power.controllers;
+package com.fhx.gdms.controller.student.controllers;
 
 import com.fhx.gdms.controller.student.power.model.PowerModel;
 import com.fhx.gdms.controller.student.power.service.PowerService;
