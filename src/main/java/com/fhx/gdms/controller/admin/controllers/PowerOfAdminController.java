@@ -1,10 +1,10 @@
 package com.fhx.gdms.controller.admin.controllers;
 
-import com.fhx.gdms.controller.student.power.model.PowerModel;
-import com.fhx.gdms.controller.student.power.service.PowerService;
-import com.fhx.gdms.controller.student.supportUtil.ApiResult;
-import com.fhx.gdms.controller.student.user.model.UserModel;
-import com.fhx.gdms.controller.student.user.service.UserService;
+import com.fhx.gdms.service.power.model.PowerModel;
+import com.fhx.gdms.service.power.service.PowerService;
+import com.fhx.gdms.service.user.model.UserModel;
+import com.fhx.gdms.service.user.service.UserService;
+import com.fhx.gdms.supportUtil.ApiResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import java.util.List;
 
 @Controller
-@RequestMapping("/power")
-public class PowerController {
+@RequestMapping("/admin:power")
+public class PowerOfAdminController {
     @Autowired
     private PowerService powerService;
 

@@ -176,7 +176,7 @@
 
     function add(formData) {
         $.ajax({
-           url: '../scoreItem/add',
+           url: '../admin:scoreItem/add',
             type: 'POST',
             data: formData,
             dataType: 'json',
@@ -194,7 +194,7 @@
 
     function findById(id) {
         $.ajax({
-           url: '../scoreItem/findById',
+           url: '../admin:scoreItem/findById',
             type: 'GET',
             data: {
                 id: id
@@ -217,7 +217,7 @@
 
     function update(id, status) {
         $.ajax({
-            url: '../scoreItem/updateStatus',
+            url: '../admin:scoreItem/updateStatus',
             type: 'POST',
             data: {
                 id: id,
@@ -235,7 +235,7 @@
     }
     function updateItem(formData) {
         $.ajax({
-            url: '../scoreItem/updateItem',
+            url: '../admin:scoreItem/updateItem',
             type: 'POST',
             data: formData,
             dataType: 'json',
@@ -253,7 +253,7 @@
 
     function listAll() {
         $.ajax({
-           url: '../scoreItem/listAll',
+           url: '../admin:scoreItem/listAll',
             type: 'GET',
             dataType: 'json',
             success: function (data) {
@@ -296,7 +296,7 @@
 
     function countRate() {
         $.ajax({
-            url: '../scoreItem/countRate',
+            url: '../admin:scoreItem/countRate',
             type: 'GET',
             dataType: 'json',
             success: function (data) {

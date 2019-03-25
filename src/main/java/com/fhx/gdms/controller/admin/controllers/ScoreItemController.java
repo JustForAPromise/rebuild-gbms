@@ -1,9 +1,9 @@
 package com.fhx.gdms.controller.admin.controllers;
 
-import com.fhx.gdms.controller.student.scoreItem.model.ScoreItemModel;
-import com.fhx.gdms.controller.student.scoreItem.service.ScoreItemService;
-import com.fhx.gdms.controller.student.supportUtil.ApiResult;
-import com.fhx.gdms.controller.student.user.model.UserModel;
+import com.fhx.gdms.service.scoreItem.model.ScoreItemModel;
+import com.fhx.gdms.service.scoreItem.service.ScoreItemService;
+import com.fhx.gdms.service.user.model.UserModel;
+import com.fhx.gdms.supportUtil.ApiResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-@RequestMapping("/scoreItem")
+@RequestMapping("/admin:scoreItem")
 public class ScoreItemController {
 
     @Autowired

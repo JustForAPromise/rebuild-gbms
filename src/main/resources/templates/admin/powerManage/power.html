@@ -147,7 +147,7 @@
 
     function add(formData) {
         $.ajax({
-           url: '../power/add',
+           url: '../admin:power/add',
             type: 'POST',
             data: formData.serialize(),
             dataType: 'json',
@@ -163,7 +163,7 @@
 
     function update(id, departmentLeader) {
         $.ajax({
-           url: '../power/update',
+           url: '../admin:power/update',
             type: 'POST',
             data: {
                 id: id,
@@ -182,7 +182,7 @@
 
     function deleteById(id) {
         $.ajax({
-           url: '../power/deleteById',
+           url: '../admin:power/deleteById',
             type: 'DELETE',
             async: false,
             data: {
@@ -197,7 +197,7 @@
 
     function initPageOfDepartment() {
         $.ajax({
-           url: '../department/list',
+           url: '../admin:department/list',
             type: 'GET',
             dataType: 'json',
             success: function (data) {
@@ -217,7 +217,7 @@
     }
     function initPageOfTeacher(departmentId) {
         $.ajax({
-            url: '../teacher/findTeacher',
+            url: '../admin:teacher/findTeacher',
             type: 'GET',
             data: {
                 departmentId: departmentId
@@ -240,7 +240,7 @@
 
     function findByDepartmentId(departmentId) {
         $.ajax({
-           url: '../power/findByDepartmentId',
+           url: '../admin:power/findByDepartmentId',
             type: 'GET',
             data: {
                 departmentId: departmentId
