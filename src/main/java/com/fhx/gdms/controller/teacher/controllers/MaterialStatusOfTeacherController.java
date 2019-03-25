@@ -1,9 +1,9 @@
-package com.fhx.gdms.service.materialStatus.controllers;
+package com.fhx.gdms.controller.teacher.controllers;
 
 import com.fhx.gdms.service.materialStatus.model.MaterialStatusModel;
 import com.fhx.gdms.service.materialStatus.service.MaterialStatusService;
-import com.fhx.gdms.supportUtil.ApiResult;
 import com.fhx.gdms.service.user.model.UserModel;
+import com.fhx.gdms.supportUtil.ApiResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
@@ -15,8 +15,8 @@ import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Controller
-@RequestMapping("/materialStatus")
-public class MaterialStatusController {
+@RequestMapping("/teacher:materialStatus")
+public class MaterialStatusOfTeacherController {
 
     @Autowired
     private MaterialStatusService materialStatusService;

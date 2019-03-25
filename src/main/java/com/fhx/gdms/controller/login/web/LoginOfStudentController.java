@@ -22,22 +22,14 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpSession;
 
 @Controller
+@RequestMapping("/student")
 public class LoginOfStudentController {
 
     @Autowired
     private HttpSession session;
 
     @Autowired
-    private AdminService adminService;
-
-    @Autowired
-    private HelperService helperService;
-
-    @Autowired
     private TeacherService teacherService;
-
-    @Autowired
-    private StudentService studentService;
 
     @Autowired
     private PowerService powerService;
@@ -54,12 +46,11 @@ public class LoginOfStudentController {
     @Autowired
     private ProjectionService projectionService;
 
-    @RequestMapping(value = "/student:login", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @RequestMapping(value = "/login", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     ModelAndView login(Integer identify, String no, String password) {
-        UserModel userModel = new UserModel();
         ModelAndView modelAndView = null;
 
-        userModel = teacherService.findByNoAndPasswd(no, password);
+        UserModel userModel = teacherService.findByNoAndPasswd(no, password);
         if (userModel != null) {
             modelAndView = new ModelAndView("/teacher/index.html");
         }

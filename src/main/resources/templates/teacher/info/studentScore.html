@@ -43,7 +43,7 @@
 
     function listAllStudent() {
         $.ajax({
-            url: '../studentScore/listAllStudent',
+            url: '../teacher:studentScore/listAllStudent',
             type: 'GET',
             dataType: 'json',
             success: function (data) {
@@ -56,7 +56,7 @@
                         + "<td>" + data.data[i].name + "</td>"
                         + "<td>" + data.data[i].projectionModel.title + "</td>"
                         + "<td>"
-                        + "<a href='/studentScore/recordOfOrdinary?studentId=" + data.data[i].id+"'>"
+                        + "<a href='/teacher:studentScore/recordOfOrdinary?studentId=" + data.data[i].id+"'>"
                         + "<input type='button' value='成绩登记'>"
                         + "</a></td>"
                     dataList.append(str)

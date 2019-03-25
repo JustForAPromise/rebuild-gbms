@@ -1,12 +1,12 @@
-package com.fhx.gdms.service.studentScoreAllInfo.web;
+package com.fhx.gdms.controller.teacher.controllers;
 
 import com.fhx.gdms.service.studentScoreAllInfo.api.SearchDetailApiGet;
 import com.fhx.gdms.service.studentScoreAllInfo.data.StudentScoreData;
 import com.fhx.gdms.service.studentScoreAllInfo.service.StudentScoreService;
 import com.fhx.gdms.service.studentScoreRecord.model.StudentScoreRecordModel;
-import com.fhx.gdms.supportUtil.ApiResult;
 import com.fhx.gdms.service.user.model.UserModel;
 import com.fhx.gdms.service.user.service.StudentService;
+import com.fhx.gdms.supportUtil.ApiResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
@@ -19,7 +19,7 @@ import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Controller
-@RequestMapping("/studentScore")
+@RequestMapping("/teacher:studentScore")
 public class StudentScoreController {
 
     @Autowired

@@ -138,7 +138,7 @@
 
     function deleteById(id) {
         $.ajax({
-            url: '../projection/deleteById',
+            url: '../teacher:projection/deleteById',
             type: 'DELETE',
             data: {
                 id: id
@@ -155,7 +155,7 @@
 
     function add(formData) {
         $.ajax({
-            url: '../projection/add',
+            url: '../teacher:projection/add',
             type: 'POST',
             data: formData,
             dataType: 'json',
@@ -173,7 +173,7 @@
 
     function update(formData) {
         $.ajax({
-            url: '../projection/update',
+            url: '../teacher:projection/update',
             type: 'POST',
             data: formData,
             dataType: 'json',
@@ -192,7 +192,7 @@
 
     function findById(id) {
         $.ajax({
-            url: '../projection/findById',
+            url: '../teacher:projection/findById',
             type: 'GET',
             data: {
                 id: id
@@ -217,7 +217,7 @@
 
     function findByAuditStatus(auditStatus) {
         $.ajax({
-            url: '../projection/findByAuditStatus',
+            url: '../teacher:projection/findByAuditStatus',
             type: 'GET',
             data: {
                 auditStatus: auditStatus
@@ -271,7 +271,7 @@
 
     function intMajorSelect(id) {
         $.ajax({
-            url: '../major/listMajorWithLoginUser',
+            url: '../teacher:major/listMajorWithLoginUser',
             type: 'GET',
             data: {
                 id: id

@@ -1,4 +1,4 @@
-package com.fhx.gdms.service.projections.controllers;
+package com.fhx.gdms.controller.teacher.controllers;
 
 import com.fhx.gdms.service.projections.model.ProjectionModel;
 import com.fhx.gdms.service.projections.service.ProjectionService;
@@ -17,8 +17,8 @@ import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Controller
-@RequestMapping("/projection")
-public class ProjectionController {
+@RequestMapping("/teacher:projection")
+public class ProjectionOfTeacherController {
 
     @Autowired
     private ProjectionService projectionService;

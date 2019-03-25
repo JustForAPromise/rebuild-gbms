@@ -1,12 +1,12 @@
-package com.fhx.gdms.service.selectRecord.controllers;
+package com.fhx.gdms.controller.teacher.controllers;
 
 import com.fhx.gdms.service.selectRecord.model.SelectRecordModel;
 import com.fhx.gdms.service.selectRecord.service.SelectRecordService;
 import com.fhx.gdms.service.studentNumOfTeacher.model.StudentNumOfTeacherModel;
 import com.fhx.gdms.service.studentNumOfTeacher.service.StudentNumOfTeacherService;
-import com.fhx.gdms.supportUtil.ApiResult;
 import com.fhx.gdms.service.user.model.UserModel;
 import com.fhx.gdms.service.user.service.StudentService;
+import com.fhx.gdms.supportUtil.ApiResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
@@ -18,8 +18,8 @@ import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Controller
-@RequestMapping("/selectRecord")
-public class SelectRecordController {
+@RequestMapping("/teacher:selectRecord")
+public class SelectRecordOfTeacherController {
 
     @Autowired
     private SelectRecordService selectRecordService;
