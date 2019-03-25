@@ -22,7 +22,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpSession;
 
 @Controller
-public class LoginOfStudentController {
+public class LoginOfTeacherController {
 
     @Autowired
     private HttpSession session;
@@ -54,18 +54,40 @@ public class LoginOfStudentController {
     @Autowired
     private ProjectionService projectionService;
 
-    @RequestMapping(value = "/student:login", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @RequestMapping(value = "/login", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     ModelAndView login(Integer identify, String no, String password) {
         UserModel userModel = new UserModel();
         ModelAndView modelAndView = null;
 
-        userModel = teacherService.findByNoAndPasswd(no, password);
-        if (userModel != null) {
-            modelAndView = new ModelAndView("/teacher/index.html");
+        if (identify == 1) {
+            userModel = adminService.findByNoAndPasswd(no, password);
+
+            if (userModel != null) {
+                modelAndView = new ModelAndView("/admin/index.html");
+            }
+
+        } else if (identify == 2) {
+            userModel = teacherService.findByNoAndPasswd(no, password);
+            if (userModel != null) {
+                modelAndView = new ModelAndView("/teacher/index.html");
+            }
+
+        } else if (identify == 3) {
+            userModel = helperService.findByNoAndPasswd(no, password);
+            if (userModel != null) {
+                modelAndView = new ModelAndView("/helper/index.html");
+            }
+
+        } else if (identify == 4) {
+            userModel = studentService.findByNoAndPasswd(no, password);
+            if (userModel != null) {
+                modelAndView = new ModelAndView("/student/index.html");
+            }
         }
 
+
         if (userModel == null) {
-            modelAndView = new ModelAndView("/studentLogin.html");
+            modelAndView = new ModelAndView("/login.html");
             modelAndView.addObject("tip", "密码或用户名错误！");
             return modelAndView;
         } else {
@@ -99,7 +121,13 @@ public class LoginOfStudentController {
         session.invalidate();
 
         ModelAndView modelAndView = null;
-        modelAndView = new ModelAndView("/studentLogin.html");
+        if (userModel.getIdentify() == 2) {
+            modelAndView = new ModelAndView("/studentLogin.html");
+        } else if (userModel.getIdentify() == 4) {
+            modelAndView = new ModelAndView("/adminLogin.html");
+        } else {
+            modelAndView = new ModelAndView("/teacherLogin.html");
+        }
         return modelAndView;
     }
 }
