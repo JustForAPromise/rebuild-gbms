@@ -112,6 +112,7 @@
 
             $('.bottoms').removeClass('hide');
         })
+
         $('input[value="提交"]').click(function () {
             $('.bottoms').addClass('hide');
 
@@ -285,7 +286,7 @@
                     if (data.data[i].auditStatus == 0) {
                         str = str + "<td style='color: #0e0074;'>未审核</td>"
                             + "<td><a href=\"/teacher:theses/record/" + data.data[i].id + "\"><input type=\"button\" name=\"\" value=\"下载文件\" ></a>"
-                            + "<input type=\"button\" value=\"审批\" store=\"" + data.data[i].id + " fileType =\"" + data.data[i].fileType + "\" ></td>";
+                            + "<input type=\"button\" value=\"审批\" store=\"" + data.data[i].id + "\" fileType =\"" + data.data[i].fileType + "\" ></td>";
 
                     } else if (data.data[i].auditStatus == 1) {
                         str = str + "<td style='color: #e9a931;'>通过</td><td></td>"

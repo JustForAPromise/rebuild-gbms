@@ -1,4 +1,4 @@
-package com.fhx.gdms.controller.help.web;
+package com.fhx.gdms.controller.help.controllers;
 
 import com.fhx.gdms.service.power.service.PowerService;
 import com.fhx.gdms.service.projections.model.ProjectionModel;
@@ -31,7 +31,7 @@ import java.lang.Boolean;
 import java.util.List;
 
 @Controller
-@RequestMapping("/projection:helper")
+@RequestMapping("/helper:projection")
 public class ProjectionOfHelperController {
 
     @Autowired

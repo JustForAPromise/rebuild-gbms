@@ -14,7 +14,7 @@ import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Controller
-@RequestMapping("student:user")
+@RequestMapping("/student:user")
 public class UserOfStudentController {
 
     @Autowired

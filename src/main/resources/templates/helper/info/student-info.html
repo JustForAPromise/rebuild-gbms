@@ -123,6 +123,8 @@
 
         $(".submitBtn").click(function () {
             var formData = new FormData($("#form-data")[0]);
+            formData.delete("studentNo")
+            formData.append("studentNo",$("#form-data input[name=studentNo]").val())
             updateStudentSelectProjection(formData)
         })
 
@@ -177,7 +179,7 @@
 
     function initProjection(teacherId) {
         $.ajax({
-            url: '../helper:projection/list',
+            url: '../helper:projection/findList',
             type: 'GET',
             data: {
                 teacherId: teacherId,
@@ -233,8 +235,9 @@
                 if (data.code == -1) {
                     alert(data.msg)
                 } else {
-                    findSupportsByDepartmentId(data.data.departmentId)
+                    findRecordList()
                 }
+                return;
             }
         });
     }
@@ -323,7 +326,6 @@
                     } else{
                         $("#form-data select[name=projectionId]").val(0)
                     }
-                    $("#form-data select[name=projectionId]").val(data.data.projection.id)
                 }
             }
         });

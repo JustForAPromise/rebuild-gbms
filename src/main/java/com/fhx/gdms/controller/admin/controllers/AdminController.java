@@ -13,7 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpSession;
 
 @Controller
-@RequestMapping("admin")
+@RequestMapping("/admin")
 public class AdminController {
 
     @Autowired

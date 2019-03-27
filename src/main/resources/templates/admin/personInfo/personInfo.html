@@ -16,7 +16,11 @@
 </head>
 <body>
 	<div class="body">
-		<input type="button" value="修改密码"><br><br>
+		<div class="search">
+			用户个人信息
+		</div>
+		<div class="function"><input type="button" value="修改密码"></div>
+		<br>
 		<!-- 修改模态框开始 -->
 		<div class="tops myModal hide">
 			<p class="p">
@@ -32,22 +36,19 @@
 		<div class="tops shade hide"></div>
 		<!-- 修改模态框结束 -->
 
-		<div class="search">
-			用户个人信息
-		</div>
+
 		<div class="data">
 			<form action="">
 				<table>
 					<tr>
 						<td width="85px">工号</td>
-						<td th:text="${session.userInfo.no}"></td>
-					</tr>
+						<td th:text="${session.userInfo.no}"></td>					</tr>
 					<tr>
 						<td>姓名</td>
 						<td th:text="${session.userInfo.name}"></td>
 					</tr>
 					<tr>
-						<td>性别：</td>
+						<td>性别</td>
 						<td th:if="${session.userInfo.gender == 1}">男</td>
 						<td th:if="${session.userInfo.gender == 2}">女</td>
 					</tr>

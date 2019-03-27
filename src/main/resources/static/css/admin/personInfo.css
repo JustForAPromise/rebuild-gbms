@@ -1,26 +1,47 @@
-.search{
-	background-color:black;
-	padding-top: 5px;
-	padding-left: 30px;
-	min-width: 500px;
-	min-height: 30px;
-	color: white
+.search {
+    background-color: black;
+    padding-top: 5px;
+    padding-left: 30px;
+    min-width: 500px;
+    min-height: 30px;
+    color: white
+}
+.function{
+    padding-left: 30px;
+    padding-top: 3px;
+}
+.function input[type=submit] {
+    border-radius: 5px;
 }
 
-.data input[type=submit]{
-	border-radius: 5px;
+.data {
+    padding-top: 30px;
+    margin-top: 10px;
 }
-.data{
-	padding-top: 30px;
-	margin-top: 10px;
+
+.data table {
+    min-width: 360px;
+    margin-left: 100px;
+    align-content: center;
+    cellpadding: 0;
 }
-.data table{
-	min-width: 750px;
-	margin-left: 100px;
-	align-content: center;
-	cellpadding:0;
+
+.data table tbody tr {
+    text-align: center;
+    height: 30px;
+    padding-bottom: 3px;
+    border-bottom: #0f0f0f dotted 1px;
 }
-.data table tbody tr{ text-align: center; 	height:30px;}
-.data table tbody tr:nth-of-type(odd){ background:#EEE9E9 ;}/**奇数行**/ 
-.data table tbody tr:nth-of-type(even){ background:#F8F8FF ;}/**偶数行**/
+
+/**奇数行**/
+.data table tbody td:nth-of-type(odd) {
+    text-align: right;
+    padding-right: 10px;
+}
+
+/**偶数行**/
+.data table tbody td:nth-of-type(even) {
+    text-align: left;
+    padding-left: 10px;
+}
 

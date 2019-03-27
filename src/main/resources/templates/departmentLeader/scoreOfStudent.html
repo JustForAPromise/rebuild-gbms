@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>系负责人--学生查看</title>
+
+    <link rel="stylesheet" type="text/css" href="../css/admin/admin-info-student.css">
+    <link rel="stylesheet" type="text/css" href="../css/admin/admin-motaikuang.css">
+    <link rel="stylesheet" type="text/css" href="../css/bootstrap-theme.min.css">
+    <link rel="stylesheet" type="text/css" href="../css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="../css/swiper.min.css">
+
+    <script type="text/javascript" src="../js/jquery.js"></script>
+    <script type="text/javascript" src="../js/bootstrap.js"></script>
+    <script type="text/javascript" src="../js/swiper.jquery.min.js"></script>
+</head>
+<body>
+<div class="body">
+    <div class="search">
+        <label>专业：</label>
+        <select class="major majorSelect">
+
+        </select>
+        <br>
+        <input type="text" name="no" placeholder="学号">
+        <input type="text" name="name" placeholder="姓名">
+        <input type="button" value="搜索">
+    </div>
+    <div class="data">
+        <table>
+            <thead>
+            <tr>
+                <th width="50px">编号</th>
+                <th width="130px">学号</th>
+                <th width="130px">姓名</th>
+                <th width="130px">系别</th>
+                <th width="130px">专业</th>
+                <th width="100px">成绩等级</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody id="dataList">
+            </tbody>
+        </table>
+    </div>
+</div>
+<!-- 内容按钮功能 -->
+<script type="text/javascript">
+    $(document).ready(function () {
+        /****初始化下拉列表***/
+        initPage()
+
+        //搜索按钮
+        $('.search input[value="搜索"]').click(function () {
+            var majorId = $(".search .majorSelect").val();
+            var no = $(".search input[name=no]").val()
+            var name = $(".search input[name=name]").val()
+
+            findList(majorId, no, name);
+        });
+    })
+
+    function initPage() {
+        findList()
+        initMajor()
+    }
+
+
+    function findList(majorId, no, name) {
+        $.ajax({
+            url: '../departmentLeader:studentScore/listStudent',
+            type: 'GET',
+            data: {
+                majorId: majorId,
+                no: no,
+                name: name
+            },
+            dataType: 'json',
+            success: function (data) {
+                var dataList = $("#dataList");
+                dataList.html("");
+
+                for (i = 0; i < data.data.length; i++) {
+                    var str = "<tr><td>" + (i + 1) + "</td>"
+                        + "<td>" + data.data[i].student.no + "</td><td>" + data.data[i].student.name + "</td>"
+                        + "<td>" + data.data[i].student.departmentModel.department + "</td>"
+                        + "<td>" + data.data[i].student.majorModel.major + "</td>";
+                    if (data.data[i].totalScore != null) {
+                        str = str + "<td>" + data.data[i].totalScore.level + "</td>"
+                            + "<td><a href='../departmentLeader:studentScore/student/" + data.data[i].student.id + "'>" +
+                            "<input type=\"button\" value=\"详情\"></a></td></tr>"
+                    }else{
+                        str = str + "<td>---</td>"
+                            + "<td></td></tr>"
+                    }
+                    dataList.append(str)
+                }
+            }
+        });
+    }
+
+    function initMajor() {
+        $.ajax({
+            url: '../departmentLeader:major/listMajor',
+            type: 'GET',
+            async: false,
+            dataType: 'json',
+            success: function (data) {
+                var majorSelect = $(".majorSelect");
+
+                var head = "<option value='"
+                var second = "'>"
+                var third = "</option>";
+
+                var str
+                for (i = 0; i < data.data.length; i++) {
+                    str = head + data.data[i].id + second + data.data[i].major + third;
+                    majorSelect.append(str)
+                }
+            }
+        });
+    }
+</script>
+</body>
+</html>

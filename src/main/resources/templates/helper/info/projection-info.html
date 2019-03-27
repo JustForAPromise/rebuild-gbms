@@ -150,7 +150,7 @@
         $('.bottoms input[value="确定"]').click(function () {
             var form = $("#audit-data")[0];
 
-            updateStatus(new FormData(form))
+            updateStatus(new FormData(form), searchInfo)
 
             $('.bottoms').addClass('hide');
         });
@@ -179,7 +179,7 @@
             var teacherId = searchInfo.teacherId;
             var title = searchInfo.title;
             var auditStatus = searchInfo.auditStatus;
-            var url = "../projection:helper/down?"
+            var url = "/helper:projection/down?"
             if (teacherId != null && teacherId != "") {
                 url = url + "teacherId=" + teacherId;
                 if (title != null && title != "") {
@@ -204,7 +204,7 @@
     /********************** 初始化界面 ***************************/
     function initPage() {
         initTeacherSelect()
-        findList()
+        findList(null, null, null)
     }
 
     function initTeacherSelect() {
@@ -232,7 +232,7 @@
 
     function findList(teacherId, title, auditStatus) {
         $.ajax({
-            url: '../projection:helper/findList',
+            url: '../helper:projection/findList',
             type: 'GET',
             data: {
                 teacherId: teacherId,
@@ -271,7 +271,7 @@
 
     function findById(id) {
         $.ajax({
-            url: '../projection:helper/findById',
+            url: '../helper:projection/findById',
             type: 'GET',
             data: {
                 id: id
@@ -289,9 +289,9 @@
         });
     }
 
-    function updateStatus(formData) {
+    function updateStatus(formData,searchInfo) {
         $.ajax({
-            url: '../projection:helper/update',
+            url: '../helper:projection/update',
             type: 'POST',
             data: formData,
             dataType: 'json',
@@ -301,7 +301,7 @@
                 if (data.code == -1) {
                     alert(data.msg)
                 } else {
-                    findList()
+                    findList(searchInfo.teacherId, searchInfo.title, searchInfo.auditStatus)
                 }
             }
         });
@@ -317,7 +317,7 @@
 
     function batchUpdateProjections(formData) {
         $.ajax({
-            url: '../projection:helper/batchUpdate',
+            url: '../helper:projection/batchUpdate',
             type: 'POST',
             data:formData,
             processData: false,

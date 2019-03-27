@@ -1,0 +1,122 @@
+/*.data{*/
+	/*min-width: 800px;*/
+/*}*/
+/*.data input[type=submit]{*/
+	/*border-radius: 5px;*/
+/*}*/
+/*.data table{*/
+	/*padding-top: 30px;*/
+	/*margin-top: 10px;*/
+/*}*/
+/*.data table th, .data table td{*/
+	/*text-align: center;*/
+	/*padding-right: 5px;*/
+	/*padding-left: 5px;*/
+/*}*/
+/*.data table tbody tr{ text-align: center; 	height:30px;}*/
+/*.data table tbody tr:nth-of-type(odd){ background:#EEE9E9 ;}!**奇数行**! */
+/*.data table tbody tr:nth-of-type(even){ background:#F8F8FF ;}!**偶数行**!*/
+
+.body{
+	margin-left: 60px;
+}
+.studentInfo{
+	margin-bottom: 10px;
+}
+.OrdinaryInfo{
+	margin-bottom: 10px;
+}
+
+.ReviewInfo{
+	margin-bottom: 20px;
+}
+.ResponseInfo{
+	margin-bottom: 20px;
+}
+
+.totalInfo{
+	margin-bottom: 20px;
+}
+.infos table{
+	margin-left: 5px;
+}
+.infos table td{
+	text-align: center;
+}
+.infos table td:nth-child(1){
+	width: 25px;
+}
+.infos table td:nth-child(3){
+	width: 400px;
+}
+.infos table td:nth-child(4){
+	width: 40px;
+}
+.infos table td:nth-child(5){
+	margin-left: 5px;
+	color: #ff0007;
+	width: 30px;
+}
+
+.totalInfo table td{
+	background: #FFFFFF;
+	color: #0f0f0f;
+}
+.totalInfo table td:nth-child(1){
+	width: 60px;
+}
+.totalInfo table td:nth-child(2){
+	width: 60px;
+}
+.totalInfo table td:nth-child(3){
+	width: 120px;
+}
+.totalInfo table td:nth-child(4){
+	width: 60px;
+}
+
+
+
+.studentInfo h5, .studentInfo table{
+	margin-left: 100px;
+}
+.studentInfo table{
+	min-width: 350px;
+	max-width: 600px;
+}
+
+.studentInfo table td{
+	max-width: 250px;
+	padding: 5px 5px;
+}
+
+.teacherInfo{
+	float: left;
+	margin-left: 20px;
+}
+.teacherInfo h5, .teacherInfo table{
+	margin-left: 20px;
+}
+.teacherInfo table{
+	width: 350px;
+}
+
+.teacherInfo table td{
+	padding-left: 5px;
+	padding-right: 5px;
+}
+
+.projectionInfo{
+	clear: both;
+}
+.projectionInfo h5, .projectionInfo table{
+	margin-left: 100px;
+}
+.projectionInfo table{
+	width: 600px;
+}
+.projectionInfo table td{
+	padding-left: 5px;
+	padding-right: 5px;
+}
+

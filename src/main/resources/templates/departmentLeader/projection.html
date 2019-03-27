@@ -24,7 +24,7 @@
             </select>
             <label>&nbsp;课题标题</label><input type="text" name="title">
         </form>
-        <span>&nbsp;&nbsp;</span> <input type="button" value="搜索"><span>&nbsp;&nbsp;</span><input type="button" value="记录导出">
+        <span>&nbsp;&nbsp;</span> <input type="button" value="搜索"><!--<span>&nbsp;&nbsp;</span><input type="button" value="记录导出">-->
     </div>
 </div>
 
@@ -64,14 +64,6 @@
             var title = $("input[name=title]").val()
             findProjection(teacherId, title)
         })
-
-        $(".data").on("click", "input[value='查看']", function () {
-            var tds = $(this).parent().prevAll();
-            //界面处理
-            findById(tds.eq(5).text())
-        })
-
-
     });
 
     function initPage() {
@@ -99,7 +91,7 @@
                         "<td>" + data.data[i].majorModel.major + "</td>" +
                         "<td>" + data.data[i].teacherModel.name + "</td>" +
                         "<td>" + data.data[i].title + "</td>" +
-                        "<td><a href=\"../projection/"+data.data[i].id+"\"><input type=\"button\" value=\"详情\"></a></td></tr>";
+                        "<td><a href=\"../departmentLeader:projection/"+data.data[i].id+"\"><input type=\"button\" value=\"详情\"></a></td></tr>";
 
                     dataList.append(str)
                 }
@@ -126,78 +118,6 @@
             }
         });
 
-    }
-
-    function findById(id) {
-        $.ajax({
-            url: '../departmentLeader:projection/findById',
-            type: 'GET',
-            data: {
-                id: id
-            },
-            dataType: 'json',
-            success: function (data) {
-                if (data.code == -1) {
-                    alert(data.msg)
-                } else {
-                    $('.tops input[name="title"]').val(data.data.title)
-                    $('.tops textarea[name= "introduce"]').val(data.data.introduce);
-                    $('.tops textarea[name="require"]').val(data.data.demand);
-                    $('.tops').removeClass('hide');
-                }
-            }
-        });
-    }
-
-
-    function findByAuditStatus(auditStatus) {
-        $.ajax({
-            url: '../departmentLeader:projection/findByAuditStatus',
-            type: 'GET',
-            data: {
-                auditStatus: auditStatus
-            },
-            async: false,
-            dataType: 'json',
-            success: function (data) {
-                if (data.code == -1) {
-                    alert(data.msg)
-                } else {
-                    var dataList = $("#dataList");
-                    dataList.html("");
-
-                    for (i = 0; i < data.data.length; i++) {
-                        var str = "<tr><td>" + (i + 1)
-                            + "</td> <td style=\"display: none\" >" + data.data[i].id + "</td> "
-                            + "<td>" + data.data[i].title + "</td>";
-
-                        if (data.data[i].introduce.length > 10) {
-                            str = str + "<td>" + data.data[i].introduce.substr(0, 10) + "....</td>"
-                        } else {
-                            str = str + "<td>" + data.data[i].introduce + "</td>"
-                        }
-
-                        if (data.data[i].demand.length > 10) {
-                            str = str + "<td>" + data.data[i].demand.substr(0, 10) + "....</td>"
-                        } else {
-                            str = str + "<td>" + data.data[i].demand + "</td>"
-                        }
-
-                        str = str + "<td>" + data.data[i].teacherModel.name + "</td>"
-
-                        if (data.data[i].auditStatus == 0) {
-                            str = str + "<td>未审核</td> "
-                                + "<td><input type=\"button\" value=\"查看\"><input type=\"button\" value=\"审批\"></td>\n"
-                        } else if (data.data[i].auditStatus == 1) {
-                            str = str + "<td style='color: darkorange'>已通过</td><td ><input type=\"button\" value=\"查看\"></td>"
-                        } else if (data.data[i].auditStatus == 2) {
-                            str = str + "<td style='color: red'>已通过</td><td ><input type=\"button\" value=\"查看\"></td>"
-                        }
-                        dataList.append(str)
-                    }
-                }
-            }
-        });
     }
 </script>
 

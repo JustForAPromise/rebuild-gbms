@@ -29,6 +29,9 @@ public class LoginOfStudentController {
     private HttpSession session;
 
     @Autowired
+    private StudentService studentService;
+
+    @Autowired
     private TeacherService teacherService;
 
     @Autowired
@@ -50,15 +53,14 @@ public class LoginOfStudentController {
     ModelAndView login(Integer identify, String no, String password) {
         ModelAndView modelAndView = null;
 
-        UserModel userModel = teacherService.findByNoAndPasswd(no, password);
+        UserModel userModel = studentService.findByNoAndPasswd(no, password);
         if (userModel != null) {
-            modelAndView = new ModelAndView("/teacher/index.html");
+            modelAndView = new ModelAndView("/student/index.html");
         }
 
         if (userModel == null) {
             modelAndView = new ModelAndView("/studentLogin.html");
             modelAndView.addObject("tip", "密码或用户名错误！");
-            return modelAndView;
         } else {
             if (userModel.getPowerId() != null) {
                 userModel.setPowerModel(powerService.findById(userModel.getPowerId()));
@@ -80,8 +82,8 @@ public class LoginOfStudentController {
                 }
             }
             session.setAttribute("userInfo", userModel);
-            return modelAndView;
         }
+        return modelAndView;
     }
 
     @RequestMapping(value = "/loginOut", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)

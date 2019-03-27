@@ -55,7 +55,7 @@ public class StudentScoreOfResponseController {
 
         StudentScoreData result = studentScoreService.findRecord(receiveData);
 
-        ModelAndView modelAndView = new ModelAndView("/responseTeamLeaderstudentScoreDetail.html");
+        ModelAndView modelAndView = new ModelAndView("/responseTeamLeader/studentScoreDetail.html");
         modelAndView.addObject("scoreAllInfo", result);
 
         return modelAndView;

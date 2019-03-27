@@ -20,7 +20,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/review:studentScore")
-public class StudentScoreController {
+public class StudentScoreOfReviewController {
 
     @Autowired
     private StudentScoreService studentScoreService;
@@ -57,7 +57,7 @@ public class StudentScoreController {
 
         StudentScoreData result = studentScoreService.findRecord(receiveData);
 
-        ModelAndView modelAndView = new ModelAndView("/teacher/info/studentScoreDetail.html");
+        ModelAndView modelAndView = new ModelAndView("/reviewTeacher/studentScoreDetail.html");
         modelAndView.addObject("scoreAllInfo", result);
 
         return modelAndView;

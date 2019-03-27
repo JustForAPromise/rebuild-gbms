@@ -4,39 +4,48 @@
     <meta charset="UTF-8">
     <title>教师信息管理</title>
 
-    <link rel="stylesheet" type="text/css" href="../css/student/student-score.css">
-    <link rel="stylesheet" type="text/css" href="../css/bootstrap-theme.min.css">
-    <link rel="stylesheet" type="text/css" href="../css/bootstrap.css">
-    <link rel="stylesheet" type="text/css" href="../css/swiper.min.css">
+    <link rel="stylesheet" type="text/css" href="../../css/student/student-score.css">
+    <link rel="stylesheet" type="text/css" href="../../css/bootstrap-theme.min.css">
+    <link rel="stylesheet" type="text/css" href="../../css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="../../css/swiper.min.css">
 
-    <script type="text/javascript" src="../js/jquery.js"></script>
-    <script type="text/javascript" src="../js/bootstrap.js"></script>
-    <script type="text/javascript" src="../js/swiper.jquery.min.js"></script>
+    <script type="text/javascript" src="../../js/jquery.js"></script>
+    <script type="text/javascript" src="../../js/bootstrap.js"></script>
+    <script type="text/javascript" src="../../js/swiper.jquery.min.js"></script>
 </head>
 <body>
 <div class="body">
+    <div style="padding-left: 60px;padding-top: 5px; padding-bottom: 5px">
+        <a href="/departmentLeader/scoreOfStudent"><input type="button" value="返回"></a>
+    </div>
     <div class="studentInfo">
         <h4>基本信息</h4>
         <table>
             <tr>
                 <td width="85px">学号：</td>
-                <td th:text="${scoreAllInfo.student.no}"></td>
+                <td th:text="${studentInfo.student.no}"></td>
                 <td>姓名：</td>
-                <td th:text="${scoreAllInfo.student.name}"></td>
+                <td th:text="${studentInfo.student.name}"></td>
             </tr>
             <tr>
                 <td>系别：</td>
-                <td th:text="${scoreAllInfo.student.departmentModel.department}"></td>
+                <td th:text="${studentInfo.student.departmentModel.department}"></td>
                 <td>专业：</td>
-                <td th:text="${scoreAllInfo.student.majorModel.major}"></td>
+                <td th:text="${studentInfo.student.majorModel.major}"></td>
+            </tr>
+            <tr>
+                <td>课题标题：</td>
+                <td th:text="${studentInfo.projectionModel.title}"></td>
+                <td>指导教师：</td>
+                <td th:text="${studentInfo.student.teacherModel.name}"></td>
             </tr>
         </table>
     </div>
     <div class="infos">
-        <div class="OrdinaryInfo" th:if="${scoreAllInfo.scoreRecordListOfOrdinary != null}">
+        <div class="OrdinaryInfo" th:if="${studentInfo.scoreRecordListOfOrdinary != null}">
             <h4>指导教师评分</h4>
             <table>
-                <tr th:each="score,scoreStatus: ${scoreAllInfo.scoreRecordListOfOrdinary}">
+                <tr th:each="score,scoreStatus: ${studentInfo.scoreRecordListOfOrdinary}">
                     <td th:text="${scoreStatus.count}"></td>
                     <td style="display: none" th:text="${score.id}" class="ids"></td>
                     <td th:text="${score.scoreItemModel.itemName}"></td>
@@ -46,10 +55,10 @@
             </table>
         </div>
 
-        <div class="ReviewInfo" th:if="${scoreAllInfo.scoreRecordListOfReview != null}">
+        <div class="ReviewInfo" th:if="${studentInfo.scoreRecordListOfReview != null}">
             <h4>评阅教师评分</h4>
             <table>
-                <tr th:each="score,scoreStatus: ${scoreAllInfo.scoreRecordListOfReview}">
+                <tr th:each="score,scoreStatus: ${studentInfo.scoreRecordListOfReview}">
                     <td th:text="${scoreStatus.count}"></td>
                     <td style="display: none" th:text="${score.id}" class="ids"></td>
                     <td th:text="${score.scoreItemModel.itemName}"></td>
@@ -60,10 +69,10 @@
             </table>
         </div>
 
-        <div class="ResponseInfo" th:if="${scoreAllInfo.scoreRecordListOfResponse != null}">
+        <div class="ResponseInfo" th:if="${studentInfo.scoreRecordListOfResponse != null}">
             <h4>答辩教师评分</h4>
             <table>
-                <tr th:each="score,scoreStatus: ${scoreAllInfo.scoreRecordListOfResponse }">
+                <tr th:each="score,scoreStatus: ${studentInfo.scoreRecordListOfResponse }">
                     <td th:text="${scoreStatus.count}"></td>
                     <td style="display: none" th:text="${score.id}" class="ids"></td>
                     <td th:text="${score.scoreItemModel.itemName}"></td>
@@ -78,9 +87,9 @@
             <table>
                 <tr>
                     <td>总分：</td>
-                    <td th:text="${scoreAllInfo.totalScore.totalScorenNum}"></td>
+                    <td th:text="${studentInfo.totalScore.totalScorenNum}"></td>
                     <td>评定等级：</td>
-                    <td th:text="${scoreAllInfo.totalScore.level}"></td>
+                    <td th:text="${studentInfo.totalScore.level}"></td>
                 </tr>
             </table>
         </div>

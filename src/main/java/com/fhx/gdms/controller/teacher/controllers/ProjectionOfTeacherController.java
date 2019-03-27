@@ -51,6 +51,7 @@ public class ProjectionOfTeacherController {
     ApiResult update(ProjectionModel model) {
         ApiResult apiResult = new ApiResult();
 
+        model.setAuditStatus(0);
         model = projectionService.updateProjection(model);
 
         if (model != null) {

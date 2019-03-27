@@ -144,9 +144,8 @@ public class SelectRecordServiceImpl implements SelectRecordService {
 
     @Override
     public SelectRecordModel updateRecord(SelectRecordModel model) {
-        SelectRecordModel exitModel = model;
-        exitModel.setProjectionId(null);
-        exitModel.setTeacherId(null);
+        SelectRecordModel exitModel = new SelectRecordModel();
+        exitModel.setStudentId(model.getStudentId());
         List<SelectRecordModel> existRecord = selectRecordRepository.findList(model);
         if (existRecord.size()>0){
             selectRecordRepository.deleteByStudentId(model.getStudentId());

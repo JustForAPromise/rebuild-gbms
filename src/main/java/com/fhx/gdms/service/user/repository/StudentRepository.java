@@ -72,7 +72,7 @@ public interface StudentRepository {
     @ResultMap(value = "studentMap")
     List<UserModel> findByTeacherId(@Param("teacherId")Integer teacherId);
 
-    @SelectProvider(type = StudentProvider.class, method = "findListByModel")
+    @SelectProvider(type = StudentProvider.class, method = "findOne")
     UserModel findOne(UserModel student);
 
 
@@ -148,6 +148,36 @@ public interface StudentRepository {
             sql.WHERE("identify = 2");
             return sql.toString();
         }
+
+        public String findOne(UserModel model) {
+            SQL sql = new SQL();
+            sql.SELECT("*");
+            sql.FROM("tb_user");
+            if (model.getNo() != null && !"".equals(model.getNo())) {
+                sql.WHERE("no like #{no}");
+            }
+            if (model.getName() != null && !"".equals(model.getName())) {
+                sql.WHERE("name like #{name}");
+            }
+            if (model.getGender() != null && !"".equals(model.getGender())) {
+                sql.WHERE("gender = #{gender}");
+            }if (model.getPassword() != null && !"".equals(model.getPassword())) {
+                sql.WHERE("password = #{password}");
+            }
+            if (model.getDepartmentId() != null && !"".equals(model.getDepartmentId())) {
+                sql.WHERE("department_id = #{departmentId}");
+            }
+            if (model.getMajorId() != null && !"".equals(model.getMajorId())) {
+                sql.WHERE("major_id = #{majorId}");
+            }
+            if (model.getTeacherId() != null && !"".equals(model.getTeacherId())) {
+                sql.WHERE("teacher_id = #{teacherId}");
+            }
+            sql.WHERE("identify = 2");
+
+            return sql.toString()+" LIMIT 1";
+        }
+
 
         public String updateModel(UserModel model) {
             SQL sql = new SQL();

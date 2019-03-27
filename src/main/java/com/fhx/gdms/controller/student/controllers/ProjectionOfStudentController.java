@@ -18,7 +18,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/student:projection")
-public class ProjectionController {
+public class ProjectionOfStudentController {
 
     @Autowired
     private ProjectionService projectionService;

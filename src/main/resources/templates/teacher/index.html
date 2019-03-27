@@ -4,14 +4,14 @@
     <meta charset="UTF-8">
     <title>毕业设计信息管理系统</title>
 
-    <link rel="stylesheet" type="text/css" href="css/index.css">
-    <link rel="stylesheet" type="text/css" href="css/bootstrap-theme.min.css">
-    <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
-    <link rel="stylesheet" type="text/css" href="css/swiper.min.css">
+    <link rel="stylesheet" type="text/css" href="../css/index.css">
+    <link rel="stylesheet" type="text/css" href="../css/bootstrap-theme.min.css">
+    <link rel="stylesheet" type="text/css" href="../css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="../css/swiper.min.css">
 
-    <script type="text/javascript" src="js/jquery.js"></script>
-    <script type="text/javascript" src="js/bootstrap.js"></script>
-    <script type="text/javascript" src="js/swiper.jquery.min.js"></script>
+    <script type="text/javascript" src="../js/jquery.js"></script>
+    <script type="text/javascript" src="../js/bootstrap.js"></script>
+    <script type="text/javascript" src="../js/swiper.jquery.min.js"></script>
 
 </head>
 <body style="background-color:#888">
@@ -32,16 +32,16 @@
             <li>
                 <a><span>用户信息</span></a>
                 <ul class="childrenNav">
-                    <li><a target="function" href="teacher/personInfo">个人信息管理</a></li>
+                    <li><a target="function" href="/teacher/personInfo">个人信息管理</a></li>
                 </ul>
             </li>
             <li>
                 <a><span>功能选项</span></a>
                 <ul class="childrenNav">
-                    <li><a target="function" href="teacher/projection">课题管理</a></li>
-                    <li><a target="function" href="teacher/student">学生申请</a></li>
-                    <li><a target="function" href="teacher/materialReview">材料批阅</a></li>
-                    <li><a target="function" href="teacher/studentScore">成绩登记</a></li>
+                    <li><a target="function" href="/teacher/projection">课题管理</a></li>
+                    <li><a target="function" href="/teacher/student">学生申请</a></li>
+                    <li><a target="function" href="/teacher/materialReview">材料批阅</a></li>
+                    <li><a target="function" href="/teacher/studentScore">成绩登记</a></li>
                 </ul>
             </li>
             <li>
@@ -58,9 +58,9 @@
                 <li>
                     <a><span>选项</span></a>
                     <ul class="childrenNav">
-                        <li><a target="function" href="departmentLeader/power">权限分配</a></li>
-                        <li><a target="function" href="departmentLeader/projection">课题信息查看</a></li>
-                        <li><a target="function" href="departmentLeader/scoreOfStudent">学生成绩查看</a></li>
+                        <li><a target="function" href="/departmentLeader/power">权限分配</a></li>
+                        <li><a target="function" href="/departmentLeader/projection">课题信息查看</a></li>
+                        <li><a target="function" href="/departmentLeader/scoreOfStudent">学生成绩查看</a></li>
                     </ul>
                 </li>
             </ul>
@@ -70,7 +70,7 @@
                 <li>
                     <a><span>选项</span></a>
                     <ul class="childrenNav">
-                        <li><a target="function" href="reviewTeacher/studentScore">成绩登记</a></li>
+                        <li><a target="function" href="/reviewTeacher/studentScore">成绩登记</a></li>
                     </ul>
                 </li>
             </ul>
@@ -80,16 +80,13 @@
                 <li>
                     <a><span>选项</span></a>
                     <ul class="childrenNav">
-                        <li><a target="function" href="responseTeamLeader/studentScore">成绩登记</a></li>
+                        <li><a target="function" href="/responseTeamLeader/studentScore">成绩登记</a></li>
                     </ul>
                 </li>
             </ul>
         </div>
     </div>
     <div class="rightDiv">
-        <div class="navInfo">
-            <span>系统--></span>
-        </div>
         <div class="frame">
             <iframe id="functionFrame" name="function" frameborder="0">
 
@@ -108,12 +105,12 @@
     function resetSize() {
         if (window.innerWidth > 1040) {
             mainDiv.width(window.innerWidth)
-            rightDiv.width(window.innerWidth - 260);
-            frame.width(window.innerWidth - 260)
+            rightDiv.width(window.innerWidth - 255);
+            frame.width(window.innerWidth - 255)
         }
         if (window.innerHeight > 500) {
             mainDiv.height(window.innerHeight)
-            frame.height(window.innerHeight - 100)
+            frame.height(window.innerHeight - 70)
             leftDiv.height(window.innerHeight - 70);
         }
     }
@@ -127,15 +124,16 @@
     var firstNav = $(".mainNav>li>a");
     var firstColor = firstNav.css("background-color");//保留一级导航栏的背景色
     firstNav.hover(function () {
-        $(this).css("background-color", "rgb(180, 180, 180)");
+        $(this).css("background-color", "rgba(0,0,0,0.8)");
     }, function () {
-        $(this).css("background-color", "rgb(204, 204, 204)");
+        $(this).css("background-color", "rgba(0,0,0,0)");
     })
+
     var secondNav = $(".childrenNav");
-    secondNav.children("li").hover(function () {
-        $(this).css({"background-color": "#0AA", "color": "#000"});
-    }, function () {
-        $(this).css({"background-color": "#000", "color": "#0FF"});
+    secondNav.children("li").hover(function(){
+        $(this).css({"background-color":"rgba(0,0,0,0)","color":"rgba(255,255,255,1)"});
+    },function(){
+        $(this).css({"background-color":"rgba(0,0,0,0.2)","color":"rgba(255,255,255,1)"});
     })
 
     firstNav.click(function () {

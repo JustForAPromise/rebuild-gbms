@@ -6,14 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <link rel="stylesheet" type="text/css" href="css/admin/admin-index.css">
-    <link rel="stylesheet" type="text/css" href="css/bootstrap-theme.min.css">
-    <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
-    <link rel="stylesheet" type="text/css" href="css/swiper.min.css">
+    <link rel="stylesheet" type="text/css" href="../css/index.css">
+    <link rel="stylesheet" type="text/css" href="../css/bootstrap-theme.min.css">
+    <link rel="stylesheet" type="text/css" href="../css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="../css/swiper.min.css">
 
 
-    <script type="text/javascript" src="js/jquery.min.js"></script>
-    <script type="text/javascript" src="js/swiper.jquery.min.js"></script>
+    <script type="text/javascript" src="../js/jquery.min.js"></script>
+    <script type="text/javascript" src="../js/swiper.jquery.min.js"></script>
 
 </head>
 <body style="background-color:#888">
@@ -34,28 +34,27 @@
             <li>
                 <a><span>用户信息</span></a>
                 <ul class="childrenNav">
-                    <li><a target="function" href="admin/getUserInfo">个人信息管理</a></li>
+                    <li><a target="function" href="/admin/getUserInfo">个人信息管理</a></li>
                 </ul>
             </li>
             <li>
                 <a><span>信息管理</span></a>
                 <ul class="childrenNav">
-                    <li><a target="function" href="admin/department">系别一览</a></li>
-                    <li><a target="function" href="admin/student">学生</a></li>
-                    <li><a target="function" href="admin/teacher">教师</a></li>
+                    <li><a target="function" href="/admin/department">系别一览</a></li>
+                    <li><a target="function" href="/admin/student">学生</a></li>
+                    <li><a target="function" href="/admin/teacher">教师</a></li>
                 </ul>
             </li>
             <li>
                 <a><span>权限管理</span></a>
                 <ul class="childrenNav">
-                    <li><a target="function" href="admin/power">权限分配</a></li>
+                    <li><a target="function" href="/admin/power">权限分配</a></li>
                 </ul>
             </li>
             <li>
                 <a><span>成绩相关</span></a>
                 <ul class="childrenNav">
-                    <li><a target="function" href="admin/scoreCondition">评分项目管理</a></li>
-                    <li><a target="function" href="#">学生成绩一览</a></li>
+                    <li><a target="function" href="/admin/scoreCondition">评分项目管理</a></li>
                 </ul>
             </li>
             <li>
@@ -68,9 +67,6 @@
         </ul>
     </div>
     <div class="rightDiv">
-        <div class="navInfo">
-            <span>系统--></span>
-        </div>
         <div class="frame">
             <iframe id="functionFrame" name="function" frameborder="0">
 
@@ -89,12 +85,12 @@
     function resetSize() {
         if (window.innerWidth > 1040) {
             mainDiv.width(window.innerWidth)
-            rightDiv.width(window.innerWidth - 260);
-            frame.width(window.innerWidth - 260)
+            rightDiv.width(window.innerWidth - 255);
+            frame.width(window.innerWidth - 255)
         }
         if (window.innerHeight > 500) {
             mainDiv.height(window.innerHeight)
-            frame.height(window.innerHeight - 100)
+            frame.height(window.innerHeight - 70)
             leftDiv.height(window.innerHeight - 70);
         }
     }
@@ -108,15 +104,16 @@
     var firstNav = $(".mainNav>li>a");
     var firstColor = firstNav.css("background-color");//保留一级导航栏的背景色
     firstNav.hover(function () {
-        $(this).css("background-color", "rgb(180, 180, 180)");
+        $(this).css("background-color", "rgba(0,0,0,0.8)");
     }, function () {
-        $(this).css("background-color", "rgb(204, 204, 204)");
+        $(this).css("background-color", "rgba(0,0,0,0)");
     })
+
     var secondNav = $(".childrenNav");
-    secondNav.children("li").hover(function () {
-        $(this).css({"background-color": "#0AA", "color": "#000"});
-    }, function () {
-        $(this).css({"background-color": "#000", "color": "#0FF"});
+    secondNav.children("li").hover(function(){
+        $(this).css({"background-color":"rgba(0,0,0,0)","color":"rgba(255,255,255,1)"});
+    },function(){
+        $(this).css({"background-color":"rgba(0,0,0,0.2)","color":"rgba(255,255,255,1)"});
     })
 
     firstNav.click(function () {

@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -63,69 +64,84 @@ public class StudentScoreServiceImpl implements StudentScoreService {
 
     @Override
     public StudentScoreData findScoreToStudent(UserModel student) {
+        StudentScoreData result = new StudentScoreData();
+
         UserModel studentModel = studentService.findById(student.getId());
-
         ProjectionModel projection = projectionService.findByUserIdAndTeacherId(student.getId(), student.getTeacherId());
+        if (projection != null) {
+            MaterialStatusModel materialStatus = new MaterialStatusModel();
+            materialStatus.setStudentId(student.getId());
+            materialStatus.setTeacherId(student.getTeacherId());
+            materialStatus.setProjectionId(projection.getId());
 
-        MaterialStatusModel materialStatus = new MaterialStatusModel();
-        materialStatus.setStudentId(student.getId());
-        materialStatus.setTeacherId(student.getTeacherId());
-        materialStatus.setProjectionId(projection.getId());
+            materialStatus = materialStatusService.findOne(materialStatus);
 
-        materialStatus = materialStatusService.findOne(materialStatus);
+            List<StudentScoreRecordModel> scoreRecordListOfOrdinary = studentScoreRecordService.ListByStudentId(student.getId(), 1);
+            List<StudentScoreRecordModel> scoreRecordListOfReview = studentScoreRecordService.ListByStudentId(student.getId(), 2);
+            List<StudentScoreRecordModel> scoreRecordListOfResponse = studentScoreRecordService.ListByStudentId(student.getId(), 3);
 
-        List<StudentScoreRecordModel> scoreRecordListOfOrdinary = studentScoreRecordService.ListByStudentId(student.getId(), 1);
-        List<StudentScoreRecordModel> scoreRecordListOfReview = studentScoreRecordService.ListByStudentId(student.getId(), 2);
-        List<StudentScoreRecordModel> scoreRecordListOfResponse = studentScoreRecordService.ListByStudentId(student.getId(), 3);
+            TotalScoreData totalScoreData = new TotalScoreData();
+            totalScoreData.setTotalScorenNum(new BigDecimal(0));
+            scoreRecordListOfOrdinary.stream().forEach(data -> {
+                totalScoreData.setTotalScorenNum(
+                        totalScoreData.getTotalScorenNum().add(
+                                new BigDecimal(data.getScoreNum())
+                                        .multiply(
+                                                new BigDecimal(data.getScoreItemModel().getScoreRate()).divide(new BigDecimal(100))))
+                );
+            });
+            scoreRecordListOfReview.stream().forEach(data -> {
+                totalScoreData.setTotalScorenNum(
+                        totalScoreData.getTotalScorenNum().add(
+                                new BigDecimal(data.getScoreNum())
+                                        .multiply(
+                                                new BigDecimal(data.getScoreItemModel().getScoreRate()).divide(new BigDecimal(100))))
+                );
+            });
+            scoreRecordListOfResponse.stream().forEach(data -> {
+                totalScoreData.setTotalScorenNum(
+                        totalScoreData.getTotalScorenNum().add(
+                                new BigDecimal(data.getScoreNum())
+                                        .multiply(
+                                                new BigDecimal(data.getScoreItemModel().getScoreRate()).divide(new BigDecimal(100))))
+                );
+            });
 
-        TotalScoreData totalScoreData = new TotalScoreData();
-        totalScoreData.setTotalScorenNum(new BigDecimal(0));
-        scoreRecordListOfOrdinary.stream().forEach(data -> {
-            totalScoreData.setTotalScorenNum(
-                    totalScoreData.getTotalScorenNum().add(
-                            new BigDecimal(data.getScoreNum())
-                                    .multiply(
-                                            new BigDecimal(data.getScoreItemModel().getScoreRate()).divide(new BigDecimal(100))))
-            );
-        });
-        scoreRecordListOfReview.stream().forEach(data -> {
-            totalScoreData.setTotalScorenNum(
-                    totalScoreData.getTotalScorenNum().add(
-                            new BigDecimal(data.getScoreNum())
-                                    .multiply(
-                                            new BigDecimal(data.getScoreItemModel().getScoreRate()).divide(new BigDecimal(100))))
-            );
-        });
-        scoreRecordListOfResponse.stream().forEach(data -> {
-            totalScoreData.setTotalScorenNum(
-                    totalScoreData.getTotalScorenNum().add(
-                            new BigDecimal(data.getScoreNum())
-                                    .multiply(
-                                            new BigDecimal(data.getScoreItemModel().getScoreRate()).divide(new BigDecimal(100))))
-            );
-        });
+            if (totalScoreData.getTotalScorenNum().doubleValue() >= 90) {
+                totalScoreData.setLevel("优秀");
+            } else if (totalScoreData.getTotalScorenNum().doubleValue() >= 80) {
+                totalScoreData.setLevel("良好");
+            } else if (totalScoreData.getTotalScorenNum().doubleValue() >= 70) {
+                totalScoreData.setLevel("中等");
+            } else if (totalScoreData.getTotalScorenNum().doubleValue() >= 60) {
+                totalScoreData.setLevel("及格");
+            } else {
+                totalScoreData.setLevel("不及格");
+            }
 
-        if (totalScoreData.getTotalScorenNum().doubleValue() >= 90){
-            totalScoreData.setLevel("优秀");
-        }else if (totalScoreData.getTotalScorenNum().doubleValue() >= 80){
-            totalScoreData.setLevel("良好");
-        }else if (totalScoreData.getTotalScorenNum().doubleValue() >= 70){
-            totalScoreData.setLevel("中等");
-        }else if (totalScoreData.getTotalScorenNum().doubleValue() >= 60){
-            totalScoreData.setLevel("及格");
-        }else {
-            totalScoreData.setLevel("不及格");
+            result.setProjectionModel(projection);
+            result.setMaterialStatusModel(materialStatus);
+            result.setScoreRecordListOfOrdinary(scoreRecordListOfOrdinary);
+            result.setScoreRecordListOfReview(scoreRecordListOfReview);
+            result.setScoreRecordListOfResponse(scoreRecordListOfResponse);
+            result.setTotalScore(totalScoreData);
         }
 
-        StudentScoreData result = new StudentScoreData();
         result.setStudent(studentModel);
-        result.setProjectionModel(projection);
-        result.setMaterialStatusModel(materialStatus);
-        result.setScoreRecordListOfOrdinary(scoreRecordListOfOrdinary);
-        result.setScoreRecordListOfReview(scoreRecordListOfReview);
-        result.setScoreRecordListOfResponse(scoreRecordListOfResponse);
-        result.setTotalScore(totalScoreData);
-
         return result;
+    }
+
+    @Override
+    public List<StudentScoreData> findBaseInfoList(UserModel student) {
+        List<StudentScoreData> results = new ArrayList<>();
+
+        List<UserModel> studentList = studentService.findStudent(student);
+
+        studentList.stream().forEach(data ->{
+            StudentScoreData studentScoreData = this.findScoreToStudent(data);
+            results.add(studentScoreData);
+        });
+
+        return results;
     }
 }
