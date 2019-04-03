@@ -20,7 +20,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/teacher:studentScore")
-public class StudentScoreController {
+public class StudentScoreOfTeacherController {
 
     @Autowired
     private StudentScoreService studentScoreService;

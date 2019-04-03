@@ -111,4 +111,6 @@ public interface SelectRecordService {
      * @return
      */
     List<SelectRecordModel> findList(SelectRecordModel selectRecordModel);
+
+    SelectRecordModel findOne(SelectRecordModel selectRecordModel);
 }

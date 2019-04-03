@@ -33,22 +33,23 @@
 
             <tr>
                 <td class="font-blod">任务书审核是否通过：</td>
-                <td th:if="${scoreAllInfo.materialStatusModel.taskAuditStatus == 1}">通过</td>
-                <td th:if="${scoreAllInfo.materialStatusModel.taskAuditStatus == 2}">未通过</td>
-                <td th:if="${scoreAllInfo.materialStatusModel.taskAuditStatus != 1 && scoreAllInfo.materialStatusModel.taskAuditStatus != 2}">
-                    --
-                </td>
+                <td th:if="${scoreAllInfo.materialStatusModel != null && scoreAllInfo.materialStatusModel.taskAuditStatus == 1}">通过</td>
+                <td th:if="${scoreAllInfo.materialStatusModel != null && scoreAllInfo.materialStatusModel.taskAuditStatus == 2}">未通过</td>
+                <td th:if="${scoreAllInfo.materialStatusModel != null && scoreAllInfo.materialStatusModel.taskAuditStatus == 0}">未审阅</td>
+                <td th:if="${scoreAllInfo.materialStatusModel == null}"> 材料未提交 </td>
                 <td class="2"></td>
                 <td class="font-blod">论文审核是否通过：</td>
-                <td th:if="${scoreAllInfo.materialStatusModel.thesesAuditStatus == 1}">通过</td>
-                <td th:if="${scoreAllInfo.materialStatusModel.thesesAuditStatus == 2}">未通过</td>
-                <td th:if="${scoreAllInfo.materialStatusModel.thesesAuditStatus != 1 && scoreAllInfo.materialStatusModel.thesesAuditStatus != 2}">
-                    --
-                </td>
+                <td th:if="${scoreAllInfo.materialStatusModel != null && scoreAllInfo.materialStatusModel.thesesAuditStatus == 1}">通过</td>
+                <td th:if="${scoreAllInfo.materialStatusModel != null && scoreAllInfo.materialStatusModel.thesesAuditStatus == 2}">未通过</td>
+                <td th:if="${scoreAllInfo.materialStatusModel != null && scoreAllInfo.materialStatusModel.thesesAuditStatus == 0}">未审阅</td>
+                <td th:if="${scoreAllInfo.materialStatusModel == null}"> 材料未提交 </td>
             </tr>
         </table>
     </div>
-    <div class="data">
+    <div class="data"  th:if="${scoreAllInfo.materialStatusModel == null || scoreAllInfo.materialStatusModel.taskAuditStatus != 1}">
+        <h5 style="padding-left: 100px; padding-top: 50px"> 该生尚未通过相关课题材料审核！不允许进行成绩登记</h5>
+    </div>
+    <div class="data" th:if="${scoreAllInfo.materialStatusModel != null && scoreAllInfo.materialStatusModel.taskAuditStatus == 1}">
         <table  th:if="${#lists.size(scoreAllInfo.scoreRecordModels) > 0}">
             <thead>
             <tr>
@@ -77,11 +78,18 @@
 </div>
 
 <!-- jq代码 -->
-<script>
+<script th:if="${scoreAllInfo.materialStatusModel != null && scoreAllInfo.materialStatusModel.taskAuditStatus == 1}">
     $(document).ready(function () {
         $(".data input[value=提交]").click(function () {
             var ids = $(".ids");
             var nums = $(".nums")
+            for (i = 0, j = ids.length; i < j; i++){
+                if($(nums[i]).val()>100 || $(nums[i]).val()<0){
+                    alert("请输入合法数值，范围：0~100")
+                    $(nums[i]).focus()
+                    return;
+                }
+            }
             for (i = 0, j = ids.length; i < j; i++){
                 updateNum($(ids[i]).text(), $(nums[i]).val())
             }

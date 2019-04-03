@@ -44,6 +44,26 @@
                     <li><a target="function" href="/teacher/studentScore">成绩登记</a></li>
                 </ul>
             </li>
+            <li th:if="${session.userInfo.powerModel != null && session.userInfo.powerModel.departmentLeader}">
+                <a><span>系主任功能</span></a>
+                <ul class="childrenNav">
+                    <li><a target="function" href="/departmentLeader/power">权限分配</a></li>
+                    <li><a target="function" href="/departmentLeader/projection">课题信息查看</a></li>
+                    <li><a target="function" href="/departmentLeader/scoreOfStudent">学生成绩查看</a></li>
+                </ul>
+            </li>
+            <li th:if="${session.userInfo.powerModel != null && session.userInfo.powerModel.reviewTeacher}">
+                <a><span>评阅教师功能</span></a>
+                <ul class="childrenNav">
+                    <li><a target="function" href="/reviewTeacher/studentScore">成绩登记</a></li>
+                </ul>
+            </li>
+            <li th:if="${session.userInfo.powerModel != null && session.userInfo.powerModel.departmentLeader}">
+                <a><span>答辩组组长功能</span></a>
+                <ul class="childrenNav">
+                    <li><a target="function" href="/responseTeamLeader/studentScore">成绩登记</a></li>
+                </ul>
+            </li>
             <li>
                 <a><span>系统相关</span></a>
                 <ul class="childrenNav">
@@ -52,39 +72,39 @@
             </li>
         </ul>
 
-        <div th:if="${session.userInfo.powerModel != null}">
-            <ul class="mainNav" th:if="${session.userInfo.powerModel.departmentLeader}">
-                <h5>系负责人角色：</h5>
-                <li>
-                    <a><span>选项</span></a>
-                    <ul class="childrenNav">
-                        <li><a target="function" href="/departmentLeader/power">权限分配</a></li>
-                        <li><a target="function" href="/departmentLeader/projection">课题信息查看</a></li>
-                        <li><a target="function" href="/departmentLeader/scoreOfStudent">学生成绩查看</a></li>
-                    </ul>
-                </li>
-            </ul>
+        <!--<div th:if="${session.userInfo.powerModel != null}">-->
+            <!--<ul class="mainNav" th:if="${session.userInfo.powerModel.departmentLeader}">-->
+                <!--<h5 style="padding-left: 15px; color: white">系主任：</h5>-->
+                <!--<li>-->
+                    <!--<a><span>选项</span></a>-->
+                    <!--<ul class="childrenNav">-->
+                        <!--<li><a target="function" href="/departmentLeader/power">权限分配</a></li>-->
+                        <!--<li><a target="function" href="/departmentLeader/projection">课题信息查看</a></li>-->
+                        <!--<li><a target="function" href="/departmentLeader/scoreOfStudent">学生成绩查看</a></li>-->
+                    <!--</ul>-->
+                <!--</li>-->
+            <!--</ul>-->
 
-            <ul class="mainNav" th:if="${session.userInfo.powerModel.reviewTeacher}">
-                <h5>评阅教师角色：</h5>
-                <li>
-                    <a><span>选项</span></a>
-                    <ul class="childrenNav">
-                        <li><a target="function" href="/reviewTeacher/studentScore">成绩登记</a></li>
-                    </ul>
-                </li>
-            </ul>
+            <!--<ul class="mainNav" th:if="${session.userInfo.powerModel.reviewTeacher}">-->
+                <!--<h5 style="padding-left: 15px; color: white">评阅教师：</h5>-->
+                <!--<li>-->
+                    <!--<a><span>选项</span></a>-->
+                    <!--<ul class="childrenNav">-->
+                        <!--<li><a target="function" href="/reviewTeacher/studentScore">成绩登记</a></li>-->
+                    <!--</ul>-->
+                <!--</li>-->
+            <!--</ul>-->
 
-            <ul class="mainNav" th:if="${session.userInfo.powerModel.responseTeamLeader}">
-                <h5>答辩组组长角色：</h5>
-                <li>
-                    <a><span>选项</span></a>
-                    <ul class="childrenNav">
-                        <li><a target="function" href="/responseTeamLeader/studentScore">成绩登记</a></li>
-                    </ul>
-                </li>
-            </ul>
-        </div>
+            <!--<ul class="mainNav" th:if="${session.userInfo.powerModel.responseTeamLeader}">-->
+                <!--<h5 style="padding-left: 15px; color: white">答辩组组长：</h5>-->
+                <!--<li>-->
+                    <!--<a><span>选项</span></a>-->
+                    <!--<ul class="childrenNav">-->
+                        <!--<li><a target="function" href="/responseTeamLeader/studentScore">成绩登记</a></li>-->
+                    <!--</ul>-->
+                <!--</li>-->
+            <!--</ul>-->
+        <!--</div>-->
     </div>
     <div class="rightDiv">
         <div class="frame">

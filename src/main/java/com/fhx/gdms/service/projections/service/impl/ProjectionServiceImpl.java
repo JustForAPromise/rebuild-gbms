@@ -4,6 +4,7 @@ import com.fhx.gdms.service.major.service.MajorService;
 import com.fhx.gdms.service.projections.model.ProjectionModel;
 import com.fhx.gdms.service.projections.repository.ProjectionRepository;
 import com.fhx.gdms.service.projections.service.ProjectionService;
+import com.fhx.gdms.service.selectRecord.model.SelectRecordModel;
 import com.fhx.gdms.service.selectRecord.service.SelectRecordService;
 import com.fhx.gdms.service.user.model.UserModel;
 import com.fhx.gdms.service.user.service.TeacherService;
@@ -139,7 +140,13 @@ public class ProjectionServiceImpl implements ProjectionService {
 
     @Override
     public ProjectionModel findByUserIdAndTeacherId(Integer studentId, Integer teacherId) {
-        return projectionRepository.findByUserIdAndTeacherId(studentId, teacherId);
+        SelectRecordModel selectRecordModel = new SelectRecordModel();
+        selectRecordModel.setStudentId(studentId);
+        selectRecordModel.setTeacherId(teacherId);
+        selectRecordModel.setAuditStatus(1);
+        selectRecordModel = selectRecordService.findOne(selectRecordModel);
+
+        return projectionRepository.findById(selectRecordModel.getProjectionId());
     }
 
     @Override

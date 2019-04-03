@@ -44,7 +44,7 @@ public class PowerOfAdminController {
 
         PowerModel powerModel = powerService.savePower(existModel);
 
-        if (model != null) {
+        if (powerModel != null) {
             apiResult.setCode(0);
             apiResult.setMsg("添加成功");
             apiResult.setData(powerModel);

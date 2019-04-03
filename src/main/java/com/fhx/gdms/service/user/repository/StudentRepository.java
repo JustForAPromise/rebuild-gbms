@@ -146,6 +146,7 @@ public interface StudentRepository {
                 sql.WHERE("teacher_id = #{teacherId}");
             }
             sql.WHERE("identify = 2");
+            sql.ORDER_BY("update_time DESC");
             return sql.toString();
         }
 

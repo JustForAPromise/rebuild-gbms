@@ -77,6 +77,10 @@
     </div>
     <div class="search">
         <form id="data-search" class="data-search" style="float: left">
+            <label>指导教师：</label>
+            <select class="teacherSelect" name="teacherId">
+
+            </select>
             <label>专业：</label>
             <select class="majorSelect" name="majorId">
 
@@ -121,18 +125,32 @@
             $("#form-data input[name=studentNo]").removeAttr("disabled")
         })
 
+
         $(".submitBtn").click(function () {
             var formData = new FormData($("#form-data")[0]);
             formData.delete("studentNo")
-            formData.append("studentNo",$("#form-data input[name=studentNo]").val())
+            formData.append("studentNo", $("#form-data input[name=studentNo]").val())
+            if (formData.get("studentNo") == null || formData.get("studentNo") == "") {
+                alert("请填写完整信息")
+                return;
+            }
+            if (formData.get("projectionId") == null || formData.get("projectionId") == "") {
+                alert("请填写完整信息")
+                return;
+            }
+            if (formData.get("teacherId") == null || formData.get("teacherId") == "") {
+                alert("请填写完整信息")
+                return;
+            }
             updateStudentSelectProjection(formData)
         })
 
         $(".search input[value=搜索]").click(function () {
+            var teacherId = $(".search select[name=teacherId]").val();
             var majorId = $(".search select[name=majorId]").val();
             var no = $(".search input[name=no]").val();
             var name = $(".search input[name=name]").val();
-            findRecordList(majorId, no, name)
+            findRecordList(teacherId, majorId, no, name)
         })
 
         //密码重置按钮
@@ -168,6 +186,7 @@
                 var head = "<option value = \"";
                 var second = "\">";
                 var end = "</option>";
+                $(dataList[1]).append("<option value=''>-指导教师选择-</option>")
                 for (i = 0; i < data.data.length; i++) {
                     var str = head + data.data[i].id + second + data.data[i].name + end;
                     dataList.append(str)
@@ -260,11 +279,12 @@
         });
     }
 
-    function findRecordList(majorId, studentNo, name) {
+    function findRecordList(teacherId, majorId, studentNo, name) {
         $.ajax({
             url: '../helper:student/listToHelper',
             type: 'GET',
             data: {
+                teacherId: teacherId,
                 majorId: majorId,
                 no: studentNo,
                 name: name
@@ -313,17 +333,17 @@
                     alert(data.msg)
                 } else {
                     $("#form-data input[name=studentNo]").val(data.data.no)
-                    $("#form-data input[name=studentNo]").attr("disabled","true")
-                    if (data.data.teacherModel != null){
+                    $("#form-data input[name=studentNo]").attr("disabled", "true")
+                    if (data.data.teacherModel != null) {
                         $("#form-data select[name=teacherId]").val(data.data.teacherModel.id)
                         initProjection(data.data.teacherModel.id)
-                    } else{
+                    } else {
                         $("#form-data select[name=teacherId]").val(0)
                     }
 
-                    if (data.data.projection != null){
+                    if (data.data.projection != null) {
                         $("#form-data select[name=projectionId]").val(data.data.projection.id)
-                    } else{
+                    } else {
                         $("#form-data select[name=projectionId]").val(0)
                     }
                 }

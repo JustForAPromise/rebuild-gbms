@@ -19,7 +19,7 @@
     <div class="function">
         <!-- 添加权限功能 -->
         <input type="button" value="添加"><span>&nbsp;&nbsp;&nbsp;</span>
-        <input type="button" name="" value="权限信息" th:attr="store=${session.userInfo.departmentId}">
+        <input type="button" name="" value="用户角色信息" th:attr="store=${session.userInfo.departmentId}">
         <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
         <input type="button" name="" value="教务员信息" th:attr="store=${session.userInfo.departmentId}"><span>&nbsp;&nbsp;&nbsp;</span>
         <input type="button" value="添加教务员">
@@ -75,7 +75,7 @@
         initPageOfTeacher()
 
         //刷新按钮
-        $('input[value="权限信息"]').click(function () {
+        $('input[value="用户角色信息"]').click(function () {
             findByDepartmentId($(this).attr("store"));
         });
 
@@ -119,6 +119,19 @@
         $('.bottoms input[value="确认"]').click(function () {
 
             var formData = new FormData($("#form-data-bottoms")[0]);
+
+            if (formData.get("no") == null || formData.get("no") == "") {
+                alert("请填写完整信息")
+                return;
+            }
+            if (formData.get("name") == null || formData.get("name") == "") {
+                alert("请填写完整信息")
+                return;
+            }
+            if (formData.get("phone") == null || formData.get("phone") == "") {
+                alert("请填写完整信息")
+                return;
+            }
 
             if ($('#form-data-bottoms input[name=id]').val() == null || $('#form-data-bottoms input[name=id]').val() == ""){
                 formData.delete("id")

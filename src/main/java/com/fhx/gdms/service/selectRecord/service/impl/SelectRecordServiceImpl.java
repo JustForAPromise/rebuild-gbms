@@ -165,4 +165,9 @@ public class SelectRecordServiceImpl implements SelectRecordService {
     public List<SelectRecordModel> findList(SelectRecordModel selectRecordModel) {
         return selectRecordRepository.findList(selectRecordModel);
     }
+
+    @Override
+    public SelectRecordModel findOne(SelectRecordModel selectRecordModel) {
+        return selectRecordRepository.findOne(selectRecordModel);
+    }
 }

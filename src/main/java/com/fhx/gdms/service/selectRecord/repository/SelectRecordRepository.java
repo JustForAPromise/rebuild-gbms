@@ -79,6 +79,10 @@ public interface SelectRecordRepository {
     @Delete("DELETE FROM stu_tea_pro_record WHERE student_id = #{studentId}")
     void deleteByStudentId(Integer studentId);
 
+    @SelectProvider(type = SelectRecordProvider.class, method = "findOne")
+    @ResultMap(value = "recordMap")
+    SelectRecordModel findOne(SelectRecordModel selectRecordModel);
+
     /********** 内部类 *********/
 
     class SelectRecordProvider {
@@ -113,6 +117,25 @@ public interface SelectRecordRepository {
                 sql.WHERE("projection_id = #{projectionId}");
             }
             return sql.toString();
+        }
+
+        public String findOne(SelectRecordModel model) {
+            SQL sql = new SQL();
+            sql.SELECT("*");
+            sql.FROM("stu_tea_pro_record");
+            if (model.getAuditStatus() != null && !"".equals(model.getAuditStatus())) {
+                sql.WHERE("audit_status = #{auditStatus}");
+            }
+            if (model.getTeacherId() != null && !"".equals(model.getTeacherId())) {
+                sql.WHERE("teacher_id = #{teacherId}");
+            }
+            if (model.getStudentId() != null && !"".equals(model.getStudentId())) {
+                sql.WHERE("student_id = #{studentId}");
+            }
+            if (model.getProjectionId() != null && !"".equals(model.getProjectionId())) {
+                sql.WHERE("projection_id = #{projectionId}");
+            }
+            return sql.toString()+"LIMIT 1";
         }
     }
 }
