@@ -52,7 +52,7 @@
             findList(no, name)
         })
 
-        //编辑按钮
+        //确定修改按钮
         $(".data").on("click", "input[value='确定修改']", function () {
             var tds = $(this).parent().prevAll();
             //jquery对象加上索引是dom对象
@@ -100,6 +100,7 @@
                 if (data.code == -1) {
                     alert(data.msg)
                 } else {
+                    alert("修改成功！")
                     findList(null, null)
                 }
             }

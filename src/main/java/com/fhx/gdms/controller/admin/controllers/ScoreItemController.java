@@ -43,7 +43,7 @@ public class ScoreItemController {
             apiResult.setCode(0);
             apiResult.setMsg("添加成功");
             apiResult.setData(model);
-        } else if (flag == 1){
+        } else if (flag == -1){
             apiResult.setCode(0);
             apiResult.setMsg("评分项目已存在！");
         }else{
