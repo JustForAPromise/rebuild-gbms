@@ -8,8 +8,6 @@ import com.fhx.gdms.service.projections.service.ProjectionService;
 import com.fhx.gdms.service.selectRecord.model.SelectRecordModel;
 import com.fhx.gdms.service.selectRecord.service.SelectRecordService;
 import com.fhx.gdms.service.user.model.UserModel;
-import com.fhx.gdms.service.user.service.AdminService;
-import com.fhx.gdms.service.user.service.HelperService;
 import com.fhx.gdms.service.user.service.StudentService;
 import com.fhx.gdms.service.user.service.TeacherService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -74,12 +72,10 @@ public class LoginOfStudentController {
             if (userModel.getMajorId() != null) {
                 userModel.setMajorModel(majorService.findById(userModel.getMajorId()));
             }
-            if (userModel.getIdentify() == 2) {
-                SelectRecordModel selectRecordModel = selectRecordService.findHavedSelectedRecordByStudentId(userModel.getId());
-                if (selectRecordModel != null) {
-                    ProjectionModel projectionModel = projectionService.findById(selectRecordModel.getProjectionId());
-                    userModel.setProjectionModel(projectionModel);
-                }
+            SelectRecordModel selectRecordModel = selectRecordService.findHavedSelectedRecordByStudentId(userModel.getId());
+            if (selectRecordModel != null) {
+                ProjectionModel projectionModel = projectionService.findById(selectRecordModel.getProjectionId());
+                userModel.setProjectionModel(projectionModel);
             }
             session.setAttribute("userInfo", userModel);
         }

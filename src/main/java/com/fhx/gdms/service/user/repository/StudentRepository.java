@@ -63,14 +63,14 @@ public interface StudentRepository {
     void deleteById(Integer id);
 
     @Update("update tb_user set teacher_id = #{teacherId} where id = #{studentId} AND identify = 2")
-    void updateTeacherId(@Param("studentId")Integer studentId, @Param("teacherId")Integer teacherId);
+    void updateTeacherId(@Param("studentId") Integer studentId, @Param("teacherId") Integer teacherId);
 
     @Select("SELECT id FROM tb_user WHERE no like #{no} AND name like #{name} AND teacher_id = #{teacherId} AND identify = 2")
     List<Integer> listStudentId(UserModel student);
 
     @Select("SELECT * FROM tb_user WHERE teacher_id = #{teacherId} AND identify = 2")
     @ResultMap(value = "studentMap")
-    List<UserModel> findByTeacherId(@Param("teacherId")Integer teacherId);
+    List<UserModel> findByTeacherId(@Param("teacherId") Integer teacherId);
 
     @SelectProvider(type = StudentProvider.class, method = "findOne")
     UserModel findOne(UserModel student);
@@ -91,12 +91,7 @@ public interface StudentRepository {
             if (model.getGender() != null && !"".equals(model.getGender())) {
                 sql.VALUES("gender", "#{gender}");
             }
-            if (model.getImage() != null && !"".equals(model.getImage())) {
-                sql.VALUES("image", "#{image}");
-            }
-            if (model.getIntroduce() != null && !"".equals(model.getIntroduce())) {
-                sql.VALUES("introduce", "#{introduce}");
-            }
+
             if (model.getPassword() != null && !"".equals(model.getPassword())) {
                 sql.VALUES("password", "#{password}");
             } else {
@@ -133,7 +128,8 @@ public interface StudentRepository {
             }
             if (model.getGender() != null && !"".equals(model.getGender())) {
                 sql.WHERE("gender = #{gender}");
-            }if (model.getPassword() != null && !"".equals(model.getPassword())) {
+            }
+            if (model.getPassword() != null && !"".equals(model.getPassword())) {
                 sql.WHERE("password = #{password}");
             }
             if (model.getDepartmentId() != null && !"".equals(model.getDepartmentId())) {
@@ -147,7 +143,16 @@ public interface StudentRepository {
             }
             sql.WHERE("identify = 2");
             sql.ORDER_BY("update_time DESC");
+//
+//
+//            StringBuffer end = new StringBuffer();
+//            if (model.getPage() != null && !"".equals(model.getPage())) {
+//                if (model.getSize() != null && !"".equals(model.getSize()))
+//                    end.append(" LIMIT " + model.getPage()*model.getSize()+","+model.getSize());
+//            }
+//            return sql.toString()+end.toString();
             return sql.toString();
+
         }
 
         public String findOne(UserModel model) {
@@ -162,7 +167,8 @@ public interface StudentRepository {
             }
             if (model.getGender() != null && !"".equals(model.getGender())) {
                 sql.WHERE("gender = #{gender}");
-            }if (model.getPassword() != null && !"".equals(model.getPassword())) {
+            }
+            if (model.getPassword() != null && !"".equals(model.getPassword())) {
                 sql.WHERE("password = #{password}");
             }
             if (model.getDepartmentId() != null && !"".equals(model.getDepartmentId())) {
@@ -176,7 +182,7 @@ public interface StudentRepository {
             }
             sql.WHERE("identify = 2");
 
-            return sql.toString()+" LIMIT 1";
+            return sql.toString() + " LIMIT 1";
         }
 
 

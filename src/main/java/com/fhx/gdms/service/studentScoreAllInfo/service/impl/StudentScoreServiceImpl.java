@@ -133,14 +133,23 @@ public class StudentScoreServiceImpl implements StudentScoreService {
 
     @Override
     public List<StudentScoreData> findBaseInfoList(UserModel student) {
-        List<StudentScoreData> results = new ArrayList<>();
+        List<StudentScoreData> sortFirst = new ArrayList<>();
+        List<StudentScoreData> sortSecond = new ArrayList<>();
 
         List<UserModel> studentList = studentService.findStudent(student);
 
-        studentList.stream().forEach(data ->{
+        studentList.stream().forEach(data -> {
             StudentScoreData studentScoreData = this.findScoreToStudent(data);
-            results.add(studentScoreData);
+            if (studentScoreData.getProjectionModel() != null) {
+                sortFirst.add(studentScoreData);
+            } else {
+                sortSecond.add(studentScoreData);
+            }
         });
+
+        List<StudentScoreData> results = new ArrayList<>();
+        results.addAll(sortFirst);
+        results.addAll(sortSecond);
 
         return results;
     }

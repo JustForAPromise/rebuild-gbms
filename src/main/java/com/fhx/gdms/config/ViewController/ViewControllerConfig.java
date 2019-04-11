@@ -31,7 +31,6 @@ public class ViewControllerConfig implements WebMvcConfigurer {
         registry.addViewController("teacher/projection").setViewName("/teacher/info/projection.html");
         registry.addViewController("teacher/student").setViewName("/teacher/info/student.html");
         registry.addViewController("teacher/materialReview").setViewName("/teacher/info/materialReview.html");
-        registry.addViewController("teacher/score").setViewName("/teacher/info/score.html");
         registry.addViewController("teacher/studentScore").setViewName("/teacher/info/studentScore.html");
 
         registry.addViewController("departmentLeader/power").setViewName("/departmentLeader/power.html");

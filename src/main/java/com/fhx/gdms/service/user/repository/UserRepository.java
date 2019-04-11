@@ -73,9 +73,7 @@ public interface UserRepository {
             if (model.getName() != null && !"".equals(model.getName())) {
                 sql.VALUES("name", "#{name}");
             }
-            if (model.getIntroduce() != null && !"".equals(model.getIntroduce())) {
-                sql.VALUES("introduce", "#{introduce}");
-            }
+
             if (model.getPhone() != null && !"".equals(model.getPhone())) {
                 sql.VALUES("phone", "#{phone}");
             }

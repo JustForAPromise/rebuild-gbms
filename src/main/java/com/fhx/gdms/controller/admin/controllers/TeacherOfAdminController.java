@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Controller
@@ -18,9 +17,6 @@ import java.util.List;
 public class TeacherOfAdminController {
     @Autowired
     private TeacherService teacherService;
-
-    @Autowired
-    private HttpSession session;
 
     @RequestMapping(value = "/add", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
@@ -102,40 +98,6 @@ public class TeacherOfAdminController {
 
         return apiResult;
     }
-
-    @RequestMapping(value = "/listTeacherToLeader", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    @ResponseBody
-    ApiResult listTeacherToLeader() {
-        ApiResult apiResult = new ApiResult();
-
-        UserModel leader = (UserModel)session.getAttribute("userInfo");
-        if (leader == null){
-            return apiResult;
-        }else if (!leader.getPowerModel().getDepartmentLeader()){
-            return null;
-        }
-
-        List<UserModel> UserModelList = teacherService.findByDepartmentId(leader.getDepartmentId());
-
-        apiResult.setData(UserModelList);
-
-        return apiResult;
-    }
-
-    @RequestMapping(value = "/listTeacher", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    @ResponseBody
-    ApiResult listTeacher() {
-        ApiResult apiResult = new ApiResult();
-
-        UserModel userInfo = (UserModel) session.getAttribute("userInfo");
-
-        List<UserModel> UserModelList = teacherService.findByDepartmentId(userInfo.getDepartmentId());
-
-        apiResult.setData(UserModelList);
-
-        return apiResult;
-    }
-
 
     @RequestMapping(value = "/findByDepartmentId", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody

@@ -15,32 +15,13 @@ import java.util.List;
 
 @Controller
 @RequestMapping("departmentLeader:user")
-public class UserOfDepartmentLeaderController {
+public class HelperOfDepartmentLeaderController {
 
     @Autowired
     private HttpSession session;
 
     @Autowired
     private UserService userService;
-
-    @RequestMapping(value = "/updatePwd", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    @ResponseBody
-    ApiResult updatePwd(String password){
-        ApiResult apiResult = new ApiResult();
-
-        UserModel loginUser = (UserModel)session.getAttribute("userInfo");
-        if (loginUser == null){
-            apiResult.setCode(-1);
-            apiResult.setMsg("请先登录！");
-            return apiResult;
-        }
-
-        loginUser  = userService.updatePwd(loginUser.getId(), password);
-
-        apiResult.setCode(0);
-        apiResult.setMsg("密码已修改！");
-        return apiResult;
-    }
 
     @RequestMapping(value = "/addSupports", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody

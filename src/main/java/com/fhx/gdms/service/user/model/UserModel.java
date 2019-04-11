@@ -5,12 +5,14 @@ import com.fhx.gdms.service.major.model.MajorModel;
 import com.fhx.gdms.service.power.model.PowerModel;
 import com.fhx.gdms.service.projections.model.ProjectionModel;
 import com.fhx.gdms.service.selectRecord.model.SelectRecordModel;
+import com.fhx.gdms.supportUtil.PageBaseModel;
+import com.fhx.gdms.supportUtil.PageModel;
 import lombok.Data;
 
 import java.util.Date;
 
 @Data
-public class UserModel {
+public class UserModel extends PageBaseModel {
 
     Integer id;
 
@@ -23,11 +25,6 @@ public class UserModel {
      * 姓名
      */
     String name;
-
-    /**
-     * 相片
-     */
-    String image;
 
     /**
      * 性别 1男 2女
@@ -48,11 +45,6 @@ public class UserModel {
      * 联系电话
      */
     private String phone;
-
-    /**
-     * 简介
-     */
-    private String introduce;
 
     /**
      * 创建时间

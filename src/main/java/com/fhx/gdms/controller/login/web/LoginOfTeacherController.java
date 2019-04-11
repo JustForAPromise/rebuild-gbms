@@ -1,16 +1,9 @@
 package com.fhx.gdms.controller.login.web;
 
 import com.fhx.gdms.service.department.service.DepartmentService;
-import com.fhx.gdms.service.major.service.MajorService;
 import com.fhx.gdms.service.power.service.PowerService;
-import com.fhx.gdms.service.projections.model.ProjectionModel;
-import com.fhx.gdms.service.projections.service.ProjectionService;
-import com.fhx.gdms.service.selectRecord.model.SelectRecordModel;
-import com.fhx.gdms.service.selectRecord.service.SelectRecordService;
 import com.fhx.gdms.service.user.model.UserModel;
-import com.fhx.gdms.service.user.service.AdminService;
 import com.fhx.gdms.service.user.service.HelperService;
-import com.fhx.gdms.service.user.service.StudentService;
 import com.fhx.gdms.service.user.service.TeacherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;

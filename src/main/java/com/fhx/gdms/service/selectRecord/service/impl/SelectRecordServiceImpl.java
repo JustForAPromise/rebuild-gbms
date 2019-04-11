@@ -92,8 +92,6 @@ public class SelectRecordServiceImpl implements SelectRecordService {
 
         studentService.updateTeacherId(selectRecordModel.getStudentId(), selectRecordModel.getTeacherId());
 
-        projectionService.updateStudentId(selectRecordModel.getProjectionId(), selectRecordModel.getStudentId());
-
         selectRecordRepository.refuseOtherRequestOfStudent(selectRecordModel.getStudentId());
 
         MaterialStatusModel materialStatusModel = new MaterialStatusModel();

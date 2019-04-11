@@ -150,9 +150,6 @@ public interface ProjectionRepository {
             if (model.getDemand() != null && !"".equals(model.getDemand())) {
                 sql.SET("demand = #{demand}");
             }
-            if (model.getStudentId() != null && !"".equals(model.getStudentId())) {
-                sql.SET("student_id = #{studentId}");
-            }
             if (model.getAuditStatus() != null && !"".equals(model.getAuditStatus())) {
                 sql.SET("audit_status = #{auditStatus}");
             }

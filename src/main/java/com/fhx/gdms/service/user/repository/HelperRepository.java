@@ -84,9 +84,7 @@ public interface HelperRepository {
             if (model.getPhone() != null && !"".equals(model.getPhone())) {
                 sql.VALUES("phone", "#{phone}");
             }
-            if (model.getIntroduce() != null && !"".equals(model.getIntroduce())) {
-                sql.VALUES("introduce", "#{introduce}");
-            }
+
             if (model.getPassword() != null && !"".equals(model.getPassword())) {
                 sql.VALUES("password", "#{password}");
             } else {

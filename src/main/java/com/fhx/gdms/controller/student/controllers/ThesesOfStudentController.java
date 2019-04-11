@@ -117,51 +117,17 @@ public class ThesesOfStudentController {
     }
 
 
-    @RequestMapping(value = "/listTheses", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    @ResponseBody
-    ApiResult listTheses(String no, String name) {
-        ApiResult apiResult = new ApiResult();
-        //获取用户信息
-        UserModel teacher = (UserModel)session.getAttribute("userInfo");
-
-        UserModel student = new UserModel();
-        student.setNo(no);
-        student.setName(name);
-
-        List<MaterialModel> list = thesesService.listTheses(teacher, student);
-
-        apiResult.setCode(0);
-        apiResult.setData(list);
-        return apiResult;
-    }
-
-    @RequestMapping(value = "/updateAudit", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    @ResponseBody
-    ApiResult updateAudit(Integer id, Integer status, String remark) {
-        ApiResult apiResult = new ApiResult();
-        //获取用户信息
-
-        MaterialModel result = thesesService.updateAudit(id, status, remark);
-
-        apiResult.setCode(0);
-        apiResult.setMsg("审批成功！");
-        return apiResult;
-    }
-
     @RequestMapping(value = "/record/{id}", method = RequestMethod.GET)
     void record(@PathVariable("id") Integer id, HttpServletResponse response) throws UnsupportedEncodingException {
         ApiResult apiResult = new ApiResult();
 
-
-//        //获取用户信息
-//        UserModel userModel = (UserModel) session.getAttribute("userInfo");
-//        //构建model
-//        TaskBookModel taskBookModel = taskBookService.findById(id);
-//        if (userModel.getId() != taskBookModel.getStudentId()) {
-//            return;
-//        }
+        UserModel student = (UserModel) session.getAttribute("userInfo");
 
         MaterialModel thesesModel = thesesService.findById(id);
+
+        if (student.getId() != thesesModel.getStudentId()) {
+            return;
+        }
         File file = new File(thesesModel.getFilePath());
 
         if (file.exists()) {

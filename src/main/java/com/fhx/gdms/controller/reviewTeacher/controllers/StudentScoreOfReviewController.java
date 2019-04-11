@@ -1,12 +1,12 @@
 package com.fhx.gdms.controller.reviewTeacher.controllers;
 
-import com.fhx.gdms.service.studentScoreRecord.model.StudentScoreRecordModel;
-import com.fhx.gdms.supportUtil.ApiResult;
-import com.fhx.gdms.service.user.model.UserModel;
-import com.fhx.gdms.service.user.service.StudentService;
 import com.fhx.gdms.service.studentScoreAllInfo.api.SearchDetailApiGet;
 import com.fhx.gdms.service.studentScoreAllInfo.data.StudentScoreData;
 import com.fhx.gdms.service.studentScoreAllInfo.service.StudentScoreService;
+import com.fhx.gdms.service.studentScoreRecord.model.StudentScoreRecordModel;
+import com.fhx.gdms.service.user.model.UserModel;
+import com.fhx.gdms.service.user.service.StudentService;
+import com.fhx.gdms.supportUtil.ApiResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
-import java.util.List;
 
 @Controller
 @RequestMapping("/review:studentScore")

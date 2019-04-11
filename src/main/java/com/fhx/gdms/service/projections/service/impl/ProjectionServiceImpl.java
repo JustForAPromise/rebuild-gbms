@@ -146,6 +146,10 @@ public class ProjectionServiceImpl implements ProjectionService {
         selectRecordModel.setAuditStatus(1);
         selectRecordModel = selectRecordService.findOne(selectRecordModel);
 
+        if (selectRecordModel == null){
+            return null;
+        }
+
         return projectionRepository.findById(selectRecordModel.getProjectionId());
     }
 

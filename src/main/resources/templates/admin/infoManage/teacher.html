@@ -255,7 +255,7 @@
 
     function findById(id) {
         $.ajax({
-           url: '../teacher/findById',
+           url: '../admin:teacher/findById',
             type: 'GET',
             data: {
                 id: id
@@ -274,7 +274,7 @@
 
     function deleteById(id) {
         $.ajax({
-           url: '../teacher/deleteById',
+           url: '../admin:teacher/deleteById',
             type: 'DELETE',
             data: {
                 id: id

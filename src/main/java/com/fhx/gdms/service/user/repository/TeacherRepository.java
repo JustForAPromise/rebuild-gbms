@@ -80,9 +80,7 @@ public interface TeacherRepository {
             if (model.getPhone() != null && !"".equals(model.getPhone())) {
                 sql.VALUES("phone", "#{phone}");
             }
-            if (model.getIntroduce() != null && !"".equals(model.getIntroduce())) {
-                sql.VALUES("introduce", "#{introduce}");
-            }
+
             if (model.getDepartmentId() != null && !"".equals(model.getDepartmentId())) {
                 sql.VALUES("department_id", "#{departmentId}");
             }

@@ -20,9 +20,11 @@ import jxl.write.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -84,17 +86,6 @@ public class ProjectionOfHelperController {
         return apiResult;
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    ModelAndView findByIdWithUrl(@PathVariable("id") Integer id) {
-
-        ProjectionModel result = projectionService.findById(id);
-
-        ModelAndView modelAndView = new ModelAndView("/helper/info/projection-detail-info.html");
-        modelAndView.addObject("info", result);
-
-        return modelAndView;
-    }
-
     @RequestMapping(value = "/update", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
     ApiResult update(ProjectionModel model) {
@@ -112,38 +103,6 @@ public class ProjectionOfHelperController {
         }
         return apiResult;
     }
-
-    @RequestMapping(value = "/listToAudit", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    @ResponseBody
-    ApiResult listToAudit() {
-        ApiResult apiResult = new ApiResult();
-
-        UserModel projectAuditor = (UserModel) session.getAttribute("userInfo");
-        List<ProjectionModel> projectionModelList = projectionService.listProjectionToAudit(projectAuditor.getId(), projectAuditor.getDepartmentId());
-
-        apiResult.setCode(0);
-        apiResult.setData(projectionModelList);
-        return apiResult;
-    }
-
-    @RequestMapping(value = "/findByAuditStatus", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    @ResponseBody
-    ApiResult findByAuditStatus(Integer auditStatus) {
-        ApiResult apiResult = new ApiResult();
-
-        UserModel userInfo = (UserModel) session.getAttribute("userInfo");
-        ProjectionModel model = new ProjectionModel();
-        model.setAuditStatus(auditStatus);
-        model.setTeacherId(userInfo.getId());
-        model.setDepartmentId(userInfo.getDepartmentId());
-
-        List<ProjectionModel> projectionModelList = projectionService.findListToAudit(model);
-
-        apiResult.setData(projectionModelList);
-
-        return apiResult;
-    }
-
 
     /************  课题信息导出  *************/
     @RequestMapping(value = "/down", method = RequestMethod.GET)
@@ -341,9 +300,9 @@ public class ProjectionOfHelperController {
                         break;
                     }
                     projectionModel.setId(Integer.valueOf(sheet.getCell(9,i).getContents()));
-                    projectionModel.setTitle(sheet.getCell(2,i).getContents());
-                    projectionModel.setIntroduce(sheet.getCell(3,i).getContents());
-                    projectionModel.setDemand(sheet.getCell(4,i).getContents());
+//                    projectionModel.setTitle(sheet.getCell(2,i).getContents());
+//                    projectionModel.setIntroduce(sheet.getCell(3,i).getContents());
+//                    projectionModel.setDemand(sheet.getCell(4,i).getContents());
                     projectionModel.setAuditStatus(Integer.valueOf(sheet.getCell(5,i).getContents()));
                     projectionModel.setAuditRemark(sheet.getCell(6,i).getContents());
 

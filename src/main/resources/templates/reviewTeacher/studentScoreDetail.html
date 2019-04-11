@@ -83,8 +83,21 @@
         $(".data input[value=提交]").click(function () {
             var ids = $(".ids");
             var nums = $(".nums")
-            for (i = 0, j = ids.length; i < j; i++){
-                if($(nums[i]).val()>100 || $(nums[i]).val()<0){
+            var reg=/^[0-9]*$/;
+            for (i = 0, j = ids.length; i < j; i++) {
+                if ($(nums[i]).val() == null || $(nums[i]).val() == "") {
+                    alert("请输入合法数值，范围：0~100")
+                    $(nums[i]).focus()
+                    return;
+                }
+
+                if (reg.test($(nums[i]).val())) {
+                    if ($(nums[i]).val() > 100 || $(nums[i]).val() < 0) {
+                        alert("请输入合法数值，范围：0~100")
+                        $(nums[i]).focus()
+                        return;
+                    }
+                } else {
                     alert("请输入合法数值，范围：0~100")
                     $(nums[i]).focus()
                     return;

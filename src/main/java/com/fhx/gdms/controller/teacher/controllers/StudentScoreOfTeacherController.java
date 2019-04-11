@@ -61,68 +61,6 @@ public class StudentScoreOfTeacherController {
         return modelAndView;
     }
 
-    @RequestMapping(value = "/recordOfReview", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    ModelAndView recordOfReview(SearchDetailApiGet receiveData) {
-        UserModel teacher = (UserModel) session.getAttribute("userInfo");
-        if (teacher.getIdentify() != 1) {
-            return null;
-        }
-
-        if (receiveData.getNo() != null){
-            UserModel student = new UserModel();
-            student.setDepartmentId(teacher.getDepartmentId());
-            student.setNo(receiveData.getNo());
-            student =  studentService.findOne(student);
-            if (student == null){
-                ModelAndView modelAndView = new ModelAndView("/reviewTeacher/studentScore.html");
-                modelAndView.addObject("tips", "学号不存在");
-                return modelAndView;
-            }else{
-                receiveData.setStudentId(student.getId());
-            }
-        }
-        receiveData.setType(2);
-
-
-
-        StudentScoreData result = studentScoreService.findRecord(receiveData);
-
-        ModelAndView modelAndView = new ModelAndView("/teacher/info/studentScoreDetail.html");
-        modelAndView.addObject("scoreAllInfo", result);
-
-        return modelAndView;
-    }
-
-    @RequestMapping(value = "/recordOfResponse", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    ModelAndView recordOfResponse(SearchDetailApiGet receiveData) {
-        UserModel teacher = (UserModel) session.getAttribute("userInfo");
-        if (teacher.getIdentify() != 1) {
-            return null;
-        }
-
-        if (receiveData.getNo() != null){
-            UserModel student = new UserModel();
-            student.setDepartmentId(teacher.getDepartmentId());
-            student.setNo(receiveData.getNo());
-            student =  studentService.findOne(student);
-            if (student == null){
-                ModelAndView modelAndView = new ModelAndView("/responseTeamLeader/studentScore.html");
-                modelAndView.addObject("tips", "学号不存在");
-                return modelAndView;
-            }else{
-                receiveData.setStudentId(student.getId());
-            }
-        }
-
-        receiveData.setType(3);
-
-        StudentScoreData result = studentScoreService.findRecord(receiveData);
-
-        ModelAndView modelAndView = new ModelAndView("/teacher/info/studentScoreDetail.html");
-        modelAndView.addObject("scoreAllInfo", result);
-
-        return modelAndView;
-    }
 
     @RequestMapping(value = "/updateNum", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
@@ -140,20 +78,5 @@ public class StudentScoreOfTeacherController {
         apiResult.setCode(0);
         apiResult.setMsg("登记成功");
         return apiResult;
-    }
-
-    @RequestMapping(value = "/findScoreToStudent", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    ModelAndView findScoreToStudent() {
-        UserModel student = (UserModel) session.getAttribute("userInfo");
-        if (student == null) {
-            return null;
-        }
-
-        StudentScoreData result = studentScoreService.findScoreToStudent(student);
-
-        ModelAndView modelAndView = new ModelAndView("/student/info/soscore.html");
-        modelAndView.addObject("scoreAllInfo", result);
-
-        return modelAndView;
     }
 }
