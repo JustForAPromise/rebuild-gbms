@@ -71,6 +71,11 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
+    public Integer findTotal(UserModel model) {
+        return studentRepository.findTotal(model);
+    }
+
+    @Override
     public UserModel findByNameAndPassword(String name, String password) {
         UserModel model = new UserModel();
         model.setName(name);

@@ -111,4 +111,11 @@ public interface StudentService {
      * @param student
      */
     UserModel findOne(UserModel student);
+
+    /**
+     * find total number
+     * @param model
+     * @return
+     */
+    Integer findTotal(UserModel model);
 }

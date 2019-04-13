@@ -102,6 +102,14 @@
 <!-- 内容按钮功能 -->
 <script type="text/javascript">
     $(document).ready(function () {
+        var searchInfo={
+            departmentId: null,
+            no: null,
+            name: null,
+            page:0,
+            size:10
+        }
+
         /****初始化下拉列表***/
         getAllDepartment();
         $(".departmentSelect").change(function () {
@@ -127,7 +135,13 @@
             var no = $(".search input[name=no]").val()
             var name = $(".search input[name=name]").val()
 
-            findList(departmentId, no, name);
+
+            searchInfo.departmentId = departmentId;
+            searchInfo.no =no;
+            searchInfo.name =name;
+            searchInfo.page =0;
+
+            findList(searchInfo);
         });
 
         //添加按钮
@@ -171,7 +185,20 @@
             var departmentId = $(tds[1]).attr("store")
 
             deleteById(id)
-            findByDepartmentId(departmentId)
+            findList(searchInfo)
+        })
+
+        //上翻页按钮
+        $(".data").on("click", ".pageUp", function () {
+            searchInfo.page =searchInfo.page -1;
+            findList(searchInfo)
+        })
+
+        //下翻页按钮
+        $(".data").on("click", ".pageDown", function () {
+            searchInfo.page =searchInfo.page +1;
+
+            findList(searchInfo)
         })
     })
 
@@ -185,8 +212,7 @@
                 if (data.code == -1) {
                     alert(data.msg)
                 } else {
-                    findByDepartmentId(data.data.departmentId);
-
+                    findList(searchInfo);
                 }
             }
         });
@@ -219,7 +245,7 @@
                 if (data.code == -1) {
                     alert(data.msg)
                 } else {
-                    findByDepartmentId(data.data.departmentId);
+                    findList(searchInfo);
                     alert(data.msg)
                 }
             }
@@ -227,14 +253,16 @@
     }
 
 
-    function findList(departmentId, no, name) {
+    function findList(searchInfo) {
         $.ajax({
            url: '../admin:teacher/findTeacher',
             type: 'GET',
             data: {
-                departmentId: departmentId,
-                no: no,
-                name: name
+                departmentId: searchInfo.departmentId,
+                no: searchInfo.no,
+                name: searchInfo.name,
+                page:searchInfo.page,
+                size:searchInfo.size
             },
             dataType: 'json',
             success: function (data) {
@@ -284,31 +312,31 @@
             }
         });
     }
-
-    function findByDepartmentId(departmentId) {
-        $.ajax({
-           url: '../admin:teacher/findByDepartmentId',
-            type: 'GET',
-            data: {
-                departmentId: departmentId
-            },
-            async: false,
-            dataType: 'json',
-            success: function (data) {
-                var dataList = $("#dataList");
-                dataList.html("");
-
-                for (i = 0; i < data.data.length; i++) {
-                    var str = "<tr><td>" + (i + 1) + "</td><td style=\"display: none\">" + data.data[i].id + "</td>"
-                        + "<td>" + data.data[i].no + "</td><td>" + data.data[i].name + "</td>"
-                        + "<td store = " + data.data[i].departmentModel.id + ">" + data.data[i].departmentModel.department + "</td>"
-                        + "<td>" + data.data[i].phone + "</td>"
-                        + "<td><input type=\"button\" value=\"编辑\"><input type=\"button\" value=\"删除\"></td></tr>"
-                    dataList.append(str)
-                }
-            }
-        });
-    }
+    //
+    // function findByDepartmentId(departmentId) {
+    //     $.ajax({
+    //        url: '../admin:teacher/findByDepartmentId',
+    //         type: 'GET',
+    //         data: {
+    //             departmentId: departmentId
+    //         },
+    //         async: false,
+    //         dataType: 'json',
+    //         success: function (data) {
+    //             var dataList = $("#dataList");
+    //             dataList.html("");
+    //
+    //             for (i = 0; i < data.data.length; i++) {
+    //                 var str = "<tr><td>" + (i + 1) + "</td><td style=\"display: none\">" + data.data[i].id + "</td>"
+    //                     + "<td>" + data.data[i].no + "</td><td>" + data.data[i].name + "</td>"
+    //                     + "<td store = " + data.data[i].departmentModel.id + ">" + data.data[i].departmentModel.department + "</td>"
+    //                     + "<td>" + data.data[i].phone + "</td>"
+    //                     + "<td><input type=\"button\" value=\"编辑\"><input type=\"button\" value=\"删除\"></td></tr>"
+    //                 dataList.append(str)
+    //             }
+    //         }
+    //     });
+    // }
 
     /********************** 初始化下拉列表 ***************************/
     function getAllDepartment() {

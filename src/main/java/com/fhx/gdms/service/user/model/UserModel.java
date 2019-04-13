@@ -6,7 +6,6 @@ import com.fhx.gdms.service.power.model.PowerModel;
 import com.fhx.gdms.service.projections.model.ProjectionModel;
 import com.fhx.gdms.service.selectRecord.model.SelectRecordModel;
 import com.fhx.gdms.supportUtil.PageBaseModel;
-import com.fhx.gdms.supportUtil.PageModel;
 import lombok.Data;
 
 import java.util.Date;

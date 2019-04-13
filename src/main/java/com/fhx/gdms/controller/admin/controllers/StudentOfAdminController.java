@@ -3,6 +3,7 @@ package com.fhx.gdms.controller.admin.controllers;
 import com.fhx.gdms.service.power.service.PowerService;
 import com.fhx.gdms.service.user.model.UserModel;
 import com.fhx.gdms.service.user.service.StudentService;
+import com.fhx.gdms.supportUtil.ApiPageResult;
 import com.fhx.gdms.supportUtil.ApiResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -86,14 +87,16 @@ public class StudentOfAdminController {
     @RequestMapping(value = "/findStudent", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
     ApiResult findStudent(UserModel model) {
-        ApiResult apiResult = new ApiResult();
+        ApiResult apiResult = null;
 
-        model.setName("%" + model.getName() + "%");
-        model.setNo("%" + model.getNo() + "%");
+        model.setName((model.getName() != null) ? "%" + model.getName() + "%" : null);
+        model.setNo((model.getName() != null) ? "%" + model.getNo() + "%" : null);
 
         List<UserModel> studentModelList = studentService.findStudent(model);
+        Integer total = studentService.findTotal(model);
 
-        apiResult.setData(studentModelList);
+
+        apiResult = new ApiPageResult(studentModelList, total, model.getPage(), model.getSize());
 
         return apiResult;
     }
@@ -101,12 +104,13 @@ public class StudentOfAdminController {
 
     @RequestMapping(value = "/findByMajorIdAndDepartmentId", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
-    ApiResult findByMajorIdAndDepartmentId(Integer departmentId, Integer majorId) {
-        ApiResult apiResult = new ApiResult();
+    ApiResult findByMajorIdAndDepartmentId(UserModel model) {
+        ApiResult apiResult = null;
 
-        List<UserModel> studentModelList = studentService.findByMajorIdAndDepartmentId(departmentId, majorId);
+        List<UserModel> studentModelList = studentService.findStudent(model);
+        Integer total = studentService.findTotal(model);
 
-        apiResult.setData(studentModelList);
+        apiResult = new ApiPageResult(studentModelList, total, model.getPage(), model.getSize());
 
         return apiResult;
     }

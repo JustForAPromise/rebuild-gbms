@@ -116,6 +116,16 @@
 <!-- 内容按钮功能 -->
 <script type="text/javascript">
     $(document).ready(function () {
+        var searchInfo={
+            majorId: null,
+            departmentId: null,
+            no: null,
+            name: null,
+            page:null,
+            size:10
+        }
+
+        var baseSearchInfo = searchInfo;
         /****初始化下拉列表***/
         getAllDepartment();
 
@@ -145,7 +155,14 @@
             var no = $(".search input[name=no]").val()
             var name = $(".search input[name=name]").val()
 
-            findList(departmentId, majorId, no, name);
+
+            searchInfo.departmentId = departmentId;
+            searchInfo.majorId = majorId;
+            searchInfo.no =no;
+            searchInfo.name =name;
+            searchInfo.page =0;
+
+            findList(searchInfo);
         });
 
         //添加按钮
@@ -169,7 +186,7 @@
             }
             var departmentId = forms.find("p select[name=departmentId]").val();
             var majorId = forms.find("p select[name=majorId]").val();
-            findByMajorIdAndDepartmentId(departmentId, majorId);
+            findList(searchInfo);
 
             $("#form-data input").val("");
             $('.bottoms').addClass('hide');
@@ -192,8 +209,32 @@
             var majorId = $(tds[0]).attr("store")
 
             deleteById(id);
-            findByMajorIdAndDepartmentId(departmentId, majorId)
+            findList(searchInfo)
         })
+
+        //首页按钮
+        $(".data").on("click", ".firstPage", function () {
+            searchInfo.page = 0;
+            findList(searchInfo)
+        })
+        //上翻页按钮
+        $(".data").on("click", ".pageUp", function () {
+            searchInfo.page =searchInfo.page -1;
+            findList(searchInfo)
+        })
+
+        //下翻页按钮
+        $(".data").on("click", ".pageDown", function () {
+            searchInfo.page =searchInfo.page +1;
+
+            findList(searchInfo)
+        })
+        //尾页按钮
+        $(".data").on("click", ".lastPage", function () {
+            searchInfo.page = $(this).attr("id") -1;
+            findList(searchInfo)
+        })
+
     })
 
     function add(formData) {
@@ -241,17 +282,17 @@
         });
     }
 
-    function findList(departmentId, majorId, no, name) {
+    function findList(searchInfo) {
         $.ajax({
            url: '../admin:student/findStudent',
             type: 'GET',
             data: {
-                majorId: majorId,
-                departmentId: departmentId,
-                no: no,
-                name: name,
-                page:1,
-                size:5
+                majorId: searchInfo.majorId,
+                departmentId: searchInfo.departmentId,
+                no: searchInfo.no,
+                name: searchInfo.name,
+                page:searchInfo.page,
+                size:searchInfo.size
             },
             dataType: 'json',
             success: function (data) {
@@ -259,16 +300,66 @@
                 dataList.html("");
 
                 for (i = 0; i < data.data.length; i++) {
-                    var str = "<tr><td>" + (i + 1) + "</td><td style=\"display: none\">" + data.data[i].id + "</td>"
+                    var str = "<tr><td>" + (data.page * data.size +i+1) + "</td><td style=\"display: none\">" + data.data[i].id + "</td>"
                         + "<td>" + data.data[i].no + "</td><td>" + data.data[i].name + "</td>"
                         + "<td store = " + data.data[i].departmentModel.id + ">" + data.data[i].departmentModel.department + "</td>"
                         + "<td store = " + data.data[i].majorModel.id + ">" + data.data[i].majorModel.major + "</td>"
                         + "<td><input type=\"button\" value=\"编辑\"><input type=\"button\" value=\"删除\"></td></tr>"
                     dataList.append(str)
                 }
+                var str = "<tr><td colspan='6' style='padding-top:15px;text-align: center; background-color: white'>"
+                if (data.pageUp){
+                    str = str  +"<a class='firstPage' style='padding-right: 5px'>首页</a><a class='pageUp' style='padding-right: 5px'>上一页</a>"
+                }
+                str  =str + (data.page+1)+"/"+data.totalPage;
+                if (data.pageDown){
+                    str = str  +"<a class='pageDown' style='padding-left: 5px' >下一页</a><a class='lastPage' style='padding-left: 5px'id='"+data.totalPage+"'>尾页</a>"
+                }
+                var end = "</td></tr>"
+                dataList.append(str +end)
+
             }
         });
     }
+    //
+    // function findByMajorIdAndDepartmentId(searchInfo) {
+    //     $.ajax({
+    //         url: '../admin:student/findByMajorIdAndDepartmentId',
+    //         type: 'GET',
+    //         data: {
+    //             majorId: searchInfo.majorId,
+    //             departmentId: searchInfo.departmentId,
+    //             page:0,
+    //             size:searchInfo.size
+    //         },
+    //         async: false,
+    //         dataType: 'json',
+    //         success: function (data) {
+    //             var dataList = $("#dataList");
+    //             dataList.html("");
+    //
+    //             for (i = 0; i < data.data.length; i++) {
+    //                 var str = "<tr><td>" + (i + 1) + "</td><td style=\"display: none\">" + data.data[i].id + "</td>"
+    //                     + "<td>" + data.data[i].no + "</td><td>" + data.data[i].name + "</td>"
+    //                     + "<td store = " + data.data[i].departmentModel.id + ">" + data.data[i].departmentModel.department + "</td>"
+    //                     + "<td store = " + data.data[i].majorModel.id + ">" + data.data[i].majorModel.major + "</td>"
+    //                     + "<td><input type=\"button\" value=\"编辑\"><input type=\"button\" value=\"删除\"></td></tr>"
+    //                 dataList.append(str)
+    //             }
+    //
+    //             var str = "<tr><td style='collapse: 6; text-align: center'>"
+    //             if (data.pageUp){
+    //                 str = str  +"<label class='pageUp'>上一页</label>"
+    //             }
+    //             str  =str + (data.page+1)+"/"+data.totalPage;
+    //             if (data.pageDown){
+    //                 str = str  +"<label class='pageDown'>下一页</label>"
+    //             }
+    //             var end = "</td></tr>"
+    //             dataList.append(str +end)
+    //         }
+    //     });
+    // }
 
     function findById(id) {
         $.ajax({
@@ -349,32 +440,6 @@
                     dataList.append(str)
                 }
                 $(dataList[2]).append("<option></option>")
-            }
-        });
-    }
-
-    function findByMajorIdAndDepartmentId(departmentId, majorId) {
-        $.ajax({
-           url: '../admin:student/findByMajorIdAndDepartmentId',
-            type: 'GET',
-            data: {
-                majorId: majorId,
-                departmentId: departmentId
-            },
-            async: false,
-            dataType: 'json',
-            success: function (data) {
-                var dataList = $("#dataList");
-                dataList.html("");
-
-                for (i = 0; i < data.data.length; i++) {
-                    var str = "<tr><td>" + (i + 1) + "</td><td style=\"display: none\">" + data.data[i].id + "</td>"
-                        + "<td>" + data.data[i].no + "</td><td>" + data.data[i].name + "</td>"
-                        + "<td store = " + data.data[i].departmentModel.id + ">" + data.data[i].departmentModel.department + "</td>"
-                        + "<td store = " + data.data[i].majorModel.id + ">" + data.data[i].majorModel.major + "</td>"
-                        + "<td><input type=\"button\" value=\"编辑\"><input type=\"button\" value=\"删除\"></td></tr>"
-                    dataList.append(str)
-                }
             }
         });
     }
