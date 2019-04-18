@@ -34,6 +34,11 @@ public class TeacherServiceImpl implements TeacherService {
     }
 
     @Override
+    public Integer findTotal(UserModel model) {
+        return teacherRepository.findTotal(model);
+    }
+
+    @Override
     public UserModel findByNameAndPassword(String name, String password) {
         UserModel model = new UserModel();
         model.setName(name);

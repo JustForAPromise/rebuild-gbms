@@ -62,6 +62,9 @@ public interface TeacherRepository {
     @Delete("DELETE FROM tb_user WHERE id = #{id} AND identify = 1")
     void deleteById(Integer id);
 
+    @SelectProvider(type = TeacherProvider.class, method = "findTotal")
+    Integer findTotal(UserModel model);
+
 
     /********** 内部类 *********/
     class TeacherProvider {
@@ -113,6 +116,43 @@ public interface TeacherRepository {
                 sql.WHERE("department_id = #{departmentId}");
             }
             sql.WHERE("identify = 1");
+
+            StringBuffer end = new StringBuffer();
+            if (model.getPage() != null && !"".equals(model.getPage())) {
+                if (model.getSize() != null && !"".equals(model.getSize()))
+                    end.append(" LIMIT " + model.getPage()*model.getSize()+","+model.getSize());
+            }
+            return sql.toString()+end.toString();
+        }
+
+        public String findTotal(UserModel model) {
+            SQL sql = new SQL();
+            sql.SELECT("count(1)");
+            sql.FROM("tb_user");
+            if (model.getNo() != null && !"".equals(model.getNo())) {
+                sql.WHERE("no like #{no}");
+            }
+            if (model.getName() != null && !"".equals(model.getName())) {
+                sql.WHERE("name like #{name}");
+            }
+            if (model.getGender() != null && !"".equals(model.getGender())) {
+                sql.WHERE("gender = #{gender}");
+            }
+            if (model.getPassword() != null && !"".equals(model.getPassword())) {
+                sql.WHERE("password = #{password}");
+            }
+            if (model.getDepartmentId() != null && !"".equals(model.getDepartmentId())) {
+                sql.WHERE("department_id = #{departmentId}");
+            }
+            if (model.getMajorId() != null && !"".equals(model.getMajorId())) {
+                sql.WHERE("major_id = #{majorId}");
+            }
+            if (model.getTeacherId() != null && !"".equals(model.getTeacherId())) {
+                sql.WHERE("teacher_id = #{teacherId}");
+            }
+            sql.WHERE("identify = 1");
+            sql.ORDER_BY("update_time DESC");
+
             return sql.toString();
         }
 

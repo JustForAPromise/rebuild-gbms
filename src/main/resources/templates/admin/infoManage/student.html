@@ -219,7 +219,9 @@
         })
         //上翻页按钮
         $(".data").on("click", ".pageUp", function () {
-            searchInfo.page =searchInfo.page -1;
+            if (searchInfo.page > 0) {
+                searchInfo.page = searchInfo.page - 1;
+            }
             findList(searchInfo)
         })
 

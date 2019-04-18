@@ -102,16 +102,17 @@
 <!-- 内容按钮功能 -->
 <script type="text/javascript">
     $(document).ready(function () {
-        var searchInfo={
+        var searchInfo = {
             departmentId: null,
             no: null,
             name: null,
-            page:0,
-            size:10
+            page: 0,
+            size: 2
         }
 
         /****初始化下拉列表***/
         getAllDepartment();
+
         $(".departmentSelect").change(function () {
             var departmentId = $(this).children('option:selected').val()
         })
@@ -137,9 +138,9 @@
 
 
             searchInfo.departmentId = departmentId;
-            searchInfo.no =no;
-            searchInfo.name =name;
-            searchInfo.page =0;
+            searchInfo.no = no;
+            searchInfo.name = name;
+            searchInfo.page = 0;
 
             findList(searchInfo);
         });
@@ -188,23 +189,35 @@
             findList(searchInfo)
         })
 
+        //首页按钮
+        $(".data").on("click", ".firstPage", function () {
+            searchInfo.page = 0;
+            findList(searchInfo)
+        })
         //上翻页按钮
         $(".data").on("click", ".pageUp", function () {
-            searchInfo.page =searchInfo.page -1;
+            if (searchInfo.page > 0) {
+                searchInfo.page = searchInfo.page - 1;
+            }
             findList(searchInfo)
         })
 
         //下翻页按钮
         $(".data").on("click", ".pageDown", function () {
-            searchInfo.page =searchInfo.page +1;
+            searchInfo.page = searchInfo.page + 1;
 
+            findList(searchInfo)
+        })
+        //尾页按钮
+        $(".data").on("click", ".lastPage", function () {
+            searchInfo.page = $(this).attr("id") - 1;
             findList(searchInfo)
         })
     })
 
     function add(formData) {
         $.ajax({
-           url: '../admin:teacher/add',
+            url: '../admin:teacher/add',
             type: 'POST',
             data: formData.serialize(),
             dataType: 'json',
@@ -222,13 +235,13 @@
         $.ajax({
             url: '../admin:file/batchImportOfTeacher',
             type: 'POST',
-            data:formData,
+            data: formData,
             processData: false,
             contentType: false,
             success: function (data) {
                 if (data.code == -1) {
                     alert(data.msg)
-                }else{
+                } else {
                     alert(data.msg)
                 }
             }
@@ -237,7 +250,7 @@
 
     function update(formData) {
         $.ajax({
-           url: '../admin:teacher/update',
+            url: '../admin:teacher/update',
             type: 'POST',
             data: formData.serialize(),
             dataType: 'json',
@@ -255,14 +268,14 @@
 
     function findList(searchInfo) {
         $.ajax({
-           url: '../admin:teacher/findTeacher',
+            url: '../admin:teacher/findTeacher',
             type: 'GET',
             data: {
                 departmentId: searchInfo.departmentId,
                 no: searchInfo.no,
                 name: searchInfo.name,
-                page:searchInfo.page,
-                size:searchInfo.size
+                page: searchInfo.page,
+                size: searchInfo.size
             },
             dataType: 'json',
             success: function (data) {
@@ -270,20 +283,32 @@
                 dataList.html("");
 
                 for (i = 0; i < data.data.length; i++) {
-                    var str = "<tr><td>" + (i + 1) + "</td><td style=\"display: none\">" + data.data[i].id + "</td>"
+                    var str = "<tr><td>" + (data.page * data.size + i + 1) + "</td><td style=\"display: none\">" + data.data[i].id + "</td>"
                         + "<td>" + data.data[i].no + "</td><td>" + data.data[i].name + "</td>"
                         + "<td store = " + data.data[i].departmentModel.id + ">" + data.data[i].departmentModel.department + "</td>"
                         + "<td>" + data.data[i].phone + "</td>"
                         + "<td><input type=\"button\" value=\"编辑\"><input type=\"button\" value=\"删除\"></td></tr>"
                     dataList.append(str)
                 }
+
+                var str = "<tr><td colspan='6' style='padding-top:15px;text-align: center; background-color: white'>"
+                if (data.pageUp) {
+                    str = str + "<a class='firstPage' style='padding-right: 5px'>首页</a><a class='pageUp' style='padding-right: 5px'>上一页</a>"
+                }
+                str = str + (data.page + 1) + "/" + data.totalPage;
+                if (data.pageDown) {
+                    str = str + "<a class='pageDown' style='padding-left: 5px' >下一页</a><a class='lastPage' style='padding-left: 5px'id='" + data.totalPage + "'>尾页</a>"
+                }
+                var end = "</td></tr>"
+                dataList.append(str + end)
+
             }
         });
     }
 
     function findById(id) {
         $.ajax({
-           url: '../admin:teacher/findById',
+            url: '../admin:teacher/findById',
             type: 'GET',
             data: {
                 id: id
@@ -302,7 +327,7 @@
 
     function deleteById(id) {
         $.ajax({
-           url: '../admin:teacher/deleteById',
+            url: '../admin:teacher/deleteById',
             type: 'DELETE',
             data: {
                 id: id
@@ -312,6 +337,7 @@
             }
         });
     }
+
     //
     // function findByDepartmentId(departmentId) {
     //     $.ajax({
@@ -341,7 +367,7 @@
     /********************** 初始化下拉列表 ***************************/
     function getAllDepartment() {
         $.ajax({
-           url: '../admin:department/list',
+            url: '../admin:department/list',
             type: 'GET',
             dataType: 'json',
             success: function (data) {
@@ -351,7 +377,7 @@
                 var head = "<option value = \"";
                 var second = "\">";
                 var end = "</option>";
-                var str = head + second  + end;
+                var str = head + second + end;
                 dataList.append(str)
                 for (i = 0; i < data.data.length; i++) {
                     var str = head + data.data[i].id + second + data.data[i].department + end;

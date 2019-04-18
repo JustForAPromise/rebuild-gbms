@@ -2,6 +2,7 @@ package com.fhx.gdms.controller.admin.controllers;
 
 import com.fhx.gdms.service.user.model.UserModel;
 import com.fhx.gdms.service.user.service.TeacherService;
+import com.fhx.gdms.supportUtil.ApiPageResult;
 import com.fhx.gdms.supportUtil.ApiResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -83,18 +84,15 @@ public class TeacherOfAdminController {
     @RequestMapping(value = "/findTeacher", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
     ApiResult findStudent(UserModel model) {
-        ApiResult apiResult = new ApiResult();
+        ApiResult apiResult = null;
 
-        if (model.getName() != null) {
-            model.setName("%" + model.getName() + "%");
-        }
-        if (model.getNo() != null) {
-            model.setNo("%" + model.getNo() + "%");
-        }
+        model.setName((model.getName() != null) ? "%" + model.getName() + "%" : null);
+        model.setNo((model.getNo() != null) ? "%" + model.getNo() + "%" : null);
 
-        List<UserModel> UserModelList = teacherService.findTeacher(model);
+        List<UserModel> studentModelList = teacherService.findTeacher(model);
+        Integer total = teacherService.findTotal(model);
 
-        apiResult.setData(UserModelList);
+        apiResult = new ApiPageResult(studentModelList, total, model.getPage(), model.getSize());
 
         return apiResult;
     }

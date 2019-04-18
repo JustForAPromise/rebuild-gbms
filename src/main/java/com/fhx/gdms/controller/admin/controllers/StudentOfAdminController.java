@@ -90,11 +90,10 @@ public class StudentOfAdminController {
         ApiResult apiResult = null;
 
         model.setName((model.getName() != null) ? "%" + model.getName() + "%" : null);
-        model.setNo((model.getName() != null) ? "%" + model.getNo() + "%" : null);
+        model.setNo((model.getNo() != null) ? "%" + model.getNo() + "%" : null);
 
         List<UserModel> studentModelList = studentService.findStudent(model);
         Integer total = studentService.findTotal(model);
-
 
         apiResult = new ApiPageResult(studentModelList, total, model.getPage(), model.getSize());
 

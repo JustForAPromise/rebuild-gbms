@@ -88,4 +88,11 @@ public interface TeacherService {
      * @return
      */
     List<UserModel> findList(UserModel model);
+
+    /**
+     * find total
+     * @param model
+     * @return
+     */
+    Integer findTotal(UserModel model);
 }
