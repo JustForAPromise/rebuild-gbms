@@ -46,8 +46,16 @@
 <!-- 内容按钮功能 -->
 <script type="text/javascript">
     $(document).ready(function () {
+        var searchInfo={
+            majorId: null,
+            no: null,
+            name: null,
+            page:0,
+            size:10
+        }
+
         /****初始化下拉列表***/
-        initPage()
+        initPage(searchInfo)
 
         //搜索按钮
         $('.search input[value="搜索"]').click(function () {
@@ -55,24 +63,56 @@
             var no = $(".search input[name=no]").val()
             var name = $(".search input[name=name]").val()
 
-            findList(majorId, no, name);
+            searchInfo.majorId = majorId;
+            searchInfo.no =no;
+            searchInfo.name =name;
+            searchInfo.page =0;
+
+            findList(searchInfo);
         });
+
+        //首页按钮
+        $(".data").on("click", ".firstPage", function () {
+            searchInfo.page = 0;
+            findList(searchInfo)
+        })
+        //上翻页按钮
+        $(".data").on("click", ".pageUp", function () {
+            if (searchInfo.page > 0) {
+                searchInfo.page = searchInfo.page - 1;
+            }
+            findList(searchInfo)
+        })
+
+        //下翻页按钮
+        $(".data").on("click", ".pageDown", function () {
+            searchInfo.page =searchInfo.page +1;
+
+            findList(searchInfo)
+        })
+        //尾页按钮
+        $(".data").on("click", ".lastPage", function () {
+            searchInfo.page = $(this).attr("id") -1;
+            findList(searchInfo)
+        })
     })
 
-    function initPage() {
-        findList()
+    function initPage(searchInfo) {
+        findList(searchInfo)
         initMajor()
     }
 
 
-    function findList(majorId, no, name) {
+    function findList(searchInfo) {
         $.ajax({
             url: '../departmentLeader:studentScore/listStudent',
             type: 'GET',
             data: {
-                majorId: majorId,
-                no: no,
-                name: name
+                majorId: searchInfo.majorId,
+                no: searchInfo.no,
+                name: searchInfo.name,
+                page:searchInfo.page,
+                size:searchInfo.size
             },
             dataType: 'json',
             success: function (data) {
@@ -94,6 +134,20 @@
                     }
                     dataList.append(str)
                 }
+
+                var str = "<tr><td colspan='6' style='padding-top:15px;text-align: center; background-color: white'>"
+                if (data.pageUp){
+                    str = str  +"<a class='firstPage' style='padding-right: 5px'>首页</a><a class='pageUp' style='padding-right: 5px'>上一页</a>"
+                }
+                if (data.data.length > 0) {
+                    str = str + (data.page + 1) + "/" + data.totalPage;
+                }
+                if (data.pageDown){
+                    str = str  +"<a class='pageDown' style='padding-left: 5px' >下一页</a><a class='lastPage' style='padding-left: 5px'id='"+data.totalPage+"'>尾页</a>"
+                }
+                var end = "</td></tr>"
+                dataList.append(str +end)
+
             }
         });
     }

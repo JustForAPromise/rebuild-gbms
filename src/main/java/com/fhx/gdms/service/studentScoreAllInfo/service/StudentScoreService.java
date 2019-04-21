@@ -2,7 +2,7 @@ package com.fhx.gdms.service.studentScoreAllInfo.service;
 
 import com.fhx.gdms.service.studentScoreAllInfo.api.SearchDetailApiGet;
 import com.fhx.gdms.service.studentScoreAllInfo.data.StudentScoreData;
-import com.fhx.gdms.service.studentScoreRecord.model.StudentScoreRecordModel;
+import com.fhx.gdms.service.itemScore.model.StudentItemScoreModel;
 import com.fhx.gdms.service.user.model.UserModel;
 
 import java.util.List;
@@ -20,7 +20,7 @@ public interface StudentScoreService {
      * 成绩登记
      * @param model
      */
-    void updateNum(StudentScoreRecordModel model);
+    void updateNum(StudentItemScoreModel model);
 
     /**
      * 学生查询成绩

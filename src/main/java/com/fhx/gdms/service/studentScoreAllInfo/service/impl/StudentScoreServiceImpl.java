@@ -8,8 +8,8 @@ import com.fhx.gdms.service.studentScoreAllInfo.api.SearchDetailApiGet;
 import com.fhx.gdms.service.studentScoreAllInfo.data.StudentScoreData;
 import com.fhx.gdms.service.studentScoreAllInfo.data.TotalScoreData;
 import com.fhx.gdms.service.studentScoreAllInfo.service.StudentScoreService;
-import com.fhx.gdms.service.studentScoreRecord.model.StudentScoreRecordModel;
-import com.fhx.gdms.service.studentScoreRecord.service.StudentScoreRecordService;
+import com.fhx.gdms.service.itemScore.model.StudentItemScoreModel;
+import com.fhx.gdms.service.itemScore.service.StudentItemScoreService;
 import com.fhx.gdms.service.user.model.UserModel;
 import com.fhx.gdms.service.user.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +32,7 @@ public class StudentScoreServiceImpl implements StudentScoreService {
     private MaterialStatusService materialStatusService;
 
     @Autowired
-    private StudentScoreRecordService studentScoreRecordService;
+    private StudentItemScoreService studentScoreRecordService;
 
     @Override
     public StudentScoreData findRecord(SearchDetailApiGet receiveData) {
@@ -46,7 +46,7 @@ public class StudentScoreServiceImpl implements StudentScoreService {
 
         materialStatus = materialStatusService.findOne(materialStatus);
 
-        List<StudentScoreRecordModel> scoreRecordList = studentScoreRecordService.ListByStudentId(student.getId(), receiveData.getType());
+        List<StudentItemScoreModel> scoreRecordList = studentScoreRecordService.ListByStudentId(student.getId(), receiveData.getType());
 
         StudentScoreData result = new StudentScoreData();
         result.setStudent(student);
@@ -58,7 +58,7 @@ public class StudentScoreServiceImpl implements StudentScoreService {
     }
 
     @Override
-    public void updateNum(StudentScoreRecordModel model) {
+    public void updateNum(StudentItemScoreModel model) {
         studentScoreRecordService.update(model);
     }
 
@@ -76,9 +76,9 @@ public class StudentScoreServiceImpl implements StudentScoreService {
 
             materialStatus = materialStatusService.findOne(materialStatus);
 
-            List<StudentScoreRecordModel> scoreRecordListOfOrdinary = studentScoreRecordService.ListByStudentId(student.getId(), 1);
-            List<StudentScoreRecordModel> scoreRecordListOfReview = studentScoreRecordService.ListByStudentId(student.getId(), 2);
-            List<StudentScoreRecordModel> scoreRecordListOfResponse = studentScoreRecordService.ListByStudentId(student.getId(), 3);
+            List<StudentItemScoreModel> scoreRecordListOfOrdinary = studentScoreRecordService.ListByStudentId(student.getId(), 1);
+            List<StudentItemScoreModel> scoreRecordListOfReview = studentScoreRecordService.ListByStudentId(student.getId(), 2);
+            List<StudentItemScoreModel> scoreRecordListOfResponse = studentScoreRecordService.ListByStudentId(student.getId(), 3);
 
             TotalScoreData totalScoreData = new TotalScoreData();
             totalScoreData.setTotalScorenNum(new BigDecimal(0));

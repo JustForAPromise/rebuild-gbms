@@ -1,10 +1,10 @@
-package com.fhx.gdms.service.studentScoreRecord.service.impl;
+package com.fhx.gdms.service.itemScore.service.impl;
 
 import com.fhx.gdms.service.scoreItem.model.ScoreItemModel;
 import com.fhx.gdms.service.scoreItem.service.ScoreItemService;
-import com.fhx.gdms.service.studentScoreRecord.model.StudentScoreRecordModel;
-import com.fhx.gdms.service.studentScoreRecord.repository.StudentScoreRecordRepository;
-import com.fhx.gdms.service.studentScoreRecord.service.StudentScoreRecordService;
+import com.fhx.gdms.service.itemScore.model.StudentItemScoreModel;
+import com.fhx.gdms.service.itemScore.repository.StudentItemScoreRepository;
+import com.fhx.gdms.service.itemScore.service.StudentItemScoreService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,25 +13,25 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class StudentScoreRecordServiceImpl implements StudentScoreRecordService  {
+public class StudentItemScoreServiceImpl implements StudentItemScoreService {
 
     @Autowired
-    private StudentScoreRecordRepository studentScoreRecordRepository;
+    private StudentItemScoreRepository studentScoreRecordRepository;
 
     @Autowired
     private ScoreItemService scoreItemService;
 
     @Transactional
     @Override
-    public List<StudentScoreRecordModel> ListByStudentId(Integer studentId, Integer type) {
-        List<StudentScoreRecordModel> results =  new ArrayList<>();
+    public List<StudentItemScoreModel> ListByStudentId(Integer studentId, Integer type) {
+        List<StudentItemScoreModel> results =  new ArrayList<>();
 
         List<ScoreItemModel> scoreItemModels = scoreItemService.findAlive(type);
 
         scoreItemModels.stream().forEach(data ->{
-            StudentScoreRecordModel model = studentScoreRecordRepository.findByStudentIdAndItemId(studentId, data.getId());
+            StudentItemScoreModel model = studentScoreRecordRepository.findByStudentIdAndItemId(studentId, data.getId());
             if ( null == model){
-                model = new StudentScoreRecordModel();
+                model = new StudentItemScoreModel();
                 model.setStudentId(studentId);
                 model.setScoreItemId(data.getId());
 
@@ -46,27 +46,27 @@ public class StudentScoreRecordServiceImpl implements StudentScoreRecordService 
     }
 
     @Override
-    public StudentScoreRecordModel save(StudentScoreRecordModel model) {
+    public StudentItemScoreModel save(StudentItemScoreModel model) {
         studentScoreRecordRepository.save(model);
 
         return this.findById(model.getId());
     }
 
     @Override
-    public StudentScoreRecordModel findById(Integer id) {
+    public StudentItemScoreModel findById(Integer id) {
 
         return studentScoreRecordRepository.findById(id);
     }
 
     @Override
-    public StudentScoreRecordModel update(StudentScoreRecordModel model) {
+    public StudentItemScoreModel update(StudentItemScoreModel model) {
         studentScoreRecordRepository.update(model);
 
         return this.findById(model.getId());
     }
 
     @Override
-    public StudentScoreRecordModel createRecord(StudentScoreRecordModel model) {
+    public StudentItemScoreModel createRecord(StudentItemScoreModel model) {
         model.setScoreNum(0);
 
         return this.save(model);

@@ -3,7 +3,7 @@ package com.fhx.gdms.controller.reviewTeacher.controllers;
 import com.fhx.gdms.service.studentScoreAllInfo.api.SearchDetailApiGet;
 import com.fhx.gdms.service.studentScoreAllInfo.data.StudentScoreData;
 import com.fhx.gdms.service.studentScoreAllInfo.service.StudentScoreService;
-import com.fhx.gdms.service.studentScoreRecord.model.StudentScoreRecordModel;
+import com.fhx.gdms.service.itemScore.model.StudentItemScoreModel;
 import com.fhx.gdms.service.user.model.UserModel;
 import com.fhx.gdms.service.user.service.StudentService;
 import com.fhx.gdms.supportUtil.ApiResult;
@@ -64,7 +64,7 @@ public class StudentScoreOfReviewController {
 
     @RequestMapping(value = "/updateNum", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
-    ApiResult updateNum(StudentScoreRecordModel model) {
+    ApiResult updateNum(StudentItemScoreModel model) {
         ApiResult apiResult = new ApiResult();
 
         UserModel teacher = (UserModel) session.getAttribute("userInfo");

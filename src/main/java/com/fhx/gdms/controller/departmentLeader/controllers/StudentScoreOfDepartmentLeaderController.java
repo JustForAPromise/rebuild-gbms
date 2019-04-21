@@ -5,6 +5,7 @@ import com.fhx.gdms.service.studentScoreAllInfo.data.StudentScoreData;
 import com.fhx.gdms.service.studentScoreAllInfo.service.StudentScoreService;
 import com.fhx.gdms.service.user.model.UserModel;
 import com.fhx.gdms.service.user.service.StudentService;
+import com.fhx.gdms.supportUtil.ApiPageResult;
 import com.fhx.gdms.supportUtil.ApiResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -33,24 +34,19 @@ public class StudentScoreOfDepartmentLeaderController {
 
     @RequestMapping(value = "/listStudent", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
-    ApiResult listStudent(SearchDetailApiGet apiGet) {
-        ApiResult apiResult = new ApiResult();
+    ApiResult listStudent(UserModel student) {
 
         UserModel departmentLeader = (UserModel) session.getAttribute("userInfo");
 
-        UserModel student = new UserModel();
-        student.setMajorId(apiGet.getMajorId());
-        if (apiGet.getNo() != null) {
-            student.setNo("%" + apiGet.getNo() + "%");
-        }
-        if (apiGet.getName() != null) {
-            student.setName("%" + apiGet.getName() + "%");
-        }
+        student.setNo((student.getNo() != null) ? "%" + student.getNo() + "%" : null);
+        student.setName((student.getName() != null) ? "%" + student.getName() + "%" : null);
+
         student.setDepartmentId(departmentLeader.getDepartmentId());
 
         List<StudentScoreData> studentScoreDataList = studentScoreService.findBaseInfoList(student);
+        Integer total = studentService.findTotal(student);
 
-        apiResult.setData(studentScoreDataList);
+        ApiResult apiResult = new ApiPageResult(studentScoreDataList, total, student.getPage(), student.getSize());
 
         return apiResult;
     }

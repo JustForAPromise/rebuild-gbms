@@ -1,4 +1,4 @@
-package com.fhx.gdms.service.studentScoreRecord.model;
+package com.fhx.gdms.service.itemScore.model;
 
 import com.fhx.gdms.service.scoreItem.model.ScoreItemModel;
 import lombok.Data;
@@ -7,7 +7,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 @Data
-public class StudentScoreRecordModel {
+public class StudentItemScoreModel {
 
     private Integer id;
 
