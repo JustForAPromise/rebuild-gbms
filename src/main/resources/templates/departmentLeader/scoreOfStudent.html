@@ -21,7 +21,6 @@
         <select class="major majorSelect">
 
         </select>
-        <br>
         <input type="text" name="no" placeholder="学号">
         <input type="text" name="name" placeholder="姓名">
         <input type="button" value="搜索">
@@ -90,7 +89,7 @@
                             + "<td><a href='../departmentLeader:studentScore/student/" + data.data[i].student.id + "'>" +
                             "<input type=\"button\" value=\"详情\"></a></td></tr>"
                     }else{
-                        str = str + "<td>---</td>"
+                        str = str + "<td>-未评分-</td>"
                             + "<td></td></tr>"
                     }
                     dataList.append(str)

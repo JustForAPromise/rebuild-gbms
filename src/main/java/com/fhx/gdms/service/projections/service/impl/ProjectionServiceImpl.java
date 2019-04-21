@@ -43,8 +43,8 @@ public class ProjectionServiceImpl implements ProjectionService {
 
     @Override
     public List<ProjectionModel> list(ProjectionModel model) {
-        List<ProjectionModel> results =  projectionRepository.findList(model);
-        results.stream().forEach(data ->{
+        List<ProjectionModel> results = projectionRepository.findList(model);
+        results.stream().forEach(data -> {
             data.setTeacherModel(teacherService.findById(data.getTeacherId()));
             data.setMajorModel(majorService.findById(data.getMajorId()));
         });
@@ -75,11 +75,6 @@ public class ProjectionServiceImpl implements ProjectionService {
     }
 
     @Override
-    public List<ProjectionModel> findByTitle(String title) {
-        return null;
-    }
-
-    @Override
     public ProjectionModel saveProjection(ProjectionModel model, UserModel userInfo) {
         model.setTeacherId(userInfo.getId());
         model.setDepartmentId(userInfo.getDepartmentId());
@@ -90,19 +85,8 @@ public class ProjectionServiceImpl implements ProjectionService {
     @Override
     public List<ProjectionModel> findList(ProjectionModel model) {
 
-        List<ProjectionModel>  modelList = projectionRepository.findList(model);
-        modelList.stream().forEach(data->{
-            data.setTeacherModel(teacherService.findById(data.getTeacherId()));
-            data.setMajorModel(majorService.findById(data.getMajorId()));
-        });
-
-        return modelList;
-    }
-
-    @Override
-    public List<ProjectionModel> listAllProjection(ProjectionModel model) {
-        List<ProjectionModel> modelList = projectionRepository.listAllProjection(model);
-        modelList.stream().forEach(data->{
+        List<ProjectionModel> modelList = projectionRepository.findList(model);
+        modelList.stream().forEach(data -> {
             data.setTeacherModel(teacherService.findById(data.getTeacherId()));
             data.setMajorModel(majorService.findById(data.getMajorId()));
         });
@@ -116,26 +100,23 @@ public class ProjectionServiceImpl implements ProjectionService {
         List<Integer> projectionIds = selectRecordService.findByUserId(student.getId());
 
         if (status == 1) {
-            if (projectionIds.size() <= 0){
+            if (projectionIds.size() <= 0) {
                 return null;
             }
             projectionModel.setProjectionIdIn(projectionIds);
-        }else if (status == 0){
-            projectionModel.setProjectionIdNotIn(projectionIds);
+        } else if (status == 0) {
+            if (projectionIds.size() > 0) {
+                projectionModel.setProjectionIdNotIn(projectionIds);
+            }
         }
         projectionModel.setAuditStatus(1);
         List<ProjectionModel> modelList = projectionRepository.findList(projectionModel);
-        modelList.stream().forEach(data->{
+        modelList.stream().forEach(data -> {
             data.setTeacherModel(teacherService.findById(data.getTeacherId()));
             data.setMajorModel(majorService.findById(data.getMajorId()));
         });
 
         return modelList;
-    }
-
-    @Override
-    public void updateStudentId(Integer projectionId, Integer studentId) {
-        projectionRepository.updateStudentId(projectionId, studentId);
     }
 
     @Override
@@ -146,7 +127,7 @@ public class ProjectionServiceImpl implements ProjectionService {
         selectRecordModel.setAuditStatus(1);
         selectRecordModel = selectRecordService.findOne(selectRecordModel);
 
-        if (selectRecordModel == null){
+        if (selectRecordModel == null) {
             return null;
         }
 
@@ -154,24 +135,7 @@ public class ProjectionServiceImpl implements ProjectionService {
     }
 
     @Override
-    public List<ProjectionModel> listProjectionToAudit(Integer teacherId, Integer departmentId) {
-        List<ProjectionModel> results =  projectionRepository.listProjectionToAudit(teacherId, departmentId);
-        results.stream().forEach(data ->{
-            data.setTeacherModel(teacherService.findById(data.getTeacherId()));
-            data.setMajorModel(majorService.findById(data.getMajorId()));
-        });
-
-        return results;
-    }
-
-    @Override
-    public List<ProjectionModel> findListToAudit(ProjectionModel model) {
-        List<ProjectionModel> results =  projectionRepository.findListToAudit(model);
-        results.stream().forEach(data ->{
-            data.setTeacherModel(teacherService.findById(data.getTeacherId()));
-            data.setMajorModel(majorService.findById(data.getMajorId()));
-        });
-
-        return results;
+    public Integer findTotal(ProjectionModel model) {
+        return projectionRepository.findTotal(model);
     }
 }

@@ -18,8 +18,9 @@
 <div class="body">
     <div class="function">
         <!-- 添加权限功能 -->
-        <input type="button" value="添加"><span>&nbsp;&nbsp;&nbsp;</span>
         <input type="button" name="" value="用户角色信息" th:attr="store=${session.userInfo.departmentId}">
+        <span>&nbsp;&nbsp;&nbsp;</span>
+        <input type="button" value="添加">
         <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
         <input type="button" name="" value="教务员信息" th:attr="store=${session.userInfo.departmentId}"><span>&nbsp;&nbsp;&nbsp;</span>
         <input type="button" value="添加教务员">

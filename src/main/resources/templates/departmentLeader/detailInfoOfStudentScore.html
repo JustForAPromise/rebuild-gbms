@@ -42,42 +42,60 @@
         </table>
     </div>
     <div class="infos">
+        <table>
+            <tr>
+                <td style="font-weight: bold">序号</td>
+                <td style="display: none"></td>
+                <td style="font-weight: bold">评分项</td>
+                <td style="font-weight: bold">分数占比</td>
+                <td style="font-weight: bold">该项评分</td>
+                <td style="font-weight: bold">实际得分</td>
+
+            </tr>
+        </table>
         <div class="OrdinaryInfo" th:if="${studentInfo.scoreRecordListOfOrdinary != null}">
-            <h4>指导教师评分</h4>
             <table>
+                <b style="left: -45px; position: relative">指导教师评分：</b>
+                <hr width="80%" style="margin: 5px 0px">
                 <tr th:each="score,scoreStatus: ${studentInfo.scoreRecordListOfOrdinary}">
                     <td th:text="${scoreStatus.count}"></td>
                     <td style="display: none" th:text="${score.id}" class="ids"></td>
                     <td th:text="${score.scoreItemModel.itemName}"></td>
                     <td th:text="${score.scoreItemModel.scoreRate}"></td>
                     <td th:text="${score.scoreNum}"></td>
+                    <td th:text="${score.realScore }"></td>
+
                 </tr>
             </table>
         </div>
 
         <div class="ReviewInfo" th:if="${studentInfo.scoreRecordListOfReview != null}">
-            <h4>评阅教师评分</h4>
             <table>
+                <b style="left: -45px; position: relative">评阅教师评分：</b>
+                <hr width="80%" style="margin: 5px 0px">
                 <tr th:each="score,scoreStatus: ${studentInfo.scoreRecordListOfReview}">
                     <td th:text="${scoreStatus.count}"></td>
                     <td style="display: none" th:text="${score.id}" class="ids"></td>
                     <td th:text="${score.scoreItemModel.itemName}"></td>
                     <td th:text="${score.scoreItemModel.scoreRate}"></td>
                     <td th:text="${score.scoreNum}"></td>
+                    <td th:text="${score.realScore }"></td>
 
                 </tr>
             </table>
         </div>
 
         <div class="ResponseInfo" th:if="${studentInfo.scoreRecordListOfResponse != null}">
-            <h4>答辩教师评分</h4>
             <table>
+                <b style="left: -45px; position: relative">答辩教师评分：</b>
+                <hr width="80%" style="margin: 5px 0px">
                 <tr th:each="score,scoreStatus: ${studentInfo.scoreRecordListOfResponse }">
                     <td th:text="${scoreStatus.count}"></td>
                     <td style="display: none" th:text="${score.id}" class="ids"></td>
                     <td th:text="${score.scoreItemModel.itemName}"></td>
                     <td th:text="${score.scoreItemModel.scoreRate}"></td>
                     <td th:text="${score.scoreNum}"></td>
+                    <td th:text="${score.realScore }"></td>
                 </tr>
             </table>
         </div>

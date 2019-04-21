@@ -30,6 +30,7 @@ public class MajorOfDepartmentLeaderController {
         ApiResult apiResult = new ApiResult();
 
         UserModel departmentLeader = (UserModel)session.getAttribute("userInfo");
+
         List<MajorModel> majorModelList = majorService.findByDepartmentId(departmentLeader.getDepartmentId());
 
         apiResult.setData(majorModelList);

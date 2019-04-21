@@ -2,6 +2,7 @@ package com.fhx.gdms.controller.departmentLeader.controllers;
 
 import com.fhx.gdms.service.projections.model.ProjectionModel;
 import com.fhx.gdms.service.projections.service.ProjectionService;
+import com.fhx.gdms.supportUtil.ApiPageResult;
 import com.fhx.gdms.supportUtil.ApiResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -22,21 +23,18 @@ public class ProjectionOfDepartmentLeaderController {
     @Autowired
     private ProjectionService projectionService;
 
-    @Autowired
-    private HttpSession session;
-
     @RequestMapping(value = "/list", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
     ApiResult list(ProjectionModel model) {
-        ApiResult apiResult = new ApiResult();
 
         if (model.getTitle() != null){
             model.setTitle("%"+model.getTitle()+"%");
         }
 
         List<ProjectionModel> results = projectionService.list(model);
+        Integer total = projectionService.findTotal(model);
 
-        apiResult.setData(results);
+        ApiResult apiResult = new ApiPageResult(results, total, model.getPage(), model.getSize());
 
         return apiResult;
     }

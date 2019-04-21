@@ -52,10 +52,6 @@ public interface ProjectionRepository {
     @Update("update tb_projection set student_id = #{studentId} where id = #{projectionId}")
     void updateStudentId(@Param("projectionId")Integer projectionId, @Param("studentId")Integer studentId);
 
-    @Select("SELECT * FROM tb_projection WHERE student_id= #{studentId} AND teacher_id = #{teacherId} LIMIT 1")
-    @ResultMap(value = "projectionMap")
-    ProjectionModel findByUserIdAndTeacherId(@Param("studentId")Integer studentId, @Param("teacherId")Integer teacherId);
-
     @Select("SELECT * FROM tb_projection WHERE teacher_id != #{teacherId} AND department_id = #{departmentId} ORDER BY audit_status, update_time DESC")
     @ResultMap(value = "projectionMap")
     List<ProjectionModel> listProjectionToAudit(@Param("teacherId")Integer teacherId, @Param("departmentId")Integer departmentId);
@@ -63,6 +59,9 @@ public interface ProjectionRepository {
     @Select("SELECT * FROM tb_projection WHERE teacher_id != #{teacherId} AND department_id = #{departmentId} AND audit_status = #{auditStatus} ORDER BY audit_status, update_time DESC")
     @ResultMap(value = "projectionMap")
     List<ProjectionModel> findListToAudit(ProjectionModel model);
+
+    @SelectProvider(type = ProjectionProvider.class, method = "findTotalByModel")
+    Integer findTotal(ProjectionModel model);
 
     /********** 内部类 *********/
 
@@ -131,12 +130,66 @@ public interface ProjectionRepository {
                     }
                 }
                 sql.WHERE(inSQl.toString());
-                sql.WHERE("student_id is NULL");
+            }
+
+            sql.ORDER_BY("audit_status","teacher_id","major_id DESC");
+
+            StringBuffer end = new StringBuffer();
+            if (model.getPage() != null && !"".equals(model.getPage())) {
+                if (model.getSize() != null && !"".equals(model.getSize()))
+                    end.append(" LIMIT " + model.getPage()*model.getSize()+","+model.getSize());
+            }
+            return sql.toString()+end.toString();
+        }
+
+        public String findTotalByModel(ProjectionModel model) {
+            SQL sql = new SQL();
+            sql.SELECT("count(1)");
+            sql.FROM("tb_projection");
+            if (model.getTitle() != null && !"".equals(model.getTitle())) {
+                sql.WHERE("title like #{title}");
+            }
+            if (model.getAuditStatus() != null && !"".equals(model.getAuditStatus())) {
+                sql.WHERE("audit_status = #{auditStatus}");
+            }
+            if (model.getTeacherId() != null && !"".equals(model.getTeacherId())) {
+                sql.WHERE("teacher_id = #{teacherId}");
+            }
+            if (model.getDepartmentId() != null && !"".equals(model.getDepartmentId())) {
+                sql.WHERE("department_id = #{departmentId}");
+            }
+            if (model.getMajorId() != null && !"".equals(model.getMajorId())) {
+                sql.WHERE("major_id = #{majorId}");
+            }
+            if (model.getProjectionIdIn() != null && model.getProjectionIdIn().size() > 0) {
+                StringBuffer inSQl = new StringBuffer("id in(");
+                for (int i = 0, j = model.getProjectionIdIn().size(); i < j; i++){
+                    inSQl.append(model.getProjectionIdIn().get(i));
+                    if (i == j-1){
+                        inSQl.append(")");
+                    }else{
+                        inSQl.append(",");
+                    }
+                }
+                sql.WHERE(inSQl.toString());
+            }
+            if (model.getProjectionIdNotIn() != null && model.getProjectionIdNotIn().size() > 0) {
+                StringBuffer inSQl = new StringBuffer("id not in(");
+                for (int i = 0, j = model.getProjectionIdNotIn().size(); i < j; i++){
+                    inSQl.append(model.getProjectionIdNotIn().get(i));
+                    if (i == j-1){
+                        inSQl.append(")");
+                    }else{
+                        inSQl.append(",");
+                    }
+                }
+                sql.WHERE(inSQl.toString());
             }
 
             sql.ORDER_BY("audit_status","teacher_id","major_id DESC");
             return sql.toString();
         }
+
 
         public String updateModel(ProjectionModel model) {
             SQL sql = new SQL();

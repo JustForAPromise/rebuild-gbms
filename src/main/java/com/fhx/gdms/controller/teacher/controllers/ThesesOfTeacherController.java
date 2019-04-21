@@ -33,25 +33,18 @@ public class ThesesOfTeacherController {
     @Autowired
     private ProjectionService projectionService;
 
-    @RequestMapping(value = "/records", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    ModelAndView records() {
+    @RequestMapping(value = "/updateAudit", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ResponseBody
+    ApiResult updateAudit(Integer id, Integer status, String remark) {
         ApiResult apiResult = new ApiResult();
-
         //获取用户信息
-        UserModel student = (UserModel) session.getAttribute("userInfo");
-        //构建model
-        MaterialModel taskBookModel = new MaterialModel();
-        taskBookModel.setStudentId(student.getId());
-        taskBookModel.setTeacherId(student.getTeacherId());
-        taskBookModel.setProjectionId(projectionService.findByUserIdAndTeacherId(student.getId(), student.getTeacherId()).getId());
 
-        List<MaterialModel> list = thesesService.findList(taskBookModel);
+        MaterialModel result = thesesService.updateAudit(id, status, remark);
 
-        ModelAndView modelAndView = new ModelAndView("/student/info/submitHistory.html");
-        modelAndView.addObject("records", list);
-        return modelAndView;
+        apiResult.setCode(0);
+        apiResult.setMsg("审批成功！");
+        return apiResult;
     }
-
 
     @RequestMapping(value = "/listTheses", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody

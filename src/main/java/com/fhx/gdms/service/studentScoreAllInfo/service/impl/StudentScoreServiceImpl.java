@@ -83,27 +83,48 @@ public class StudentScoreServiceImpl implements StudentScoreService {
             TotalScoreData totalScoreData = new TotalScoreData();
             totalScoreData.setTotalScorenNum(new BigDecimal(0));
             scoreRecordListOfOrdinary.stream().forEach(data -> {
+                data.setRealScore(new BigDecimal(data.getScoreNum())
+                        .multiply(
+                                new BigDecimal(data.getScoreItemModel().getScoreRate()).divide(new BigDecimal(100)))
+                );
                 totalScoreData.setTotalScorenNum(
                         totalScoreData.getTotalScorenNum().add(
                                 new BigDecimal(data.getScoreNum())
                                         .multiply(
-                                                new BigDecimal(data.getScoreItemModel().getScoreRate()).divide(new BigDecimal(100))))
+                                                new BigDecimal(data.getScoreItemModel().getScoreRate()).divide(new BigDecimal(100))
+                                        )
+                        )
                 );
             });
             scoreRecordListOfReview.stream().forEach(data -> {
+                data.setRealScore(new BigDecimal(data.getScoreNum())
+                        .multiply(
+                                new BigDecimal(data.getScoreItemModel().getScoreRate()).divide(new BigDecimal(100))
+                        )
+                );
                 totalScoreData.setTotalScorenNum(
                         totalScoreData.getTotalScorenNum().add(
                                 new BigDecimal(data.getScoreNum())
                                         .multiply(
-                                                new BigDecimal(data.getScoreItemModel().getScoreRate()).divide(new BigDecimal(100))))
+                                                new BigDecimal(data.getScoreItemModel().getScoreRate()).divide(new BigDecimal(100))
+                                        )
+                        )
                 );
             });
             scoreRecordListOfResponse.stream().forEach(data -> {
+                data.setRealScore(new BigDecimal(data.getScoreNum())
+                        .multiply(
+                                new BigDecimal(data.getScoreItemModel().getScoreRate()).divide(new BigDecimal(100))
+                        )
+                );
+
                 totalScoreData.setTotalScorenNum(
                         totalScoreData.getTotalScorenNum().add(
                                 new BigDecimal(data.getScoreNum())
                                         .multiply(
-                                                new BigDecimal(data.getScoreItemModel().getScoreRate()).divide(new BigDecimal(100))))
+                                                new BigDecimal(data.getScoreItemModel().getScoreRate()).divide(new BigDecimal(100))
+                                        )
+                        )
                 );
             });
 

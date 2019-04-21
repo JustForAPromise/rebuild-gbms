@@ -46,13 +46,6 @@ public interface ProjectionService {
     void deleteById(Integer id);
 
     /**
-     *
-     * @param title
-     * @return
-     */
-    List<ProjectionModel> findByTitle(String title);
-
-    /**
      * 创建
      * @param model
      * @param userInfo
@@ -68,26 +61,12 @@ public interface ProjectionService {
     List<ProjectionModel> findList(ProjectionModel model);
 
     /**
-     * 学生 可选课题（待废弃）
-     * @param model
-     * @return
-     */
-    List<ProjectionModel> listAllProjection(ProjectionModel model);
-
-    /**
      * 学生可选课题（重构）
      * @param projectionModel
      * @param student
      * @return
      */
     List<ProjectionModel> listProjectionToStudent(ProjectionModel projectionModel, UserModel student, Integer status);
-
-    /**
-     * 更新学生id
-     * @param projectionId
-     * @param studentId
-     */
-    void updateStudentId(Integer projectionId, Integer studentId);
 
     /**
      * studentId + teacherId 查询
@@ -98,17 +77,9 @@ public interface ProjectionService {
     ProjectionModel findByUserIdAndTeacherId(Integer studentId, Integer teacherId);
 
     /**
-     * 课题审核
-     * @param teacherId
-     * @param departmentId
-     * @return
-     */
-    List<ProjectionModel> listProjectionToAudit(Integer teacherId, Integer departmentId);
-
-    /**
-     *
+     * find total of model
      * @param model
      * @return
      */
-    List<ProjectionModel> findListToAudit(ProjectionModel model);
+    Integer findTotal(ProjectionModel model);
 }

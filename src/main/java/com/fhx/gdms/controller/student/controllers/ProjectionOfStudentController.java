@@ -3,6 +3,7 @@ package com.fhx.gdms.controller.student.controllers;
 import com.fhx.gdms.service.projections.model.ProjectionModel;
 import com.fhx.gdms.service.projections.service.ProjectionService;
 import com.fhx.gdms.service.user.model.UserModel;
+import com.fhx.gdms.supportUtil.ApiPageResult;
 import com.fhx.gdms.supportUtil.ApiResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -51,19 +52,18 @@ public class ProjectionOfStudentController {
 
     @RequestMapping(value = "/listProjectionToStudent", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
-    ApiResult listProjectionToStudent(String title, Integer teacherId, Integer status) {
-        ApiResult apiResult = new ApiResult();
+    ApiResult listProjectionToStudent(ProjectionModel model, Integer status) {
 
         UserModel student = (UserModel) session.getAttribute("userInfo");
-        ProjectionModel projectionModel = new ProjectionModel();
-        projectionModel.setDepartmentId(student.getDepartmentId());
-        projectionModel.setTitle("%"+title+"%");
-        projectionModel.setTeacherId(teacherId);
-        projectionModel.setMajorId(student.getMajorId());
 
-        List<ProjectionModel> projectionModelList = projectionService.listProjectionToStudent(projectionModel, student , status);
+        model.setDepartmentId(student.getDepartmentId());
+        model.setTitle((model.getTitle() != null) ? "%" + model.getTitle() + "%" : null);
+        model.setMajorId(student.getMajorId());
 
-        apiResult.setData(projectionModelList);
+        List<ProjectionModel> projectionModelList = projectionService.listProjectionToStudent(model, student , status);
+        Integer total = projectionService.findTotal(model);
+
+        ApiResult apiResult = new ApiPageResult(projectionModelList, total, model.getPage(), model.getSize());
 
         return apiResult;
     }

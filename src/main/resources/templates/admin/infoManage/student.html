@@ -313,7 +313,9 @@
                 if (data.pageUp){
                     str = str  +"<a class='firstPage' style='padding-right: 5px'>首页</a><a class='pageUp' style='padding-right: 5px'>上一页</a>"
                 }
-                str  =str + (data.page+1)+"/"+data.totalPage;
+                if (data.data.length > 0) {
+                    str = str + (data.page + 1) + "/" + data.totalPage;
+                }
                 if (data.pageDown){
                     str = str  +"<a class='pageDown' style='padding-left: 5px' >下一页</a><a class='lastPage' style='padding-left: 5px'id='"+data.totalPage+"'>尾页</a>"
                 }

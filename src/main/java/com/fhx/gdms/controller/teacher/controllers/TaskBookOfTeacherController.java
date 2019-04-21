@@ -26,10 +26,6 @@ public class TaskBookOfTeacherController {
     @Autowired
     private TaskBookService taskBookService;
 
-
-    @Autowired
-    private ProjectionService projectionService;
-
     @Autowired
     private HttpSession session;
 

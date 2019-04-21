@@ -30,26 +30,25 @@
                 <td class="font-blod">所选课题：</td>
                 <td th:text="${scoreAllInfo.projectionModel.title}"></td>
             </tr>
-
             <tr>
-                <td class="font-blod">任务书审核是否通过：</td>
-                <td th:if="${scoreAllInfo.materialStatusModel != null && scoreAllInfo.materialStatusModel.taskAuditStatus == 1}">通过</td>
-                <td th:if="${scoreAllInfo.materialStatusModel != null && scoreAllInfo.materialStatusModel.taskAuditStatus == 2}">未通过</td>
-                <td th:if="${scoreAllInfo.materialStatusModel != null && scoreAllInfo.materialStatusModel.taskAuditStatus == 0}">未审阅</td>
-                <td th:if="${scoreAllInfo.materialStatusModel == null}"> 材料未提交 </td>
-                <td class="2"></td>
-                <td class="font-blod">论文审核是否通过：</td>
-                <td th:if="${scoreAllInfo.materialStatusModel != null && scoreAllInfo.materialStatusModel.thesesAuditStatus == 1}">通过</td>
-                <td th:if="${scoreAllInfo.materialStatusModel != null && scoreAllInfo.materialStatusModel.thesesAuditStatus == 2}">未通过</td>
-                <td th:if="${scoreAllInfo.materialStatusModel != null && scoreAllInfo.materialStatusModel.thesesAuditStatus == 0}">未审阅</td>
-                <td th:if="${scoreAllInfo.materialStatusModel == null}"> 材料未提交 </td>
+                <td class="font-blod" colspan="3">论文审核是否通过：</td>
+                <td th:if="${scoreAllInfo.materialStatusModel != null && scoreAllInfo.materialStatusModel.thesesAuditStatus == 1}" colspan="3">
+                    通过
+                </td>
+                <td th:if="${scoreAllInfo.materialStatusModel != null && scoreAllInfo.materialStatusModel.thesesAuditStatus == 2}" colspan="3">
+                    未通过
+                </td>
+                <td th:if="${scoreAllInfo.materialStatusModel != null && scoreAllInfo.materialStatusModel.thesesAuditStatus == 0}" colspan="3">
+                    未审阅
+                </td>
+                <td th:if="${scoreAllInfo.materialStatusModel == null}"> 材料未提交</td>
             </tr>
         </table>
     </div>
-    <div class="data"  th:if="${scoreAllInfo.materialStatusModel == null || scoreAllInfo.materialStatusModel.taskAuditStatus != 1}">
-        <h5 style="padding-left: 100px; padding-top: 50px"> 该生尚未通过相关课题材料审核！不允许进行成绩登记</h5>
+    <div class="data"  th:if="${scoreAllInfo.materialStatusModel == null || scoreAllInfo.materialStatusModel.thesesAuditStatus != 1}">
+        <h5 style="padding-left: 100px; padding-top: 50px"> 该生论文尚未通过审核！不允许进行成绩登记</h5>
     </div>
-    <div class="data" th:if="${scoreAllInfo.materialStatusModel != null && scoreAllInfo.materialStatusModel.taskAuditStatus == 1}">
+    <div class="data" th:if="${scoreAllInfo.materialStatusModel != null && scoreAllInfo.materialStatusModel.thesesAuditStatus == 1}">
         <table  th:if="${#lists.size(scoreAllInfo.scoreRecordModels) > 0}">
             <thead>
             <tr>

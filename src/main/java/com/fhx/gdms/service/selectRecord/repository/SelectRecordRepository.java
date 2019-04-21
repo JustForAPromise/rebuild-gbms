@@ -51,7 +51,7 @@ public interface SelectRecordRepository {
     Integer receiveStudent(Integer id);
 
 
-    @Select("SELECT projection_id FROM tb_stu_tea_pro_record WHERE  student_id= #{userId}")
+    @Select("SELECT projection_id FROM tb_stu_tea_pro_record WHERE  student_id= #{userId} AND audit_status != 2")
     List<Integer> findByUserId(@Param("userId")Integer userId);
 
 

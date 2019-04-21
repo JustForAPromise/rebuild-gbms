@@ -63,22 +63,35 @@
 <!-- jq代码 -->
 <script>
     $(document).ready(function () {
+        var searchInfo = {
+            teacherId: null,
+            title: null,
+            page: 0,
+            size: 15
+        }
         var teachers = listTeacher();
-        var projections = listProjection(null, null, 0)
+        var projections = listProjection(searchInfo, 0)
 
         //刷新按钮 添加ajax
         $('input[value="刷新"]').click(function () {
-            listProjection(null, null, 0)
+            listProjection(searchInfo, 0)
         })
         $('input[value="已选课题"]').click(function () {
-            listProjection(null, null, 1)
+            searchInfo.teacherId = null;
+            searchInfo.title = null;
+            listProjection(searchInfo, 1)
         })
 
         //搜索按钮 添加ajax
         $('input[value="搜索"]').click(function () {
             var teacherId = $(".search .teacherSelect").val();
             var title = $(".search input[name=title]").val();
-            listProjection(teacherId, title, 0)
+
+            searchInfo.teacherId = teacherId;
+            searchInfo.title =title;
+            searchInfo.page =0;
+
+            listProjection(searchInfo, 0)
         })
 
         //模态框确定选择按钮 添加ajax
@@ -117,11 +130,37 @@
             //信息获取
             add(projectionId, teacherId, 0)
         })
+
+        //首页按钮
+        $(".data").on("click", ".firstPage", function () {
+            searchInfo.page = 0;
+            listProjection(searchInfo, 0)
+        })
+        //上翻页按钮
+        $(".data").on("click", ".pageUp", function () {
+            if (searchInfo.page > 0) {
+                searchInfo.page = searchInfo.page - 1;
+            }
+            listProjection(searchInfo, 0)
+        })
+
+        //下翻页按钮
+        $(".data").on("click", ".pageDown", function () {
+            searchInfo.page =searchInfo.page +1;
+
+            listProjection(searchInfo, 0)
+        })
+        //尾页按钮
+        $(".data").on("click", ".lastPage", function () {
+            searchInfo.page = $(this).attr("id") -1;
+
+            listProjection(searchInfo, 0)
+        })
     });
 
     function add(projectionId, teacherId) {
         $.ajax({
-           url: '../student:selectRecord/add',
+            url: '../student:selectRecord/add',
             type: 'POST',
             data: {
                 projectionId: projectionId,
@@ -141,7 +180,7 @@
 
     function findById(id) {
         $.ajax({
-           url: '../student:projection/findById',
+            url: '../student:projection/findById',
             type: 'GET',
             data: {
                 id: id
@@ -155,7 +194,7 @@
                     $('.myModal textarea[name= "introduce"]').val(data.data.introduce);
                     $('.myModal textarea[name="require"]').val(data.data.demand);
                     $('.myModal input[name="teacher"]').val(data.data.teacherModel.name);
-                    $('.myModal input[name="teacher"]').attr("store",data.data.teacherModel.id);
+                    $('.myModal input[name="teacher"]').attr("store", data.data.teacherModel.id);
                     $('.hide').removeClass('hide');
                 }
             }
@@ -164,7 +203,7 @@
 
     function listTeacher() {
         $.ajax({
-           url: '../student:teacher/listTeacher',
+            url: '../student:teacher/listTeacher',
             type: 'GET',
             dataType: 'json',
             success: function (data) {
@@ -180,14 +219,16 @@
         });
     }
 
-    function listProjection(teacherId, title, status) {
+    function listProjection(searchInfo, status) {
         $.ajax({
-           url: '../student:projection/listProjectionToStudent',
+            url: '../student:projection/listProjectionToStudent',
             type: 'GET',
             data: {
-                title: title,
-                teacherId: teacherId,
-                status: status
+                title: searchInfo.title,
+                teacherId: searchInfo.teacherId,
+                status: status,
+                page:searchInfo.page,
+                size:searchInfo.size
             },
             dataType: 'json',
             success: function (data) {
@@ -210,11 +251,22 @@
                         }
 
                         str = str + "<td store = \"" + data.data[i].teacherModel.id + "\">" + data.data[i].teacherModel.name + "</td>"
+                        var auditStatusReport;
+                        if (data.data[i].auditStatus == 0) {
+                            str = str + "<td>请求未处理</td>"
+
+                        } else if (data.data[i].auditStatus == 1) {
+                            str = str + "<td style='color: #EE5C42'>已接收</td>"
+
+                        } else if (data.data[i].auditStatus == 2) {
+                            str = str + "<td  style='color: red'>拒绝</td>"
+                        }
+
                         dataList.append(str)
                     }
                 } else if (status == 0) {
                     for (i = 0; i < data.data.length; i++) {
-                        var str = "<tr><td store=\"" + data.data[i].id + "\">" + (i + 1)
+                        var str = "<tr><td store=\"" + data.data[i].id + "\">" + (data.page * data.size +i+1)
                             + "</td> <td>" + data.data[i].title + "</td> "
 
                         if (data.data[i].introduce.length > 10) {
@@ -231,6 +283,19 @@
                             + "<td><input type=\"button\" name=\"\" value=\"详情\"><input type=\"button\" value=\"选择\"></td>"
                         dataList.append(str)
                     }
+
+                    var str = "<tr><td colspan='6' style='padding-top:15px;text-align: center; background-color: white'>"
+                    if (data.pageUp){
+                        str = str  +"<a class='firstPage' style='padding-right: 5px'>首页</a><a class='pageUp' style='padding-right: 5px'>上一页</a>"
+                    }
+                    if (data.data.length > 0) {
+                        str = str + (data.page + 1) + "/" + data.totalPage;
+                    }
+                    if (data.pageDown){
+                        str = str  +"<a class='pageDown' style='padding-left: 5px' >下一页</a><a class='lastPage' style='padding-left: 5px'id='"+data.totalPage+"'>尾页</a>"
+                    }
+                    var end = "</td></tr>"
+                    dataList.append(str +end)
                 }
             }
         });

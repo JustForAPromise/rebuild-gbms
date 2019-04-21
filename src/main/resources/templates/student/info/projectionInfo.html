@@ -15,27 +15,29 @@
 </head>
 <body>
 <div class="body">
-    <fieldset>
-        <legend>任务书提交：</legend>
-        <form id="taskBook" enctype="multipart/form-data" name="taskBook">
+
+    <form id="taskBook" enctype="multipart/form-data" name="taskBook">
+        <fieldset>
+            <legend>任务书提交：</legend>
             <label>文件： </label><input type="file" , name="file" style="display: inline-block">
             <input type="button" value="提交">
-        </form>
-        <br>
-        <a href="/student:taskBook/records"><input type="button" value="查看历史提交记录"></a>
-    </fieldset>
+        </fieldset>
+    </form>
+    <br>
+    <a href="/student:taskBook/records"><input type="button" value="查看历史提交记录"></a>
+    <br><br>
 
-    <br><br><br>
-
-    <fieldset>
-        <legend>论文提交：</legend>
-        <form id="these" enctype="multipart/form-data" name="these">
+    <form id="these" enctype="multipart/form-data" name="these">
+        <fieldset>
+            <legend>论文提交：</legend>
             <label>文件： </label><input type="file" , name="file" style="display: inline-block">
             <input type="button" value="提交">
-        </form>
-        <br>
-        <a href="/student:theses/records"><input type="button" value="查看历史提交记录"></a>
-    </fieldset>
+        </fieldset>
+    </form>
+    <br>
+    <a href="/student:theses/records"><input type="button" value="查看历史提交记录"></a>
+
+
 </div>
 
 <script th:if="${flag !=false}">
@@ -54,11 +56,12 @@
             form.reset();
         })
     })
+
     function submitTaskBook(formData) {
         $.ajax({
-           url: '../student:taskBook/add',
+            url: '../student:taskBook/add',
             type: 'POST',
-            data:formData,
+            data: formData,
             processData: false,
             contentType: false,
             success: function (data) {
@@ -73,9 +76,9 @@
 
     function submitThese(formData) {
         $.ajax({
-           url: '../student:theses/add',
+            url: '../student:theses/add',
             type: 'POST',
-            data:formData,
+            data: formData,
             processData: false,
             contentType: false,
             success: function (data) {

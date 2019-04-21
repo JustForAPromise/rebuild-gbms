@@ -5,7 +5,7 @@
     <title>系负责人--课题查看</title>
 
     <link rel="stylesheet" type="text/css" href="../css/admin/admin-motaikuang.css">
-    <link rel="stylesheet" type="text/css" href="../css/personInfo.css">
+    <link rel="stylesheet" type="text/css" href="../css/departmentLeader/leader-projection.css">
     <link rel="stylesheet" type="text/css" href="../css/bootstrap-theme.min.css">
     <link rel="stylesheet" type="text/css" href="../css/bootstrap.css">
     <link rel="stylesheet" type="text/css" href="../css/swiper.min.css">
@@ -22,9 +22,16 @@
             <select name="teacherId" class="teacherSelect">
 
             </select>
+
+            <label>专业：</label>
+            <select name="majorId" class="majorSelect">
+
+            </select>
+
             <label>&nbsp;课题标题</label><input type="text" name="title">
         </form>
-        <span>&nbsp;&nbsp;</span> <input type="button" value="搜索"><!--<span>&nbsp;&nbsp;</span><input type="button" value="记录导出">-->
+        <span>&nbsp;&nbsp;</span> <input type="button" value="搜索">
+        <!--<span>&nbsp;&nbsp;</span><input type="button" value="记录导出">-->
     </div>
 </div>
 
@@ -55,30 +62,76 @@
 <!-- jq代码 -->
 <script>
     $(document).ready(function () {
+        var searchInfo = {
+            teacherId: null,
+            majorId: null,
+            title: null,
+            page: 0,
+            size: 15
+        }
+
+
         //初始化界面
-        initPage()
+        initPage(searchInfo)
 
         //搜索按钮
         $('input[value="搜索"]').click(function () {
             var teacherId = $("select[name=teacherId]").val()
+            var majorId = $("select[name=majorId]").val()
             var title = $("input[name=title]").val()
-            findProjection(teacherId, title)
+
+            searchInfo.teacherId = teacherId;
+            searchInfo.majorId = majorId;
+            searchInfo.title = title;
+            searchInfo.page = 0;
+
+            findProjection(searchInfo)
+        })
+
+        //首页按钮
+        $(".data").on("click", ".firstPage", function () {
+            searchInfo.page = 0;
+            findProjection(searchInfo)
+        })
+        //上翻页按钮
+        $(".data").on("click", ".pageUp", function () {
+            if (searchInfo.page > 0) {
+                searchInfo.page = searchInfo.page - 1;
+            }
+            findProjection(searchInfo)
+        })
+
+        //下翻页按钮
+        $(".data").on("click", ".pageDown", function () {
+            searchInfo.page = searchInfo.page + 1;
+
+            findProjection(searchInfo)
+        })
+        //尾页按钮
+        $(".data").on("click", ".lastPage", function () {
+            searchInfo.page = $(this).attr("id") - 1;
+
+            findProjection(searchInfo)
         })
     });
 
-    function initPage() {
-        findProjection();
-        initTeacher()
+    function initPage(searchInfo) {
+        findProjection(searchInfo);
+        initTeacher();
+        initMajor();
     }
 
-    function findProjection(teacherId, title) {
+    function findProjection(searchInfo) {
         $.ajax({
             url: '../departmentLeader:projection/list',
             type: 'GET',
             data: {
-                teacherId: teacherId,
-                title: title,
-                auditStatus:1
+                teacherId: searchInfo.teacherId,
+                title: searchInfo.title,
+                majorId: searchInfo.majorId,
+                auditStatus: 1,
+                page: searchInfo.page,
+                size: searchInfo.size
             },
             dataType: 'json',
             success: function (data) {
@@ -86,15 +139,28 @@
                 dataList.html("");
 
                 for (i = 0; i < data.data.length; i++) {
-                    var str = "<tr><td>" + (i + 1) + "</td>" +
+                    var str = "<tr><td>" + (data.page * data.size + i + 1) + "</td>" +
                         "<td>" + data.data[i].teacherModel.name + "</td>" +
                         "<td>" + data.data[i].majorModel.major + "</td>" +
                         "<td>" + data.data[i].teacherModel.name + "</td>" +
                         "<td>" + data.data[i].title + "</td>" +
-                        "<td><a href=\"../departmentLeader:projection/"+data.data[i].id+"\"><input type=\"button\" value=\"详情\"></a></td></tr>";
+                        "<td><a href=\"../departmentLeader:projection/" + data.data[i].id + "\"><input type=\"button\" value=\"详情\"></a></td></tr>";
 
                     dataList.append(str)
                 }
+
+                var str = "<tr><td colspan='6' style='padding-top:15px;text-align: center; background-color: white'>"
+                if (data.pageUp) {
+                    str = str + "<a class='firstPage' style='padding-right: 5px'>首页</a><a class='pageUp' style='padding-right: 5px'>上一页</a>"
+                }
+                if (data.data.length > 0) {
+                    str = str + (data.page + 1) + "/" + data.totalPage;
+                }
+                if (data.pageDown) {
+                    str = str + "<a class='pageDown' style='padding-left: 5px' >下一页</a><a class='lastPage' style='padding-left: 5px'id='" + data.totalPage + "'>尾页</a>"
+                }
+                var end = "</td></tr>"
+                dataList.append(str + end)
             }
         });
     }
@@ -111,13 +177,39 @@
                 var head = "<option value = \"";
                 var second = "\">";
                 var end = "</option>";
+                var str = head + second + "--教师--" + end;
+                dataList.append(str)
+
                 for (i = 0; i < data.data.length; i++) {
                     var str = head + data.data[i].id + second + data.data[i].name + end;
                     dataList.append(str)
                 }
             }
         });
+    }
 
+    function initMajor() {
+        $.ajax({
+            url: '../departmentLeader:major/listMajor',
+            type: 'GET',
+            async: false,
+            dataType: 'json',
+            success: function (data) {
+                var majorSelect = $(".majorSelect");
+
+                var head = "<option value='"
+                var second = "'>"
+                var end = "</option>";
+
+                var str = head + second + "--专业--" + end;
+                majorSelect.append(str)
+
+                for (i = 0; i < data.data.length; i++) {
+                    str = head + data.data[i].id + second + data.data[i].major + end;
+                    majorSelect.append(str)
+                }
+            }
+        });
     }
 </script>
 

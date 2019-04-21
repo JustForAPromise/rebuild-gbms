@@ -3,13 +3,14 @@ package com.fhx.gdms.service.projections.model;
 import com.fhx.gdms.service.department.model.DepartmentModel;
 import com.fhx.gdms.service.major.model.MajorModel;
 import com.fhx.gdms.service.user.model.UserModel;
+import com.fhx.gdms.supportUtil.PageBaseModel;
 import lombok.Data;
 
 import java.util.Date;
 import java.util.List;
 
 @Data
-public class ProjectionModel {
+public class ProjectionModel extends PageBaseModel {
 
     private Integer id;
 
