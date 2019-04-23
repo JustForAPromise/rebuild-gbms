@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import java.util.List;
 
 @Controller
-@RequestMapping("/admin:student")
+@RequestMapping("/admin/student")
 public class StudentOfAdminController {
     @Autowired
     private StudentService studentService;

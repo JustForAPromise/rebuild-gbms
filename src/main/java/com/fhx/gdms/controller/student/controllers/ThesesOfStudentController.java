@@ -22,7 +22,7 @@ import java.nio.file.Paths;
 import java.util.List;
 
 @Controller
-@RequestMapping("/student:theses")
+@RequestMapping("/student/theses")
 public class ThesesOfStudentController {
 
     @Autowired

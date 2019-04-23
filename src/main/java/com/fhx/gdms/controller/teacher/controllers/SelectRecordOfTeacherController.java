@@ -17,7 +17,7 @@ import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Controller
-@RequestMapping("/teacher:selectRecord")
+@RequestMapping("/teacher/selectRecord")
 public class SelectRecordOfTeacherController {
 
     @Autowired

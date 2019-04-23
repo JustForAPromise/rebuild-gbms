@@ -1,13 +1,14 @@
-package com.fhx.gdms.config.ViewController;
+package com.fhx.gdms.config.configure;
 
+import com.fhx.gdms.config.myInterceptor.*;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 @Configuration
-public class ViewControllerConfig implements WebMvcConfigurer {
+public class MyWebMvcConfigurerAdapter extends WebMvcConfigurerAdapter  {
 
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
@@ -45,5 +46,26 @@ public class ViewControllerConfig implements WebMvcConfigurer {
         registry.addViewController("helper/student-info").setViewName("/helper/info/student-info.html");
         registry.addViewController("helper/teacher-info").setViewName("/helper/info/teacher-info.html");
         registry.addViewController("helper/projection-info").setViewName("/helper/info/projection-info.html");
+    }
+
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        // addPathPatterns 用于添加拦截规则
+        // excludePathPatterns 用户排除拦截
+        registry.addInterceptor(new StudentInterceptor()).addPathPatterns("/student/**").excludePathPatterns("/student/login","/student/loginOut","/student");
+
+        registry.addInterceptor(new TeacherInterceptor()).addPathPatterns("/teacher/**").excludePathPatterns("/teacher/login","/teacher/loginOut","/teacher");
+
+        registry.addInterceptor(new AdminInterceptor()).addPathPatterns("/admin/**").excludePathPatterns("/admin/login","/admin/loginOut","/admin");
+
+        registry.addInterceptor(new HelperInterceptor()).addPathPatterns("/helper/**");
+
+        registry.addInterceptor(new DepartmentLeaderInterceptor()).addPathPatterns("/departmentLeader/**");
+
+        registry.addInterceptor(new ResponseTeacherInterceptor()).addPathPatterns("/response/**");
+
+        registry.addInterceptor(new ReviewTeacherInterceptor()).addPathPatterns("/review/**");
+
+        super.addInterceptors(registry);
     }
 }

@@ -16,7 +16,7 @@ import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Controller
-@RequestMapping("/admin:major")
+@RequestMapping("/admin/major")
 public class MajorOfAdminController {
 
     @Autowired

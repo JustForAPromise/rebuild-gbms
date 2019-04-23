@@ -20,7 +20,7 @@ import java.io.*;
 import java.util.List;
 
 @Controller
-@RequestMapping("/teacher:taskBook")
+@RequestMapping("/teacher/taskBook")
 public class TaskBookOfTeacherController {
 
     @Autowired

@@ -213,7 +213,7 @@
 
     function add(formData) {
         $.ajax({
-           url: '../departmentLeader:power/add',
+           url: '../departmentLeader/power/add',
             type: 'POST',
             data: formData.serialize(),
             dataType: 'json',
@@ -229,7 +229,7 @@
 
     function addSupports(formData) {
         $.ajax({
-           url: '../departmentLeader:user/addSupports',
+           url: '../departmentLeader/user/addSupports',
             type: 'POST',
             data: formData,
             dataType: 'json',
@@ -247,7 +247,7 @@
 
     function update(id, reviewTeacher,responseTeamLeader) {
         $.ajax({
-           url: '../departmentLeader:power/update',
+           url: '../departmentLeader/power/update',
             type: 'POST',
             data: {
                 id: id,
@@ -267,7 +267,7 @@
 
     function updateSupports(formData) {
         $.ajax({
-            url: '../departmentLeader:user/updateSupports',
+            url: '../departmentLeader/user/updateSupports',
             type: 'POST',
             data: formData,
             dataType: 'json',
@@ -285,7 +285,7 @@
 
     function deleteById(id) {
         $.ajax({
-           url: '../departmentLeader:power/deleteById',
+           url: '../departmentLeader/power/deleteById',
             type: 'DELETE',
             async: false,
             data: {
@@ -300,7 +300,7 @@
 
     function deleteSupportById(id) {
         $.ajax({
-            url: '../departmentLeader:user/deleteSupportById',
+            url: '../departmentLeader/user/deleteSupportById',
             type: 'DELETE',
             async: false,
             data: {
@@ -315,7 +315,7 @@
 
     function findByDepartmentId(departmentId) {
         $.ajax({
-           url: '../departmentLeader:power/findByDepartmentId',
+           url: '../departmentLeader/power/findByDepartmentId',
             type: 'GET',
             data: {
                 departmentId: departmentId
@@ -359,7 +359,7 @@
 
     function findSupportsByDepartmentId(departmentId) {
         $.ajax({
-            url: '../departmentLeader:user/findSupportsByDepartmentId',
+            url: '../departmentLeader/user/findSupportsByDepartmentId',
             type: 'GET',
             data: {
                 departmentId: departmentId
@@ -392,7 +392,7 @@
 
     function findSupportsById(id) {
         $.ajax({
-            url: '../departmentLeader:user/findSupportsById',
+            url: '../departmentLeader/user/findSupportsById',
             type: 'GET',
             data: {
                 id: id
@@ -416,7 +416,7 @@
         var departmentId = $('input[value="权限信息"]').attr("store");
 
         $.ajax({
-            url: '../departmentLeader:teacher/findTeacher',
+            url: '../departmentLeader/teacher/findTeacher',
             type: 'GET',
             data: {
                 departmentId: departmentId

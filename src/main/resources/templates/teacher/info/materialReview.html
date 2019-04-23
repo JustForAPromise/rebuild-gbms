@@ -200,7 +200,7 @@
 
     function listTaskBook(no, name) {
         $.ajax({
-           url: '../teacher:taskBook/listTaskBook',
+           url: '../teacher/taskBook/listTaskBook',
             type: 'GET',
             data: {
                 no: no,
@@ -233,7 +233,7 @@
 
                     if (data.data[i].auditStatus == 0) {
                         str = str + "<td style='color: #0e0074;'>未审核</td>"
-                            + "<td><a href=\"/teacher:taskBook/record/" + data.data[i].id + "\"><input type=\"button\" value=\"下载文件\" ></a>"
+                            + "<td><a href=\"/teacher/taskBook/record/" + data.data[i].id + "\"><input type=\"button\" value=\"下载文件\" ></a>"
                             + "<input type=\"button\" value=\"审批\" store=\"" + data.data[i].id + " \" fileType =\"" + data.data[i].fileType + "\"></td>";
 
                     } else if (data.data[i].auditStatus == 1) {
@@ -252,7 +252,7 @@
 
     function listTheses(no, name) {
         $.ajax({
-           url: '../teacher:theses/listTheses',
+           url: '../teacher/theses/listTheses',
             type: 'GET',
             data: {
                 no: no,
@@ -285,7 +285,7 @@
 
                     if (data.data[i].auditStatus == 0) {
                         str = str + "<td style='color: #0e0074;'>未审核</td>"
-                            + "<td><a href=\"/teacher:theses/record/" + data.data[i].id + "\"><input type=\"button\" name=\"\" value=\"下载文件\" ></a>"
+                            + "<td><a href=\"/teacher/theses/record/" + data.data[i].id + "\"><input type=\"button\" name=\"\" value=\"下载文件\" ></a>"
                             + "<input type=\"button\" value=\"审批\" store=\"" + data.data[i].id + "\" fileType =\"" + data.data[i].fileType + "\" ></td>";
 
                     } else if (data.data[i].auditStatus == 1) {
@@ -304,7 +304,7 @@
 
     function updateTaskBook(id, status, remark) {
         $.ajax({
-           url: '../teacher:taskBook/updateAudit',
+           url: '../teacher/taskBook/updateAudit',
             type: 'POST',
             data: {
                 id: id,
@@ -324,7 +324,7 @@
 
     function updateTheses(id, status, remark) {
         $.ajax({
-           url: '../teacher:theses/updateAudit',
+           url: '../teacher/theses/updateAudit',
             type: 'POST',
             data: {
                 id: id,
@@ -344,7 +344,7 @@
 
     function countTheses(submitStatus, auditStatus) {
         $.ajax({
-           url: '../teacher:materialStatus/countTheses',
+           url: '../teacher/materialStatus/countTheses',
             type: 'GET',
             data:{
                 submitStatus:submitStatus,
@@ -397,7 +397,7 @@
 
     function countTaskBook(submitStatus, auditStatus) {
         $.ajax({
-           url: '../teacher:materialStatus/countTaskBook',
+           url: '../teacher/materialStatus/countTaskBook',
             type: 'GET',
             data:{
                 submitStatus:submitStatus,

@@ -15,7 +15,7 @@ import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Controller
-@RequestMapping("/helper:major")
+@RequestMapping("/helper/major")
 public class MajorOfHelperController {
 
     @Autowired

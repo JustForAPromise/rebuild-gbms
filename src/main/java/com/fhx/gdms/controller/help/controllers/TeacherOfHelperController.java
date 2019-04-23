@@ -14,7 +14,7 @@ import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Controller
-@RequestMapping("/helper:teacher")
+@RequestMapping("/helper/teacher")
 public class TeacherOfHelperController {
     @Autowired
     private TeacherService teacherService;

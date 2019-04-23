@@ -82,8 +82,13 @@
     $(document).ready(function () {
         $(".data input[value=提交]").click(function () {
             var ids = $(".ids");
-            var nums = $(".nums")
+            var nums = $(".nums");
+
             var reg = /^[0-9]*$/;
+
+            // var idsArray = new Array();
+            // var numsArray = new Array();
+
             for (i = 0, j = ids.length; i < j; i++) {
                 if ($(nums[i]).val() == null || $(nums[i]).val() == "") {
                     alert("请输入合法数值，范围：0~100")
@@ -102,20 +107,25 @@
                     $(nums[i]).focus()
                     return;
                 }
+
+
+                for (i = 0, j = ids.length; i < j; i++){
+                    updateNum($(ids[i]).text(), $(nums[i]).val())
+                }
+                alert("提交成功")
+
             }
-            for (i = 0, j = ids.length; i < j; i++) {
-                updateNum($(ids[i]).text(), $(nums[i]).val())
-            }
-            alert("提交成功")
+
+            // updateNum(idsArray, numsArray)
         })
     });
 
-    function updateNum(id, nums) {
+    function updateNum(ids, nums) {
         $.ajax({
-            url: '../teacher:studentScore/updateNum',
+            url: '../teacher/studentScore/updateNum',
             type: 'POST',
             data: {
-                id: id,
+                id: ids,
                 scoreNum: nums
             },
             dataType: 'json',

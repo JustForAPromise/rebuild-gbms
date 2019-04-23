@@ -24,7 +24,7 @@
         </fieldset>
     </form>
     <br>
-    <a href="/student:taskBook/records"><input type="button" value="查看历史提交记录"></a>
+    <a href="/student/taskBook/records"><input type="button" value="查看历史提交记录"></a>
     <br><br>
 
     <form id="these" enctype="multipart/form-data" name="these">
@@ -35,7 +35,7 @@
         </fieldset>
     </form>
     <br>
-    <a href="/student:theses/records"><input type="button" value="查看历史提交记录"></a>
+    <a href="/student/theses/records"><input type="button" value="查看历史提交记录"></a>
 
 
 </div>
@@ -59,7 +59,7 @@
 
     function submitTaskBook(formData) {
         $.ajax({
-            url: '../student:taskBook/add',
+            url: '../student/taskBook/add',
             type: 'POST',
             data: formData,
             processData: false,
@@ -76,7 +76,7 @@
 
     function submitThese(formData) {
         $.ajax({
-            url: '../student:theses/add',
+            url: '../student/theses/add',
             type: 'POST',
             data: formData,
             processData: false,

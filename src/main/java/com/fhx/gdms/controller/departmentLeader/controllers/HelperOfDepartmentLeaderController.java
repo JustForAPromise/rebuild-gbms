@@ -14,7 +14,7 @@ import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Controller
-@RequestMapping("departmentLeader:user")
+@RequestMapping("/departmentLeader/user")
 public class HelperOfDepartmentLeaderController {
 
     @Autowired

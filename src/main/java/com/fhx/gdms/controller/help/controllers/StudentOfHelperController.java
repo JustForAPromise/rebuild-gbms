@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Controller
-@RequestMapping("/helper:student")
+@RequestMapping("/helper/student")
 public class StudentOfHelperController {
     @Autowired
     private StudentService studentService;

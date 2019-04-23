@@ -12,13 +12,16 @@ import javax.servlet.http.HttpServletResponse;
  * @Date 2019/3/25
  * @Description:
  */
-public class MyInterceptor implements HandlerInterceptor {
+public class StudentInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         boolean flag =true;
         UserModel user=(UserModel) request.getSession().getAttribute("userInfo");
         if(null==user){
-            response.sendRedirect("toLogin");
+            response.sendRedirect("/student");
+            flag = false;
+        }else if (user.getIdentify() != 2){
+            response.sendRedirect("/student");
             flag = false;
         }else{
             flag = true;
@@ -34,5 +37,4 @@ public class MyInterceptor implements HandlerInterceptor {
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
     }
 
-//    http://tengj.top/2017/03/30/springboot6/
 }

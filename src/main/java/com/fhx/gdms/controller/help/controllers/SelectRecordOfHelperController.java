@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.HttpSession;
 
 @Controller
-@RequestMapping("/helper:selectRecord")
+@RequestMapping("/helper/selectRecord")
 public class SelectRecordOfHelperController {
 
     @Autowired

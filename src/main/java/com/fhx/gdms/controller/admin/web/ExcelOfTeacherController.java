@@ -27,7 +27,7 @@ import java.io.*;
 import java.lang.Boolean;
 
 @Controller
-@RequestMapping("/admin:file")
+@RequestMapping("/admin/file")
 public class ExcelOfTeacherController {
 
     @Autowired

@@ -79,7 +79,7 @@
 
     function receiveStudent(id) {
         $.ajax({
-            url: '../teacher:selectRecord/receiveStudent',
+            url: '../teacher/selectRecord/receiveStudent',
             type: 'POST',
             data: {
                 id: id
@@ -97,7 +97,7 @@
 
     function refuceStudent(id) {
         $.ajax({
-            url: '../teacher:selectRecord/refuceStudent',
+            url: '../teacher/selectRecord/refuceStudent',
             type: 'POST',
             data: {
                 id: id
@@ -115,7 +115,7 @@
 
     function listStudent(auditStatus) {
         $.ajax({
-            url: '../teacher:selectRecord/listStudent',
+            url: '../teacher/selectRecord/listStudent',
             type: 'GET',
             dataType: 'json',
             success: function (data) {
@@ -146,7 +146,7 @@
 
     function listReceiveStudent() {
         $.ajax({
-            url: '../teacher:selectRecord/listReceiveStudent',
+            url: '../teacher/selectRecord/listReceiveStudent',
             type: 'GET',
             dataType: 'json',
             success: function (data) {

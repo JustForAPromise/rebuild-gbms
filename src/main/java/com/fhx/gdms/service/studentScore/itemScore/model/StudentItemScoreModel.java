@@ -1,4 +1,4 @@
-package com.fhx.gdms.service.itemScore.model;
+package com.fhx.gdms.service.studentScore.itemScore.model;
 
 import com.fhx.gdms.service.scoreItem.model.ScoreItemModel;
 import lombok.Data;

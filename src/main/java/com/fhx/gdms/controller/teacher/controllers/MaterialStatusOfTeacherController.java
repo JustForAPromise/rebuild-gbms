@@ -15,7 +15,7 @@ import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Controller
-@RequestMapping("/teacher:materialStatus")
+@RequestMapping("/teacher/materialStatus")
 public class MaterialStatusOfTeacherController {
 
     @Autowired

@@ -3,7 +3,7 @@ package com.fhx.gdms.controller.teacher.controllers;
 import com.fhx.gdms.service.studentScoreAllInfo.api.SearchDetailApiGet;
 import com.fhx.gdms.service.studentScoreAllInfo.data.StudentScoreData;
 import com.fhx.gdms.service.studentScoreAllInfo.service.StudentScoreService;
-import com.fhx.gdms.service.itemScore.model.StudentItemScoreModel;
+import com.fhx.gdms.service.studentScore.itemScore.model.StudentItemScoreModel;
 import com.fhx.gdms.service.user.model.UserModel;
 import com.fhx.gdms.service.user.service.StudentService;
 import com.fhx.gdms.supportUtil.ApiResult;
@@ -19,7 +19,7 @@ import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Controller
-@RequestMapping("/teacher:studentScore")
+@RequestMapping("/teacher/studentScore")
 public class StudentScoreOfTeacherController {
 
     @Autowired
@@ -79,4 +79,24 @@ public class StudentScoreOfTeacherController {
         apiResult.setMsg("登记成功");
         return apiResult;
     }
+//
+//    @RequestMapping(value = "/updateStudentScore", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+//    @ResponseBody
+//    ApiResult updateStudentScore(Integer[] ids, Integer[] scoreNums) {
+//        ApiResult apiResult = new ApiResult();
+//
+//        UserModel teacher = (UserModel) session.getAttribute("userInfo");
+//        if (teacher.getIdentify() != 1) {
+//            apiResult.setCode(-1);
+//            apiResult.setMsg("权限不足！");
+//            return apiResult;
+//        }
+//
+//
+//        studentScoreService.updateStudentScore(ids, scoreNums);
+//
+//        apiResult.setCode(0);
+//        apiResult.setMsg("登记成功");
+//        return apiResult;
+//    }
 }

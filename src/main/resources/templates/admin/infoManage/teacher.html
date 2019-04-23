@@ -34,7 +34,7 @@
                 </p>
             </form>
             <p class="p"><input type="button" value="确定">&nbsp<input type="button" value="取消"></p>
-            <a href="../admin:file/getExcelOfTeacher"><span style="padding: 0px 0px 5px 15px; color: red; ">模板下载</span></a>
+            <a href="../admin/file/getExcelOfTeacher"><span style="padding: 0px 0px 5px 15px; color: red; ">模板下载</span></a>
         </div>
         <div class="tops shade hide"></div>
         <!-- 模态框结束 -->
@@ -217,7 +217,7 @@
 
     function add(formData) {
         $.ajax({
-            url: '../admin:teacher/add',
+            url: '../admin/teacher/add',
             type: 'POST',
             data: formData.serialize(),
             dataType: 'json',
@@ -233,7 +233,7 @@
 
     function batchImportOfTeacher(formData) {
         $.ajax({
-            url: '../admin:file/batchImportOfTeacher',
+            url: '../admin/file/batchImportOfTeacher',
             type: 'POST',
             data: formData,
             processData: false,
@@ -250,7 +250,7 @@
 
     function update(formData) {
         $.ajax({
-            url: '../admin:teacher/update',
+            url: '../admin/teacher/update',
             type: 'POST',
             data: formData.serialize(),
             dataType: 'json',
@@ -268,7 +268,7 @@
 
     function findList(searchInfo) {
         $.ajax({
-            url: '../admin:teacher/findTeacher',
+            url: '../admin/teacher/findTeacher',
             type: 'GET',
             data: {
                 departmentId: searchInfo.departmentId,
@@ -310,7 +310,7 @@
 
     function findById(id) {
         $.ajax({
-            url: '../admin:teacher/findById',
+            url: '../admin/teacher/findById',
             type: 'GET',
             data: {
                 id: id
@@ -329,7 +329,7 @@
 
     function deleteById(id) {
         $.ajax({
-            url: '../admin:teacher/deleteById',
+            url: '../admin/teacher/deleteById',
             type: 'DELETE',
             data: {
                 id: id
@@ -343,7 +343,7 @@
     //
     // function findByDepartmentId(departmentId) {
     //     $.ajax({
-    //        url: '../admin:teacher/findByDepartmentId',
+    //        url: '../admin/teacher/findByDepartmentId',
     //         type: 'GET',
     //         data: {
     //             departmentId: departmentId
@@ -369,7 +369,7 @@
     /********************** 初始化下拉列表 ***************************/
     function getAllDepartment() {
         $.ajax({
-            url: '../admin:department/list',
+            url: '../admin/department/list',
             type: 'GET',
             dataType: 'json',
             success: function (data) {

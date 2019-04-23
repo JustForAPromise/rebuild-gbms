@@ -176,7 +176,7 @@
 
     function initTeacher() {
         $.ajax({
-            url: '../helper:teacher/listTeacher',
+            url: '../helper/teacher/listTeacher',
             type: 'GET',
             dataType: 'json',
             success: function (data) {
@@ -198,7 +198,7 @@
 
     function initProjection(teacherId) {
         $.ajax({
-            url: '../helper:projection/findList',
+            url: '../helper/projection/findList',
             type: 'GET',
             data: {
                 teacherId: teacherId,
@@ -222,7 +222,7 @@
 
     function initMajor() {
         $.ajax({
-            url: '../helper:major/listMajorWithLoginUser',
+            url: '../helper/major/listMajorWithLoginUser',
             type: 'GET',
             dataType: 'json',
             success: function (data) {
@@ -244,7 +244,7 @@
     /*****************  功能区 ****************************/
     function updateStudentSelectProjection(formData) {
         $.ajax({
-            url: '../helper:selectRecord/updateRecord',
+            url: '../helper/selectRecord/updateRecord',
             type: 'POST',
             data: formData,
             dataType: 'json',
@@ -263,7 +263,7 @@
 
     function resetStudent(id) {
         $.ajax({
-            url: '../helper:student/reset',
+            url: '../helper/student/reset',
             type: 'POST',
             data: {
                 id: id
@@ -281,7 +281,7 @@
 
     function findRecordList(teacherId, majorId, studentNo, name) {
         $.ajax({
-            url: '../helper:student/listToHelper',
+            url: '../helper/student/listToHelper',
             type: 'GET',
             data: {
                 teacherId: teacherId,
@@ -310,7 +310,7 @@
                             str = str + "<td> 已选 </td> "
                         }
 
-                        str = str + "<td><a href=\"../helper:student/" + data.data[i].id + "\"><input type=\"button\" name=\"\" value=\"选题详情\"></a> "
+                        str = str + "<td><a href=\"../helper/student/" + data.data[i].id + "\"><input type=\"button\" name=\"\" value=\"选题详情\"></a> "
                         str = str + "<input type=\"button\" value=\"选题修改\" attr=\" " + data.data[i].id + "\" data-toggle=\"modal\" data-target=\"#myModal\">"
                         str = str + "<input type=\"button\" name=\"\" value=\"密码重置\" attr=\"" + data.data[i].id + "\"></td></tr>"
                         dataList.append(str)
@@ -322,7 +322,7 @@
 
     function findById(id) {
         $.ajax({
-            url: '../helper:student/findById',
+            url: '../helper/student/findById',
             type: 'GET',
             data: {
                 id: id

@@ -20,7 +20,7 @@ import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Controller
-@RequestMapping("/departmentLeader:studentScore")
+@RequestMapping("/departmentLeader/studentScore")
 public class StudentScoreOfDepartmentLeaderController {
 
     @Autowired

@@ -31,8 +31,8 @@
             <td th:if="${record.auditStatus ==2}" style="color: red">未通过</td>
             <td th:if="${record.auditStatus ==1}" style="color: darkorange">审阅通过</td>
             <td th:text="${record.auditRemark}"></td>
-            <td th:if="${record.fileType == 1}"><a th:href="@{'/student:taskBook/record/'+${record.id}}"><input type="button" value="下载文件"></a></td>
-            <td th:if="${record.fileType == 2}"><a th:href="@{'/student:theses/record/'+${record.id}}"><input type="button" value="下载文件"></a></td>
+            <td th:if="${record.fileType == 1}"><a th:href="@{'/student/taskBook/record/'+${record.id}}"><input type="button" value="下载文件"></a></td>
+            <td th:if="${record.fileType == 2}"><a th:href="@{'/student/theses/record/'+${record.id}}"><input type="button" value="下载文件"></a></td>
         </tr>
         </tbody>
     </table>

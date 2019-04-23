@@ -64,7 +64,7 @@
 
     function findList(no, name) {
         $.ajax({
-           url: '../helper:teacherStudentNum/findList',
+           url: '../helper/teacherStudentNum/findList',
             type: 'GET',
             data: {
                 no: no,
@@ -89,7 +89,7 @@
 
     function update(id, studentNum) {
         $.ajax({
-           url: '../helper:teacherStudentNum/updateNum',
+           url: '../helper/teacherStudentNum/updateNum',
             type: 'POST',
             data: {
                 id: id,

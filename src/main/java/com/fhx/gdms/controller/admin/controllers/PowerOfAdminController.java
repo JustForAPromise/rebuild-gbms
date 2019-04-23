@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import java.util.List;
 
 @Controller
-@RequestMapping("/admin:power")
+@RequestMapping("/admin/power")
 public class PowerOfAdminController {
     @Autowired
     private PowerService powerService;

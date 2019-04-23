@@ -22,7 +22,7 @@ import java.nio.file.Paths;
 import java.util.List;
 
 @Controller
-@RequestMapping("/student:taskBook")
+@RequestMapping("/student/taskBook")
 public class TaskBookOfStudentController {
 
     @Autowired

@@ -15,7 +15,7 @@ import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Controller
-@RequestMapping("/teacher:major")
+@RequestMapping("/teacher/major")
 public class MajorOfTeacherController {
 
     @Autowired

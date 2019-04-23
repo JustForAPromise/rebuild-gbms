@@ -2,6 +2,7 @@ package com.fhx.gdms.service.projections.model;
 
 import com.fhx.gdms.service.department.model.DepartmentModel;
 import com.fhx.gdms.service.major.model.MajorModel;
+import com.fhx.gdms.service.selectRecord.model.SelectRecordModel;
 import com.fhx.gdms.service.user.model.UserModel;
 import com.fhx.gdms.supportUtil.PageBaseModel;
 import lombok.Data;
@@ -54,6 +55,11 @@ public class ProjectionModel extends PageBaseModel {
     private DepartmentModel departmentModel;
 
     private MajorModel majorModel;
+
+    /**
+     *  辅助参数：选题记录
+     */
+    private SelectRecordModel selectRecordModel;
 
     /******** 辅助参数 ******************/
     private List<Integer> projectionIdNotIn;

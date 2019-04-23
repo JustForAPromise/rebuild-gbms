@@ -179,7 +179,7 @@
             var teacherId = searchInfo.teacherId;
             var title = searchInfo.title;
             var auditStatus = searchInfo.auditStatus;
-            var url = "/helper:projection/down?"
+            var url = "/helper/projection/down?"
             if (teacherId != null && teacherId != "") {
                 url = url + "teacherId=" + teacherId;
                 if (title != null && title != "") {
@@ -209,7 +209,7 @@
 
     function initTeacherSelect() {
         $.ajax({
-            url: '../helper:teacher/listTeacher',
+            url: '../helper/teacher/listTeacher',
             type: 'GET',
             dataType: 'json',
             success: function (data) {
@@ -232,7 +232,7 @@
 
     function findList(teacherId, title, auditStatus) {
         $.ajax({
-            url: '../helper:projection/findList',
+            url: '../helper/projection/findList',
             type: 'GET',
             data: {
                 teacherId: teacherId,
@@ -271,7 +271,7 @@
 
     function findById(id) {
         $.ajax({
-            url: '../helper:projection/findById',
+            url: '../helper/projection/findById',
             type: 'GET',
             data: {
                 id: id
@@ -291,7 +291,7 @@
 
     function updateStatus(formData,searchInfo) {
         $.ajax({
-            url: '../helper:projection/update',
+            url: '../helper/projection/update',
             type: 'POST',
             data: formData,
             dataType: 'json',
@@ -317,7 +317,7 @@
 
     function batchUpdateProjections(formData) {
         $.ajax({
-            url: '../helper:projection/batchUpdate',
+            url: '../helper/projection/batchUpdate',
             type: 'POST',
             data:formData,
             processData: false,

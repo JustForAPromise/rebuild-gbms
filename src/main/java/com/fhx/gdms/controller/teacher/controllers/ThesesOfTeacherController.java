@@ -21,7 +21,7 @@ import java.io.*;
 import java.util.List;
 
 @Controller
-@RequestMapping("/teacher:theses")
+@RequestMapping("/teacher/theses")
 public class ThesesOfTeacherController {
 
     @Autowired

@@ -56,7 +56,7 @@
     //ajax 获取所有系别信息
     function getDepartmentList() {
         $.ajax({
-           url: '../admin:department/list',
+           url: '../admin/department/list',
             type: 'GET',
             dataType: 'json',
             success: function (data) {
@@ -134,13 +134,13 @@
         //专业浏览按钮
         $(".data").on("click", "input[value='专业浏览']", function () {
             var tds = $(this).parent().prevAll();
-            window.location.href="/admin:major/initPage?departmentId="+$(tds[1]).text();
+            window.location.href="/admin/major/initPage?departmentId="+$(tds[1]).text();
         })
     });
 
     function deleteById(id) {
         $.ajax({
-           url: '../admin:department/deleteById',
+           url: '../admin/department/deleteById',
             type: 'DELETE',
             data: {
                 id: id
@@ -158,7 +158,7 @@
 
     function add(departmentName) {
         $.ajax({
-           url: '../admin:department/add',
+           url: '../admin/department/add',
             type: 'POST',
             data: {
                 departmentName: departmentName
@@ -176,7 +176,7 @@
 
     function update(id, departmentName) {
         $.ajax({
-           url: '../admin:department/update',
+           url: '../admin/department/update',
             type: 'POST',
             data: {
                 id: id,
@@ -196,7 +196,7 @@
 
     function select(departmentName) {
         $.ajax({
-           url: '../admin:department/findByName',
+           url: '../admin/department/findByName',
             type: 'GET',
             data: {
                 departmentName: departmentName

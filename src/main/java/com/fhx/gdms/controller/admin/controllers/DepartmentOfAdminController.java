@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import java.util.List;
 
 @Controller
-@RequestMapping("/admin:department")
+@RequestMapping("/admin/department")
 public class DepartmentOfAdminController {
     @Autowired
     private DepartmentService departmentService;

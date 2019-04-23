@@ -1,6 +1,6 @@
-package com.fhx.gdms.service.itemScore.service;
+package com.fhx.gdms.service.studentScore.itemScore.service;
 
-import com.fhx.gdms.service.itemScore.model.StudentItemScoreModel;
+import com.fhx.gdms.service.studentScore.itemScore.model.StudentItemScoreModel;
 
 import java.util.List;
 

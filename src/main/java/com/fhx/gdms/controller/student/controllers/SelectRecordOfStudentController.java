@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.HttpSession;
 
 @Controller
-@RequestMapping("/student:selectRecord")
+@RequestMapping("/student/selectRecord")
 public class SelectRecordOfStudentController {
 
     @Autowired

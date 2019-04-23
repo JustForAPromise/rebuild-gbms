@@ -33,7 +33,7 @@ import java.lang.Boolean;
 import java.util.List;
 
 @Controller
-@RequestMapping("/helper:projection")
+@RequestMapping("/helper/projection")
 public class ProjectionOfHelperController {
 
     @Autowired

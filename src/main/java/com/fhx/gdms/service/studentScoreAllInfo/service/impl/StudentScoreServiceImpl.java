@@ -4,12 +4,16 @@ import com.fhx.gdms.service.materialStatus.model.MaterialStatusModel;
 import com.fhx.gdms.service.materialStatus.service.MaterialStatusService;
 import com.fhx.gdms.service.projections.model.ProjectionModel;
 import com.fhx.gdms.service.projections.service.ProjectionService;
+import com.fhx.gdms.service.scoreItem.model.ScoreItemModel;
+import com.fhx.gdms.service.scoreItem.service.ScoreItemService;
+import com.fhx.gdms.service.studentScore.totalScore.model.StudentTotalScoreModel;
 import com.fhx.gdms.service.studentScoreAllInfo.api.SearchDetailApiGet;
 import com.fhx.gdms.service.studentScoreAllInfo.data.StudentScoreData;
 import com.fhx.gdms.service.studentScoreAllInfo.data.TotalScoreData;
 import com.fhx.gdms.service.studentScoreAllInfo.service.StudentScoreService;
-import com.fhx.gdms.service.itemScore.model.StudentItemScoreModel;
-import com.fhx.gdms.service.itemScore.service.StudentItemScoreService;
+import com.fhx.gdms.service.studentScore.itemScore.model.StudentItemScoreModel;
+import com.fhx.gdms.service.studentScore.itemScore.service.StudentItemScoreService;
+import com.fhx.gdms.service.studentScore.totalScore.service.StudentTotalScoreService;
 import com.fhx.gdms.service.user.model.UserModel;
 import com.fhx.gdms.service.user.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +36,13 @@ public class StudentScoreServiceImpl implements StudentScoreService {
     private MaterialStatusService materialStatusService;
 
     @Autowired
-    private StudentItemScoreService studentScoreRecordService;
+    private ScoreItemService scoreItemService;
+
+    @Autowired
+    private StudentItemScoreService studentItemScoreService;
+
+    @Autowired
+    private StudentTotalScoreService studentTotalScoreService;
 
     @Override
     public StudentScoreData findRecord(SearchDetailApiGet receiveData) {
@@ -46,7 +56,7 @@ public class StudentScoreServiceImpl implements StudentScoreService {
 
         materialStatus = materialStatusService.findOne(materialStatus);
 
-        List<StudentItemScoreModel> scoreRecordList = studentScoreRecordService.ListByStudentId(student.getId(), receiveData.getType());
+        List<StudentItemScoreModel> scoreRecordList = studentItemScoreService.ListByStudentId(student.getId(), receiveData.getType());
 
         StudentScoreData result = new StudentScoreData();
         result.setStudent(student);
@@ -59,7 +69,7 @@ public class StudentScoreServiceImpl implements StudentScoreService {
 
     @Override
     public void updateNum(StudentItemScoreModel model) {
-        studentScoreRecordService.update(model);
+        studentItemScoreService.update(model);
     }
 
     @Override
@@ -76,10 +86,19 @@ public class StudentScoreServiceImpl implements StudentScoreService {
 
             materialStatus = materialStatusService.findOne(materialStatus);
 
-            List<StudentItemScoreModel> scoreRecordListOfOrdinary = studentScoreRecordService.ListByStudentId(student.getId(), 1);
-            List<StudentItemScoreModel> scoreRecordListOfReview = studentScoreRecordService.ListByStudentId(student.getId(), 2);
-            List<StudentItemScoreModel> scoreRecordListOfResponse = studentScoreRecordService.ListByStudentId(student.getId(), 3);
+            //指导老师得分
+            List<StudentItemScoreModel> scoreRecordListOfOrdinary = studentItemScoreService.ListByStudentId(student.getId(), 1);
 
+            //评阅老师得分
+            List<StudentItemScoreModel> scoreRecordListOfReview = studentItemScoreService.ListByStudentId(student.getId(), 2);
+
+            //答辩教师得分
+            List<StudentItemScoreModel> scoreRecordListOfResponse = studentItemScoreService.ListByStudentId(student.getId(), 3);
+
+            //总成绩
+            StudentTotalScoreModel scoreTotal = studentTotalScoreService.findByStudentMolel(studentModel);
+
+            //计算
             TotalScoreData totalScoreData = new TotalScoreData();
             totalScoreData.setTotalScorenNum(new BigDecimal(0));
             scoreRecordListOfOrdinary.stream().forEach(data -> {
@@ -145,6 +164,9 @@ public class StudentScoreServiceImpl implements StudentScoreService {
             result.setScoreRecordListOfOrdinary(scoreRecordListOfOrdinary);
             result.setScoreRecordListOfReview(scoreRecordListOfReview);
             result.setScoreRecordListOfResponse(scoreRecordListOfResponse);
+
+            result.setScoreTotalModel(scoreTotal);
+
             result.setTotalScore(totalScoreData);
         }
 
@@ -174,4 +196,37 @@ public class StudentScoreServiceImpl implements StudentScoreService {
 
         return results;
     }
+
+    @Override
+    public void updateStudentScore(Integer[] ids, Integer[] scoreNums) {
+
+    }
+
+//    //待优化
+//    @Override
+//    public void updateStudentScore(Integer[] ids, Integer[] scoreNums) {
+//
+//        //总分数差
+//        BigDecimal scoreDifference = new BigDecimal(0);
+//
+//        for (int i=0, j= ids.length; i < j; i++){
+//            StudentItemScoreModel itemScoreModel = studentItemScoreService.findById(ids[i]);
+//            ScoreItemModel scoreItemModel = scoreItemService.findById(itemScoreModel.getScoreItemId());
+//
+//            scoreDifference  = scoreDifference.add(
+//                    new BigDecimal(scoreNums[i]).multiply(
+//                            new BigDecimal(scoreItemModel.getScoreRate()).divide(new BigDecimal(100))
+//                    ).subtract(
+//                            new BigDecimal(itemScoreModel.getScoreNum())
+//                                    .multiply(new BigDecimal(scoreItemModel.getScoreRate()).divide(new BigDecimal(100)))
+//                    )
+//            );
+//
+//            itemScoreModel.setScoreNum(scoreNums[i]);
+//
+//            studentItemScoreService.update(itemScoreModel);
+//        }
+//
+//        StudentTotalScoreModel totalScoreModel = studentTotalScoreService.findByStudentMolel()
+//    }
 }

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
 	<meta charset="UTF-8">
 	<title>学生信息管理</title>
@@ -14,64 +14,100 @@
     <script type="text/javascript" src="../js/swiper.jquery.min.js"></script>
 </head>
 <body>
-	<div class="body">
-		<div class="search">
-			用户个人信息
-		</div>
-		<div class="data">
-			<form action="">
-				<table>
-					<tr>
-						<td>工号</td>
-						<td><input type="text" name="" disabled="false" class="input-noneBorder"></td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>姓名</td>
-						<td><input type="text" name="" disabled="false" class="input-noneBorder"></td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>相片</td>
-						<td><img src="#" width="80px" height="80px"></td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>性别</td>
-						<td>
-							<select>
-								<option checked>男</option>
-								<option>女</option>
-							</select>
-						</td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>昵称</td>
-						<td><input type="text" name="" class="background-none"></td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>签名</td>
-						<td><textarea class="background-none"></textarea></td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>账号密码</td>
-						<td><input type="password" name="" class="background-none"></td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>再次确认密码</td>
-						<td><input type="password" name="" class="background-none"></td>
-						<td></td>
-					</tr>
-					<tr style="background-color: white">
-						<td colspan="3"><input type="submit" value="修改"></td>
-					</tr>
-				</table>
-			</form>			
-		</div>	
+<div class="body">
+	<div class="search">
+		用户个人信息
 	</div>
+	<input type="button" value="修改密码"><br><br>
+	<!-- 修改模态框开始 -->
+	<div class="tops myModal hide">
+		<p class="p">
+			<label>请输入密码：</label>
+			<input type="password" name="pwd">
+		</p>
+		<p class="p">
+			<label>请再次输入密码：</label>
+			<input type="password" name="pwds">
+		</p>
+		<p class="p"><input type="button" value="取消"><input type="button" value="提交"></p>
+	</div>
+	<div class="tops shade hide"></div>
+	<!-- 修改模态框结束 -->
+	<div class="data">
+		<form action="">
+			<table>
+				<tr>
+					<td width="85px">工号</td>
+					<td th:text="${session.userInfo.no}"></td>
+				</tr>
+				<tr>
+					<td>姓名</td>
+					<td th:text="${session.userInfo.name}"></td>
+				</tr>
+				<tr>
+					<td>性别：</td>
+					<td th:if="${session.userInfo.gender == 1}">男</td>
+					<td th:if="${session.userInfo.gender == 2}">女</td>
+				</tr>
+				<tr>
+					<td>联系电话：</td>
+					<td th:text="${session.userInfo.phone}"></td>
+				</tr>
+			</table>
+		</form>
+	</div>
+</div>
+<script>
+    $(document).ready(function () {
+        //修改密码按钮
+        $('input[value="修改密码"]').click(function () {
+            $('.tops').removeClass('hide');
+        })
+
+        $('input[value="提交"]').click(function () {
+            $('.tops').addClass('hide');
+            var pwds = $(".tops input[type=password]")
+            var patten = /^[0-9a-zA-Z]*$/g
+
+            var firstPwd = $(pwds[0]).val();
+            var secondPwd = $(pwds[1]).val();
+            if (firstPwd == secondPwd && firstPwd != "") {
+                if (firstPwd.match(patten) == null) {
+                    alert("密码仅能为数字、字母、数字+字母组成！")
+                } else {
+                    updatePwd(firstPwd);
+                }
+            } else {
+                alert("密码不一致！")
+            }
+            $('.tops').addClass('hide');
+            $(".tops input[type=password]").val("")
+        });
+
+        $('input[value="取消"]').click(function () {
+            $('.tops input[type=password]').val("");
+            $('.tops').addClass('hide');
+        })
+
+    });
+
+    function updatePwd(pwd) {
+        $.ajax({
+            url: '../helper/user/updatePwd',
+            type: 'POST',
+            data: {
+                password: pwd
+            },
+            dataType: 'json',
+            success: function (data) {
+                if (data.code == -1) {
+                    alert(data.msg)
+                } else {
+                    alert(data.msg)
+                }
+            }
+        });
+    }
+</script>
 </body>
 </html>

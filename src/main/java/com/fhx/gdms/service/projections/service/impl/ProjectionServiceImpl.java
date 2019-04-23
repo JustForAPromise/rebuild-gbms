@@ -114,6 +114,12 @@ public class ProjectionServiceImpl implements ProjectionService {
         modelList.stream().forEach(data -> {
             data.setTeacherModel(teacherService.findById(data.getTeacherId()));
             data.setMajorModel(majorService.findById(data.getMajorId()));
+
+            SelectRecordModel selectRecordModel = new SelectRecordModel();
+            selectRecordModel.setStudentId(student.getId());
+            selectRecordModel.setProjectionId(data.getId());
+
+            data.setSelectRecordModel(selectRecordService.findOne(selectRecordModel));
         });
 
         return modelList;

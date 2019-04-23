@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import java.util.List;
 
 @Controller
-@RequestMapping("/departmentLeader:power")
+@RequestMapping("/departmentLeader/power")
 public class PowerOfDepartmentLeaderController {
     @Autowired
     private PowerService powerService;

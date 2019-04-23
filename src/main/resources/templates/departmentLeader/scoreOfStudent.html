@@ -47,11 +47,12 @@
 <script type="text/javascript">
     $(document).ready(function () {
         var searchInfo={
+            studentId: null,
             majorId: null,
             no: null,
             name: null,
             page:0,
-            size:10
+            size:15
         }
 
         /****初始化下拉列表***/
@@ -63,6 +64,7 @@
             var no = $(".search input[name=no]").val()
             var name = $(".search input[name=name]").val()
 
+            searchInfo.studentId = null
             searchInfo.majorId = majorId;
             searchInfo.no =no;
             searchInfo.name =name;
@@ -105,9 +107,10 @@
 
     function findList(searchInfo) {
         $.ajax({
-            url: '../departmentLeader:studentScore/listStudent',
+            url: '../departmentLeader/studentScore/listStudent',
             type: 'GET',
             data: {
+                studentId: searchInfo.studentId,
                 majorId: searchInfo.majorId,
                 no: searchInfo.no,
                 name: searchInfo.name,
@@ -120,15 +123,29 @@
                 dataList.html("");
 
                 for (i = 0; i < data.data.length; i++) {
-                    var str = "<tr><td>" + (i + 1) + "</td>"
+                    var str = "<tr><td>" + (data.page * data.size +i+1) + "</td>"
                         + "<td>" + data.data[i].student.no + "</td><td>" + data.data[i].student.name + "</td>"
                         + "<td>" + data.data[i].student.departmentModel.department + "</td>"
                         + "<td>" + data.data[i].student.majorModel.major + "</td>";
+
+                    // if (data.data[i].projectionModel == null) {
+                    //     str = str + "<td>-未完成选题-</td>"
+                    //         + "<td></td></tr>"
+                    // }else if(data.data[i].scoreTotalModel.status != "ORP"){
+                    //     str = str + "<td>-评分未完成-</td>"
+                    //         + "<td><a href='../departmentLeader/studentScore/student/" + data.data[i].student.id + "'>" +
+                    //         "<input type=\"button\" value=\"详情\"></a></td></tr>"
+                    // }else{
+                    //     str = str + "<td>" + data.data[i].scoreTotalModel.level + "</td>"
+                    //         + "<td><a href='../departmentLeader/studentScore/student/" + data.data[i].student.id + "'>" +
+                    //         "<input type=\"button\" value=\"详情\"></a></td></tr>"
+                    // }
+
                     if (data.data[i].totalScore != null) {
                         str = str + "<td>" + data.data[i].totalScore.level + "</td>"
-                            + "<td><a href='../departmentLeader:studentScore/student/" + data.data[i].student.id + "'>" +
+                            + "<td><a href='../departmentLeader/studentScore/student/" + data.data[i].student.id + "'>" +
                             "<input type=\"button\" value=\"详情\"></a></td></tr>"
-                    }else{
+                    }else {
                         str = str + "<td>-未评分-</td>"
                             + "<td></td></tr>"
                     }
@@ -154,7 +171,7 @@
 
     function initMajor() {
         $.ajax({
-            url: '../departmentLeader:major/listMajor',
+            url: '../departmentLeader/major/listMajor',
             type: 'GET',
             async: false,
             dataType: 'json',
@@ -165,7 +182,8 @@
                 var second = "'>"
                 var third = "</option>";
 
-                var str
+                var str = head+second+"-专业-"+third;
+                majorSelect.append(str)
                 for (i = 0; i < data.data.length; i++) {
                     str = head + data.data[i].id + second + data.data[i].major + third;
                     majorSelect.append(str)

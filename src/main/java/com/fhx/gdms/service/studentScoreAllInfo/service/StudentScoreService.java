@@ -2,7 +2,7 @@ package com.fhx.gdms.service.studentScoreAllInfo.service;
 
 import com.fhx.gdms.service.studentScoreAllInfo.api.SearchDetailApiGet;
 import com.fhx.gdms.service.studentScoreAllInfo.data.StudentScoreData;
-import com.fhx.gdms.service.itemScore.model.StudentItemScoreModel;
+import com.fhx.gdms.service.studentScore.itemScore.model.StudentItemScoreModel;
 import com.fhx.gdms.service.user.model.UserModel;
 
 import java.util.List;
@@ -35,4 +35,11 @@ public interface StudentScoreService {
      * @return
      */
     List<StudentScoreData> findBaseInfoList(UserModel student);
+
+    /**
+     * 更新学生成绩
+     * @param ids
+     * @param scoreNums
+     */
+    void updateStudentScore(Integer[] ids, Integer[] scoreNums);
 }

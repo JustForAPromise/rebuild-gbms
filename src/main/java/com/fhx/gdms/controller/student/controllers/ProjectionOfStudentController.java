@@ -18,7 +18,7 @@ import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Controller
-@RequestMapping("/student:projection")
+@RequestMapping("/student/projection")
 public class ProjectionOfStudentController {
 
     @Autowired

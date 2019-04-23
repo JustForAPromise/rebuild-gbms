@@ -129,6 +129,8 @@
             var teacherId = $(tds[0]).attr("store")
             //信息获取
             add(projectionId, teacherId, 0)
+            listProjection(searchInfo, 0)
+
         })
 
         //首页按钮
@@ -160,19 +162,19 @@
 
     function add(projectionId, teacherId) {
         $.ajax({
-            url: '../student:selectRecord/add',
+            url: '../student/selectRecord/add',
             type: 'POST',
             data: {
                 projectionId: projectionId,
                 teacherId: teacherId
             },
+            async: false,
             dataType: 'json',
             success: function (data) {
                 if (data.code == -1) {
                     alert(data.msg)
                 } else {
                     alert(data.msg)
-                    listProjection(null, null, 0)
                 }
             }
         });
@@ -180,7 +182,7 @@
 
     function findById(id) {
         $.ajax({
-            url: '../student:projection/findById',
+            url: '../student/projection/findById',
             type: 'GET',
             data: {
                 id: id
@@ -203,7 +205,7 @@
 
     function listTeacher() {
         $.ajax({
-            url: '../student:teacher/listTeacher',
+            url: '../student/teacher/listTeacher',
             type: 'GET',
             dataType: 'json',
             success: function (data) {
@@ -221,7 +223,7 @@
 
     function listProjection(searchInfo, status) {
         $.ajax({
-            url: '../student:projection/listProjectionToStudent',
+            url: '../student/projection/listProjectionToStudent',
             type: 'GET',
             data: {
                 title: searchInfo.title,
@@ -251,14 +253,14 @@
                         }
 
                         str = str + "<td store = \"" + data.data[i].teacherModel.id + "\">" + data.data[i].teacherModel.name + "</td>"
-                        var auditStatusReport;
-                        if (data.data[i].auditStatus == 0) {
+
+                        if (data.data[i].selectRecordModel.auditStatus == 0) {
                             str = str + "<td>请求未处理</td>"
 
-                        } else if (data.data[i].auditStatus == 1) {
+                        } else if (data.data[i].selectRecordModel.auditStatus == 1) {
                             str = str + "<td style='color: #EE5C42'>已接收</td>"
 
-                        } else if (data.data[i].auditStatus == 2) {
+                        } else if (data.data[i].selectRecordModel.auditStatus == 2) {
                             str = str + "<td  style='color: red'>拒绝</td>"
                         }
 

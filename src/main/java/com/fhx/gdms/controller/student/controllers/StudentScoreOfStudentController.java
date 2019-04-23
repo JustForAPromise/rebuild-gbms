@@ -13,7 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpSession;
 
 @Controller
-@RequestMapping("/student:studentScore")
+@RequestMapping("/student/studentScore")
 public class StudentScoreOfStudentController {
 
     @Autowired
@@ -30,6 +30,12 @@ public class StudentScoreOfStudentController {
         }
 
         StudentScoreData result = studentScoreService.findScoreToStudent(student);
+
+        if (result.getProjectionModel() == null) {
+            ModelAndView modelAndView = new ModelAndView("/student/info/projectionInfo.html");
+            modelAndView.addObject("flag", true);
+            return modelAndView;
+        }
 
         ModelAndView modelAndView = new ModelAndView("/student/info/soscore.html");
         modelAndView.addObject("scoreAllInfo", result);

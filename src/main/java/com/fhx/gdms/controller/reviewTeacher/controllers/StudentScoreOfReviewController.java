@@ -3,7 +3,7 @@ package com.fhx.gdms.controller.reviewTeacher.controllers;
 import com.fhx.gdms.service.studentScoreAllInfo.api.SearchDetailApiGet;
 import com.fhx.gdms.service.studentScoreAllInfo.data.StudentScoreData;
 import com.fhx.gdms.service.studentScoreAllInfo.service.StudentScoreService;
-import com.fhx.gdms.service.itemScore.model.StudentItemScoreModel;
+import com.fhx.gdms.service.studentScore.itemScore.model.StudentItemScoreModel;
 import com.fhx.gdms.service.user.model.UserModel;
 import com.fhx.gdms.service.user.service.StudentService;
 import com.fhx.gdms.supportUtil.ApiResult;
@@ -18,7 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpSession;
 
 @Controller
-@RequestMapping("/review:studentScore")
+@RequestMapping("/review/studentScore")
 public class StudentScoreOfReviewController {
 
     @Autowired

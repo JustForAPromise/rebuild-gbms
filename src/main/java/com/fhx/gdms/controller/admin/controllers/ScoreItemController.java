@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-@RequestMapping("/admin:scoreItem")
+@RequestMapping("/admin/scoreItem")
 public class ScoreItemController {
 
     @Autowired
