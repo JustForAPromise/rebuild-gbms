@@ -4,15 +4,15 @@
     <meta charset="UTF-8">
     <title>专业信息管理</title>
 
-    <link rel="stylesheet" type="text/css" href="../css/admin/admin-info-department.css">
-    <link rel="stylesheet" type="text/css" href="../css/admin/admin-motaikuang.css">
-    <link rel="stylesheet" type="text/css" href="../css/bootstrap-theme.min.css">
-    <link rel="stylesheet" type="text/css" href="../css/bootstrap.css">
-    <link rel="stylesheet" type="text/css" href="../css/swiper.min.css">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/admin/admin-info-department.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/admin/admin-motaikuang.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap-theme.min.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/swiper.min.css}">
 
-    <script type="text/javascript" src="../js/jquery.js"></script>
-    <script type="text/javascript" src="../js/bootstrap.js"></script>
-    <script type="text/javascript" src="../js/swiper.jquery.min.js"></script>
+    <script type="text/javascript" th:src="@{/js/jquery.js}"></script>
+    <script type="text/javascript" th:src="@{/js/bootstrap.js}"></script>
+    <script type="text/javascript" th:src="@{/js/swiper.jquery.min.js}"></script>
 </head>
 <body>
 <div class="body">
@@ -29,7 +29,7 @@
                 $(document).ready(function () {
                     function getDepartmentList() {
                         $.ajax({
-                           url: '../admin/department/list',
+                           url: '../../admin/department/list',
                             type: 'GET',
                             dataType: 'json',
                             success: function (data) {
@@ -160,7 +160,7 @@
 
     function add(majorName, introduce) {
         $.ajax({
-           url: '../admin/major/add',
+           url: '../../admin/major/add',
             type: 'POST',
             data: {
                 majorName: majorName,
@@ -179,7 +179,7 @@
 
     function update(id, majorName, introduce) {
         $.ajax({
-           url: '../admin/major/update',
+           url: '../../admin/major/update',
             type: 'POST',
             data: {
                 id: id,
@@ -199,7 +199,7 @@
 
     function deleteById(id) {
         $.ajax({
-           url: '../admin/major/deleteById',
+           url: '../../admin/major/deleteById',
             type: 'DELETE',
             data: {
                 id: id
@@ -228,7 +228,7 @@
 
     function findByDepartmentId(departmentId) {
         $.ajax({
-           url: '../admin/major/findByDepartmentId',
+           url: '../../admin/major/findByDepartmentId',
             type: 'GET',
             data: {
                 departmentId: departmentId

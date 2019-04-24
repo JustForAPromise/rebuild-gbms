@@ -18,13 +18,13 @@ public class ResponseTeacherInterceptor implements HandlerInterceptor {
         boolean flag =true;
         UserModel user=(UserModel) request.getSession().getAttribute("userInfo");
         if(null==user){
-            response.sendRedirect("/teacher");
+            response.sendRedirect("/powerError");
             flag = false;
         }else if(user.getPowerModel() == null){
-            response.sendRedirect("/teacher");
+            response.sendRedirect("/powerError");
             flag = false;
-        }else if(user.getPowerModel().getResponseTeamLeader()){
-            response.sendRedirect("/teacher");
+        }else if(!user.getPowerModel().getResponseTeamLeader()){
+            response.sendRedirect("/powerError");
             flag = false;
         }else{
             flag = true;

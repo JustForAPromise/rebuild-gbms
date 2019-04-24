@@ -18,10 +18,13 @@ import com.fhx.gdms.service.user.model.UserModel;
 import com.fhx.gdms.service.user.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class StudentScoreServiceImpl implements StudentScoreService {
@@ -56,7 +59,7 @@ public class StudentScoreServiceImpl implements StudentScoreService {
 
         materialStatus = materialStatusService.findOne(materialStatus);
 
-        List<StudentItemScoreModel> scoreRecordList = studentItemScoreService.ListByStudentId(student.getId(), receiveData.getType());
+        List<StudentItemScoreModel> scoreRecordList = studentItemScoreService.listByStudentIdAndTeacherType(student.getId(), receiveData.getType());
 
         StudentScoreData result = new StudentScoreData();
         result.setStudent(student);
@@ -87,16 +90,16 @@ public class StudentScoreServiceImpl implements StudentScoreService {
             materialStatus = materialStatusService.findOne(materialStatus);
 
             //指导老师得分
-            List<StudentItemScoreModel> scoreRecordListOfOrdinary = studentItemScoreService.ListByStudentId(student.getId(), 1);
+            List<StudentItemScoreModel> scoreRecordListOfOrdinary = studentItemScoreService.listByStudentIdAndTeacherType(student.getId(), 1);
 
             //评阅老师得分
-            List<StudentItemScoreModel> scoreRecordListOfReview = studentItemScoreService.ListByStudentId(student.getId(), 2);
+            List<StudentItemScoreModel> scoreRecordListOfReview = studentItemScoreService.listByStudentIdAndTeacherType(student.getId(), 2);
 
             //答辩教师得分
-            List<StudentItemScoreModel> scoreRecordListOfResponse = studentItemScoreService.ListByStudentId(student.getId(), 3);
+            List<StudentItemScoreModel> scoreRecordListOfResponse = studentItemScoreService.listByStudentIdAndTeacherType(student.getId(), 3);
 
             //总成绩
-            StudentTotalScoreModel scoreTotal = studentTotalScoreService.findByStudentMolel(studentModel);
+            StudentTotalScoreModel totalScoreModel = studentTotalScoreService.findByStudentId(student.getId());
 
             //计算
             TotalScoreData totalScoreData = new TotalScoreData();
@@ -106,27 +109,11 @@ public class StudentScoreServiceImpl implements StudentScoreService {
                         .multiply(
                                 new BigDecimal(data.getScoreItemModel().getScoreRate()).divide(new BigDecimal(100)))
                 );
-                totalScoreData.setTotalScorenNum(
-                        totalScoreData.getTotalScorenNum().add(
-                                new BigDecimal(data.getScoreNum())
-                                        .multiply(
-                                                new BigDecimal(data.getScoreItemModel().getScoreRate()).divide(new BigDecimal(100))
-                                        )
-                        )
-                );
             });
             scoreRecordListOfReview.stream().forEach(data -> {
                 data.setRealScore(new BigDecimal(data.getScoreNum())
                         .multiply(
                                 new BigDecimal(data.getScoreItemModel().getScoreRate()).divide(new BigDecimal(100))
-                        )
-                );
-                totalScoreData.setTotalScorenNum(
-                        totalScoreData.getTotalScorenNum().add(
-                                new BigDecimal(data.getScoreNum())
-                                        .multiply(
-                                                new BigDecimal(data.getScoreItemModel().getScoreRate()).divide(new BigDecimal(100))
-                                        )
                         )
                 );
             });
@@ -136,28 +123,7 @@ public class StudentScoreServiceImpl implements StudentScoreService {
                                 new BigDecimal(data.getScoreItemModel().getScoreRate()).divide(new BigDecimal(100))
                         )
                 );
-
-                totalScoreData.setTotalScorenNum(
-                        totalScoreData.getTotalScorenNum().add(
-                                new BigDecimal(data.getScoreNum())
-                                        .multiply(
-                                                new BigDecimal(data.getScoreItemModel().getScoreRate()).divide(new BigDecimal(100))
-                                        )
-                        )
-                );
             });
-
-            if (totalScoreData.getTotalScorenNum().doubleValue() >= 90) {
-                totalScoreData.setLevel("优秀");
-            } else if (totalScoreData.getTotalScorenNum().doubleValue() >= 80) {
-                totalScoreData.setLevel("良好");
-            } else if (totalScoreData.getTotalScorenNum().doubleValue() >= 70) {
-                totalScoreData.setLevel("中等");
-            } else if (totalScoreData.getTotalScorenNum().doubleValue() >= 60) {
-                totalScoreData.setLevel("及格");
-            } else {
-                totalScoreData.setLevel("不及格");
-            }
 
             result.setProjectionModel(projection);
             result.setMaterialStatusModel(materialStatus);
@@ -165,9 +131,7 @@ public class StudentScoreServiceImpl implements StudentScoreService {
             result.setScoreRecordListOfReview(scoreRecordListOfReview);
             result.setScoreRecordListOfResponse(scoreRecordListOfResponse);
 
-            result.setScoreTotalModel(scoreTotal);
-
-            result.setTotalScore(totalScoreData);
+            result.setTotalScoreModel(totalScoreModel);
         }
 
         result.setStudent(studentModel);
@@ -176,57 +140,105 @@ public class StudentScoreServiceImpl implements StudentScoreService {
 
     @Override
     public List<StudentScoreData> findBaseInfoList(UserModel student) {
+        //无排序
+        List<StudentScoreData> sortInit = new ArrayList<>();
+
+        //未选题
         List<StudentScoreData> sortFirst = new ArrayList<>();
+
+        //未评分
         List<StudentScoreData> sortSecond = new ArrayList<>();
+
+        //评分结果排序
+        List<StudentScoreData> sortThird = new ArrayList<>();
+
+        //暂存区
+        List<StudentScoreData> temp = new ArrayList<>();
 
         List<UserModel> studentList = studentService.findStudent(student);
 
         studentList.stream().forEach(data -> {
             StudentScoreData studentScoreData = this.findScoreToStudent(data);
-            if (studentScoreData.getProjectionModel() != null) {
-                sortFirst.add(studentScoreData);
-            } else {
-                sortSecond.add(studentScoreData);
+            sortInit.add(studentScoreData);
+        });
+
+        //添加未选题信息
+        sortInit.stream().forEach(data->{
+            if (data.getProjectionModel() == null){
+                sortFirst.add(data);
+            }else{
+                temp.add(data);
             }
         });
 
+        //已评分、未评分区分
+        temp.stream().forEach(data ->{
+            if (data.getTotalScoreModel() == null){
+                sortSecond.add(data);
+            }else {
+                sortThird.add(data);
+            }
+        });
+
+        Comparator<StudentScoreData> comparator = (h1, h2) -> h1.getTotalScoreModel().getScoreNum().compareTo(h2.getTotalScoreModel().getScoreNum());
+
+        sortThird.sort(comparator.reversed());
+
         List<StudentScoreData> results = new ArrayList<>();
-        results.addAll(sortFirst);
+        results.addAll(sortThird);
         results.addAll(sortSecond);
+        results.addAll(sortFirst);
 
         return results;
     }
 
+
+    @Transactional
     @Override
-    public void updateStudentScore(Integer[] ids, Integer[] scoreNums) {
+    public void updateStudentScore(Integer studentId, Integer[] ids, Integer[] scoreNums, Integer type) {
+        //总分数差
+        BigDecimal scoreDifference = new BigDecimal(0);
 
+        for (int i = 0, j = ids.length; i < j; i++) {
+            StudentItemScoreModel itemScoreModel = new StudentItemScoreModel();
+            itemScoreModel.setId(ids[i]);
+            itemScoreModel.setStudentId(studentId);
+
+            itemScoreModel = studentItemScoreService.findOne(itemScoreModel);
+
+            if (itemScoreModel != null) {
+                itemScoreModel.setScoreItemModel(scoreItemService.findById(itemScoreModel.getScoreItemId()));
+
+                scoreDifference = scoreDifference.add(
+                        new BigDecimal(scoreNums[i]).multiply(
+                                new BigDecimal(itemScoreModel.getScoreItemModel().getScoreRate()).divide(new BigDecimal(100))
+                        ).subtract(
+                                new BigDecimal(itemScoreModel.getScoreNum())
+                                        .multiply(new BigDecimal(itemScoreModel.getScoreItemModel().getScoreRate()).divide(new BigDecimal(100)))
+                        )
+                );
+
+                itemScoreModel.setScoreNum(scoreNums[i]);
+                studentItemScoreService.update(itemScoreModel);
+            }
+        }
+
+        StudentTotalScoreModel totalScoreModel = studentTotalScoreService.findByStudentId(studentId);
+
+        totalScoreModel.setScoreNum(totalScoreModel.getScoreNum().add(scoreDifference));
+        StringBuffer status = new StringBuffer(totalScoreModel.getStatus());
+
+        if (type == 1) {
+            status.replace(0, 1, "O");
+        } else if (type == 2) {
+            status.replace(1, 2, "R");
+
+        } else if (type == 3) {
+            status.replace(2, 3, "P");
+        }
+
+        totalScoreModel.setStatus(status.toString());
+
+        studentTotalScoreService.updateStudentScore(totalScoreModel);
     }
-
-//    //待优化
-//    @Override
-//    public void updateStudentScore(Integer[] ids, Integer[] scoreNums) {
-//
-//        //总分数差
-//        BigDecimal scoreDifference = new BigDecimal(0);
-//
-//        for (int i=0, j= ids.length; i < j; i++){
-//            StudentItemScoreModel itemScoreModel = studentItemScoreService.findById(ids[i]);
-//            ScoreItemModel scoreItemModel = scoreItemService.findById(itemScoreModel.getScoreItemId());
-//
-//            scoreDifference  = scoreDifference.add(
-//                    new BigDecimal(scoreNums[i]).multiply(
-//                            new BigDecimal(scoreItemModel.getScoreRate()).divide(new BigDecimal(100))
-//                    ).subtract(
-//                            new BigDecimal(itemScoreModel.getScoreNum())
-//                                    .multiply(new BigDecimal(scoreItemModel.getScoreRate()).divide(new BigDecimal(100)))
-//                    )
-//            );
-//
-//            itemScoreModel.setScoreNum(scoreNums[i]);
-//
-//            studentItemScoreService.update(itemScoreModel);
-//        }
-//
-//        StudentTotalScoreModel totalScoreModel = studentTotalScoreService.findByStudentMolel()
-//    }
 }

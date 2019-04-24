@@ -4,6 +4,7 @@ import lombok.Data;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 @Data
 public class StudentTotalScoreModel {
@@ -50,5 +51,14 @@ public class StudentTotalScoreModel {
      * 专业Id
      */
     private Integer majorId;
+
+    /**
+     * 辅助查询参数 ： in查询参数
+     */
+    private List<Integer> studentIds;
+
+    /**
+     * 扩展模型：studentModel
+     */
 
 }

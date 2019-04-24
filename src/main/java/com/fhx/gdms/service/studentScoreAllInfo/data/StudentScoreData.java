@@ -26,10 +26,5 @@ public class StudentScoreData {
     private List<StudentItemScoreModel> scoreRecordListOfResponse;
 
 
-    private StudentTotalScoreModel scoreTotalModel;
-
-    //待被取代
-    private TotalScoreData totalScore;
-
-
+    private StudentTotalScoreModel totalScoreModel;
 }

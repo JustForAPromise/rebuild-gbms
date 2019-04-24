@@ -8,6 +8,7 @@ public interface StudentItemScoreService {
 
     /**
      * 创建（base）
+     *
      * @param model
      * @return
      */
@@ -15,6 +16,7 @@ public interface StudentItemScoreService {
 
     /**
      * 更新（base）
+     *
      * @param model
      * @return
      */
@@ -22,6 +24,7 @@ public interface StudentItemScoreService {
 
     /**
      * 创建记录
+     *
      * @param model
      * @return
      */
@@ -29,6 +32,7 @@ public interface StudentItemScoreService {
 
     /**
      * id查询
+     *
      * @param id
      * @return
      */
@@ -36,11 +40,25 @@ public interface StudentItemScoreService {
 
     /**
      * list by the id of student
+     *
      * @param studentId
-     * @param type      类型 1指导教师 2批阅教师 3答辩教师
+     * @param teacherType 类型 1指导教师 2批阅教师 3答辩教师
      * @return
      */
-    List<StudentItemScoreModel> ListByStudentId(Integer studentId, Integer type);
+    List<StudentItemScoreModel> listByStudentIdAndTeacherType(Integer studentId, Integer teacherType);
 
 
+    /**
+     * list by student Id
+     * @param studentId
+     * @return
+     */
+    List<StudentItemScoreModel> listByStudentId(Integer studentId);
+
+    /**
+     * find One
+     * @param itemScoreModel
+     * @return
+     */
+    StudentItemScoreModel findOne(StudentItemScoreModel itemScoreModel);
 }

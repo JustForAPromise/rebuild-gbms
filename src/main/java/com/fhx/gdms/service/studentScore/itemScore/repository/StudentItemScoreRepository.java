@@ -1,5 +1,6 @@
 package com.fhx.gdms.service.studentScore.itemScore.repository;
 
+import com.fhx.gdms.service.projections.model.ProjectionModel;
 import com.fhx.gdms.service.studentScore.itemScore.model.StudentItemScoreModel;
 import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.jdbc.SQL;
@@ -16,7 +17,7 @@ public interface StudentItemScoreRepository {
     @Options(useGeneratedKeys = true, keyProperty = "id")
     Integer save(StudentItemScoreModel model);
 
-    @InsertProvider(type = StudentScoreRecordProvider.class, method = "updateModel")
+    @UpdateProvider(type = StudentScoreRecordProvider.class, method = "updateModel")
     void update(StudentItemScoreModel model);
 
     @Select("SELECT * FROM tb_student_item_score WHERE id = #{id}")
@@ -40,6 +41,10 @@ public interface StudentItemScoreRepository {
     @ResultMap(value = "scoreRecordMap")
     StudentItemScoreModel findByStudentIdAndItemId(@Param("studentId") Integer studentId, @Param("scoreItemId") Integer scoreItemId);
 
+    @SelectProvider(type = StudentScoreRecordProvider.class, method = "findOne")
+    @ResultMap(value = "scoreRecordMap")
+    StudentItemScoreModel findOne(StudentItemScoreModel itemScoreModel);
+
     /********** 内部类 *********/
 
     class StudentScoreRecordProvider {
@@ -54,6 +59,23 @@ public interface StudentItemScoreRepository {
             sql.VALUES("student_id", "#{studentId}");
             sql.VALUES("score_item_id", "#{scoreItemId}");
             return sql.toString();
+        }
+
+        public String findOne(StudentItemScoreModel model) {
+            SQL sql = new SQL();
+            sql.SELECT("*");
+            sql.FROM("tb_student_item_score");
+            if (model.getId() != null && !"".equals(model.getId())) {
+                sql.WHERE("id = #{id}");
+            }
+            if (model.getStudentId() != null && !"".equals(model.getStudentId())) {
+                sql.WHERE("student_id = #{studentId}");
+            }
+            if (model.getScoreItemId() != null && !"".equals(model.getScoreItemId())) {
+                sql.WHERE("score_item_id = #{scoreItemId}");
+            }
+
+            return sql.toString()+"LIMIT 1";
         }
 
         public String updateModel(StudentItemScoreModel model) {

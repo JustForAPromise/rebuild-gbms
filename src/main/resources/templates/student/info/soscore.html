@@ -5,13 +5,14 @@
     <title>教师信息管理</title>
 
     <link rel="stylesheet" type="text/css" th:href="@{/css/student/student-score.css}">
-    <link rel="stylesheet" type="text/css" href="../../css/bootstrap-theme.min.css">
-    <link rel="stylesheet" type="text/css" href="../../css/bootstrap.css">
-    <link rel="stylesheet" type="text/css" href="../../css/swiper.min.css">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap-theme.min.css}" >
+    <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.css}" >
+    <link rel="stylesheet" type="text/css" th:href="@{/css/swiper.min.css}" >
 
     <script type="text/javascript" th:src="@{/js/jquery.js}"></script>
     <script type="text/javascript" th:src="@{/js/bootstrap.js}"></script>
     <script type="text/javascript" th:src="@{/js/swiper.jquery.min.js}"></script>
+
 </head>
 <body>
 <div class="body">
@@ -96,9 +97,9 @@
             <table>
                 <tr>
                     <td>总分：</td>
-                    <td th:text="${scoreAllInfo.totalScore.totalScorenNum}"></td>
+                    <td th:text="${scoreAllInfo.totalScoreModel.scoreNum}"></td>
                     <td>评定等级：</td>
-                    <td th:text="${scoreAllInfo.totalScore.level}"></td>
+                    <td th:text="${scoreAllInfo.totalScoreModel.level}"></td>
                 </tr>
             </table>
         </div>

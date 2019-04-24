@@ -16,20 +16,20 @@ import java.util.List;
 public class StudentItemScoreServiceImpl implements StudentItemScoreService {
 
     @Autowired
-    private StudentItemScoreRepository studentScoreRecordRepository;
+    private StudentItemScoreRepository studentItemScoreRepository;
 
     @Autowired
     private ScoreItemService scoreItemService;
 
     @Transactional
     @Override
-    public List<StudentItemScoreModel> ListByStudentId(Integer studentId, Integer type) {
+    public List<StudentItemScoreModel> listByStudentIdAndTeacherType(Integer studentId, Integer type) {
         List<StudentItemScoreModel> results =  new ArrayList<>();
 
         List<ScoreItemModel> scoreItemModels = scoreItemService.findAlive(type);
 
         scoreItemModels.stream().forEach(data ->{
-            StudentItemScoreModel model = studentScoreRecordRepository.findByStudentIdAndItemId(studentId, data.getId());
+            StudentItemScoreModel model = studentItemScoreRepository.findByStudentIdAndItemId(studentId, data.getId());
             if ( null == model){
                 model = new StudentItemScoreModel();
                 model.setStudentId(studentId);
@@ -46,8 +46,23 @@ public class StudentItemScoreServiceImpl implements StudentItemScoreService {
     }
 
     @Override
+    public List<StudentItemScoreModel> listByStudentId(Integer studentId) {
+        List<StudentItemScoreModel> results = studentItemScoreRepository.findByStudentId(studentId);
+        results.stream().forEach(data ->{
+            data.setScoreItemModel(scoreItemService.findById(data.getScoreItemId()));
+        });
+
+        return results;
+    }
+
+    @Override
+    public StudentItemScoreModel findOne(StudentItemScoreModel itemScoreModel) {
+        return studentItemScoreRepository.findOne(itemScoreModel);
+    }
+
+    @Override
     public StudentItemScoreModel save(StudentItemScoreModel model) {
-        studentScoreRecordRepository.save(model);
+        studentItemScoreRepository.save(model);
 
         return this.findById(model.getId());
     }
@@ -55,12 +70,12 @@ public class StudentItemScoreServiceImpl implements StudentItemScoreService {
     @Override
     public StudentItemScoreModel findById(Integer id) {
 
-        return studentScoreRecordRepository.findById(id);
+        return studentItemScoreRepository.findById(id);
     }
 
     @Override
     public StudentItemScoreModel update(StudentItemScoreModel model) {
-        studentScoreRecordRepository.update(model);
+        studentItemScoreRepository.update(model);
 
         return this.findById(model.getId());
     }

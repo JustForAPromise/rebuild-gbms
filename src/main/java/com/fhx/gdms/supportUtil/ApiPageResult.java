@@ -31,30 +31,32 @@ public class ApiPageResult extends ApiResult {
 
     public ApiPageResult(Object data, Integer total, Integer page, Integer size) {
 
-        this.totalPage = total / size;
-        if (total % size > 0) {
-            this.totalPage++;
-        }
+        if (page != null && size != null) {
+            this.totalPage = total / size;
+            if (total % size > 0) {
+                this.totalPage++;
+            }
 
-        if (page != 0 && page <= this.totalPage - 1) {
-            this.pageUp = true;
-        } else {
-            this.pageUp = false;
-        }
+            if (page != 0 && page <= this.totalPage - 1) {
+                this.pageUp = true;
+            } else {
+                this.pageUp = false;
+            }
 
-        if (page < this.totalPage - 1 && page >= 0) {
-            this.pageDown = true;
-        } else {
-            this.pageDown = false;
-        }
+            if (page < this.totalPage - 1 && page >= 0) {
+                this.pageDown = true;
+            } else {
+                this.pageDown = false;
+            }
 
-        this.totalPage = total / size;
-        if (total % size > 0) {
-            this.totalPage++;
-        }
+            this.totalPage = total / size;
+            if (total % size > 0) {
+                this.totalPage++;
+            }
 
-        this.page = page;
-        this.size = size;
+            this.page = page;
+            this.size = size;
+        }
         this.setData(data);
     }
 }

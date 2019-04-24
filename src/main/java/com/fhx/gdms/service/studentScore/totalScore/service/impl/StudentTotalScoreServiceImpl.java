@@ -1,19 +1,24 @@
 package com.fhx.gdms.service.studentScore.totalScore.service.impl;
 
+import com.fhx.gdms.service.studentScore.itemScore.model.StudentItemScoreModel;
 import com.fhx.gdms.service.studentScore.totalScore.model.StudentTotalScoreModel;
 import com.fhx.gdms.service.studentScore.totalScore.repository.StudentTotalScoreRepository;
 import com.fhx.gdms.service.studentScore.totalScore.service.StudentTotalScoreService;
 import com.fhx.gdms.service.user.model.UserModel;
+import com.fhx.gdms.service.user.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Service
 public class StudentTotalScoreServiceImpl implements StudentTotalScoreService {
     @Autowired
     private StudentTotalScoreRepository studentTotalScoreRepository;
 
+    @Autowired
+    private StudentService studentService;
 
     @Override
     public StudentTotalScoreModel save(StudentTotalScoreModel model) {
@@ -25,8 +30,6 @@ public class StudentTotalScoreServiceImpl implements StudentTotalScoreService {
 
     @Override
     public StudentTotalScoreModel update(StudentTotalScoreModel model) {
-        model.setLevel(getLevel(model.getScoreNum()));
-
         studentTotalScoreRepository.updateModel(model);
 
         return this.findById(model.getId());
@@ -53,6 +56,38 @@ public class StudentTotalScoreServiceImpl implements StudentTotalScoreService {
         }
 
         return existModel;
+    }
+
+    @Override
+    public StudentTotalScoreModel findByStudentId(Integer studentId) {
+        StudentTotalScoreModel existModel = studentTotalScoreRepository.findByStudentId(studentId);
+        if (existModel == null){
+            StudentTotalScoreModel model = new StudentTotalScoreModel();
+
+            UserModel student = studentService.findById(studentId);
+
+            model.setDepartmentId(student.getDepartmentId());
+            model.setMajorId(student.getMajorId());
+            model.setStudentId(student.getId());
+            model.setScoreNum(new BigDecimal(0));
+            model.setStatus("---");
+
+            existModel = this.save(model);
+        }
+
+        return existModel;
+    }
+
+    @Override
+    public void updateStudentScore(StudentTotalScoreModel totalScoreModel) {
+        totalScoreModel.setLevel(getLevel(totalScoreModel.getScoreNum()));
+
+        this.update(totalScoreModel);
+    }
+
+    @Override
+    public List<StudentTotalScoreModel> listByModel(StudentTotalScoreModel studentTotalScoreModel) {
+        return studentTotalScoreRepository.listByModel(studentTotalScoreModel);
     }
 
     /********** 辅助程序 **************/

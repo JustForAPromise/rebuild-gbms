@@ -79,24 +79,19 @@ public class StudentScoreOfTeacherController {
         apiResult.setMsg("登记成功");
         return apiResult;
     }
-//
-//    @RequestMapping(value = "/updateStudentScore", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-//    @ResponseBody
-//    ApiResult updateStudentScore(Integer[] ids, Integer[] scoreNums) {
-//        ApiResult apiResult = new ApiResult();
-//
-//        UserModel teacher = (UserModel) session.getAttribute("userInfo");
-//        if (teacher.getIdentify() != 1) {
-//            apiResult.setCode(-1);
-//            apiResult.setMsg("权限不足！");
-//            return apiResult;
-//        }
-//
-//
-//        studentScoreService.updateStudentScore(ids, scoreNums);
-//
-//        apiResult.setCode(0);
-//        apiResult.setMsg("登记成功");
-//        return apiResult;
-//    }
+
+
+
+    //待验证
+    @RequestMapping(value = "/updateStudentScore", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ResponseBody
+    ApiResult updateStudentScore(Integer studentId, Integer[] ids, Integer[] scoreNums, Integer type) {
+        ApiResult apiResult = new ApiResult();
+
+        studentScoreService.updateStudentScore(studentId, ids, scoreNums, type);
+
+        apiResult.setCode(0);
+        apiResult.setMsg("登记成功");
+        return apiResult;
+    }
 }

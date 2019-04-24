@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 @Mapper
 @Component
@@ -17,7 +18,7 @@ public interface StudentTotalScoreRepository {
     Integer save(StudentTotalScoreModel model);
 
     @Select("SELECT * FROM tb_student_total_score WHERE id = #{id}")
-    @Results(id = "scoreItemMap", value = {
+    @Results(id = "scoreTotalMap", value = {
             @Result(column = "id", property = "id", javaType = Integer.class),
             @Result(column = "score_num", property = "scoreNum", javaType = BigDecimal.class),
             @Result(column = "level", property = "level", javaType = String.class),
@@ -33,10 +34,19 @@ public interface StudentTotalScoreRepository {
     StudentTotalScoreModel findById(@Param("id") Integer id);
 
     @SelectProvider(type = ScoreItemProvider.class, method = "findByModel")
+    @ResultMap(value = "scoreTotalMap")
     StudentTotalScoreModel findOne(StudentTotalScoreModel model);
 
     @UpdateProvider(type = ScoreItemProvider.class, method = "updateModel")
     void updateModel(StudentTotalScoreModel model);
+
+    @Select("SELECT * FROM tb_student_total_score WHERE student_id = #{studentId} LIMIT 1")
+    @ResultMap(value = "scoreTotalMap")
+    StudentTotalScoreModel findByStudentId(@Param("studentId") Integer studentId);
+
+    @SelectProvider(type = ScoreItemProvider.class, method = "findByModel")
+    @ResultMap(value = "scoreTotalMap")
+    List<StudentTotalScoreModel> listByModel(StudentTotalScoreModel studentTotalScoreModel);
 
 
     /********** 内部类 *********/
@@ -70,6 +80,20 @@ public interface StudentTotalScoreRepository {
             if (model.getMajorId() != null && !"".equals(model.getMajorId())) {
                 sql.WHERE("major_id = #{majorId}");
             }
+
+            if (model.getStudentIds() != null && model.getStudentIds().size() > 0) {
+                StringBuffer inSQl = new StringBuffer("student_id in(");
+                for (int i = 0, j = model.getStudentIds().size(); i < j; i++){
+                    inSQl.append(model.getStudentIds().get(i));
+                    if (i == j-1){
+                        inSQl.append(")");
+                    }else{
+                        inSQl.append(",");
+                    }
+                }
+                sql.WHERE(inSQl.toString());
+            }
+
             sql.ORDER_BY("score_num DESC");
             return sql.toString();
         }
