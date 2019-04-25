@@ -120,11 +120,13 @@
         var searchInfo={
             teacherId:null,
             auditStatus: null,
-            title :null
+            title :null,
+            page:0,
+            size:10
         }
 
         /****初始化下拉列表***/
-        initPage();
+        initPage(searchInfo);
 
         //批量导入按钮
         $('input[value="课题审核结果导入"]').click(function () {
@@ -134,7 +136,12 @@
         $('.tops input[value="确定"]').click(function () {
             var form = $("#file-data")[0];
 
-            batchUpdateProjections(new FormData(form))
+            searchInfo.teacherId = null;
+            searchInfo.title = null;
+            searchInfo.auditStatus =null;
+            searchInfo.page =0;
+
+            batchUpdateProjections(new FormData(form), searchInfo)
 
             $('.tops').addClass('hide');
         });
@@ -171,8 +178,9 @@
             searchInfo.teacherId = teacherId;
             searchInfo.title = title;
             searchInfo.auditStatus =auditStatus;
+            searchInfo.page =0;
 
-            findList(teacherId, title, auditStatus);
+            findList(searchInfo);
         });
 
         //批量导出按钮
@@ -200,12 +208,37 @@
             downloadProjectionData(url)
         });
 
+        //首页按钮
+        $(".data").on("click", ".firstPage", function () {
+            searchInfo.page = 0;
+            findList(searchInfo)
+        })
+        //上翻页按钮
+        $(".data").on("click", ".pageUp", function () {
+            if (searchInfo.page > 0) {
+                searchInfo.page = searchInfo.page - 1;
+            }
+            findList(searchInfo)
+        })
+
+        //下翻页按钮
+        $(".data").on("click", ".pageDown", function () {
+            searchInfo.page =searchInfo.page +1;
+
+            findList(searchInfo)
+        })
+        //尾页按钮
+        $(".data").on("click", ".lastPage", function () {
+            searchInfo.page = $(this).attr("id") -1;
+            findList(searchInfo)
+        })
+
     })
 
     /********************** 初始化界面 ***************************/
-    function initPage() {
+    function initPage(searchInfo) {
         initTeacherSelect()
-        findList(null, null, null)
+        findList(searchInfo)
     }
 
     function initTeacherSelect() {
@@ -231,14 +264,16 @@
 
     /*************************  功能区 ***********************************/
 
-    function findList(teacherId, title, auditStatus) {
+    function findList(searchInfo) {
         $.ajax({
             url: '../helper/projection/findList',
             type: 'GET',
             data: {
-                teacherId: teacherId,
-                title: title,
-                auditStatus: auditStatus
+                teacherId: searchInfo.teacherId,
+                title: searchInfo.title,
+                auditStatus: searchInfo.auditStatus,
+                page:searchInfo.page,
+                size:searchInfo.size
             },
             dataType: 'json',
             success: function (data) {
@@ -246,7 +281,7 @@
                 dataList.html("");
 
                 for (i = 0; i < data.data.length; i++) {
-                    var str = "<tr><td>" + (i + 1) + "</td> "
+                    var str = "<tr><td>" + (data.page * data.size +i+1) + "</td> "
                         + "<td>" + data.data[i].teacherModel.name + "</td> "
                         + "<td>" + data.data[i].majorModel.major + "</td>"
                         + "<td>" + data.data[i].title + "</td>";
@@ -264,8 +299,19 @@
 
                     str = str + "<input type=\"button\" value=\"审核状态修改\" attr=" + data.data[i].id + "></td></tr>"
                     dataList.append(str)
-
                 }
+                var str = "<tr><td colspan='6' style='padding-top:15px;text-align: center; background-color: white'>"
+                if (data.pageUp){
+                    str = str  +"<a class='firstPage' style='padding-right: 5px'>首页</a><a class='pageUp' style='padding-right: 5px'>上一页</a>"
+                }
+                if (data.data.length > 0) {
+                    str = str + (data.page + 1) + "/" + data.totalPage;
+                }
+                if (data.pageDown){
+                    str = str  +"<a class='pageDown' style='padding-left: 5px' >下一页</a><a class='lastPage' style='padding-left: 5px'id='"+data.totalPage+"'>尾页</a>"
+                }
+                var end = "</td></tr>"
+                dataList.append(str +end)
             }
         });
     }
@@ -316,7 +362,7 @@
         $(a).remove();
     }
 
-    function batchUpdateProjections(formData) {
+    function batchUpdateProjections(formData, searchInfo) {
         $.ajax({
             url: '../helper/projection/batchUpdate',
             type: 'POST',
@@ -328,7 +374,7 @@
                     alert(data.msg)
                 }else{
                     alert(data.msg)
-                    findList()
+                    findList(searchInfo)
                 }
             }
         });

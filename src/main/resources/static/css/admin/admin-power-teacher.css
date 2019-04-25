@@ -58,9 +58,11 @@
 .data table thead tr th{
 	text-align: center;
 }
-.data table tbody tr{ text-align: center; 	height:30px;}
-.data table tbody tr:nth-of-type(odd){ background:#EEE9E9 ;} /*奇数行*/ 
-.data table tbody tr:nth-of-type(even){ background:#FCFCFC ;}/*偶数行*/
+.data table tbody tr {
+	text-align: center;
+	height: 30px;
+	border-top: rgba(18, 99, 230, 0.3) 1px dashed;
+}
 
 .data tbody tr input[type=submit]{
 	border-radius: 7px;

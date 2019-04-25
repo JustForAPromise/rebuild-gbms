@@ -86,4 +86,9 @@ public class UserModel extends PageBaseModel {
     private ProjectionModel projectionModel;
 
     private SelectRecordModel projectionSelectModel;
+
+    /**
+     * 辅助参数：教务员  是否将未选题的提前筛选出
+     */
+    private Boolean withoutProjection;
 }

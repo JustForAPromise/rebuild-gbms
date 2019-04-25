@@ -97,12 +97,12 @@
         //模态框确定选择按钮 添加ajax
         $('.myModal input[value="选择"]').click(function () {
             var tds = $(this).parent().prevAll();
-            var projectionId = $(tds[4]).attr("store")
+            var projectionId = $('.myModal input[name="id"]').val()
             var teacherId = $('.myModal input[name="teacher"]').attr("store")
 
             //界面处理
             $('.myModal,.shade').addClass('hide');
-            add(projectionId, teacherId, 0)
+            add(projectionId, teacherId)
         })
 
         //取消模态框
@@ -128,7 +128,7 @@
             var projectionId = $(tds[4]).attr("store")
             var teacherId = $(tds[0]).attr("store")
             //信息获取
-            add(projectionId, teacherId, 0)
+            add(projectionId, teacherId)
             listProjection(searchInfo, 0)
 
         })
@@ -192,6 +192,7 @@
                 if (data.code == -1) {
                     alert(data.msg)
                 } else {
+                    $('.myModal input[name="id"]').val(data.data.id)
                     $('.myModal input[name="title"]').val(data.data.title)
                     $('.myModal textarea[name= "introduce"]').val(data.data.introduce);
                     $('.myModal textarea[name="require"]').val(data.data.demand);

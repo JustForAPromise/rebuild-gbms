@@ -2,6 +2,7 @@ package com.fhx.gdms.controller.help.controllers;
 
 import com.fhx.gdms.service.user.model.UserModel;
 import com.fhx.gdms.service.user.service.StudentService;
+import com.fhx.gdms.supportUtil.ApiPageResult;
 import com.fhx.gdms.supportUtil.ApiResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -39,14 +40,8 @@ public class StudentOfHelperController {
     @RequestMapping(value = "/listToHelper", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
     ApiResult listTohelper(UserModel model) {
-        ApiResult apiResult = new ApiResult();
 
         UserModel helper = (UserModel) session.getAttribute("userInfo");
-        if (helper == null) {
-            apiResult.setCode(-1);
-            apiResult.setMsg("请先登录！");
-            return apiResult;
-        }
 
         model.setDepartmentId(helper.getDepartmentId());
         if (model.getName() != null) {
@@ -55,6 +50,8 @@ public class StudentOfHelperController {
         if (model.getNo() != null) {
             model.setNo("%" + model.getNo() + "%");
         }
+
+        model.setWithoutProjection(true);
 
         List<UserModel> studentModelList = studentService.findStudent(model);
 
@@ -65,13 +62,17 @@ public class StudentOfHelperController {
                 results.add(data);
             }
         });
+
         studentModelList.stream().forEach(data -> {
             if (data.getProjectionSelectModel() != null) {
                 results.add(data);
             }
         });
 
-        apiResult.setData(results);
+        Integer total = studentService.findTotal(model);
+
+
+        ApiResult apiResult =  new ApiPageResult(results, total, model.getPage(), model.getSize());
 
         return apiResult;
     }

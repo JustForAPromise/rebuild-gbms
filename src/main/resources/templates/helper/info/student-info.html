@@ -112,8 +112,18 @@
 </div>
 <script>
     $(document).ready(function () {
+
+        var searchInfo={
+            teacherId:null,
+            majorId: null,
+            no :null,
+            name :null,
+            page:0,
+            size:10
+        }
+
         /****初始化下拉列表***/
-        initPage();
+        initPage(searchInfo);
 
         $(".teacherSelect").change(function () {
             var teacherId = $(this).children('option:selected').val()
@@ -142,7 +152,13 @@
                 alert("请填写完整信息")
                 return;
             }
-            updateStudentSelectProjection(formData)
+            searchInfo.teacherId = null;
+            searchInfo.majorId = null;
+            searchInfo.no =null;
+            searchInfo.name =null;
+            searchInfo.page =0;
+
+            updateStudentSelectProjection(formData, searchInfo)
         })
 
         $(".search input[value=搜索]").click(function () {
@@ -150,7 +166,14 @@
             var majorId = $(".search select[name=majorId]").val();
             var no = $(".search input[name=no]").val();
             var name = $(".search input[name=name]").val();
-            findRecordList(teacherId, majorId, no, name)
+
+            searchInfo.teacherId = teacherId;
+            searchInfo.majorId = majorId;
+            searchInfo.no =no;
+            searchInfo.name =name;
+            searchInfo.page =0;
+
+            findRecordList(searchInfo)
         })
 
         //密码重置按钮
@@ -165,13 +188,39 @@
             findById(id)
         })
 
+
+        //首页按钮
+        $(".data").on("click", ".firstPage", function () {
+            searchInfo.page = 0;
+            findRecordList(searchInfo)
+        })
+        //上翻页按钮
+        $(".data").on("click", ".pageUp", function () {
+            if (searchInfo.page > 0) {
+                searchInfo.page = searchInfo.page - 1;
+            }
+            findRecordList(searchInfo)
+        })
+
+        //下翻页按钮
+        $(".data").on("click", ".pageDown", function () {
+            searchInfo.page =searchInfo.page +1;
+
+            findRecordList(searchInfo)
+        })
+        //尾页按钮
+        $(".data").on("click", ".lastPage", function () {
+            searchInfo.page = $(this).attr("id") -1;
+            findRecordList(searchInfo)
+        })
+
     })
 
     /************** 界面初始化  ********************/
-    function initPage() {
+    function initPage(searchInfo) {
         initTeacher()
         initMajor()
-        findRecordList()
+        findRecordList(searchInfo)
     }
 
     function initTeacher() {
@@ -242,7 +291,7 @@
     }
 
     /*****************  功能区 ****************************/
-    function updateStudentSelectProjection(formData) {
+    function updateStudentSelectProjection(formData,searchInfo) {
         $.ajax({
             url: '../helper/selectRecord/updateRecord',
             type: 'POST',
@@ -254,7 +303,7 @@
                 if (data.code == -1) {
                     alert(data.msg)
                 } else {
-                    findRecordList()
+                    findRecordList(searchInfo)
                 }
                 return;
             }
@@ -279,15 +328,17 @@
         });
     }
 
-    function findRecordList(teacherId, majorId, studentNo, name) {
+    function findRecordList(searchInfo) {
         $.ajax({
             url: '../helper/student/listToHelper',
             type: 'GET',
             data: {
-                teacherId: teacherId,
-                majorId: majorId,
-                no: studentNo,
-                name: name
+                teacherId: searchInfo.teacherId,
+                majorId:searchInfo.majorId,
+                no: searchInfo.studentNo,
+                name:searchInfo. name,
+                page:searchInfo.page,
+                size:searchInfo.size
             },
             dataType: 'json',
             success: function (data) {
@@ -298,7 +349,7 @@
                     dataList.html("");
 
                     for (i = 0; i < data.data.length; i++) {
-                        var str = "<tr><td>" + (i + 1) + "</td> "
+                        var str = "<tr><td>" + (data.page * data.size +i+1) + "</td> "
                             + "<td>" + data.data[i].no + "</td> "
                             + "<td>" + data.data[i].name + "</td>"
                             + "<td>" + data.data[i].departmentModel.department + "</td>"
@@ -315,6 +366,19 @@
                         str = str + "<input type=\"button\" name=\"\" value=\"密码重置\" attr=\"" + data.data[i].id + "\"></td></tr>"
                         dataList.append(str)
                     }
+
+                    var str = "<tr><td colspan='6' style='padding-top:15px;text-align: center; background-color: white'>"
+                    if (data.pageUp){
+                        str = str  +"<a class='firstPage' style='padding-right: 5px'>首页</a><a class='pageUp' style='padding-right: 5px'>上一页</a>"
+                    }
+                    if (data.data.length > 0) {
+                        str = str + (data.page + 1) + "/" + data.totalPage;
+                    }
+                    if (data.pageDown){
+                        str = str  +"<a class='pageDown' style='padding-left: 5px' >下一页</a><a class='lastPage' style='padding-left: 5px'id='"+data.totalPage+"'>尾页</a>"
+                    }
+                    var end = "</td></tr>"
+                    dataList.append(str +end)
                 }
             }
         });

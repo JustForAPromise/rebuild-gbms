@@ -145,15 +145,21 @@ public interface StudentRepository {
                 sql.WHERE("teacher_id = #{teacherId}");
             }
             sql.WHERE("identify = 2");
-            sql.ORDER_BY("no DESC");
+
+            if (model.getWithoutProjection()) {
+                sql.ORDER_BY("teacher_id, no DESC");
+
+            } else {
+                sql.ORDER_BY("no DESC");
+            }
 
 
             StringBuffer end = new StringBuffer();
             if (model.getPage() != null && !"".equals(model.getPage())) {
                 if (model.getSize() != null && !"".equals(model.getSize()))
-                    end.append(" LIMIT " + model.getPage()*model.getSize()+","+model.getSize());
+                    end.append(" LIMIT " + model.getPage() * model.getSize() + "," + model.getSize());
             }
-            return sql.toString()+end.toString();
+            return sql.toString() + end.toString();
         }
 
         public String findTotal(UserModel model) {

@@ -4,6 +4,7 @@ import com.fhx.gdms.service.power.service.PowerService;
 import com.fhx.gdms.service.projections.model.ProjectionModel;
 import com.fhx.gdms.service.projections.service.ProjectionService;
 import com.fhx.gdms.service.user.model.UserModel;
+import com.fhx.gdms.supportUtil.ApiPageResult;
 import com.fhx.gdms.supportUtil.ApiResult;
 import com.fhx.gdms.supportUtil.FileUtil;
 import jxl.CellView;
@@ -48,19 +49,8 @@ public class ProjectionOfHelperController {
     @RequestMapping(value = "/findList", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
     ApiResult findList(ProjectionModel projectionModel) {
-        ApiResult apiResult = new ApiResult();
 
         UserModel helper = (UserModel) session.getAttribute("userInfo");
-        if (helper == null) {
-            apiResult.setCode(-1);
-            apiResult.setMsg("请先登录！");
-            return apiResult;
-
-        } else if (helper.getIdentify() != 3) {
-            apiResult.setCode(-1);
-            apiResult.setMsg("权限不足");
-            return apiResult;
-        }
 
         if (projectionModel.getTitle() != null) {
             projectionModel.setTitle("%" + projectionModel.getTitle() + "%");
@@ -69,8 +59,10 @@ public class ProjectionOfHelperController {
 
         List<ProjectionModel> projectionModelList = projectionService.findList(projectionModel);
 
-        apiResult.setCode(0);
-        apiResult.setData(projectionModelList);
+        Integer total = projectionService.findTotal(projectionModel);
+
+        ApiResult apiResult = new ApiPageResult(projectionModelList, total, projectionModel.getPage(), projectionModel.getSize());
+
         return apiResult;
     }
 
