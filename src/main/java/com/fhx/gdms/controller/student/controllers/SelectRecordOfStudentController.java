@@ -41,7 +41,7 @@ public class SelectRecordOfStudentController {
         total = selectRecordService.findTotalByUserId(userModel.getId(), 0);
         if (total >= 5) {
             apiResult.setCode(-1);
-            apiResult.setMsg("可选课题数:5 \n你已选满，请等待教师查阅！");
+            apiResult.setMsg("最多未处理请求数量:5 \n你已选满，请等待教师查阅！");
             return apiResult;
         }
 

@@ -58,7 +58,7 @@
                     <li><a target="function" href="/reviewTeacher/studentScore">成绩登记</a></li>
                 </ul>
             </li>
-            <li th:if="${session.userInfo.powerModel != null && session.userInfo.powerModel.departmentLeader}">
+            <li th:if="${session.userInfo.powerModel != null && session.userInfo.powerModel.responseTeamLeader}">
                 <a><span>答辩组组长功能</span></a>
                 <ul class="childrenNav">
                     <li><a target="function" href="/responseTeamLeader/studentScore">成绩登记</a></li>

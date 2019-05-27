@@ -146,6 +146,14 @@
             batchImportOfStudent(new FormData(form))
 
             $('.tops').addClass('hide');
+
+            searchInfo.departmentId = null;
+            searchInfo.majorId = null;
+            searchInfo.no =null;
+            searchInfo.name =null;
+            searchInfo.page =0;
+
+            findList(searchInfo);
         });
 
         //搜索按钮
@@ -179,13 +187,32 @@
         $('.bottoms input[value="确定"]').click(function () {
             var forms = $("#form-data")
 
+            if(forms.find("input[name=no]").val() == null || forms.find("input[name=no]").val() == ""){
+                alert("请填写完整信息")
+                forms.find("input[name=no]").focus()
+                return
+            }
+            if(forms.find("input[name=name]").val() == null || forms.find("input[name=name]").val() == ""){
+                alert("请填写完整信息")
+                forms.find("input[name=name]").focus()
+                return
+            }
+
             if (forms.find("input[name=id]").val() == null || forms.find("input[name=id]").val() == "") {
                 add(forms)
             } else {
                 update(forms)
             }
+
             var departmentId = forms.find("p select[name=departmentId]").val();
             var majorId = forms.find("p select[name=majorId]").val();
+
+            searchInfo.departmentId = null;
+            searchInfo.majorId = null;
+            searchInfo.no =null;
+            searchInfo.name =null;
+            searchInfo.page =0;
+
             findList(searchInfo);
 
             $("#form-data input").val("");
@@ -194,7 +221,7 @@
 
         //编辑按钮
         $(".data").on("click", "input[value='编辑']", function () {
-            $('.hide').removeClass('hide');
+            $('.bottoms').removeClass('hide');
             var tds = $(this).parent().prevAll();
             var id = $(tds[4]).text()
             findById(id)
@@ -244,6 +271,7 @@
            url: '../admin/student/add',
             type: 'POST',
             data: formData.serialize(),
+            async:false,
             dataType: 'json',
             success: function (data) {
                 if (data.code == -1) {
@@ -258,6 +286,7 @@
             type: 'POST',
             data:formData,
             processData: false,
+            async:false,
             contentType: false,
             success: function (data) {
                 if (data.code == -1) {
@@ -274,6 +303,7 @@
             type: 'POST',
             data: formData.serialize(),
             dataType: 'json',
+            async:false,
             success: function (data) {
                 if (data.code == -1) {
                     alert(data.msg)

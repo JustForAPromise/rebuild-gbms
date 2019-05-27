@@ -138,6 +138,13 @@
         //模态框内部 添加按钮 添加ajax
         $('.myModal input[value="确认"]').click(function () {
             var formData = new FormData($("#form-data")[0]);
+
+            if ($('.myModal input[name=itemName]').val() == null || $('.myModal input[name=itemName]').val() == ""){
+                alert("请填写完整信息")
+                $('.myModal input[name=itemName]').focus()
+                return
+            }
+
             if ($('.myModal input[name=id]').val() == null || $('.myModal input[name=id]').val() == ""){
                 formData.delete("id")
                 add(formData)

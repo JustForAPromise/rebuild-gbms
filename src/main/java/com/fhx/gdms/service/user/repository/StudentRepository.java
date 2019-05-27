@@ -146,11 +146,13 @@ public interface StudentRepository {
             }
             sql.WHERE("identify = 2");
 
-            if (model.getWithoutProjection()) {
-                sql.ORDER_BY("teacher_id, no DESC");
-
-            } else {
+            if (model.getWithoutProjection() == null) {
                 sql.ORDER_BY("no DESC");
+            } else if (model.getWithoutProjection()) {
+                sql.ORDER_BY("teacher_id, no DESC");
+            }else{
+                sql.ORDER_BY("no DESC");
+
             }
 
 

@@ -96,6 +96,12 @@
             var id = $(text[0]).val();
             var departmentName = $(text[1]).val();
 
+            if (departmentName == null || departmentName ==""){
+                alert("信息为空！")
+                $(text[1]).focus();
+                return;
+            }
+
             //界面处理
             $(text[0]).val("");
             $(text[1]).val("");

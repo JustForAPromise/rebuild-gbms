@@ -4,11 +4,11 @@
     <meta charset="UTF-8">
     <title>教师信息管理</title>
 
-    <link rel="stylesheet" type="text/css" th:href="@{/css/admin/admin-info-teacher.css}" >
-    <link rel="stylesheet" type="text/css" th:href="@{/css/admin/admin-motaikuang.css}" >
-    <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap-theme.min.css}" >
-    <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.css}" >
-    <link rel="stylesheet" type="text/css" th:href="@{/css/swiper.min.css}" >
+    <link rel="stylesheet" type="text/css" th:href="@{/css/admin/admin-info-teacher.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/admin/admin-motaikuang.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap-theme.min.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/swiper.min.css}">
 
     <script type="text/javascript" th:src="@{/js/jquery.js}"></script>
     <script type="text/javascript" th:src="@{/js/bootstrap.js}"></script>
@@ -41,7 +41,7 @@
 
         <input type="button" value="添加">
         <!-- 模态框开始 -->
-        <div class="myModal hide">
+        <div class="bottoms myModal hide">
             <h4 style="text-align: center;">教师信息</h4>
             <form id="form-data">
                 <p class="p" style="display: none"><label>id：</label><input type="text" name="id"></p>
@@ -64,7 +64,7 @@
             </form>
             <p class="p"><input type="button" value="确定">&nbsp<input type="button" value="取消"></p>
         </div>
-        <div class="shade hide"></div>
+        <div class="bottoms shade hide"></div>
         <!-- 模态框结束 -->
 
     </div>
@@ -147,8 +147,9 @@
 
         //添加按钮
         $('input[value="添加"]').click(function () {
-            $('.hide').removeClass('hide');
+            $('.bottoms').removeClass('hide');
         });
+
         //取消按钮
         $('.function input[value="取消"]').click(function () {
             $("#form-data input").val("");
@@ -156,8 +157,39 @@
         });
 
         //确定按钮 添加ajax
-        $('.function input[value="确定"]').click(function () {
+        $('.bottoms input[value="确定"]').click(function () {
             var forms = $("#form-data")
+
+            if (forms.find("input[name=no]").val() == null || forms.find("input[name=no]").val() == "") {
+                alert("信息为空！")
+                forms.find("input[name=no]").focus();
+                return;
+            }
+
+
+            if (forms.find("input[name=name]").val() == null || forms.find("input[name=name]").val() == "") {
+                alert("信息为空！")
+                forms.find("input[name=name]").focus();
+                return;
+            }
+            if (forms.find("input[name=phone]").val() == null || forms.find("input[name=phone]").val() == "") {
+                alert("信息为空！")
+                forms.find("input[name=phone]").focus();
+                return;
+            }else{
+                if(!(/^1[34578]\d{9}$/.test(forms.find("input[name=phone]").val()))){
+                    alert("手机号码有误，请重填");
+                    forms.find("input[name=phone]").focus();
+                    return false;
+                }
+            }
+
+            if (forms.find("select[name=departmentId]").val() == null || forms.find("select[name=departmentId]").val() == "") {
+                alert("信息为空！")
+                forms.find("input[name=departmentId]").focus();
+                return;
+            }
+
 
             if (forms.find("input[name=id]").val() == null || forms.find("input[name=id]").val() == "") {
                 add(forms)
@@ -166,12 +198,12 @@
             }
 
             $("#form-data input").val("");
-            $('.myModal,.shade').addClass('hide');
+            $('.bottoms').addClass('hide');
         });
 
         //编辑按钮
         $(".data").on("click", "input[value='编辑']", function () {
-            $('.hide').removeClass('hide');
+            $('.bottoms').removeClass('hide');
             var tds = $(this).parent().prevAll();
             var id = $(tds[4]).text()
 

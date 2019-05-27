@@ -127,6 +127,13 @@
             var majorName = $(text[1]).val();
             var introduce = $("#introduce").val()
 
+            if (majorName == null || majorName ==""){
+                alert("信息为空！")
+                $(text[1]).focus();
+                return;
+            }
+
+
             //界面处理
             $('.myModal input[type="text"]').val('');
             $("#introduce").val("")
