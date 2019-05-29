@@ -1,9 +1,9 @@
 package com.fhx.gdms.controller.help.controllers;
 
-import com.fhx.gdms.service.studentNumOfTeacher.model.StudentNumOfTeacherModel;
-import com.fhx.gdms.service.studentNumOfTeacher.service.StudentNumOfTeacherService;
-import com.fhx.gdms.service.user.model.UserModel;
-import com.fhx.gdms.supportUtil.ApiResult;
+import login.com.supportUtil.ApiResult;
+import login.com.studentNumOfTeacher.model.StudentNumOfTeacherModel;
+import login.com.studentNumOfTeacher.service.StudentNumOfTeacherService;
+import login.com.user.model.UserModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;

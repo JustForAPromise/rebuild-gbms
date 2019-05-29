@@ -1,7 +1,6 @@
 package com.fhx.gdms.service.selectRecord.repository;
 
-import com.fhx.gdms.service.selectRecord.model.SelectRecordModel;
-import org.apache.ibatis.annotations.*;
+import login.com.selectRecord.model.SelectRecordModel;
 import org.apache.ibatis.jdbc.SQL;
 import org.springframework.stereotype.Component;
 

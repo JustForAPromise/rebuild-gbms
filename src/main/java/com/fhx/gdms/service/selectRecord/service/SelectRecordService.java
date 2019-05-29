@@ -1,6 +1,6 @@
 package com.fhx.gdms.service.selectRecord.service;
 
-import com.fhx.gdms.service.selectRecord.model.SelectRecordModel;
+import login.com.selectRecord.model.SelectRecordModel;
 
 import java.util.List;
 

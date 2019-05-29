@@ -1,7 +1,7 @@
 package com.fhx.gdms.service.power.model;
 
-import com.fhx.gdms.service.department.model.DepartmentModel;
-import com.fhx.gdms.service.user.model.UserModel;
+import login.com.department.model.DepartmentModel;
+import login.com.user.model.UserModel;
 import lombok.Data;
 
 import java.util.Date;

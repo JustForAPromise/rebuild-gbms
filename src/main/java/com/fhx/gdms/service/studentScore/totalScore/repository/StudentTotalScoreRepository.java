@@ -1,7 +1,6 @@
 package com.fhx.gdms.service.studentScore.totalScore.repository;
 
-import com.fhx.gdms.service.studentScore.totalScore.model.StudentTotalScoreModel;
-import org.apache.ibatis.annotations.*;
+import login.com.studentScore.totalScore.model.StudentTotalScoreModel;
 import org.apache.ibatis.jdbc.SQL;
 import org.springframework.stereotype.Component;
 

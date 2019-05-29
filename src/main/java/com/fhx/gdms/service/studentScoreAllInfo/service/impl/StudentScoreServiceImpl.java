@@ -1,21 +1,20 @@
 package com.fhx.gdms.service.studentScoreAllInfo.service.impl;
 
-import com.fhx.gdms.service.materialStatus.model.MaterialStatusModel;
-import com.fhx.gdms.service.materialStatus.service.MaterialStatusService;
-import com.fhx.gdms.service.projections.model.ProjectionModel;
-import com.fhx.gdms.service.projections.service.ProjectionService;
-import com.fhx.gdms.service.scoreItem.model.ScoreItemModel;
-import com.fhx.gdms.service.scoreItem.service.ScoreItemService;
-import com.fhx.gdms.service.studentScore.totalScore.model.StudentTotalScoreModel;
-import com.fhx.gdms.service.studentScoreAllInfo.api.SearchDetailApiGet;
-import com.fhx.gdms.service.studentScoreAllInfo.data.StudentScoreData;
-import com.fhx.gdms.service.studentScoreAllInfo.data.TotalScoreData;
-import com.fhx.gdms.service.studentScoreAllInfo.service.StudentScoreService;
-import com.fhx.gdms.service.studentScore.itemScore.model.StudentItemScoreModel;
-import com.fhx.gdms.service.studentScore.itemScore.service.StudentItemScoreService;
-import com.fhx.gdms.service.studentScore.totalScore.service.StudentTotalScoreService;
-import com.fhx.gdms.service.user.model.UserModel;
-import com.fhx.gdms.service.user.service.StudentService;
+import login.com.materialStatus.model.MaterialStatusModel;
+import login.com.materialStatus.service.MaterialStatusService;
+import login.com.projections.model.ProjectionModel;
+import login.com.projections.service.ProjectionService;
+import login.com.scoreItem.service.ScoreItemService;
+import login.com.studentScore.itemScore.model.StudentItemScoreModel;
+import login.com.studentScore.itemScore.service.StudentItemScoreService;
+import login.com.studentScore.totalScore.model.StudentTotalScoreModel;
+import login.com.studentScore.totalScore.service.StudentTotalScoreService;
+import login.com.studentScoreAllInfo.api.SearchDetailApiGet;
+import login.com.studentScoreAllInfo.data.StudentScoreData;
+import login.com.studentScoreAllInfo.data.TotalScoreData;
+import login.com.studentScoreAllInfo.service.StudentScoreService;
+import login.com.user.model.UserModel;
+import login.com.user.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,7 +23,6 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class StudentScoreServiceImpl implements StudentScoreService {

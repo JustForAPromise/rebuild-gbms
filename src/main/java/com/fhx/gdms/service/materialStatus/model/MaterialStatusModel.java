@@ -1,7 +1,7 @@
 package com.fhx.gdms.service.materialStatus.model;
 
-import com.fhx.gdms.service.projections.model.ProjectionModel;
-import com.fhx.gdms.service.user.model.UserModel;
+import login.com.projections.model.ProjectionModel;
+import login.com.user.model.UserModel;
 import lombok.Data;
 
 import java.util.Date;

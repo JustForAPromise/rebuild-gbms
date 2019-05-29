@@ -1,10 +1,10 @@
 package com.fhx.gdms.service.studentScoreAllInfo.data;
 
-import com.fhx.gdms.service.materialStatus.model.MaterialStatusModel;
-import com.fhx.gdms.service.projections.model.ProjectionModel;
-import com.fhx.gdms.service.studentScore.itemScore.model.StudentItemScoreModel;
-import com.fhx.gdms.service.studentScore.totalScore.model.StudentTotalScoreModel;
-import com.fhx.gdms.service.user.model.UserModel;
+import login.com.materialStatus.model.MaterialStatusModel;
+import login.com.projections.model.ProjectionModel;
+import login.com.studentScore.itemScore.model.StudentItemScoreModel;
+import login.com.studentScore.totalScore.model.StudentTotalScoreModel;
+import login.com.user.model.UserModel;
 import lombok.Data;
 
 import java.util.List;

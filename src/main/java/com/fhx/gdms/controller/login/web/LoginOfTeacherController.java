@@ -1,10 +1,10 @@
 package com.fhx.gdms.controller.login.web;
 
-import com.fhx.gdms.service.department.service.DepartmentService;
-import com.fhx.gdms.service.power.service.PowerService;
-import com.fhx.gdms.service.user.model.UserModel;
-import com.fhx.gdms.service.user.service.HelperService;
-import com.fhx.gdms.service.user.service.TeacherService;
+import login.com.department.service.DepartmentService;
+import login.com.power.service.PowerService;
+import login.com.user.model.UserModel;
+import login.com.user.service.HelperService;
+import login.com.user.service.TeacherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;

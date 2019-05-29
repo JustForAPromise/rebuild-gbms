@@ -1,12 +1,12 @@
 package com.fhx.gdms.controller.teacher.controllers;
 
-import com.fhx.gdms.service.studentScoreAllInfo.api.SearchDetailApiGet;
-import com.fhx.gdms.service.studentScoreAllInfo.data.StudentScoreData;
-import com.fhx.gdms.service.studentScoreAllInfo.service.StudentScoreService;
-import com.fhx.gdms.service.studentScore.itemScore.model.StudentItemScoreModel;
-import com.fhx.gdms.service.user.model.UserModel;
-import com.fhx.gdms.service.user.service.StudentService;
-import com.fhx.gdms.supportUtil.ApiResult;
+import login.com.supportUtil.ApiResult;
+import login.com.studentScore.itemScore.model.StudentItemScoreModel;
+import login.com.studentScoreAllInfo.api.SearchDetailApiGet;
+import login.com.studentScoreAllInfo.data.StudentScoreData;
+import login.com.studentScoreAllInfo.service.StudentScoreService;
+import login.com.user.model.UserModel;
+import login.com.user.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;

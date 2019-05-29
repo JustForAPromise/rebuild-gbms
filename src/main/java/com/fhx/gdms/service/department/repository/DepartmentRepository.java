@@ -1,7 +1,6 @@
 package com.fhx.gdms.service.department.repository;
 
-import com.fhx.gdms.service.department.model.DepartmentModel;
-import org.apache.ibatis.annotations.*;
+import login.com.department.model.DepartmentModel;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;

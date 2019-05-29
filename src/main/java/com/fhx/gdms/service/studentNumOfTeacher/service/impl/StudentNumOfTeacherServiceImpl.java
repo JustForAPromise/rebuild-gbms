@@ -1,10 +1,10 @@
 package com.fhx.gdms.service.studentNumOfTeacher.service.impl;
 
-import com.fhx.gdms.service.studentNumOfTeacher.model.StudentNumOfTeacherModel;
-import com.fhx.gdms.service.studentNumOfTeacher.repository.StudentNumOfTeacherRepository;
-import com.fhx.gdms.service.studentNumOfTeacher.service.StudentNumOfTeacherService;
-import com.fhx.gdms.service.user.model.UserModel;
-import com.fhx.gdms.service.user.service.TeacherService;
+import login.com.studentNumOfTeacher.model.StudentNumOfTeacherModel;
+import login.com.studentNumOfTeacher.repository.StudentNumOfTeacherRepository;
+import login.com.studentNumOfTeacher.service.StudentNumOfTeacherService;
+import login.com.user.model.UserModel;
+import login.com.user.service.TeacherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

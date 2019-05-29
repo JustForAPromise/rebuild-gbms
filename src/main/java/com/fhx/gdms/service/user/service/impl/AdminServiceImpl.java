@@ -1,8 +1,8 @@
 package com.fhx.gdms.service.user.service.impl;
 
-import com.fhx.gdms.service.user.model.UserModel;
-import com.fhx.gdms.service.user.repository.AdminRepository;
-import com.fhx.gdms.service.user.service.AdminService;
+import login.com.user.model.UserModel;
+import login.com.user.repository.AdminRepository;
+import login.com.user.service.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

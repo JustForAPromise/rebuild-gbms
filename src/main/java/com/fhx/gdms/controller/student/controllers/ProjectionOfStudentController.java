@@ -1,10 +1,10 @@
 package com.fhx.gdms.controller.student.controllers;
 
-import com.fhx.gdms.service.projections.model.ProjectionModel;
-import com.fhx.gdms.service.projections.service.ProjectionService;
-import com.fhx.gdms.service.user.model.UserModel;
-import com.fhx.gdms.supportUtil.ApiPageResult;
-import com.fhx.gdms.supportUtil.ApiResult;
+import login.com.supportUtil.ApiPageResult;
+import login.com.supportUtil.ApiResult;
+import login.com.projections.model.ProjectionModel;
+import login.com.projections.service.ProjectionService;
+import login.com.user.model.UserModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;

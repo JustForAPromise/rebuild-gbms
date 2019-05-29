@@ -1,7 +1,7 @@
 package com.fhx.gdms.service.power.service;
 
-import com.fhx.gdms.service.power.model.PowerModel;
-import com.fhx.gdms.service.user.model.UserModel;
+import login.com.power.model.PowerModel;
+import login.com.user.model.UserModel;
 
 import java.util.List;
 

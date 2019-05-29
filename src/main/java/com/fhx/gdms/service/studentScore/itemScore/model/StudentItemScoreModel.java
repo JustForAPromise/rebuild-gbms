@@ -1,6 +1,6 @@
 package com.fhx.gdms.service.studentScore.itemScore.model;
 
-import com.fhx.gdms.service.scoreItem.model.ScoreItemModel;
+import login.com.scoreItem.model.ScoreItemModel;
 import lombok.Data;
 
 import java.math.BigDecimal;

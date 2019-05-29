@@ -1,7 +1,7 @@
 package com.fhx.gdms.service.studentScore.totalScore.service;
 
-import com.fhx.gdms.service.studentScore.totalScore.model.StudentTotalScoreModel;
-import com.fhx.gdms.service.user.model.UserModel;
+import login.com.studentScore.totalScore.model.StudentTotalScoreModel;
+import login.com.user.model.UserModel;
 
 import java.util.List;
 

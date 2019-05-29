@@ -1,11 +1,11 @@
 package com.fhx.gdms.service.power.service.impl;
 
-import com.fhx.gdms.service.department.service.DepartmentService;
-import com.fhx.gdms.service.power.model.PowerModel;
-import com.fhx.gdms.service.power.repository.PowerRepository;
-import com.fhx.gdms.service.power.service.PowerService;
-import com.fhx.gdms.service.user.model.UserModel;
-import com.fhx.gdms.service.user.service.UserService;
+import login.com.department.service.DepartmentService;
+import login.com.power.model.PowerModel;
+import login.com.power.repository.PowerRepository;
+import login.com.power.service.PowerService;
+import login.com.user.model.UserModel;
+import login.com.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

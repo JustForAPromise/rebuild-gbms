@@ -1,10 +1,10 @@
 package com.fhx.gdms.service.studentScore.itemScore.service.impl;
 
-import com.fhx.gdms.service.scoreItem.model.ScoreItemModel;
-import com.fhx.gdms.service.scoreItem.service.ScoreItemService;
-import com.fhx.gdms.service.studentScore.itemScore.model.StudentItemScoreModel;
-import com.fhx.gdms.service.studentScore.itemScore.repository.StudentItemScoreRepository;
-import com.fhx.gdms.service.studentScore.itemScore.service.StudentItemScoreService;
+import login.com.scoreItem.model.ScoreItemModel;
+import login.com.scoreItem.service.ScoreItemService;
+import login.com.studentScore.itemScore.model.StudentItemScoreModel;
+import login.com.studentScore.itemScore.repository.StudentItemScoreRepository;
+import login.com.studentScore.itemScore.service.StudentItemScoreService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

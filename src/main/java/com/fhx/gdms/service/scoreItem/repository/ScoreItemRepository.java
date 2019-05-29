@@ -1,7 +1,6 @@
 package com.fhx.gdms.service.scoreItem.repository;
 
-import com.fhx.gdms.service.scoreItem.model.ScoreItemModel;
-import org.apache.ibatis.annotations.*;
+import login.com.scoreItem.model.ScoreItemModel;
 import org.apache.ibatis.jdbc.SQL;
 import org.springframework.stereotype.Component;
 

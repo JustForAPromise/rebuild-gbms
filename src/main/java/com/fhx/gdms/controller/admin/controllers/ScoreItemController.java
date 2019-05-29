@@ -1,9 +1,9 @@
 package com.fhx.gdms.controller.admin.controllers;
 
-import com.fhx.gdms.service.scoreItem.model.ScoreItemModel;
-import com.fhx.gdms.service.scoreItem.service.ScoreItemService;
-import com.fhx.gdms.service.user.model.UserModel;
-import com.fhx.gdms.supportUtil.ApiResult;
+import login.com.supportUtil.ApiResult;
+import login.com.scoreItem.model.ScoreItemModel;
+import login.com.scoreItem.service.ScoreItemService;
+import login.com.user.model.UserModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;

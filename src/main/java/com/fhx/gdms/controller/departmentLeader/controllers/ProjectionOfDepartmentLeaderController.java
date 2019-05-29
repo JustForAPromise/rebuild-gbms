@@ -1,9 +1,9 @@
 package com.fhx.gdms.controller.departmentLeader.controllers;
 
-import com.fhx.gdms.service.projections.model.ProjectionModel;
-import com.fhx.gdms.service.projections.service.ProjectionService;
-import com.fhx.gdms.supportUtil.ApiPageResult;
-import com.fhx.gdms.supportUtil.ApiResult;
+import login.com.supportUtil.ApiPageResult;
+import login.com.supportUtil.ApiResult;
+import login.com.projections.model.ProjectionModel;
+import login.com.projections.service.ProjectionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Controller

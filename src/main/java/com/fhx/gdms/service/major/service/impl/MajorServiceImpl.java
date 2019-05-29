@@ -1,8 +1,8 @@
 package com.fhx.gdms.service.major.service.impl;
 
-import com.fhx.gdms.service.major.model.MajorModel;
-import com.fhx.gdms.service.major.repository.MajorRepository;
-import com.fhx.gdms.service.major.service.MajorService;
+import login.com.major.model.MajorModel;
+import login.com.major.repository.MajorRepository;
+import login.com.major.service.MajorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

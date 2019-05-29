@@ -1,11 +1,11 @@
 package com.fhx.gdms.service.materialStatus.service.impl;
 
-import com.fhx.gdms.service.materialStatus.model.MaterialStatusModel;
-import com.fhx.gdms.service.materialStatus.repository.MaterialStatusRepository;
-import com.fhx.gdms.service.materialStatus.service.MaterialStatusService;
-import com.fhx.gdms.service.projections.service.ProjectionService;
-import com.fhx.gdms.service.user.service.StudentService;
-import com.fhx.gdms.service.user.service.TeacherService;
+import login.com.materialStatus.model.MaterialStatusModel;
+import login.com.materialStatus.repository.MaterialStatusRepository;
+import login.com.materialStatus.service.MaterialStatusService;
+import login.com.projections.service.ProjectionService;
+import login.com.user.service.StudentService;
+import login.com.user.service.TeacherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

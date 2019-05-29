@@ -1,7 +1,6 @@
 package com.fhx.gdms.service.materialStatus.repository;
 
-import com.fhx.gdms.service.materialStatus.model.MaterialStatusModel;
-import org.apache.ibatis.annotations.*;
+import login.com.materialStatus.model.MaterialStatusModel;
 import org.apache.ibatis.jdbc.SQL;
 import org.springframework.stereotype.Component;
 

@@ -1,7 +1,6 @@
 package com.fhx.gdms.service.projections.repository;
 
-import com.fhx.gdms.service.projections.model.ProjectionModel;
-import org.apache.ibatis.annotations.*;
+import login.com.projections.model.ProjectionModel;
 import org.apache.ibatis.jdbc.SQL;
 import org.springframework.stereotype.Component;
 

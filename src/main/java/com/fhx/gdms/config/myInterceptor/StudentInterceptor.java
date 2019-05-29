@@ -1,6 +1,6 @@
 package com.fhx.gdms.config.myInterceptor;
 
-import com.fhx.gdms.service.user.model.UserModel;
+import login.com.user.model.UserModel;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 

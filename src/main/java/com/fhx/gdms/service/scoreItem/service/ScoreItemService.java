@@ -1,6 +1,6 @@
 package com.fhx.gdms.service.scoreItem.service;
 
-import com.fhx.gdms.service.scoreItem.model.ScoreItemModel;
+import login.com.scoreItem.model.ScoreItemModel;
 
 import java.util.List;
 import java.util.Map;

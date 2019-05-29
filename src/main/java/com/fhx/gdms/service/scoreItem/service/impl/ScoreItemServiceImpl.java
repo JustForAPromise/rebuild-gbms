@@ -1,8 +1,8 @@
 package com.fhx.gdms.service.scoreItem.service.impl;
 
-import com.fhx.gdms.service.scoreItem.model.ScoreItemModel;
-import com.fhx.gdms.service.scoreItem.repository.ScoreItemRepository;
-import com.fhx.gdms.service.scoreItem.service.ScoreItemService;
+import login.com.scoreItem.model.ScoreItemModel;
+import login.com.scoreItem.repository.ScoreItemRepository;
+import login.com.scoreItem.service.ScoreItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

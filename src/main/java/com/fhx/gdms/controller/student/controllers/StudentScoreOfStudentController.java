@@ -1,8 +1,8 @@
 package com.fhx.gdms.controller.student.controllers;
 
-import com.fhx.gdms.service.studentScoreAllInfo.data.StudentScoreData;
-import com.fhx.gdms.service.studentScoreAllInfo.service.StudentScoreService;
-import com.fhx.gdms.service.user.model.UserModel;
+import login.com.studentScoreAllInfo.data.StudentScoreData;
+import login.com.studentScoreAllInfo.service.StudentScoreService;
+import login.com.user.model.UserModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;

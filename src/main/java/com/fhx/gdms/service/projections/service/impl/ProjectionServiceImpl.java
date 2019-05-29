@@ -1,13 +1,13 @@
 package com.fhx.gdms.service.projections.service.impl;
 
-import com.fhx.gdms.service.major.service.MajorService;
-import com.fhx.gdms.service.projections.model.ProjectionModel;
-import com.fhx.gdms.service.projections.repository.ProjectionRepository;
-import com.fhx.gdms.service.projections.service.ProjectionService;
-import com.fhx.gdms.service.selectRecord.model.SelectRecordModel;
-import com.fhx.gdms.service.selectRecord.service.SelectRecordService;
-import com.fhx.gdms.service.user.model.UserModel;
-import com.fhx.gdms.service.user.service.TeacherService;
+import login.com.major.service.MajorService;
+import login.com.projections.model.ProjectionModel;
+import login.com.projections.repository.ProjectionRepository;
+import login.com.projections.service.ProjectionService;
+import login.com.selectRecord.model.SelectRecordModel;
+import login.com.selectRecord.service.SelectRecordService;
+import login.com.user.model.UserModel;
+import login.com.user.service.TeacherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

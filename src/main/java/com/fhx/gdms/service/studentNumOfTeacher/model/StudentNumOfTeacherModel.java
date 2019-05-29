@@ -1,6 +1,6 @@
 package com.fhx.gdms.service.studentNumOfTeacher.model;
 
-import com.fhx.gdms.service.user.model.UserModel;
+import login.com.user.model.UserModel;
 import lombok.Data;
 
 import java.util.Date;

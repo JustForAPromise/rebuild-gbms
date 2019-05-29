@@ -1,6 +1,6 @@
 package com.fhx.gdms.service.department.service;
 
-import com.fhx.gdms.service.department.model.DepartmentModel;
+import login.com.department.model.DepartmentModel;
 
 import java.util.List;
 

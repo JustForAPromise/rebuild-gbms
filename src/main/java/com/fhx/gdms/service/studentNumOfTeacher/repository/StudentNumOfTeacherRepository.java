@@ -1,7 +1,6 @@
 package com.fhx.gdms.service.studentNumOfTeacher.repository;
 
-import com.fhx.gdms.service.studentNumOfTeacher.model.StudentNumOfTeacherModel;
-import org.apache.ibatis.annotations.*;
+import login.com.studentNumOfTeacher.model.StudentNumOfTeacherModel;
 import org.apache.ibatis.jdbc.SQL;
 import org.springframework.stereotype.Component;
 

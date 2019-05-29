@@ -1,10 +1,10 @@
 package com.fhx.gdms.controller.help.controllers;
 
-import com.fhx.gdms.service.selectRecord.model.SelectRecordModel;
-import com.fhx.gdms.service.selectRecord.service.SelectRecordService;
-import com.fhx.gdms.service.user.model.UserModel;
-import com.fhx.gdms.service.user.service.StudentService;
-import com.fhx.gdms.supportUtil.ApiResult;
+import login.com.supportUtil.ApiResult;
+import login.com.selectRecord.model.SelectRecordModel;
+import login.com.selectRecord.service.SelectRecordService;
+import login.com.user.model.UserModel;
+import login.com.user.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;

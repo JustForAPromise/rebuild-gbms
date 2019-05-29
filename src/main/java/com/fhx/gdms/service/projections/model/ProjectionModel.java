@@ -1,10 +1,10 @@
 package com.fhx.gdms.service.projections.model;
 
-import com.fhx.gdms.service.department.model.DepartmentModel;
-import com.fhx.gdms.service.major.model.MajorModel;
-import com.fhx.gdms.service.selectRecord.model.SelectRecordModel;
-import com.fhx.gdms.service.user.model.UserModel;
-import com.fhx.gdms.supportUtil.PageBaseModel;
+import login.com.supportUtil.PageBaseModel;
+import login.com.department.model.DepartmentModel;
+import login.com.major.model.MajorModel;
+import login.com.selectRecord.model.SelectRecordModel;
+import login.com.user.model.UserModel;
 import lombok.Data;
 
 import java.util.Date;

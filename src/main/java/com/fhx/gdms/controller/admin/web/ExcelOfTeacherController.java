@@ -1,19 +1,13 @@
 package com.fhx.gdms.controller.admin.web;
 
-import com.fhx.gdms.service.user.model.UserModel;
-import com.fhx.gdms.service.user.service.TeacherService;
-import com.fhx.gdms.supportUtil.ApiResult;
-import com.fhx.gdms.supportUtil.FileUtil;
+import login.com.supportUtil.ApiResult;
+import login.com.supportUtil.FileUtil;
 import jxl.Sheet;
 import jxl.Workbook;
-import jxl.format.Alignment;
-import jxl.format.Border;
-import jxl.format.BorderLineStyle;
-import jxl.format.Colour;
 import jxl.format.*;
-import jxl.format.VerticalAlignment;
 import jxl.read.biff.BiffException;
-import jxl.write.*;
+import login.com.user.model.UserModel;
+import login.com.user.service.TeacherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,7 +18,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
-import java.lang.Boolean;
 
 @Controller
 @RequestMapping("/admin/file")

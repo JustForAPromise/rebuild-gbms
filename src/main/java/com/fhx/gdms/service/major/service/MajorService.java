@@ -1,6 +1,6 @@
 package com.fhx.gdms.service.major.service;
 
-import com.fhx.gdms.service.major.model.MajorModel;
+import login.com.major.model.MajorModel;
 
 import java.util.List;
 

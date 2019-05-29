@@ -1,7 +1,6 @@
 package com.fhx.gdms.service.user.repository;
 
-import com.fhx.gdms.service.user.model.UserModel;
-import org.apache.ibatis.annotations.*;
+import login.com.user.model.UserModel;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;

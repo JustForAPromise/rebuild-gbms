@@ -1,16 +1,15 @@
 package com.fhx.gdms.controller.student.controllers;
 
-import com.fhx.gdms.service.material.model.MaterialModel;
-import com.fhx.gdms.service.material.service.ThesesService;
-import com.fhx.gdms.service.projections.service.ProjectionService;
-import com.fhx.gdms.service.user.model.UserModel;
-import com.fhx.gdms.supportUtil.ApiResult;
-import com.fhx.gdms.supportUtil.FileUtil;
+import login.com.supportUtil.ApiResult;
+import login.com.supportUtil.FileUtil;
+import login.com.material.model.MaterialModel;
+import login.com.material.service.ThesesService;
+import login.com.projections.service.ProjectionService;
+import login.com.user.model.UserModel;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 

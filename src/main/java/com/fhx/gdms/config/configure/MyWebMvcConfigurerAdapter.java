@@ -1,6 +1,6 @@
 package com.fhx.gdms.config.configure;
 
-import com.fhx.gdms.config.myInterceptor.*;
+import login.com.config.myInterceptor.*;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;

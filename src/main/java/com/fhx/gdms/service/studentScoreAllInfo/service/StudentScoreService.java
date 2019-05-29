@@ -1,9 +1,9 @@
 package com.fhx.gdms.service.studentScoreAllInfo.service;
 
-import com.fhx.gdms.service.studentScoreAllInfo.api.SearchDetailApiGet;
-import com.fhx.gdms.service.studentScoreAllInfo.data.StudentScoreData;
-import com.fhx.gdms.service.studentScore.itemScore.model.StudentItemScoreModel;
-import com.fhx.gdms.service.user.model.UserModel;
+import login.com.studentScore.itemScore.model.StudentItemScoreModel;
+import login.com.studentScoreAllInfo.api.SearchDetailApiGet;
+import login.com.studentScoreAllInfo.data.StudentScoreData;
+import login.com.user.model.UserModel;
 
 import java.util.List;
 

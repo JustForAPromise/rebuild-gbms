@@ -1,7 +1,7 @@
 package com.fhx.gdms.service.studentNumOfTeacher.service;
 
-import com.fhx.gdms.service.studentNumOfTeacher.model.StudentNumOfTeacherModel;
-import com.fhx.gdms.service.user.model.UserModel;
+import login.com.studentNumOfTeacher.model.StudentNumOfTeacherModel;
+import login.com.user.model.UserModel;
 
 import java.util.List;
 

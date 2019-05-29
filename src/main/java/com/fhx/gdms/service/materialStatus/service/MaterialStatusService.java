@@ -1,6 +1,6 @@
 package com.fhx.gdms.service.materialStatus.service;
 
-import com.fhx.gdms.service.materialStatus.model.MaterialStatusModel;
+import login.com.materialStatus.model.MaterialStatusModel;
 
 import java.util.List;
 

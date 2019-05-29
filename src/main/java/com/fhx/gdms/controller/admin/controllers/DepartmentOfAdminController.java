@@ -1,8 +1,8 @@
 package com.fhx.gdms.controller.admin.controllers;
 
-import com.fhx.gdms.service.department.model.DepartmentModel;
-import com.fhx.gdms.service.department.service.DepartmentService;
-import com.fhx.gdms.supportUtil.ApiResult;
+import login.com.supportUtil.ApiResult;
+import login.com.department.model.DepartmentModel;
+import login.com.department.service.DepartmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;

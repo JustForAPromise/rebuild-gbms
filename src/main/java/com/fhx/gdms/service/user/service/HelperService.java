@@ -1,6 +1,6 @@
 package com.fhx.gdms.service.user.service;
 
-import com.fhx.gdms.service.user.model.UserModel;
+import login.com.user.model.UserModel;
 
 public interface HelperService {
     /**

@@ -1,7 +1,7 @@
 package com.fhx.gdms.service.material.service;
 
-import com.fhx.gdms.service.material.model.MaterialModel;
-import com.fhx.gdms.service.user.model.UserModel;
+import login.com.material.model.MaterialModel;
+import login.com.user.model.UserModel;
 
 import java.util.List;
 
